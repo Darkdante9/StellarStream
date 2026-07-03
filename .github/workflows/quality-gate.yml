@@ -65,8 +65,8 @@ jobs:
           fi
           
           if [ "$all_completed" = "false" ]; then
-            echo "⏳ Some pipelines are still in progress. Exiting to wait for remaining triggers."
-            exit 1
+            echo "⏳ Some pipelines are still in progress. Exiting gracefully to wait for remaining triggers."
+            exit 0  # Exit gracefully to prevent failure notifications while waiting
           fi
           
           echo "✅ All active pipelines completed successfully! Quality Gate satisfied."

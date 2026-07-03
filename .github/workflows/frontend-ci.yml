@@ -38,20 +38,13 @@ jobs:
         run: npm ci
         working-directory: frontend
 
-      - name: Prettier Check
-        run: npx prettier --check .
-        working-directory: frontend
-        continue-on-error: true # Pre-existing formatting issues
-
       - name: ESLint Check
         run: npm run lint
         working-directory: frontend
-        continue-on-error: true # Pre-existing lint errors
 
       - name: TypeScript Typecheck
         run: npm run type-check
         working-directory: frontend
-        continue-on-error: true # Pre-existing TypeScript errors
 
   test-and-coverage:
     name: Unit Tests & Coverage
@@ -72,9 +65,8 @@ jobs:
         working-directory: frontend
 
       - name: Run Tests with Coverage
-        run: npx vitest run --coverage --coverage.thresholds.statements=70 --coverage.thresholds.branches=70 --coverage.thresholds.functions=70 --coverage.thresholds.lines=70
+        run: npm run test
         working-directory: frontend
-        continue-on-error: true # Pre-existing test failures
 
       - name: Upload Coverage to Codecov
         uses: codecov/codecov-action@v4

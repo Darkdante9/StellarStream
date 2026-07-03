@@ -9,7 +9,7 @@
     "dev:watcher": "tsx watch src/event-watcher.ts",
     "build": "tsc",
     "start": "node dist/index.js",
-    "lint": "eslint src/ --ignore-pattern 'src/generated/**' --ignore-pattern 'src/__tests__/**' --ignore-pattern '**/*.d.ts'",
+    "lint": "./node_modules/.bin/eslint src/ --ignore-pattern 'src/generated/**' --ignore-pattern 'src/__tests__/**' --ignore-pattern '**/*.d.ts'",
     "type-check": "tsc --noEmit",
     "test": "vitest run --reporter verbose",
     "test:watch": "vitest",

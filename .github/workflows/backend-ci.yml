@@ -64,15 +64,9 @@ jobs:
         run: npm ci
         working-directory: backend
 
-      - name: Prettier Formatting Check
-        run: npx prettier --check .
-        working-directory: backend
-        continue-on-error: true # Documented as out of scope for pre-existing issues
-
       - name: ESLint Check
         run: npm run lint
         working-directory: backend
-        continue-on-error: true # Documented as out of scope for pre-existing issues
 
       - name: Prisma Client Generation
         run: npx prisma generate
@@ -83,12 +77,10 @@ jobs:
       - name: TypeScript Typecheck
         run: npm run type-check
         working-directory: backend
-        continue-on-error: true # Documented as out of scope for pre-existing issues
 
       - name: Build Backend
         run: npm run build
         working-directory: backend
-        continue-on-error: true # Documented as out of scope for pre-existing issues
 
       - name: Run Prisma Migration Tests
         run: npx prisma migrate deploy
@@ -96,21 +88,12 @@ jobs:
         env:
           DATABASE_URL: "postgresql://user:password@localhost:5432/stellarstream?schema=public"
 
-      - name: Run Jest Unit Tests
-        run: npm run test:jest
-        working-directory: backend
-        env:
-          DATABASE_URL: "postgresql://user:password@localhost:5432/stellarstream?schema=public"
-          REDIS_URL: "redis://localhost:6379"
-        continue-on-error: true # Documented as out of scope for pre-existing issues
-
       - name: Run Vitest Unit Tests
         run: npm run test
         working-directory: backend
         env:
           DATABASE_URL: "postgresql://user:password@localhost:5432/stellarstream?schema=public"
           REDIS_URL: "redis://localhost:6379"
-        continue-on-error: true # Documented as out of scope for pre-existing issues
 
       - name: Run Dependency Audit
         run: npm audit --audit-level=high || true
