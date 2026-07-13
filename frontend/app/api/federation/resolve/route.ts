@@ -32,7 +32,7 @@ export async function GET(request: NextRequest) {
     // Resolve the federation address
     const domain = address.split('*')[1];
     const server = new Federation.Server(`https://${domain}/.well-known/stellar.toml`, domain);
-    const record = await server.resolveAddress(address) as any; // eslint-disable-line @typescript-eslint/no-explicit-any
+    const record = await server.resolveAddress(address) as any;  
 
     return NextResponse.json({
       account_id: record.account_id,

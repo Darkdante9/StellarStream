@@ -1,7 +1,7 @@
 #![cfg(test)]
 
 use crate::{
-    errors::Error, types::StreamState, types::CurveType, StellarStreamContract,
+    errors::Error, types::CurveType, types::StreamState, StellarStreamContract,
     StellarStreamContractClient,
 };
 use soroban_sdk::{
@@ -36,7 +36,8 @@ fn test_pause_stream() {
         &receiver,
         &token_id,
         &1000,
-        &0, &0,
+        &0,
+        &0,
         &500,
         &CurveType::Linear,
         &false,
@@ -63,7 +64,8 @@ fn test_resume_stream() {
         &receiver,
         &token_id,
         &1000,
-        &0, &0,
+        &0,
+        &0,
         &500,
         &CurveType::Linear,
         &false,
@@ -94,7 +96,8 @@ fn test_cannot_withdraw_during_pause() {
         &receiver,
         &token_id,
         &1000,
-        &0, &0,
+        &0,
+        &0,
         &500,
         &CurveType::Linear,
         &false,
@@ -121,7 +124,8 @@ fn test_cannot_pause_closed_stream() {
         &receiver,
         &token_id,
         &1000,
-        &0, &0,
+        &0,
+        &0,
         &500,
         &CurveType::Linear,
         &false,
@@ -147,7 +151,8 @@ fn test_cannot_resume_active_stream() {
         &receiver,
         &token_id,
         &1000,
-        &0, &0,
+        &0,
+        &0,
         &500,
         &CurveType::Linear,
         &false,
@@ -171,7 +176,8 @@ fn test_pause_resume_cycle() {
         &receiver,
         &token_id,
         &1000,
-        &0, &0,
+        &0,
+        &0,
         &500,
         &CurveType::Linear,
         &false,
@@ -179,31 +185,19 @@ fn test_pause_resume_cycle() {
 
     env.ledger().with_mut(|li| li.timestamp = 100);
     client.pause_stream(&stream_id, &sender);
-    assert_eq!(
-        client.get_stream(&stream_id).state,
-        StreamState::Paused
-    );
+    assert_eq!(client.get_stream(&stream_id).state, StreamState::Paused);
 
     env.ledger().with_mut(|li| li.timestamp = 200);
     client.resume_stream(&stream_id, &sender);
-    assert_eq!(
-        client.get_stream(&stream_id).state,
-        StreamState::Active
-    );
+    assert_eq!(client.get_stream(&stream_id).state, StreamState::Active);
 
     env.ledger().with_mut(|li| li.timestamp = 300);
     client.pause_stream(&stream_id, &sender);
-    assert_eq!(
-        client.get_stream(&stream_id).state,
-        StreamState::Paused
-    );
+    assert_eq!(client.get_stream(&stream_id).state, StreamState::Paused);
 
     env.ledger().with_mut(|li| li.timestamp = 400);
     client.resume_stream(&stream_id, &sender);
-    assert_eq!(
-        client.get_stream(&stream_id).state,
-        StreamState::Active
-    );
+    assert_eq!(client.get_stream(&stream_id).state, StreamState::Active);
 
     let stream = client.get_stream(&stream_id);
     assert_eq!(stream.total_paused_duration, 200);
@@ -222,7 +216,8 @@ fn test_unauthorized_cannot_pause() {
         &receiver,
         &token_id,
         &1000,
-        &0, &0,
+        &0,
+        &0,
         &500,
         &CurveType::Linear,
         &false,
@@ -246,7 +241,8 @@ fn test_unpause_stream_alias() {
         &receiver,
         &token_id,
         &1000,
-        &0, &0,
+        &0,
+        &0,
         &500,
         &CurveType::Linear,
         &false,

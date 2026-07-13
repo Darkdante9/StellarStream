@@ -31,11 +31,7 @@ pub fn emit_individual_payment(
     bps: u32,
 ) {
     env.events().publish(
-        (
-            symbol_short!("payment"),
-            recipient.clone(),
-            asset.clone(),
-        ),
+        (symbol_short!("payment"), recipient.clone(), asset.clone()),
         (amount, bps, env.ledger().timestamp()),
     );
 }

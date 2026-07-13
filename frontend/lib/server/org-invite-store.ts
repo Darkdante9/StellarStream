@@ -16,7 +16,7 @@ export interface PendingInvite {
 type InviteStore = Map<string, PendingInvite[]>;
 
 declare global {
-  // eslint-disable-next-line no-var
+   
   var __orgInviteStore: InviteStore | undefined;
 }
 

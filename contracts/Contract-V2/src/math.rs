@@ -378,7 +378,7 @@ mod tests {
         let elapsed_sec = 100_i128;
 
         let unlocked = calculate_flow(total_stroops, duration_sec, elapsed_sec);
-        
+
         // Should be exactly 30 XLM in stroops
         assert_eq!(unlocked, total_stroops);
         assert_eq!(unlocked / SCALE, total_xlm);
@@ -395,7 +395,7 @@ mod tests {
         let elapsed_sec = 3_i128; // 3 seconds elapsed
 
         let unlocked = calculate_flow(total_stroops, duration_sec, elapsed_sec);
-        
+
         // Should be exactly 0.3 XLM in stroops
         assert_eq!(unlocked, total_stroops);
         assert_eq!(unlocked / SCALE, total_xlm);
@@ -416,11 +416,11 @@ mod tests {
             let elapsed = i as i128;
             let unlocked = calculate_flow(total_stroops, duration_sec, elapsed);
             let withdrawable = unlocked - previous_unlocked;
-            
+
             if withdrawable > 0 {
                 total_withdrawn += withdrawable;
             }
-            
+
             previous_unlocked = unlocked;
         }
 
@@ -434,17 +434,17 @@ mod tests {
         // Test various fractional flow rates to ensure no precision loss
         // 0.3 XLM/sec for 100 sec = 30 XLM
         let test_cases = vec![
-            (30_i128, 100_i128, 100_i128),   // 0.3 XLM/sec, 100 sec
-            (10_i128, 100_i128, 100_i128),   // 0.1 XLM/sec, 100 sec
-            (50_i128, 100_i128, 100_i128),   // 0.5 XLM/sec, 100 sec
-            (1_i128, 1_i128, 1_i128),        // 1 XLM/sec, 1 sec
+            (30_i128, 100_i128, 100_i128),    // 0.3 XLM/sec, 100 sec
+            (10_i128, 100_i128, 100_i128),    // 0.1 XLM/sec, 100 sec
+            (50_i128, 100_i128, 100_i128),    // 0.5 XLM/sec, 100 sec
+            (1_i128, 1_i128, 1_i128),         // 1 XLM/sec, 1 sec
             (333_i128, 1000_i128, 1000_i128), // 0.333 XLM/sec, 1000 sec
         ];
 
         for (total_xlm, duration_sec, elapsed_sec) in test_cases {
             let total_stroops = total_xlm * SCALE;
             let unlocked = calculate_flow(total_stroops, duration_sec, elapsed_sec);
-            
+
             // Verify no precision loss
             assert_eq!(unlocked, total_stroops);
             assert_eq!(unlocked / SCALE, total_xlm);

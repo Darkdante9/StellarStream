@@ -141,7 +141,7 @@ export function buildFlashStreamTransaction(
     sequenceNumber: () => "0",
     incrementSequenceNumber: () => {},
   };
-  const tx = new TransactionBuilder(account as any, { // eslint-disable-line @typescript-eslint/no-explicit-any
+  const tx = new TransactionBuilder(account as any, {  
     fee: "5000",
     networkPassphrase: Networks.TESTNET,
   }).setTimeout(30).build();

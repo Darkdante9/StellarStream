@@ -723,7 +723,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "C:\\Users\\franj\\Desktop\\Github6\\StellarStream\\backend\\src\\generated\\client",
+      "value": "/home/afolarinwa-soleye/StellarStream/backend/src/generated/client",
       "fromEnvVar": null
     },
     "config": {
@@ -732,12 +732,12 @@ const config = {
     "binaryTargets": [
       {
         "fromEnvVar": null,
-        "value": "windows",
+        "value": "debian-openssl-3.0.x",
         "native": true
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "C:\\Users\\franj\\Desktop\\Github6\\StellarStream\\backend\\prisma\\schema.prisma",
+    "sourceFilePath": "/home/afolarinwa-soleye/StellarStream/backend/prisma/schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
@@ -750,7 +750,7 @@ const config = {
     "db"
   ],
   "activeProvider": "postgresql",
-  "postinstall": false,
+  "postinstall": true,
   "inlineDatasources": {
     "db": {
       "url": {
