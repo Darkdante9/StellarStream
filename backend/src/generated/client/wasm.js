@@ -122,6 +122,28 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
   Serializable: 'Serializable'
 });
 
+exports.Prisma.PaymentCategoryScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  description: 'description',
+  color: 'color',
+  icon: 'icon',
+  ownerAddress: 'ownerAddress',
+  isDefault: 'isDefault',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.PaymentCategoryRuleScalarFieldEnum = {
+  id: 'id',
+  categoryId: 'categoryId',
+  field: 'field',
+  operator: 'operator',
+  value: 'value',
+  priority: 'priority',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.StreamScalarFieldEnum = {
   id: 'id',
   streamId: 'streamId',
@@ -146,6 +168,7 @@ exports.Prisma.StreamScalarFieldEnum = {
   lastYieldAccrualAt: 'lastYieldAccrualAt',
   isDust: 'isDust',
   affiliateId: 'affiliateId',
+  categoryId: 'categoryId',
   createdAt: 'createdAt'
 };
 
@@ -469,7 +492,8 @@ exports.Prisma.DisbursementScalarFieldEnum = {
   createdAt: 'createdAt',
   completedAt: 'completedAt',
   ledger: 'ledger',
-  batchId: 'batchId'
+  batchId: 'batchId',
+  categoryId: 'categoryId'
 };
 
 exports.Prisma.AssetMappingScalarFieldEnum = {
@@ -702,6 +726,8 @@ exports.DisbursementStatus = exports.$Enums.DisbursementStatus = {
 };
 
 exports.Prisma.ModelName = {
+  PaymentCategory: 'PaymentCategory',
+  PaymentCategoryRule: 'PaymentCategoryRule',
   Stream: 'Stream',
   ContractEvent: 'ContractEvent',
   TokenPrice: 'TokenPrice',
