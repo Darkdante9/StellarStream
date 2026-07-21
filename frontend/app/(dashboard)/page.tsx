@@ -4,7 +4,7 @@ import { Suspense, useState, useEffect } from 'react';
 import { Card } from '@/components/ui/Card';
 import { Spinner } from '@/components/ui/Spinner';
 import { HeroStats, StreamingBalances } from '@/components/dashboard';
-import { Plus, Download, Upload, AlertCircle, ArrowRight } from "lucide-react";
+import { Plus, AlertCircle, ArrowRight } from "lucide-react";
 
 /**
  * Hero Stats Loading Skeleton

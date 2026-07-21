@@ -1,8 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import {
-  listPendingInvites,
-  revokeInvite,
-} from "@/lib/server/org-invite-store";
 
 /**
  * ═══════════════════════════════════════════════════════════════════════════

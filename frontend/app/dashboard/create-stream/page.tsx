@@ -1,11 +1,10 @@
 "use client";
 
-import { useState, useEffect, useRef, useCallback, useMemo } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { ShieldAlert, ArrowLeftRight, Fingerprint, LockKeyhole, ShieldCheck, ChevronDown, ChevronUp, Activity } from "lucide-react";
 import { useProtocolStatus } from "@/lib/use-protocol-status";
 import { Can } from "@/components/Can";
 import PrivacyShieldToggle from "@/components/privacy-shield-toggle";
-import { useRecursiveSplitGuard } from "@/lib/use-recursive-split-guard";
 import { SelfReferenceTooltip } from "@/components/self-reference-tooltip";
 import { TransactionPrioritySelector } from "@/components/transaction-priority-selector";
 import {
