@@ -37,7 +37,9 @@ function loadSplits(): SplitCardData[] {
 function saveSplits(splits: SplitCardData[]) {
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(splits));
-  } catch {}
+  } catch (_error) {
+    // Silently fail if localStorage is not available
+  }
 }
 
 function generateId(): string {
@@ -167,14 +169,14 @@ export default function SplitPage() {
 
   const diffRows = useMemo(() => {
     if (!comparisonSplits) return null;
-    const baseRows = comparisonSplits.a.recipients.map((r, i) => ({
+    const baseRows = comparisonSplits.a.recipients.map((r, _i) => ({
       id: r.id,
       address: r.address,
       amount: r.share.toString(),
       memoType: "none" as const,
       memo: "",
     }));
-    const currRows = comparisonSplits.b.recipients.map((r, i) => ({
+    const currRows = comparisonSplits.b.recipients.map((r, _i) => ({
       id: r.id,
       address: r.address,
       amount: r.share.toString(),

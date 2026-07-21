@@ -56,7 +56,7 @@ const fmtTime = (d: Date) =>
   d.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" });
 
 // ─── Live Counter ──────────────────────────────────────────────────────────────
-function LiveCounter({ base }: { base: number; rate: number }) {
+function _LiveCounter({ base, _rate }: { base: number; rate: number }) {
   return <span className="tabular-nums">{fmt(base)}</span>;
 }
 
