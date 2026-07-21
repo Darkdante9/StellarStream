@@ -56,10 +56,11 @@ export default function Home() {
   // Handle bulk updates with proper error handling
   const handleBulkUpdate = useCallback((updates: Partial<Recipient>[]) => {
     setRecipients(prev => {
-      const updatedMap = new Map(updates.map(u => [u.id, u]))
-      return prev.map(recipient => 
-        updatedMap.get(recipient.id) || recipient
-      )
+      const updatedMap = new Map(updates.map(u => [u.id, u] as const))
+      return prev.map(recipient => {
+        const update = updatedMap.get(recipient.id)
+        return update ? { ...recipient, ...update } : recipient
+      })
     })
   }, [])
 

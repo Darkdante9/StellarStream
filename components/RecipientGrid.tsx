@@ -26,8 +26,9 @@ const RecipientRow = React.memo(function RecipientRow({
   }, [recipient.id, onUpdateRecipient])
 
   const getInputProps = (field: keyof Recipient) => {
-    const baseProps = {
-      value: recipient[field],
+    const val = recipient[field]
+    const baseProps: React.InputHTMLAttributes<HTMLInputElement> = {
+      value: typeof val === 'boolean' ? '' : val,
       onChange: (e: React.ChangeEvent<HTMLInputElement>) => handleFieldChange(field, 
         field === 'amount' ? parseFloat(e.target.value) || 0 : e.target.value
       ),
