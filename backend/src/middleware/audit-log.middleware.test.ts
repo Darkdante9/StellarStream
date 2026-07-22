@@ -35,11 +35,11 @@ describe('auditLogMiddleware', () => {
 
     res = {
       statusCode: 200,
-      json: vi.fn(function (data) {
+      json: vi.fn(function (_data) {
         this.statusCode = 200;
         return this;
       }),
-      send: vi.fn(function (data) {
+      send: vi.fn(function (_data) {
         this.statusCode = 200;
         return this;
       }),

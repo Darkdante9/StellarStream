@@ -1,5 +1,5 @@
 import { prisma } from "../lib/db.js";
-import { computeEventHash, EventHashInput } from "../lib/event-hash-chain.js";
+import { computeEventHash } from "../lib/event-hash-chain.js";
 import { logger } from "../logger.js";
 
 export interface VerificationResult {

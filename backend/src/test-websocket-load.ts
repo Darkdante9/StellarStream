@@ -50,7 +50,9 @@ startClients(argCount).then(() => {
   setTimeout(() => {
     console.log('Stopping load test, disconnecting clients...');
     for (const s of sockets) {
-      try { s.disconnect(); } catch (e) {}
+      try { s.disconnect(); } catch (e) {
+        // Best-effort cleanup — socket may already be disconnected, safe to ignore.
+      }
     }
     clearInterval(statsInterval);
     process.exit(0);
