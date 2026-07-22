@@ -4,9 +4,9 @@ import React, { useState, useEffect } from "react";
 import { useBulkSplitter } from "@/lib/bulk-splitter/use-bulk-splitter";
 import { BulkDispatchPanel } from "@/components/dashboard/BulkDispatchPanel";
 import { ResumeWizardBanner } from "@/components/dashboard/ResumeWizardBanner";
-import { RecipientGrid, type RecipientRow } from "@/components/recipient-grid";
+import { RecipientGrid, type _RecipientRow } from "@/components/recipient-grid";
 import { FileUp, Calculator, Share2, AlertCircle, Download, ListFilter } from "lucide-react";
-import type { Recipient, MemoType } from "@/lib/bulk-splitter/types";
+import type { Recipient, _MemoType } from "@/lib/bulk-splitter/types";
 import { useSaveContacts } from "@/lib/hooks/use-save-contacts";
 import { downloadBulkUploadCsvTemplate } from "@/lib/csv-template";
 
@@ -16,7 +16,7 @@ export default function SplitterPage() {
     voters,
     batches,
     batchStates,
-    totalRecipients,
+    _totalRecipients,
     error,
     parse,
     calculate,
@@ -64,13 +64,13 @@ export default function SplitterPage() {
   };
 
   // Mock submitBatch for demonstration
-  const mockSubmitBatch = async (recipients: Recipient[]) => {
+  const mockSubmitBatch = async (_recipients: Recipient[]) => {
     await new Promise((resolve) => setTimeout(resolve, 1500 + Math.random() * 1000));
     if (Math.random() < 0.1) throw new Error("Network congestion or timeout");
     return "0x" + Math.random().toString(16).slice(2, 10) + "..." + Math.random().toString(16).slice(2, 6);
   };
 
-  const handleDispatch = async () => {
+  const _handleDispatch = async () => {
     await dispatch(mockSubmitBatch);
     if (saveToContacts) {
       const addresses = voters.map((v) => v.address);

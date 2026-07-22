@@ -1,11 +1,11 @@
 "use client";
 
-import { useState, useEffect, useRef, useCallback, useMemo } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { ShieldAlert, ArrowLeftRight, Fingerprint, LockKeyhole, ShieldCheck, ChevronDown, ChevronUp, Activity } from "lucide-react";
 import { useProtocolStatus } from "@/lib/use-protocol-status";
 import { Can } from "@/components/Can";
 import PrivacyShieldToggle from "@/components/privacy-shield-toggle";
-import { useRecursiveSplitGuard } from "@/lib/use-recursive-split-guard";
+import { _useRecursiveSplitGuard } from "@/lib/use-recursive-split-guard";
 import { SelfReferenceTooltip } from "@/components/self-reference-tooltip";
 import { TransactionPrioritySelector } from "@/components/transaction-priority-selector";
 import {
@@ -313,7 +313,7 @@ function SlidePanel({
   id,
 }: {
   children: React.ReactNode;
-  direction: "enter" | "exit-left" | "idle";
+  _direction: "enter" | "exit-left" | "idle";
   id: number;
 }) {
   return (
@@ -1225,7 +1225,7 @@ function Step2({
 }
 
 // ─── High-Value Confirm Modal (Issue #1022) ───────────────────────────────────
-function HighValueConfirmModal({
+function _HighValueConfirmModal({
   amount,
   asset,
   onConfirm,
@@ -1876,7 +1876,7 @@ export default function CreateStreamPage() {
   const [quickSignStatus, setQuickSignStatus] = useState<QuickSignStatus>("checking");
   const [quickSignError, setQuickSignError] = useState<string | null>(null);
   const [hasQuickSignCredential, setHasQuickSignCredential] = useState(false);
-  const [showFrictionGate, setShowFrictionGate] = useState(false);
+  const [_showFrictionGate, _setShowFrictionGate] = useState(false);
   const wallet = useWallet();
 
   // ── Transaction priority (#456) ──────────────────────────────────────────────
@@ -2056,7 +2056,7 @@ export default function CreateStreamPage() {
     };
   }, [wallet.address, form.asset, form.totalAmount, feeStroops]);
 
-  const direction = step > prevStep ? "enter" : "enter";
+  const _direction = step > prevStep ? "enter" : "enter";
 
   const validateStep = (s: number): boolean => {
     const errs: Record<string, string> = {};

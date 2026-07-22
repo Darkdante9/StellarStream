@@ -32,6 +32,24 @@ model PaymentCategory {
   @@index([ownerAddress])
 }
 
+// Flexible key-value metadata for streams, disbursements, and categories (#1385)
+model PaymentMetadata {
+  id           String   @id @default(cuid())
+  entityType   String // 'stream' | 'disbursement' | 'category'
+  entityId     String
+  key          String
+  value        String
+  ownerAddress String // Stellar address of the creator (for scoping + search)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@unique([entityType, entityId, key]) // one value per key per entity
+  @@index([ownerAddress])
+  @@index([entityType, entityId])
+  @@index([key])
+  @@index([ownerAddress, key, value]) // supports search-by-metadata
+}
+
 // Auto-categorization rules attached to a PaymentCategory
 model PaymentCategoryRule {
   id         String          @id @default(cuid())

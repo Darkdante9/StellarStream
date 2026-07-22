@@ -7,7 +7,7 @@ import type { Metadata } from "next";
 import { AlertCircle } from "lucide-react";
 import {
   ViewStreamClient,
-  type StreamData,
+  type _StreamData,
 } from "@/components/view-stream-client";
 import { fetchPublicStream } from "@/lib/fetch-public-stream";
 

@@ -8,7 +8,7 @@
 import { useState, useMemo, useCallback } from "react";
 import { motion } from "framer-motion";
 import {
-  ShieldCheck, Download, FileJson, FileText,
+  ShieldCheck, FileJson, FileText,
   ChevronLeft, ChevronRight, Info,
 } from "lucide-react";
 import { FilterPanel, DEFAULT_FILTERS, type AuditFilters, type ActionType } from "@/components/audit/filter-panel";
