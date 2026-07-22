@@ -30,7 +30,7 @@ export class LedgerConsistencyChecker {
     const flags: ConsistencyFlag[] = [];
     let skip = 0;
 
-    while (true) {
+    for (;;) {
       const streams = await prisma.stream.findMany({
         where: { status: { in: ["ACTIVE", "COMPLETED"] } },
         select: { streamId: true, txHash: true },

@@ -175,7 +175,7 @@ router.get(
     const filename = `streams-${address}-${new Date().toISOString().slice(0, 10)}.csv`;
 
     res.setHeader("Content-Type", "text/csv; charset=utf-8");
-    res.setHeader("Content-Disposition", `attachment; filename=\"${filename}\"`);
+    res.setHeader("Content-Disposition", `attachment; filename="${filename}"`);
     res.status(200).send(csv);
   })
 );

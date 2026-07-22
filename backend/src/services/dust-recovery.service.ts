@@ -137,7 +137,7 @@ export class DustRecoveryService {
     let scannedStreams = 0;
     let cursor: string | undefined;
 
-    while (true) {
+    for (;;) {
       const page = await prisma.stream.findMany({
         where: {
           status: { in: ["ACTIVE", "PAUSED"] },

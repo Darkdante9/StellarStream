@@ -543,7 +543,7 @@ async function mapWithConcurrency<T>(
   let cursor = 0;
 
   const runners = Array.from({ length: limit }, async () => {
-    while (true) {
+    for (;;) {
       const index = cursor++;
       if (index >= items.length) return;
       await worker(items[index], index);

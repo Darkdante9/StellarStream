@@ -2,7 +2,6 @@ import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { AdminAuditLogService } from './admin-audit-log.service.js';
 import { prisma } from '../lib/db.js';
 import * as fs from 'fs';
-import * as path from 'path';
 
 // Mock Prisma
 vi.mock('../lib/db.js', () => ({

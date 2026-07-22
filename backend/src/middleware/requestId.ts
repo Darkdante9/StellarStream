@@ -28,7 +28,7 @@ const HEADER = "x-request-id";
 // Permissive enough for common id formats (UUID v4, ULID, KSUID, hex hash)
 // but strict enough to keep CR/LF/TAB and other control characters out of
 // structured logs and the response body.
-const SAFE_HEADER_VALUE = /^[A-Za-z0-9._:\-]{1,128}$/;
+const SAFE_HEADER_VALUE = /^[A-Za-z0-9._:-]{1,128}$/;
 
 function sanitize(value: unknown): string {
   if (typeof value !== "string") return randomUUID();

@@ -62,10 +62,6 @@ router.get(
         });
       }
 
-      // Get all streams for this org to calculate total gas tank balance
-      const streams = await prisma.stream.findMany({
-        where: { sender: orgAddress },
-      });
 
       // Calculate total gas tank balance (simplified - in production, query contract state)
       let totalGasTankStroops = 0n;

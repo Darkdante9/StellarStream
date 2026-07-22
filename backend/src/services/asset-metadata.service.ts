@@ -43,13 +43,11 @@ export class AssetMetadataService {
   private parseStellarToml(tomlText: string): StellarToml {
     const currencies: StellarToml["CURRENCIES"] = [];
     const lines = tomlText.split("\n");
-    let inCurrencies = false;
 
     for (let i = 0; i < lines.length; i++) {
       const line = lines[i].trim();
 
       if (line === "[[CURRENCIES]]") {
-        inCurrencies = true;
         const currency: any = {};
 
         // Parse currency block

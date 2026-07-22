@@ -18,7 +18,7 @@ export async function archiveOldDisbursements(): Promise<void> {
   const BATCH = 500;
   let archived = 0;
 
-  while (true) {
+  for (;;) {
     const rows = await prisma.eventLog.findMany({
       where: { createdAt: { lt: cutoff } },
       take: BATCH,

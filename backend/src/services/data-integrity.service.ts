@@ -81,7 +81,7 @@ export class DataIntegrityService {
       contractIds: this.contractIds,
     });
 
-    while (true) {
+    for (;;) {
       const rows = await this.fetchPage(cursor);
       if (rows.length === 0) {
         break;

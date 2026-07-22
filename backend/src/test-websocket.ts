@@ -27,7 +27,7 @@ socket.on('balance-update', (payload) => {
 });
 
 // Respond to server heartbeat
-socket.on('server-ping', (data) => {
+socket.on('server-ping', (_data) => {
   console.log('🏓 Received server-ping, sending client-pong');
   socket.emit('client-pong');
 });

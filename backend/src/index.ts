@@ -1,5 +1,3 @@
-import express, { Express, Request, Response } from 'express';
-import apiRoutes from './api/index.js';
 import * as Sentry from "@sentry/node";
 import express, { Express, Request, Response } from "express";
 import compression from "compression";
@@ -216,11 +214,6 @@ app.get("/health", async (req: Request, res: Response) => {
 });
 
 
-// API routes
-app.use('/api', apiRoutes);
-
-app.listen(PORT, () => {
-  console.log(`🚀 Server is running on port ${PORT}`);
 // ── Health / sync status ──────────────────────────────────────────────────────
 app.use("/api/v1", healthRoutes);
 
@@ -394,11 +387,6 @@ app.get("/splits/status/:jobId", async (req, res) => {
   } catch (err: any) {
     return res.status(500).json({ error: err.message });
   }
-});
-
-// Close the app.listen() callback that was opened earlier in this file
-// (its body contains the routes registered below). Without this closing
-// brace, `tsc` reports "expected '}'" at the end of the file.
 });
 
 export default app;

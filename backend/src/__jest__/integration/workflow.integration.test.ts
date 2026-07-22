@@ -23,7 +23,6 @@ import {
   buildDisbursement,
   buildEventLog,
   SENDER_ADDRESS,
-  RECEIVER_ADDRESS,
 } from "./fixtures.js";
 
 // ---------------------------------------------------------------------------

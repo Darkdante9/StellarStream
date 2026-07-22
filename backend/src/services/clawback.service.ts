@@ -22,7 +22,6 @@ import { logger } from "../logger.js";
 import {
   NotFoundError,
   BusinessRuleError,
-  ValidationError,
 } from "../lib/app-error.js";
 
 // ─── Types ───────────────────────────────────────────────────────────────────

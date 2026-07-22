@@ -193,7 +193,7 @@ export class AdminAuditLogService {
         if (filters.endDate) where.timestamp.lte = filters.endDate;
       }
 
-      const [totalRequests, errorRequests, avgExecutionTime, methodStats] =
+      const [totalRequests, errorRequests, , methodStats] =
         await Promise.all([
           prisma.adminAuditLog.count({ where }),
           prisma.adminAuditLog.count({
