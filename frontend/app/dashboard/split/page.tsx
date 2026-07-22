@@ -37,7 +37,7 @@ function loadSplits(): SplitCardData[] {
 function saveSplits(splits: SplitCardData[]) {
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(splits));
-  } catch (_error) {
+} catch (_error) {
     // Silently fail if localStorage is not available
   }
 }
