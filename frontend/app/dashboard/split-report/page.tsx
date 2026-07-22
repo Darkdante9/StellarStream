@@ -3,7 +3,7 @@
 // #980 – Post-Split Summary & Shareable Receipt
 
 import { useSearchParams } from "next/navigation";
-import { Suspense, useEffect, useRef, useState } from "react";
+import { Suspense, useState } from "react";
 import { ExternalLink, CheckCircle2, Copy, Download, Share2 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { generateProofOfPaymentPDF } from "@/lib/proof-of-payment-pdf";

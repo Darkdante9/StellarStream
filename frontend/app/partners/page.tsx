@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Users, TrendingUp, DollarSign, Loader2, CheckCircle2, AlertCircle, ExternalLink } from "lucide-react";
+import { Users, TrendingUp, DollarSign, Loader2, CheckCircle2, AlertCircle, _ExternalLink } from "lucide-react";
 import { useWallet } from "@/lib/wallet-context";
 
 interface AffiliateEarnings {
