@@ -24,7 +24,9 @@ import orgGasStatusRouter from "./org-gas-status.routes.js";
 import notificationChannelsRouter from "./notification-channels.routes.js";
 import assetMapperRouter from "./asset-mapper.routes.js";
 import templateRouter from "./template.routes.js";
+import escrowRouter from "./escrow.routes.js";
 import analyticsRouter from "../analytics.routes.js";
+import paymentCategoryRouter from "./payment-category.routes.js";
 import { getNonce } from "../auth.js";
 
 
@@ -65,5 +67,7 @@ router.use(notificationChannelsRouter);
 router.use("/assets", assetMapperRouter);
 router.use("/analytics", analyticsRouter);
 router.use(templateRouter);
+router.use(paymentCategoryRouter);
+router.use(escrowRouter);
 
 export default router;

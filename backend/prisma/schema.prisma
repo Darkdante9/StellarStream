@@ -12,6 +12,42 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// User-defined payment categories for organizing streams and disbursements
+model PaymentCategory {
+  id           String   @id @default(cuid())
+  name         String
+  description  String?
+  color        String   @default("#6366f1") // hex color for UI
+  icon         String?                       // optional icon identifier
+  ownerAddress String                        // Stellar address of the creator
+  isDefault    Boolean  @default(false)      // system-level default categories
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  rules         PaymentCategoryRule[]
+  streams       Stream[]
+  disbursements Disbursement[]
+
+  @@unique([ownerAddress, name])
+  @@index([ownerAddress])
+}
+
+// Auto-categorization rules attached to a PaymentCategory
+model PaymentCategoryRule {
+  id         String          @id @default(cuid())
+  categoryId String
+  category   PaymentCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  // field: 'sender' | 'receiver' | 'tokenAddress' | 'amountMin' | 'amountMax'
+  field      String
+  // operator: 'equals' | 'contains' | 'startsWith' | 'gte' | 'lte'
+  operator   String
+  value      String
+  priority   Int      @default(0)
+  createdAt  DateTime @default(now())
+
+  @@index([categoryId])
+}
+
 // Mirrors the Stream state from the Soroban smart contract
 model Stream {
   id           String       @id @default(cuid())
@@ -37,6 +73,8 @@ model Stream {
   lastYieldAccrualAt DateTime?
   isDust       Boolean      @default(false) // true = below MIN_VALUE_USD threshold
   affiliateId  String?      // Affiliate who referred this stream (0.5% commission)
+  categoryId   String?      // Optional payment category
+  category     PaymentCategory? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
   createdAt    DateTime     @default(now())
 
   @@index([sender])
@@ -48,6 +86,7 @@ model Stream {
   @@index([yieldEnabled, status])
   @@index([isDust])
   @@index([affiliateId])
+  @@index([categoryId])
   // #1148 — owner dashboard: latest streams for a user filtered by status
   @@index([sender, status, createdAt(sort: Desc)])
 }
@@ -500,6 +539,8 @@ model Disbursement {
   completedAt    DateTime?
   ledger         Int
   batchId        String?      @map("batch_id") // #1148 — groups disbursements processed in one batch (#1202)
+  categoryId     String?      // Optional payment category
+  category       PaymentCategory? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
 
   @@index([streamId])
   @@index([sender])
@@ -508,6 +549,7 @@ model Disbursement {
   @@index([createdAt])
   // #1148 — batch progress/status lookups for the batch processing engine
   @@index([batchId, status])
+  @@index([categoryId])
 }
 
 enum DisbursementStatus {
