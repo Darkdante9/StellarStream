@@ -134,6 +134,17 @@ exports.Prisma.PaymentCategoryScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.PaymentMetadataScalarFieldEnum = {
+  id: 'id',
+  entityType: 'entityType',
+  entityId: 'entityId',
+  key: 'key',
+  value: 'value',
+  ownerAddress: 'ownerAddress',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.PaymentCategoryRuleScalarFieldEnum = {
   id: 'id',
   categoryId: 'categoryId',
@@ -727,6 +738,7 @@ exports.DisbursementStatus = exports.$Enums.DisbursementStatus = {
 
 exports.Prisma.ModelName = {
   PaymentCategory: 'PaymentCategory',
+  PaymentMetadata: 'PaymentMetadata',
   PaymentCategoryRule: 'PaymentCategoryRule',
   Stream: 'Stream',
   ContractEvent: 'ContractEvent',

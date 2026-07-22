@@ -19,6 +19,11 @@ export type PrismaPromise<T> = $Public.PrismaPromise<T>
  */
 export type PaymentCategory = $Result.DefaultSelection<Prisma.$PaymentCategoryPayload>
 /**
+ * Model PaymentMetadata
+ * 
+ */
+export type PaymentMetadata = $Result.DefaultSelection<Prisma.$PaymentMetadataPayload>
+/**
  * Model PaymentCategoryRule
  * 
  */
@@ -421,6 +426,16 @@ export class PrismaClient<
     * ```
     */
   get paymentCategory(): Prisma.PaymentCategoryDelegate<ExtArgs>;
+
+  /**
+   * `prisma.paymentMetadata`: Exposes CRUD operations for the **PaymentMetadata** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more PaymentMetadata
+    * const paymentMetadata = await prisma.paymentMetadata.findMany()
+    * ```
+    */
+  get paymentMetadata(): Prisma.PaymentMetadataDelegate<ExtArgs>;
 
   /**
    * `prisma.paymentCategoryRule`: Exposes CRUD operations for the **PaymentCategoryRule** model.
@@ -1283,6 +1298,7 @@ export namespace Prisma {
 
   export const ModelName: {
     PaymentCategory: 'PaymentCategory',
+    PaymentMetadata: 'PaymentMetadata',
     PaymentCategoryRule: 'PaymentCategoryRule',
     Stream: 'Stream',
     ContractEvent: 'ContractEvent',
@@ -1340,7 +1356,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, ClientOptions = {}> = {
     meta: {
-      modelProps: "paymentCategory" | "paymentCategoryRule" | "stream" | "contractEvent" | "tokenPrice" | "webhook" | "webhookDelivery" | "syncState" | "eventLog" | "streamSnapshot" | "streamArchive" | "bridgeLog" | "proposal" | "event" | "organizationMember" | "apiKey" | "ledgerHash" | "syncMetadata" | "clawbackHistory" | "notificationSubscription" | "invoiceLink" | "affiliate" | "globalStats" | "globalStats_V3" | "tvlSnapshot" | "asset" | "autopilotSchedule" | "assetConfig" | "archivedDisbursement" | "disbursement" | "assetMapping" | "priceHistory" | "protocolInefficiencyReport" | "splitLog" | "monitoredTransaction" | "disbursementDraft" | "disbursementDraftVersion" | "multisigProposal" | "cachedAsset" | "streamTemplate" | "splitLink" | "ofacAuditLog" | "adminAuditLog"
+      modelProps: "paymentCategory" | "paymentMetadata" | "paymentCategoryRule" | "stream" | "contractEvent" | "tokenPrice" | "webhook" | "webhookDelivery" | "syncState" | "eventLog" | "streamSnapshot" | "streamArchive" | "bridgeLog" | "proposal" | "event" | "organizationMember" | "apiKey" | "ledgerHash" | "syncMetadata" | "clawbackHistory" | "notificationSubscription" | "invoiceLink" | "affiliate" | "globalStats" | "globalStats_V3" | "tvlSnapshot" | "asset" | "autopilotSchedule" | "assetConfig" | "archivedDisbursement" | "disbursement" | "assetMapping" | "priceHistory" | "protocolInefficiencyReport" | "splitLog" | "monitoredTransaction" | "disbursementDraft" | "disbursementDraftVersion" | "multisigProposal" | "cachedAsset" | "streamTemplate" | "splitLink" | "ofacAuditLog" | "adminAuditLog"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1411,6 +1427,76 @@ export namespace Prisma {
           count: {
             args: Prisma.PaymentCategoryCountArgs<ExtArgs>
             result: $Utils.Optional<PaymentCategoryCountAggregateOutputType> | number
+          }
+        }
+      }
+      PaymentMetadata: {
+        payload: Prisma.$PaymentMetadataPayload<ExtArgs>
+        fields: Prisma.PaymentMetadataFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.PaymentMetadataFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentMetadataPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.PaymentMetadataFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentMetadataPayload>
+          }
+          findFirst: {
+            args: Prisma.PaymentMetadataFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentMetadataPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.PaymentMetadataFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentMetadataPayload>
+          }
+          findMany: {
+            args: Prisma.PaymentMetadataFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentMetadataPayload>[]
+          }
+          create: {
+            args: Prisma.PaymentMetadataCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentMetadataPayload>
+          }
+          createMany: {
+            args: Prisma.PaymentMetadataCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.PaymentMetadataCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentMetadataPayload>[]
+          }
+          delete: {
+            args: Prisma.PaymentMetadataDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentMetadataPayload>
+          }
+          update: {
+            args: Prisma.PaymentMetadataUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentMetadataPayload>
+          }
+          deleteMany: {
+            args: Prisma.PaymentMetadataDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.PaymentMetadataUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.PaymentMetadataUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentMetadataPayload>
+          }
+          aggregate: {
+            args: Prisma.PaymentMetadataAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregatePaymentMetadata>
+          }
+          groupBy: {
+            args: Prisma.PaymentMetadataGroupByArgs<ExtArgs>
+            result: $Utils.Optional<PaymentMetadataGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.PaymentMetadataCountArgs<ExtArgs>
+            result: $Utils.Optional<PaymentMetadataCountAggregateOutputType> | number
           }
         }
       }
@@ -5635,6 +5721,920 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: PaymentCategoryInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model PaymentMetadata
+   */
+
+  export type AggregatePaymentMetadata = {
+    _count: PaymentMetadataCountAggregateOutputType | null
+    _min: PaymentMetadataMinAggregateOutputType | null
+    _max: PaymentMetadataMaxAggregateOutputType | null
+  }
+
+  export type PaymentMetadataMinAggregateOutputType = {
+    id: string | null
+    entityType: string | null
+    entityId: string | null
+    key: string | null
+    value: string | null
+    ownerAddress: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type PaymentMetadataMaxAggregateOutputType = {
+    id: string | null
+    entityType: string | null
+    entityId: string | null
+    key: string | null
+    value: string | null
+    ownerAddress: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type PaymentMetadataCountAggregateOutputType = {
+    id: number
+    entityType: number
+    entityId: number
+    key: number
+    value: number
+    ownerAddress: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type PaymentMetadataMinAggregateInputType = {
+    id?: true
+    entityType?: true
+    entityId?: true
+    key?: true
+    value?: true
+    ownerAddress?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type PaymentMetadataMaxAggregateInputType = {
+    id?: true
+    entityType?: true
+    entityId?: true
+    key?: true
+    value?: true
+    ownerAddress?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type PaymentMetadataCountAggregateInputType = {
+    id?: true
+    entityType?: true
+    entityId?: true
+    key?: true
+    value?: true
+    ownerAddress?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type PaymentMetadataAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PaymentMetadata to aggregate.
+     */
+    where?: PaymentMetadataWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PaymentMetadata to fetch.
+     */
+    orderBy?: PaymentMetadataOrderByWithRelationInput | PaymentMetadataOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: PaymentMetadataWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PaymentMetadata from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PaymentMetadata.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned PaymentMetadata
+    **/
+    _count?: true | PaymentMetadataCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: PaymentMetadataMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: PaymentMetadataMaxAggregateInputType
+  }
+
+  export type GetPaymentMetadataAggregateType<T extends PaymentMetadataAggregateArgs> = {
+        [P in keyof T & keyof AggregatePaymentMetadata]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregatePaymentMetadata[P]>
+      : GetScalarType<T[P], AggregatePaymentMetadata[P]>
+  }
+
+
+
+
+  export type PaymentMetadataGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PaymentMetadataWhereInput
+    orderBy?: PaymentMetadataOrderByWithAggregationInput | PaymentMetadataOrderByWithAggregationInput[]
+    by: PaymentMetadataScalarFieldEnum[] | PaymentMetadataScalarFieldEnum
+    having?: PaymentMetadataScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: PaymentMetadataCountAggregateInputType | true
+    _min?: PaymentMetadataMinAggregateInputType
+    _max?: PaymentMetadataMaxAggregateInputType
+  }
+
+  export type PaymentMetadataGroupByOutputType = {
+    id: string
+    entityType: string
+    entityId: string
+    key: string
+    value: string
+    ownerAddress: string
+    createdAt: Date
+    updatedAt: Date
+    _count: PaymentMetadataCountAggregateOutputType | null
+    _min: PaymentMetadataMinAggregateOutputType | null
+    _max: PaymentMetadataMaxAggregateOutputType | null
+  }
+
+  type GetPaymentMetadataGroupByPayload<T extends PaymentMetadataGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<PaymentMetadataGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof PaymentMetadataGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], PaymentMetadataGroupByOutputType[P]>
+            : GetScalarType<T[P], PaymentMetadataGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type PaymentMetadataSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    entityType?: boolean
+    entityId?: boolean
+    key?: boolean
+    value?: boolean
+    ownerAddress?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["paymentMetadata"]>
+
+  export type PaymentMetadataSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    entityType?: boolean
+    entityId?: boolean
+    key?: boolean
+    value?: boolean
+    ownerAddress?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["paymentMetadata"]>
+
+  export type PaymentMetadataSelectScalar = {
+    id?: boolean
+    entityType?: boolean
+    entityId?: boolean
+    key?: boolean
+    value?: boolean
+    ownerAddress?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+
+  export type $PaymentMetadataPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "PaymentMetadata"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      entityType: string
+      entityId: string
+      key: string
+      value: string
+      ownerAddress: string
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["paymentMetadata"]>
+    composites: {}
+  }
+
+  type PaymentMetadataGetPayload<S extends boolean | null | undefined | PaymentMetadataDefaultArgs> = $Result.GetResult<Prisma.$PaymentMetadataPayload, S>
+
+  type PaymentMetadataCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<PaymentMetadataFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: PaymentMetadataCountAggregateInputType | true
+    }
+
+  export interface PaymentMetadataDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['PaymentMetadata'], meta: { name: 'PaymentMetadata' } }
+    /**
+     * Find zero or one PaymentMetadata that matches the filter.
+     * @param {PaymentMetadataFindUniqueArgs} args - Arguments to find a PaymentMetadata
+     * @example
+     * // Get one PaymentMetadata
+     * const paymentMetadata = await prisma.paymentMetadata.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends PaymentMetadataFindUniqueArgs>(args: SelectSubset<T, PaymentMetadataFindUniqueArgs<ExtArgs>>): Prisma__PaymentMetadataClient<$Result.GetResult<Prisma.$PaymentMetadataPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one PaymentMetadata that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {PaymentMetadataFindUniqueOrThrowArgs} args - Arguments to find a PaymentMetadata
+     * @example
+     * // Get one PaymentMetadata
+     * const paymentMetadata = await prisma.paymentMetadata.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends PaymentMetadataFindUniqueOrThrowArgs>(args: SelectSubset<T, PaymentMetadataFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PaymentMetadataClient<$Result.GetResult<Prisma.$PaymentMetadataPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first PaymentMetadata that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PaymentMetadataFindFirstArgs} args - Arguments to find a PaymentMetadata
+     * @example
+     * // Get one PaymentMetadata
+     * const paymentMetadata = await prisma.paymentMetadata.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends PaymentMetadataFindFirstArgs>(args?: SelectSubset<T, PaymentMetadataFindFirstArgs<ExtArgs>>): Prisma__PaymentMetadataClient<$Result.GetResult<Prisma.$PaymentMetadataPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first PaymentMetadata that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PaymentMetadataFindFirstOrThrowArgs} args - Arguments to find a PaymentMetadata
+     * @example
+     * // Get one PaymentMetadata
+     * const paymentMetadata = await prisma.paymentMetadata.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends PaymentMetadataFindFirstOrThrowArgs>(args?: SelectSubset<T, PaymentMetadataFindFirstOrThrowArgs<ExtArgs>>): Prisma__PaymentMetadataClient<$Result.GetResult<Prisma.$PaymentMetadataPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more PaymentMetadata that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PaymentMetadataFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all PaymentMetadata
+     * const paymentMetadata = await prisma.paymentMetadata.findMany()
+     * 
+     * // Get first 10 PaymentMetadata
+     * const paymentMetadata = await prisma.paymentMetadata.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const paymentMetadataWithIdOnly = await prisma.paymentMetadata.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends PaymentMetadataFindManyArgs>(args?: SelectSubset<T, PaymentMetadataFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PaymentMetadataPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a PaymentMetadata.
+     * @param {PaymentMetadataCreateArgs} args - Arguments to create a PaymentMetadata.
+     * @example
+     * // Create one PaymentMetadata
+     * const PaymentMetadata = await prisma.paymentMetadata.create({
+     *   data: {
+     *     // ... data to create a PaymentMetadata
+     *   }
+     * })
+     * 
+     */
+    create<T extends PaymentMetadataCreateArgs>(args: SelectSubset<T, PaymentMetadataCreateArgs<ExtArgs>>): Prisma__PaymentMetadataClient<$Result.GetResult<Prisma.$PaymentMetadataPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many PaymentMetadata.
+     * @param {PaymentMetadataCreateManyArgs} args - Arguments to create many PaymentMetadata.
+     * @example
+     * // Create many PaymentMetadata
+     * const paymentMetadata = await prisma.paymentMetadata.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends PaymentMetadataCreateManyArgs>(args?: SelectSubset<T, PaymentMetadataCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many PaymentMetadata and returns the data saved in the database.
+     * @param {PaymentMetadataCreateManyAndReturnArgs} args - Arguments to create many PaymentMetadata.
+     * @example
+     * // Create many PaymentMetadata
+     * const paymentMetadata = await prisma.paymentMetadata.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many PaymentMetadata and only return the `id`
+     * const paymentMetadataWithIdOnly = await prisma.paymentMetadata.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends PaymentMetadataCreateManyAndReturnArgs>(args?: SelectSubset<T, PaymentMetadataCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PaymentMetadataPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a PaymentMetadata.
+     * @param {PaymentMetadataDeleteArgs} args - Arguments to delete one PaymentMetadata.
+     * @example
+     * // Delete one PaymentMetadata
+     * const PaymentMetadata = await prisma.paymentMetadata.delete({
+     *   where: {
+     *     // ... filter to delete one PaymentMetadata
+     *   }
+     * })
+     * 
+     */
+    delete<T extends PaymentMetadataDeleteArgs>(args: SelectSubset<T, PaymentMetadataDeleteArgs<ExtArgs>>): Prisma__PaymentMetadataClient<$Result.GetResult<Prisma.$PaymentMetadataPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one PaymentMetadata.
+     * @param {PaymentMetadataUpdateArgs} args - Arguments to update one PaymentMetadata.
+     * @example
+     * // Update one PaymentMetadata
+     * const paymentMetadata = await prisma.paymentMetadata.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends PaymentMetadataUpdateArgs>(args: SelectSubset<T, PaymentMetadataUpdateArgs<ExtArgs>>): Prisma__PaymentMetadataClient<$Result.GetResult<Prisma.$PaymentMetadataPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more PaymentMetadata.
+     * @param {PaymentMetadataDeleteManyArgs} args - Arguments to filter PaymentMetadata to delete.
+     * @example
+     * // Delete a few PaymentMetadata
+     * const { count } = await prisma.paymentMetadata.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends PaymentMetadataDeleteManyArgs>(args?: SelectSubset<T, PaymentMetadataDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PaymentMetadata.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PaymentMetadataUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many PaymentMetadata
+     * const paymentMetadata = await prisma.paymentMetadata.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends PaymentMetadataUpdateManyArgs>(args: SelectSubset<T, PaymentMetadataUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one PaymentMetadata.
+     * @param {PaymentMetadataUpsertArgs} args - Arguments to update or create a PaymentMetadata.
+     * @example
+     * // Update or create a PaymentMetadata
+     * const paymentMetadata = await prisma.paymentMetadata.upsert({
+     *   create: {
+     *     // ... data to create a PaymentMetadata
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the PaymentMetadata we want to update
+     *   }
+     * })
+     */
+    upsert<T extends PaymentMetadataUpsertArgs>(args: SelectSubset<T, PaymentMetadataUpsertArgs<ExtArgs>>): Prisma__PaymentMetadataClient<$Result.GetResult<Prisma.$PaymentMetadataPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of PaymentMetadata.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PaymentMetadataCountArgs} args - Arguments to filter PaymentMetadata to count.
+     * @example
+     * // Count the number of PaymentMetadata
+     * const count = await prisma.paymentMetadata.count({
+     *   where: {
+     *     // ... the filter for the PaymentMetadata we want to count
+     *   }
+     * })
+    **/
+    count<T extends PaymentMetadataCountArgs>(
+      args?: Subset<T, PaymentMetadataCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], PaymentMetadataCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a PaymentMetadata.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PaymentMetadataAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends PaymentMetadataAggregateArgs>(args: Subset<T, PaymentMetadataAggregateArgs>): Prisma.PrismaPromise<GetPaymentMetadataAggregateType<T>>
+
+    /**
+     * Group by PaymentMetadata.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PaymentMetadataGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends PaymentMetadataGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: PaymentMetadataGroupByArgs['orderBy'] }
+        : { orderBy?: PaymentMetadataGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, PaymentMetadataGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPaymentMetadataGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the PaymentMetadata model
+   */
+  readonly fields: PaymentMetadataFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for PaymentMetadata.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__PaymentMetadataClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the PaymentMetadata model
+   */ 
+  interface PaymentMetadataFieldRefs {
+    readonly id: FieldRef<"PaymentMetadata", 'String'>
+    readonly entityType: FieldRef<"PaymentMetadata", 'String'>
+    readonly entityId: FieldRef<"PaymentMetadata", 'String'>
+    readonly key: FieldRef<"PaymentMetadata", 'String'>
+    readonly value: FieldRef<"PaymentMetadata", 'String'>
+    readonly ownerAddress: FieldRef<"PaymentMetadata", 'String'>
+    readonly createdAt: FieldRef<"PaymentMetadata", 'DateTime'>
+    readonly updatedAt: FieldRef<"PaymentMetadata", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * PaymentMetadata findUnique
+   */
+  export type PaymentMetadataFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentMetadata
+     */
+    select?: PaymentMetadataSelect<ExtArgs> | null
+    /**
+     * Filter, which PaymentMetadata to fetch.
+     */
+    where: PaymentMetadataWhereUniqueInput
+  }
+
+  /**
+   * PaymentMetadata findUniqueOrThrow
+   */
+  export type PaymentMetadataFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentMetadata
+     */
+    select?: PaymentMetadataSelect<ExtArgs> | null
+    /**
+     * Filter, which PaymentMetadata to fetch.
+     */
+    where: PaymentMetadataWhereUniqueInput
+  }
+
+  /**
+   * PaymentMetadata findFirst
+   */
+  export type PaymentMetadataFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentMetadata
+     */
+    select?: PaymentMetadataSelect<ExtArgs> | null
+    /**
+     * Filter, which PaymentMetadata to fetch.
+     */
+    where?: PaymentMetadataWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PaymentMetadata to fetch.
+     */
+    orderBy?: PaymentMetadataOrderByWithRelationInput | PaymentMetadataOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PaymentMetadata.
+     */
+    cursor?: PaymentMetadataWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PaymentMetadata from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PaymentMetadata.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PaymentMetadata.
+     */
+    distinct?: PaymentMetadataScalarFieldEnum | PaymentMetadataScalarFieldEnum[]
+  }
+
+  /**
+   * PaymentMetadata findFirstOrThrow
+   */
+  export type PaymentMetadataFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentMetadata
+     */
+    select?: PaymentMetadataSelect<ExtArgs> | null
+    /**
+     * Filter, which PaymentMetadata to fetch.
+     */
+    where?: PaymentMetadataWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PaymentMetadata to fetch.
+     */
+    orderBy?: PaymentMetadataOrderByWithRelationInput | PaymentMetadataOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PaymentMetadata.
+     */
+    cursor?: PaymentMetadataWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PaymentMetadata from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PaymentMetadata.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PaymentMetadata.
+     */
+    distinct?: PaymentMetadataScalarFieldEnum | PaymentMetadataScalarFieldEnum[]
+  }
+
+  /**
+   * PaymentMetadata findMany
+   */
+  export type PaymentMetadataFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentMetadata
+     */
+    select?: PaymentMetadataSelect<ExtArgs> | null
+    /**
+     * Filter, which PaymentMetadata to fetch.
+     */
+    where?: PaymentMetadataWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PaymentMetadata to fetch.
+     */
+    orderBy?: PaymentMetadataOrderByWithRelationInput | PaymentMetadataOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing PaymentMetadata.
+     */
+    cursor?: PaymentMetadataWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PaymentMetadata from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PaymentMetadata.
+     */
+    skip?: number
+    distinct?: PaymentMetadataScalarFieldEnum | PaymentMetadataScalarFieldEnum[]
+  }
+
+  /**
+   * PaymentMetadata create
+   */
+  export type PaymentMetadataCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentMetadata
+     */
+    select?: PaymentMetadataSelect<ExtArgs> | null
+    /**
+     * The data needed to create a PaymentMetadata.
+     */
+    data: XOR<PaymentMetadataCreateInput, PaymentMetadataUncheckedCreateInput>
+  }
+
+  /**
+   * PaymentMetadata createMany
+   */
+  export type PaymentMetadataCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many PaymentMetadata.
+     */
+    data: PaymentMetadataCreateManyInput | PaymentMetadataCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * PaymentMetadata createManyAndReturn
+   */
+  export type PaymentMetadataCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentMetadata
+     */
+    select?: PaymentMetadataSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many PaymentMetadata.
+     */
+    data: PaymentMetadataCreateManyInput | PaymentMetadataCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * PaymentMetadata update
+   */
+  export type PaymentMetadataUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentMetadata
+     */
+    select?: PaymentMetadataSelect<ExtArgs> | null
+    /**
+     * The data needed to update a PaymentMetadata.
+     */
+    data: XOR<PaymentMetadataUpdateInput, PaymentMetadataUncheckedUpdateInput>
+    /**
+     * Choose, which PaymentMetadata to update.
+     */
+    where: PaymentMetadataWhereUniqueInput
+  }
+
+  /**
+   * PaymentMetadata updateMany
+   */
+  export type PaymentMetadataUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update PaymentMetadata.
+     */
+    data: XOR<PaymentMetadataUpdateManyMutationInput, PaymentMetadataUncheckedUpdateManyInput>
+    /**
+     * Filter which PaymentMetadata to update
+     */
+    where?: PaymentMetadataWhereInput
+  }
+
+  /**
+   * PaymentMetadata upsert
+   */
+  export type PaymentMetadataUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentMetadata
+     */
+    select?: PaymentMetadataSelect<ExtArgs> | null
+    /**
+     * The filter to search for the PaymentMetadata to update in case it exists.
+     */
+    where: PaymentMetadataWhereUniqueInput
+    /**
+     * In case the PaymentMetadata found by the `where` argument doesn't exist, create a new PaymentMetadata with this data.
+     */
+    create: XOR<PaymentMetadataCreateInput, PaymentMetadataUncheckedCreateInput>
+    /**
+     * In case the PaymentMetadata was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<PaymentMetadataUpdateInput, PaymentMetadataUncheckedUpdateInput>
+  }
+
+  /**
+   * PaymentMetadata delete
+   */
+  export type PaymentMetadataDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentMetadata
+     */
+    select?: PaymentMetadataSelect<ExtArgs> | null
+    /**
+     * Filter which PaymentMetadata to delete.
+     */
+    where: PaymentMetadataWhereUniqueInput
+  }
+
+  /**
+   * PaymentMetadata deleteMany
+   */
+  export type PaymentMetadataDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PaymentMetadata to delete
+     */
+    where?: PaymentMetadataWhereInput
+  }
+
+  /**
+   * PaymentMetadata without action
+   */
+  export type PaymentMetadataDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentMetadata
+     */
+    select?: PaymentMetadataSelect<ExtArgs> | null
   }
 
 
@@ -46502,6 +47502,20 @@ export namespace Prisma {
   export type PaymentCategoryScalarFieldEnum = (typeof PaymentCategoryScalarFieldEnum)[keyof typeof PaymentCategoryScalarFieldEnum]
 
 
+  export const PaymentMetadataScalarFieldEnum: {
+    id: 'id',
+    entityType: 'entityType',
+    entityId: 'entityId',
+    key: 'key',
+    value: 'value',
+    ownerAddress: 'ownerAddress',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type PaymentMetadataScalarFieldEnum = (typeof PaymentMetadataScalarFieldEnum)[keyof typeof PaymentMetadataScalarFieldEnum]
+
+
   export const PaymentCategoryRuleScalarFieldEnum: {
     id: 'id',
     categoryId: 'categoryId',
@@ -47436,6 +48450,74 @@ export namespace Prisma {
     isDefault?: BoolWithAggregatesFilter<"PaymentCategory"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"PaymentCategory"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"PaymentCategory"> | Date | string
+  }
+
+  export type PaymentMetadataWhereInput = {
+    AND?: PaymentMetadataWhereInput | PaymentMetadataWhereInput[]
+    OR?: PaymentMetadataWhereInput[]
+    NOT?: PaymentMetadataWhereInput | PaymentMetadataWhereInput[]
+    id?: StringFilter<"PaymentMetadata"> | string
+    entityType?: StringFilter<"PaymentMetadata"> | string
+    entityId?: StringFilter<"PaymentMetadata"> | string
+    key?: StringFilter<"PaymentMetadata"> | string
+    value?: StringFilter<"PaymentMetadata"> | string
+    ownerAddress?: StringFilter<"PaymentMetadata"> | string
+    createdAt?: DateTimeFilter<"PaymentMetadata"> | Date | string
+    updatedAt?: DateTimeFilter<"PaymentMetadata"> | Date | string
+  }
+
+  export type PaymentMetadataOrderByWithRelationInput = {
+    id?: SortOrder
+    entityType?: SortOrder
+    entityId?: SortOrder
+    key?: SortOrder
+    value?: SortOrder
+    ownerAddress?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PaymentMetadataWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    entityType_entityId_key?: PaymentMetadataEntityTypeEntityIdKeyCompoundUniqueInput
+    AND?: PaymentMetadataWhereInput | PaymentMetadataWhereInput[]
+    OR?: PaymentMetadataWhereInput[]
+    NOT?: PaymentMetadataWhereInput | PaymentMetadataWhereInput[]
+    entityType?: StringFilter<"PaymentMetadata"> | string
+    entityId?: StringFilter<"PaymentMetadata"> | string
+    key?: StringFilter<"PaymentMetadata"> | string
+    value?: StringFilter<"PaymentMetadata"> | string
+    ownerAddress?: StringFilter<"PaymentMetadata"> | string
+    createdAt?: DateTimeFilter<"PaymentMetadata"> | Date | string
+    updatedAt?: DateTimeFilter<"PaymentMetadata"> | Date | string
+  }, "id" | "entityType_entityId_key">
+
+  export type PaymentMetadataOrderByWithAggregationInput = {
+    id?: SortOrder
+    entityType?: SortOrder
+    entityId?: SortOrder
+    key?: SortOrder
+    value?: SortOrder
+    ownerAddress?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: PaymentMetadataCountOrderByAggregateInput
+    _max?: PaymentMetadataMaxOrderByAggregateInput
+    _min?: PaymentMetadataMinOrderByAggregateInput
+  }
+
+  export type PaymentMetadataScalarWhereWithAggregatesInput = {
+    AND?: PaymentMetadataScalarWhereWithAggregatesInput | PaymentMetadataScalarWhereWithAggregatesInput[]
+    OR?: PaymentMetadataScalarWhereWithAggregatesInput[]
+    NOT?: PaymentMetadataScalarWhereWithAggregatesInput | PaymentMetadataScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"PaymentMetadata"> | string
+    entityType?: StringWithAggregatesFilter<"PaymentMetadata"> | string
+    entityId?: StringWithAggregatesFilter<"PaymentMetadata"> | string
+    key?: StringWithAggregatesFilter<"PaymentMetadata"> | string
+    value?: StringWithAggregatesFilter<"PaymentMetadata"> | string
+    ownerAddress?: StringWithAggregatesFilter<"PaymentMetadata"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"PaymentMetadata"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"PaymentMetadata"> | Date | string
   }
 
   export type PaymentCategoryRuleWhereInput = {
@@ -50822,6 +51904,83 @@ export namespace Prisma {
     icon?: NullableStringFieldUpdateOperationsInput | string | null
     ownerAddress?: StringFieldUpdateOperationsInput | string
     isDefault?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PaymentMetadataCreateInput = {
+    id?: string
+    entityType: string
+    entityId: string
+    key: string
+    value: string
+    ownerAddress: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PaymentMetadataUncheckedCreateInput = {
+    id?: string
+    entityType: string
+    entityId: string
+    key: string
+    value: string
+    ownerAddress: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PaymentMetadataUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    entityType?: StringFieldUpdateOperationsInput | string
+    entityId?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    value?: StringFieldUpdateOperationsInput | string
+    ownerAddress?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PaymentMetadataUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    entityType?: StringFieldUpdateOperationsInput | string
+    entityId?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    value?: StringFieldUpdateOperationsInput | string
+    ownerAddress?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PaymentMetadataCreateManyInput = {
+    id?: string
+    entityType: string
+    entityId: string
+    key: string
+    value: string
+    ownerAddress: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PaymentMetadataUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    entityType?: StringFieldUpdateOperationsInput | string
+    entityId?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    value?: StringFieldUpdateOperationsInput | string
+    ownerAddress?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PaymentMetadataUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    entityType?: StringFieldUpdateOperationsInput | string
+    entityId?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    value?: StringFieldUpdateOperationsInput | string
+    ownerAddress?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -54786,6 +55945,45 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
+  export type PaymentMetadataEntityTypeEntityIdKeyCompoundUniqueInput = {
+    entityType: string
+    entityId: string
+    key: string
+  }
+
+  export type PaymentMetadataCountOrderByAggregateInput = {
+    id?: SortOrder
+    entityType?: SortOrder
+    entityId?: SortOrder
+    key?: SortOrder
+    value?: SortOrder
+    ownerAddress?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PaymentMetadataMaxOrderByAggregateInput = {
+    id?: SortOrder
+    entityType?: SortOrder
+    entityId?: SortOrder
+    key?: SortOrder
+    value?: SortOrder
+    ownerAddress?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PaymentMetadataMinOrderByAggregateInput = {
+    id?: SortOrder
+    entityType?: SortOrder
+    entityId?: SortOrder
+    key?: SortOrder
+    value?: SortOrder
+    ownerAddress?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
   export type IntFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[] | ListIntFieldRefInput<$PrismaModel>
@@ -58608,6 +59806,10 @@ export namespace Prisma {
      * @deprecated Use PaymentCategoryDefaultArgs instead
      */
     export type PaymentCategoryArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = PaymentCategoryDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use PaymentMetadataDefaultArgs instead
+     */
+    export type PaymentMetadataArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = PaymentMetadataDefaultArgs<ExtArgs>
     /**
      * @deprecated Use PaymentCategoryRuleDefaultArgs instead
      */

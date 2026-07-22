@@ -27,6 +27,7 @@ import templateRouter from "./template.routes.js";
 import escrowRouter from "./escrow.routes.js";
 import analyticsRouter from "../analytics.routes.js";
 import paymentCategoryRouter from "./payment-category.routes.js";
+import paymentMetadataRouter from "./payment-metadata.routes.js";
 import { getNonce } from "../auth.js";
 
 
@@ -68,6 +69,7 @@ router.use("/assets", assetMapperRouter);
 router.use("/analytics", analyticsRouter);
 router.use(templateRouter);
 router.use(paymentCategoryRouter);
+router.use(paymentMetadataRouter);
 router.use(escrowRouter);
 
 export default router;
