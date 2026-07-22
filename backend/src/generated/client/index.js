@@ -750,7 +750,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "C:\\Users\\user\\Desktop\\mykiro\\StellarStream\\backend\\src\\generated\\client",
+      "value": "/workspaces/StellarStream/backend/src/generated/client",
       "fromEnvVar": null
     },
     "config": {
@@ -759,12 +759,12 @@ const config = {
     "binaryTargets": [
       {
         "fromEnvVar": null,
-        "value": "windows",
+        "value": "debian-openssl-1.1.x",
         "native": true
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "C:\\Users\\user\\Desktop\\mykiro\\StellarStream\\backend\\prisma\\schema.prisma",
+    "sourceFilePath": "/workspaces/StellarStream/backend/prisma/schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
@@ -777,7 +777,7 @@ const config = {
     "db"
   ],
   "activeProvider": "postgresql",
-  "postinstall": false,
+  "postinstall": true,
   "inlineDatasources": {
     "db": {
       "url": {
@@ -825,8 +825,8 @@ exports.PrismaClient = PrismaClient
 Object.assign(exports, Prisma)
 
 // file annotations for bundling tools to include these files
-path.join(__dirname, "query-engine-windows");
-path.join(process.cwd(), "src/generated/client/query-engine-windows")
+path.join(__dirname, "query-engine-debian-openssl-1.1.x");
+path.join(process.cwd(), "src/generated/client/query-engine-debian-openssl-1.1.x")
 // file annotations for bundling tools to include these files
 path.join(__dirname, "schema.prisma");
 path.join(process.cwd(), "src/generated/client/schema.prisma")
