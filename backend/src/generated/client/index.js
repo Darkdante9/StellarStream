@@ -771,7 +771,7 @@ const config = {
     "binaryTargets": [
       {
         "fromEnvVar": null,
-        "value": "windows",
+        "value": "debian-openssl-1.1.x",
         "native": true
       }
     ],
@@ -789,7 +789,7 @@ const config = {
     "db"
   ],
   "activeProvider": "postgresql",
-  "postinstall": false,
+  "postinstall": true,
   "inlineDatasources": {
     "db": {
       "url": {
@@ -837,8 +837,8 @@ exports.PrismaClient = PrismaClient
 Object.assign(exports, Prisma)
 
 // file annotations for bundling tools to include these files
-path.join(__dirname, "query-engine-windows");
-path.join(process.cwd(), "src/generated/client/query-engine-windows")
+path.join(__dirname, "query-engine-debian-openssl-1.1.x");
+path.join(process.cwd(), "src/generated/client/query-engine-debian-openssl-1.1.x")
 // file annotations for bundling tools to include these files
 path.join(__dirname, "schema.prisma");
 path.join(process.cwd(), "src/generated/client/schema.prisma")

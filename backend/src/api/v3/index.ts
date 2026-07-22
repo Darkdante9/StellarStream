@@ -20,6 +20,7 @@ import assetPriceRouter from "./asset-price.routes.js";
 import backfillRouter from "./backfill.routes.js";
 import validateSplitRouter from "./validate-split.routes.js";
 import proofOfPaymentRouter from "./proof-of-payment.routes.js";
+import paymentProofRouter from "./payment-proof.routes.js";
 import orgGasStatusRouter from "./org-gas-status.routes.js";
 import notificationChannelsRouter from "./notification-channels.routes.js";
 import assetMapperRouter from "./asset-mapper.routes.js";
@@ -35,6 +36,7 @@ const router = Router();
 
 router.use(responseWrapper);
 router.use(publicVerifyPaymentRouter);
+router.use(paymentProofRouter);
 router.get("/auth/nonce", getNonce);
 // All V3 endpoints require a valid API key.
 router.use(requireAuth);
