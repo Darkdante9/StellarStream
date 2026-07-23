@@ -55,6 +55,20 @@ router.get("/leaderboard", async (req: Request, res: Response) => {
  *   }
  * }
  */
+router.get("/payment-aggregations", async (req: Request, res: Response) => {
+  try {
+    const range = (req.query.range as "day" | "week" | "month") || "month";
+    const data = await analyticsService.getPaymentAggregations(range);
+    res.json({ success: true, data });
+  } catch (error) {
+    logger.error("Failed to retrieve payment aggregations", error);
+    res.status(500).json({
+      success: false,
+      error: "Failed to retrieve payment aggregation data.",
+    });
+  }
+});
+
 router.get("/disbursement-heatmap", async (_req: Request, res: Response) => {
   try {
     const since = new Date(Date.now() - 365 * 24 * 60 * 60 * 1000);
