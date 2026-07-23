@@ -1,77 +1,131 @@
 'use client';
 
-import { Suspense } from 'react';
+import { Suspense, useState, useEffect } from 'react';
 import { Card } from '@/components/ui/Card';
 import { Spinner } from '@/components/ui/Spinner';
+import { HeroStats, StreamingBalances } from '@/components/dashboard';
+import { Plus, AlertCircle, ArrowRight } from "lucide-react";
 
 /**
- * Dashboard Home Page
- *
- * Main dashboard landing page showing overview, recent streams,
- * and key metrics. Primary entry point for logged-in users.
+ * Hero Stats Loading Skeleton
+ */
+function HeroStatsSkeleton() {
+  return (
+    <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6 w-full" aria-label="Loading statistics">
+      {[...Array(4)].map((_, i) => (
+        <div
+          key={i}
+          className="rounded-xl border-[0.5px] p-4 sm:p-6 h-[88px] sm:h-[104px] animate-nebula-skeleton"
+        />
+      ))}
+    </div>
+  );
+}
+
+/**
+ * Streaming Balance Loading Skeleton
+ */
+function StreamingBalancesSkeleton() {
+  return (
+    <div 
+      className="rounded-2xl border-[0.5px] h-[220px] w-full animate-nebula-skeleton" 
+      aria-label="Loading balance tracker"
+    />
+  );
+}
+
+/**
+ * Dashboard Content
  */
 function DashboardContent() {
+  const [isLoading, setIsLoading] = useState(true);
+
+  // Simulate dashboard loading state to showcase nebula skeleton animations
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 1200);
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
-    <div className="space-y-8">
+    <div className="space-y-6 sm:space-y-8 max-w-7xl mx-auto w-full px-4 md:px-0">
       {/* Page Header */}
       <div className="space-y-2">
-        <h1 className="font-heading text-4xl font-bold">Dashboard</h1>
-        <p className="text-white/60">
+        <h1 className="font-heading text-4xl font-bold tracking-tight text-moon-text-primary">
+          Dashboard
+        </h1>
+        <p className="text-moon-text-secondary text-sm">
           Welcome back. Here's your streaming summary.
         </p>
       </div>
 
-      {/* Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {/* Total Streams */}
-        <Card className="glass-card p-6">
-          <div className="space-y-2">
-            <p className="text-white/60 text-sm">Total Streams</p>
-            <p className="text-3xl font-bold">0</p>
-            <p className="text-xs text-cyan-400">0 active</p>
-          </div>
-        </Card>
-
-        {/* Monthly Volume */}
-        <Card className="glass-card p-6">
-          <div className="space-y-2">
-            <p className="text-white/60 text-sm">Monthly Volume</p>
-            <p className="text-3xl font-bold">$0.00</p>
-            <p className="text-xs text-green-400">0% vs last month</p>
-          </div>
-        </Card>
-
-        {/* Next Disbursement */}
-        <Card className="glass-card p-6">
-          <div className="space-y-2">
-            <p className="text-white/60 text-sm">Next Disbursement</p>
-            <p className="text-3xl font-bold">--</p>
-            <p className="text-xs text-white/40">No upcoming disbursements</p>
-          </div>
-        </Card>
-
-        {/* Account Balance */}
-        <Card className="glass-card p-6">
-          <div className="space-y-2">
-            <p className="text-white/60 text-sm">Account Balance</p>
-            <p className="text-3xl font-bold">$0.00</p>
-            <p className="text-xs text-white/40">Across all assets</p>
-          </div>
-        </Card>
+      {/* Hero Stats Section */}
+      <div className="w-full">
+        {isLoading ? <HeroStatsSkeleton /> : <HeroStats />}
       </div>
 
-      {/* Recent Activity */}
+      {/* Main Odometer + Quick Actions Row */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* Real-time Odometer Column */}
+        <div className="lg:col-span-2 w-full">
+          {isLoading ? (
+            <StreamingBalancesSkeleton />
+          ) : (
+            <StreamingBalances 
+              initialValue={48291.3847291}
+              rate={0.0000247}
+              assetCode="USDC"
+            />
+          )}
+        </div>
+
+        {/* Quick Actions Card */}
+        <div className="relative group rounded-2xl border-[0.5px] border-moon-border/40 bg-moon-card/95 p-6 backdrop-blur-md shadow-[0_0_15px_rgba(124,58,237,0.1)] hover:border-moon-border/70 hover:shadow-[0_0_20px_rgba(124,58,237,0.15)] transition-all duration-300 h-full flex flex-col justify-between">
+          <div className="space-y-4">
+            <h2 className="font-heading text-lg font-bold text-moon-text-primary">Quick Actions</h2>
+            <p className="text-xs text-moon-text-secondary">
+              Configure, manage, and overview payments.
+            </p>
+            <div className="space-y-2">
+              <a
+                href="/create-stream"
+                className="flex items-center justify-between px-4 py-2.5 rounded-lg bg-moon-accent hover:bg-moon-accent/90 text-black font-semibold text-sm transition-all shadow-md hover:shadow-cyan-400/20"
+              >
+                <span>Create Stream</span>
+                <Plus className="w-4 h-4" />
+              </a>
+              <a
+                href="/streams"
+                className="flex items-center justify-between px-4 py-2.5 rounded-lg border border-white/10 hover:border-moon-border/60 hover:bg-white/5 text-moon-text-primary font-semibold text-sm transition-all"
+              >
+                <span>View Streams</span>
+                <ArrowRight className="w-4 h-4 text-moon-text-secondary" />
+              </a>
+              <a
+                href="/settings"
+                className="flex items-center justify-between px-4 py-2.5 rounded-lg border border-white/10 hover:border-moon-border/60 hover:bg-white/5 text-moon-text-primary font-semibold text-sm transition-all"
+              >
+                <span>Settings</span>
+                <ArrowRight className="w-4 h-4 text-moon-text-secondary" />
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Recent Activity & Onboarding Section */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Recent Streams */}
-        <Card className="glass-card p-6 lg:col-span-2">
+        <Card className="lg:col-span-2 border-[0.5px] border-moon-border/40 bg-moon-card/95 backdrop-blur-md p-6 shadow-[0_0_15px_rgba(124,58,237,0.1)]">
           <div className="space-y-4">
-            <h2 className="font-heading text-xl font-bold">Recent Streams</h2>
+            <h2 className="font-heading text-xl font-bold text-moon-text-primary">Recent Streams</h2>
             <div className="space-y-3">
-              <div className="flex items-center justify-between py-3 border-b border-white/10">
-                <div>
-                  <p className="font-medium">No streams yet</p>
-                  <p className="text-sm text-white/60">
-                    Create your first stream to get started
+              <div className="flex items-center justify-between py-4 border-b border-white/5 last:border-0">
+                <div className="space-y-1">
+                  <p className="font-medium text-moon-text-primary text-sm">No streams active yet</p>
+                  <p className="text-xs text-moon-text-secondary">
+                    Create your first payment stream to start second-by-second disbursements.
                   </p>
                 </div>
               </div>
@@ -79,50 +133,28 @@ function DashboardContent() {
           </div>
         </Card>
 
-        {/* Quick Actions */}
-        <Card className="glass-card p-6">
-          <div className="space-y-4">
-            <h2 className="font-heading text-xl font-bold">Quick Actions</h2>
-            <div className="space-y-2">
-              <a
-                href="/create-stream"
-                className="block px-4 py-2 rounded-lg bg-cyan-500 hover:bg-cyan-600 text-black font-medium text-center transition"
-              >
-                Create Stream
-              </a>
-              <a
-                href="/streams"
-                className="block px-4 py-2 rounded-lg border border-white/20 hover:bg-white/5 text-white font-medium text-center transition"
-              >
-                View Streams
-              </a>
-              <a
-                href="/settings"
-                className="block px-4 py-2 rounded-lg border border-white/20 hover:bg-white/5 text-white font-medium text-center transition"
-              >
-                Settings
-              </a>
+        {/* Onboarding Promo */}
+        <div className="rounded-2xl border-[0.5px] border-moon-accent/30 bg-moon-accent/5 p-6 backdrop-blur-md flex flex-col justify-between h-full">
+          <div className="space-y-3">
+            <div className="flex items-center gap-2 text-moon-accent">
+              <AlertCircle className="w-4 h-4" />
+              <h2 className="font-heading text-base font-bold">Onboarding</h2>
             </div>
+            <p className="text-moon-text-secondary text-xs leading-relaxed">
+              New to StellarStream? Follow our verification guide to setup your organization profile and claim your trust badges.
+            </p>
           </div>
-        </Card>
-      </div>
-
-      {/* Onboarding Prompt */}
-      <Card className="glass-card p-6 border-cyan-500/30 bg-cyan-500/5">
-        <div className="space-y-4">
-          <h2 className="font-heading text-xl font-bold">Get Started</h2>
-          <p className="text-white/70 text-sm">
-            StellarStream enables real-time, second-by-second payments on Stellar.
-            Create your first stream to experience the power of continuous asset flow.
-          </p>
-          <a
-            href="/onboarding"
-            className="inline-block px-4 py-2 rounded-lg bg-cyan-500 hover:bg-cyan-600 text-black font-medium transition"
-          >
-            Start Onboarding
-          </a>
+          <div className="mt-4">
+            <a
+              href="/onboarding"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-moon-accent hover:bg-moon-accent/90 text-black font-bold text-xs transition-all"
+            >
+              Start Onboarding
+              <ArrowRight className="w-3.5 h-3.5" />
+            </a>
+          </div>
         </div>
-      </Card>
+      </div>
     </div>
   );
 }
@@ -131,8 +163,8 @@ export default function DashboardPage() {
   return (
     <Suspense
       fallback={
-        <div className="flex items-center justify-center h-screen">
-          <Spinner />
+        <div className="flex items-center justify-center h-screen bg-moon-bg">
+          <Spinner className="text-moon-accent" />
         </div>
       }
     >

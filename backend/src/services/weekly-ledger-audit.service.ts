@@ -13,7 +13,6 @@
  * mutates financial records. Remediation is a manual ops step.
  */
 
-import { SorobanRpc } from "@stellar/stellar-sdk";
 import { prisma } from "../lib/db.js";
 import { logger } from "../logger.js";
 

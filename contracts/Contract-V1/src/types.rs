@@ -16,6 +16,15 @@ pub const INTEREST_SPLIT_SENDER_RECEIVER: u32 = 0b011; // 3: 50/50 sender/receiv
 #[allow(dead_code)]
 pub const INTEREST_SPLIT_ALL: u32 = 0b111; // 7: 33/33/33 split
 
+// Stream states
+#[contracttype]
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub enum StreamState {
+    Active = 0,
+    Paused = 1,
+    Closed = 2,
+}
+
 // Curve types for vesting schedules
 #[contracttype]
 #[derive(Clone, Debug, Eq, PartialEq)]
@@ -55,12 +64,11 @@ pub struct Stream {
     pub token: Address,
     pub total_amount: i128,
     pub start_time: u64,
+    pub cliff_time: u64,
     pub end_time: u64,
     pub withdrawn: i128,
     pub withdrawn_amount: i128,
-    pub cancelled: bool,
     pub receipt_owner: Address,
-    pub is_paused: bool,
     pub paused_time: u64,
     pub total_paused_duration: u64,
     pub milestones: Vec<Milestone>,
@@ -88,6 +96,8 @@ pub struct Stream {
     pub arbiter: Option<Address>,
     /// If true, stream is frozen pending dispute resolution
     pub is_frozen: bool,
+    /// Stream state: Active, Paused, or Closed
+    pub state: StreamState,
 }
 
 // Legacy Stream struct (v1) - for migration example
@@ -251,6 +261,15 @@ pub struct StreamPausedEvent {
 pub struct StreamUnpausedEvent {
     pub stream_id: u64,
     pub unpauser: Address,
+    pub paused_duration: u64,
+    pub timestamp: u64,
+}
+
+#[contracttype]
+#[derive(Clone, Debug)]
+pub struct StreamResumedEvent {
+    pub stream_id: u64,
+    pub resumer: Address,
     pub paused_duration: u64,
     pub timestamp: u64,
 }

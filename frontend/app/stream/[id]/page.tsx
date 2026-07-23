@@ -1,12 +1,13 @@
 /**
- * Public stream preview page — Server Component with ISR.
+ * Stream detail page — Server Component with ISR.
+ * Complete redesign with moon theme, enhanced data visualization, and action buttons.
  */
 
 import type { Metadata } from "next";
 import { AlertCircle } from "lucide-react";
 import {
   ViewStreamClient,
-  type StreamData,
+  type _StreamData,
 } from "@/components/view-stream-client";
 import { fetchPublicStream } from "@/lib/fetch-public-stream";
 
@@ -57,7 +58,7 @@ export default async function ViewStreamPage({
           Stream Not Found
         </h1>
         <p className="font-body text-sm text-white/40">
-          The stream you&apos;re looking for doesn&apos;t exist or has been removed.
+          The stream you're looking for doesn't exist or has been removed.
         </p>
         <a
           href="/"
@@ -69,10 +70,17 @@ export default async function ViewStreamPage({
     );
   }
 
+  // Render the stream detail page with all new components
+  // The skeleton/loading states are handled inside ViewStreamClient
   return (
-    <div className="flex min-h-screen items-start justify-center p-6 pt-12">
-      {/* Static shell rendered on the server — hydrated by ViewStreamClient */}
-      <ViewStreamClient stream={stream} />
+    <div className="relative min-h-screen">
+      {/* Nebula background blobs */}
+      <div className="nebula-blob nebula-cyan" />
+      <div className="nebula-blob nebula-violet" />
+
+      <main className="relative z-10 mx-auto flex w-full max-w-4xl items-start justify-center p-4 pb-20 pt-8 sm:p-6 sm:pt-12">
+        <ViewStreamClient stream={stream} />
+      </main>
     </div>
   );
 }

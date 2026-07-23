@@ -1,6 +1,7 @@
-import { randomUUID } from "node:crypto";
+import { randomBytes, randomUUID } from "node:crypto";
 import { prisma } from "../lib/db.js";
 import { logger } from "../logger.js";
+import { WebhookDispatcherService } from "./webhook-dispatcher.service.js";
 
 export interface BridgeLandingEvent {
   bridge: string;
@@ -17,7 +18,9 @@ export interface BridgeLandingEvent {
 }
 
 interface ActiveWebhook {
+  id: string;
   url: string;
+  secretKey: string;
 }
 
 export class BridgeListenerService {
@@ -103,7 +106,7 @@ export class BridgeListenerService {
 
   private async notify(notification: Record<string, unknown>): Promise<void> {
     const webhooks = await prisma.$queryRaw<ActiveWebhook[]>`
-      SELECT "url" FROM "Webhook" WHERE "isActive" = true
+      SELECT "id", "url", "secretKey" FROM "Webhook" WHERE "isActive" = true
     `;
 
     if (webhooks.length === 0) {
@@ -112,15 +115,29 @@ export class BridgeListenerService {
     }
 
     await Promise.allSettled(
-      webhooks.map(async ({ url }) => {
+      webhooks.map(async ({ id, url, secretKey }) => {
         try {
+          const body = JSON.stringify(notification);
+          const timestamp = new Date().toISOString();
+          const nonce = randomBytes(16).toString("hex");
+          const signature = WebhookDispatcherService.signPayload(
+            body,
+            secretKey,
+            timestamp,
+            nonce
+          );
+
           const response = await fetch(url, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
+              "X-StellarStream-Signature": signature,
+              "X-StellarStream-Timestamp": timestamp,
+              "X-StellarStream-Nonce": nonce,
+              "X-Webhook-ID": id,
               "User-Agent": "StellarStream-BridgeListener/1.0",
             },
-            body: JSON.stringify(notification),
+            body,
           });
 
           if (!response.ok) {

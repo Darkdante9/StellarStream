@@ -115,7 +115,7 @@ function RoadmapTeaser() {
       {/* Header */}
       <div className="flex items-start justify-between mb-6">
         <div>
-          <h3 className="font-heading text-2xl text-white mb-2">V4 Roadmap</h3>
+          <h2 className="font-heading text-2xl text-white mb-2">V4 Roadmap</h2>
           <p className="font-body text-sm text-white/60">
             See what's coming next and vote on features you want
           </p>
@@ -161,9 +161,9 @@ function RoadmapTeaser() {
                     {feature.status}
                   </span>
                 </div>
-                <h4 className="font-heading text-base text-white mb-1">
+                <h3 className="font-heading text-base text-white mb-1">
                   {feature.title}
-                </h4>
+                </h3>
                 <p className="font-body text-xs text-white/50 line-clamp-2">
                   {feature.description}
                 </p>

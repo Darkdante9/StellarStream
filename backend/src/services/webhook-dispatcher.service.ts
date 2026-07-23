@@ -1,5 +1,5 @@
 import { PrismaClient } from "../generated/client/index.js";
-import { createHmac, randomBytes } from "crypto";
+import { createHmac, randomBytes, timingSafeEqual } from "crypto";
 import { logger } from "../logger.js";
 
 const prisma = new PrismaClient();
@@ -19,6 +19,7 @@ export interface WebhookPayload {
 }
 
 const RETRY_DELAYS = [1000, 5000, 30000, 300000, 900000]; // 1s, 5s, 30s, 5m, 15m
+const WEBHOOK_REPLAY_WINDOW_MS = 5 * 60 * 1000;
 
 export class WebhookDispatcherService {
   /**
@@ -42,6 +43,23 @@ export class WebhookDispatcherService {
     });
 
     logger.info(`Webhook registered: ${webhook.id} for ${eventType} events`);
+    return { id: webhook.id, secretKey };
+  }
+
+  /**
+   * Rotate the signing secret for a registered webhook receiver.
+   * The new secret is returned once and should be stored by the receiver.
+   */
+  async rotateWebhookSecret(webhookId: string): Promise<{ id: string; secretKey: string }> {
+    const secretKey = this.generateSecretKey();
+
+    const webhook = await (prisma as any).webhook.update({
+      where: { id: webhookId },
+      data: { secretKey },
+      select: { id: true },
+    });
+
+    logger.info(`Webhook secret rotated: ${webhook.id}`);
     return { id: webhook.id, secretKey };
   }
 
@@ -118,10 +136,10 @@ export class WebhookDispatcherService {
    */
   private async attemptDelivery(delivery: any): Promise<void> {
     const webhook = delivery.webhook;
-    const signature = this.signPayload(
-      JSON.stringify(delivery.payload),
-      webhook.secretKey
-    );
+    const body = JSON.stringify(delivery.payload);
+    const timestamp = new Date().toISOString();
+    const nonce = this.generateNonce();
+    const signature = this.signPayload(body, webhook.secretKey, timestamp, nonce);
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 10000);
 
@@ -130,12 +148,15 @@ export class WebhookDispatcherService {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "X-StellarStream-Signature": signature,
+          "X-StellarStream-Timestamp": timestamp,
+          "X-StellarStream-Nonce": nonce,
           "X-Nebula-Signature": signature,
           "X-Webhook-Signature": signature,
           "X-Webhook-ID": webhook.id,
           "User-Agent": "StellarStream-Webhook/1.0",
         },
-        body: JSON.stringify(delivery.payload),
+        body,
         signal: controller.signal,
       });
       clearTimeout(timeoutId);
@@ -190,8 +211,24 @@ export class WebhookDispatcherService {
   /**
    * Generate HMAC-SHA256 signature
    */
-  private signPayload(payload: string, secretKey: string): string {
-    return createHmac("sha256", secretKey).update(payload).digest("hex");
+  static signPayload(
+    payload: string,
+    secretKey: string,
+    timestamp: string,
+    nonce: string
+  ): string {
+    const signedPayload = `${timestamp}.${nonce}.${payload}`;
+    const digest = createHmac("sha256", secretKey).update(signedPayload).digest("hex");
+    return `sha256=${digest}`;
+  }
+
+  private signPayload(
+    payload: string,
+    secretKey: string,
+    timestamp: string,
+    nonce: string
+  ): string {
+    return WebhookDispatcherService.signPayload(payload, secretKey, timestamp, nonce);
   }
 
   /**
@@ -201,17 +238,48 @@ export class WebhookDispatcherService {
     return randomBytes(32).toString("hex");
   }
 
+  private generateNonce(): string {
+    return randomBytes(16).toString("hex");
+  }
+
   /**
    * Verify webhook signature (for receiver validation)
    */
   static verifySignature(
     payload: string,
     signature: string,
-    secretKey: string
+    secretKey: string,
+    timestamp: string,
+    nonce: string,
+    now: Date = new Date()
   ): boolean {
-    const expected = createHmac("sha256", secretKey)
-      .update(payload)
-      .digest("hex");
-    return signature === expected;
+    const signedAt = Date.parse(timestamp);
+
+    if (!Number.isFinite(signedAt) || !nonce) {
+      return false;
+    }
+
+    const ageMs = Math.abs(now.getTime() - signedAt);
+    if (ageMs > WEBHOOK_REPLAY_WINDOW_MS) {
+      return false;
+    }
+
+    const expected = WebhookDispatcherService.signPayload(
+      payload,
+      secretKey,
+      timestamp,
+      nonce
+    );
+    const actualSignature = signature.startsWith("sha256=")
+      ? signature
+      : `sha256=${signature}`;
+
+    const expectedBuffer = Buffer.from(expected);
+    const actualBuffer = Buffer.from(actualSignature);
+
+    return (
+      expectedBuffer.length === actualBuffer.length &&
+      timingSafeEqual(expectedBuffer, actualBuffer)
+    );
   }
 }

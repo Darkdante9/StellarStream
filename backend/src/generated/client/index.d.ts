@@ -3,7 +3,7 @@
  * Client
 **/
 
-import * as runtime from './runtime/library.js';
+import * as runtime from './runtime/binary.js';
 import $Types = runtime.Types // general types
 import $Public = runtime.Types.Public
 import $Utils = runtime.Types.Utils
@@ -13,6 +13,21 @@ import $Result = runtime.Types.Result
 export type PrismaPromise<T> = $Public.PrismaPromise<T>
 
 
+/**
+ * Model PaymentCategory
+ * 
+ */
+export type PaymentCategory = $Result.DefaultSelection<Prisma.$PaymentCategoryPayload>
+/**
+ * Model PaymentMetadata
+ * 
+ */
+export type PaymentMetadata = $Result.DefaultSelection<Prisma.$PaymentMetadataPayload>
+/**
+ * Model PaymentCategoryRule
+ * 
+ */
+export type PaymentCategoryRule = $Result.DefaultSelection<Prisma.$PaymentCategoryRulePayload>
 /**
  * Model Stream
  * 
@@ -69,6 +84,11 @@ export type BridgeLog = $Result.DefaultSelection<Prisma.$BridgeLogPayload>
  */
 export type Proposal = $Result.DefaultSelection<Prisma.$ProposalPayload>
 /**
+ * Model Event
+ * 
+ */
+export type Event = $Result.DefaultSelection<Prisma.$EventPayload>
+/**
  * Model OrganizationMember
  * 
  */
@@ -83,6 +103,16 @@ export type ApiKey = $Result.DefaultSelection<Prisma.$ApiKeyPayload>
  * 
  */
 export type LedgerHash = $Result.DefaultSelection<Prisma.$LedgerHashPayload>
+/**
+ * Model SyncMetadata
+ * 
+ */
+export type SyncMetadata = $Result.DefaultSelection<Prisma.$SyncMetadataPayload>
+/**
+ * Model ClawbackHistory
+ * 
+ */
+export type ClawbackHistory = $Result.DefaultSelection<Prisma.$ClawbackHistoryPayload>
 /**
  * Model NotificationSubscription
  * 
@@ -129,15 +159,15 @@ export type AutopilotSchedule = $Result.DefaultSelection<Prisma.$AutopilotSchedu
  */
 export type AssetConfig = $Result.DefaultSelection<Prisma.$AssetConfigPayload>
 /**
+ * Model ArchivedDisbursement
+ * 
+ */
+export type ArchivedDisbursement = $Result.DefaultSelection<Prisma.$ArchivedDisbursementPayload>
+/**
  * Model Disbursement
  * 
  */
 export type Disbursement = $Result.DefaultSelection<Prisma.$DisbursementPayload>
-/**
- * Model SplitRecipient
- * 
- */
-export type SplitRecipient = $Result.DefaultSelection<Prisma.$SplitRecipientPayload>
 /**
  * Model AssetMapping
  * 
@@ -184,10 +214,25 @@ export type MultisigProposal = $Result.DefaultSelection<Prisma.$MultisigProposal
  */
 export type CachedAsset = $Result.DefaultSelection<Prisma.$CachedAssetPayload>
 /**
+ * Model StreamTemplate
+ * 
+ */
+export type StreamTemplate = $Result.DefaultSelection<Prisma.$StreamTemplatePayload>
+/**
  * Model SplitLink
  * 
  */
 export type SplitLink = $Result.DefaultSelection<Prisma.$SplitLinkPayload>
+/**
+ * Model OfacAuditLog
+ * 
+ */
+export type OfacAuditLog = $Result.DefaultSelection<Prisma.$OfacAuditLogPayload>
+/**
+ * Model AdminAuditLog
+ * 
+ */
+export type AdminAuditLog = $Result.DefaultSelection<Prisma.$AdminAuditLogPayload>
 
 /**
  * Enums
@@ -221,13 +266,15 @@ export const NotificationPlatform: {
 export type NotificationPlatform = (typeof NotificationPlatform)[keyof typeof NotificationPlatform]
 
 
-export const PayoutStatus: {
+export const DisbursementStatus: {
   PENDING: 'PENDING',
-  SENT: 'SENT',
-  FAILED: 'FAILED'
+  PROCESSING: 'PROCESSING',
+  COMPLETED: 'COMPLETED',
+  FAILED: 'FAILED',
+  CANCELLED: 'CANCELLED'
 };
 
-export type PayoutStatus = (typeof PayoutStatus)[keyof typeof PayoutStatus]
+export type DisbursementStatus = (typeof DisbursementStatus)[keyof typeof DisbursementStatus]
 
 }
 
@@ -243,9 +290,9 @@ export type NotificationPlatform = $Enums.NotificationPlatform
 
 export const NotificationPlatform: typeof $Enums.NotificationPlatform
 
-export type PayoutStatus = $Enums.PayoutStatus
+export type DisbursementStatus = $Enums.DisbursementStatus
 
-export const PayoutStatus: typeof $Enums.PayoutStatus
+export const DisbursementStatus: typeof $Enums.DisbursementStatus
 
 /**
  * ##  Prisma Client ʲˢ
@@ -254,8 +301,8 @@ export const PayoutStatus: typeof $Enums.PayoutStatus
  * @example
  * ```
  * const prisma = new PrismaClient()
- * // Fetch zero or more Streams
- * const streams = await prisma.stream.findMany()
+ * // Fetch zero or more PaymentCategories
+ * const paymentCategories = await prisma.paymentCategory.findMany()
  * ```
  *
  * 
@@ -275,8 +322,8 @@ export class PrismaClient<
    * @example
    * ```
    * const prisma = new PrismaClient()
-   * // Fetch zero or more Streams
-   * const streams = await prisma.stream.findMany()
+   * // Fetch zero or more PaymentCategories
+   * const paymentCategories = await prisma.paymentCategory.findMany()
    * ```
    *
    * 
@@ -284,7 +331,7 @@ export class PrismaClient<
    */
 
   constructor(optionsArg ?: Prisma.Subset<ClientOptions, Prisma.PrismaClientOptions>);
-  $on<V extends U>(eventType: V, callback: (event: V extends 'query' ? Prisma.QueryEvent : Prisma.LogEvent) => void): void;
+  $on<V extends (U | 'beforeExit')>(eventType: V, callback: (event: V extends 'query' ? Prisma.QueryEvent : V extends 'beforeExit' ? () => $Utils.JsPromise<void> : Prisma.LogEvent) => void): void;
 
   /**
    * Connect with the database
@@ -371,6 +418,36 @@ export class PrismaClient<
   $extends: $Extensions.ExtendsHook<"extends", Prisma.TypeMapCb, ExtArgs>
 
       /**
+   * `prisma.paymentCategory`: Exposes CRUD operations for the **PaymentCategory** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more PaymentCategories
+    * const paymentCategories = await prisma.paymentCategory.findMany()
+    * ```
+    */
+  get paymentCategory(): Prisma.PaymentCategoryDelegate<ExtArgs>;
+
+  /**
+   * `prisma.paymentMetadata`: Exposes CRUD operations for the **PaymentMetadata** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more PaymentMetadata
+    * const paymentMetadata = await prisma.paymentMetadata.findMany()
+    * ```
+    */
+  get paymentMetadata(): Prisma.PaymentMetadataDelegate<ExtArgs>;
+
+  /**
+   * `prisma.paymentCategoryRule`: Exposes CRUD operations for the **PaymentCategoryRule** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more PaymentCategoryRules
+    * const paymentCategoryRules = await prisma.paymentCategoryRule.findMany()
+    * ```
+    */
+  get paymentCategoryRule(): Prisma.PaymentCategoryRuleDelegate<ExtArgs>;
+
+  /**
    * `prisma.stream`: Exposes CRUD operations for the **Stream** model.
     * Example usage:
     * ```ts
@@ -481,6 +558,16 @@ export class PrismaClient<
   get proposal(): Prisma.ProposalDelegate<ExtArgs>;
 
   /**
+   * `prisma.event`: Exposes CRUD operations for the **Event** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Events
+    * const events = await prisma.event.findMany()
+    * ```
+    */
+  get event(): Prisma.EventDelegate<ExtArgs>;
+
+  /**
    * `prisma.organizationMember`: Exposes CRUD operations for the **OrganizationMember** model.
     * Example usage:
     * ```ts
@@ -509,6 +596,26 @@ export class PrismaClient<
     * ```
     */
   get ledgerHash(): Prisma.LedgerHashDelegate<ExtArgs>;
+
+  /**
+   * `prisma.syncMetadata`: Exposes CRUD operations for the **SyncMetadata** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more SyncMetadata
+    * const syncMetadata = await prisma.syncMetadata.findMany()
+    * ```
+    */
+  get syncMetadata(): Prisma.SyncMetadataDelegate<ExtArgs>;
+
+  /**
+   * `prisma.clawbackHistory`: Exposes CRUD operations for the **ClawbackHistory** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ClawbackHistories
+    * const clawbackHistories = await prisma.clawbackHistory.findMany()
+    * ```
+    */
+  get clawbackHistory(): Prisma.ClawbackHistoryDelegate<ExtArgs>;
 
   /**
    * `prisma.notificationSubscription`: Exposes CRUD operations for the **NotificationSubscription** model.
@@ -601,6 +708,16 @@ export class PrismaClient<
   get assetConfig(): Prisma.AssetConfigDelegate<ExtArgs>;
 
   /**
+   * `prisma.archivedDisbursement`: Exposes CRUD operations for the **ArchivedDisbursement** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ArchivedDisbursements
+    * const archivedDisbursements = await prisma.archivedDisbursement.findMany()
+    * ```
+    */
+  get archivedDisbursement(): Prisma.ArchivedDisbursementDelegate<ExtArgs>;
+
+  /**
    * `prisma.disbursement`: Exposes CRUD operations for the **Disbursement** model.
     * Example usage:
     * ```ts
@@ -609,16 +726,6 @@ export class PrismaClient<
     * ```
     */
   get disbursement(): Prisma.DisbursementDelegate<ExtArgs>;
-
-  /**
-   * `prisma.splitRecipient`: Exposes CRUD operations for the **SplitRecipient** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more SplitRecipients
-    * const splitRecipients = await prisma.splitRecipient.findMany()
-    * ```
-    */
-  get splitRecipient(): Prisma.SplitRecipientDelegate<ExtArgs>;
 
   /**
    * `prisma.assetMapping`: Exposes CRUD operations for the **AssetMapping** model.
@@ -711,6 +818,16 @@ export class PrismaClient<
   get cachedAsset(): Prisma.CachedAssetDelegate<ExtArgs>;
 
   /**
+   * `prisma.streamTemplate`: Exposes CRUD operations for the **StreamTemplate** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more StreamTemplates
+    * const streamTemplates = await prisma.streamTemplate.findMany()
+    * ```
+    */
+  get streamTemplate(): Prisma.StreamTemplateDelegate<ExtArgs>;
+
+  /**
    * `prisma.splitLink`: Exposes CRUD operations for the **SplitLink** model.
     * Example usage:
     * ```ts
@@ -719,6 +836,26 @@ export class PrismaClient<
     * ```
     */
   get splitLink(): Prisma.SplitLinkDelegate<ExtArgs>;
+
+  /**
+   * `prisma.ofacAuditLog`: Exposes CRUD operations for the **OfacAuditLog** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more OfacAuditLogs
+    * const ofacAuditLogs = await prisma.ofacAuditLog.findMany()
+    * ```
+    */
+  get ofacAuditLog(): Prisma.OfacAuditLogDelegate<ExtArgs>;
+
+  /**
+   * `prisma.adminAuditLog`: Exposes CRUD operations for the **AdminAuditLog** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more AdminAuditLogs
+    * const adminAuditLogs = await prisma.adminAuditLog.findMany()
+    * ```
+    */
+  get adminAuditLog(): Prisma.AdminAuditLogDelegate<ExtArgs>;
 }
 
 export namespace Prisma {
@@ -1160,6 +1297,9 @@ export namespace Prisma {
 
 
   export const ModelName: {
+    PaymentCategory: 'PaymentCategory',
+    PaymentMetadata: 'PaymentMetadata',
+    PaymentCategoryRule: 'PaymentCategoryRule',
     Stream: 'Stream',
     ContractEvent: 'ContractEvent',
     TokenPrice: 'TokenPrice',
@@ -1171,9 +1311,12 @@ export namespace Prisma {
     StreamArchive: 'StreamArchive',
     BridgeLog: 'BridgeLog',
     Proposal: 'Proposal',
+    Event: 'Event',
     OrganizationMember: 'OrganizationMember',
     ApiKey: 'ApiKey',
     LedgerHash: 'LedgerHash',
+    SyncMetadata: 'SyncMetadata',
+    ClawbackHistory: 'ClawbackHistory',
     NotificationSubscription: 'NotificationSubscription',
     InvoiceLink: 'InvoiceLink',
     Affiliate: 'Affiliate',
@@ -1183,8 +1326,8 @@ export namespace Prisma {
     Asset: 'Asset',
     AutopilotSchedule: 'AutopilotSchedule',
     AssetConfig: 'AssetConfig',
+    ArchivedDisbursement: 'ArchivedDisbursement',
     Disbursement: 'Disbursement',
-    SplitRecipient: 'SplitRecipient',
     AssetMapping: 'AssetMapping',
     PriceHistory: 'PriceHistory',
     ProtocolInefficiencyReport: 'ProtocolInefficiencyReport',
@@ -1194,7 +1337,10 @@ export namespace Prisma {
     DisbursementDraftVersion: 'DisbursementDraftVersion',
     MultisigProposal: 'MultisigProposal',
     CachedAsset: 'CachedAsset',
-    SplitLink: 'SplitLink'
+    StreamTemplate: 'StreamTemplate',
+    SplitLink: 'SplitLink',
+    OfacAuditLog: 'OfacAuditLog',
+    AdminAuditLog: 'AdminAuditLog'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1210,10 +1356,220 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, ClientOptions = {}> = {
     meta: {
-      modelProps: "stream" | "contractEvent" | "tokenPrice" | "webhook" | "webhookDelivery" | "syncState" | "eventLog" | "streamSnapshot" | "streamArchive" | "bridgeLog" | "proposal" | "organizationMember" | "apiKey" | "ledgerHash" | "notificationSubscription" | "invoiceLink" | "affiliate" | "globalStats" | "globalStats_V3" | "tvlSnapshot" | "asset" | "autopilotSchedule" | "assetConfig" | "disbursement" | "splitRecipient" | "assetMapping" | "priceHistory" | "protocolInefficiencyReport" | "splitLog" | "monitoredTransaction" | "disbursementDraft" | "disbursementDraftVersion" | "multisigProposal" | "cachedAsset" | "splitLink"
+      modelProps: "paymentCategory" | "paymentMetadata" | "paymentCategoryRule" | "stream" | "contractEvent" | "tokenPrice" | "webhook" | "webhookDelivery" | "syncState" | "eventLog" | "streamSnapshot" | "streamArchive" | "bridgeLog" | "proposal" | "event" | "organizationMember" | "apiKey" | "ledgerHash" | "syncMetadata" | "clawbackHistory" | "notificationSubscription" | "invoiceLink" | "affiliate" | "globalStats" | "globalStats_V3" | "tvlSnapshot" | "asset" | "autopilotSchedule" | "assetConfig" | "archivedDisbursement" | "disbursement" | "assetMapping" | "priceHistory" | "protocolInefficiencyReport" | "splitLog" | "monitoredTransaction" | "disbursementDraft" | "disbursementDraftVersion" | "multisigProposal" | "cachedAsset" | "streamTemplate" | "splitLink" | "ofacAuditLog" | "adminAuditLog"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
+      PaymentCategory: {
+        payload: Prisma.$PaymentCategoryPayload<ExtArgs>
+        fields: Prisma.PaymentCategoryFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.PaymentCategoryFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentCategoryPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.PaymentCategoryFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentCategoryPayload>
+          }
+          findFirst: {
+            args: Prisma.PaymentCategoryFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentCategoryPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.PaymentCategoryFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentCategoryPayload>
+          }
+          findMany: {
+            args: Prisma.PaymentCategoryFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentCategoryPayload>[]
+          }
+          create: {
+            args: Prisma.PaymentCategoryCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentCategoryPayload>
+          }
+          createMany: {
+            args: Prisma.PaymentCategoryCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.PaymentCategoryCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentCategoryPayload>[]
+          }
+          delete: {
+            args: Prisma.PaymentCategoryDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentCategoryPayload>
+          }
+          update: {
+            args: Prisma.PaymentCategoryUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentCategoryPayload>
+          }
+          deleteMany: {
+            args: Prisma.PaymentCategoryDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.PaymentCategoryUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.PaymentCategoryUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentCategoryPayload>
+          }
+          aggregate: {
+            args: Prisma.PaymentCategoryAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregatePaymentCategory>
+          }
+          groupBy: {
+            args: Prisma.PaymentCategoryGroupByArgs<ExtArgs>
+            result: $Utils.Optional<PaymentCategoryGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.PaymentCategoryCountArgs<ExtArgs>
+            result: $Utils.Optional<PaymentCategoryCountAggregateOutputType> | number
+          }
+        }
+      }
+      PaymentMetadata: {
+        payload: Prisma.$PaymentMetadataPayload<ExtArgs>
+        fields: Prisma.PaymentMetadataFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.PaymentMetadataFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentMetadataPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.PaymentMetadataFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentMetadataPayload>
+          }
+          findFirst: {
+            args: Prisma.PaymentMetadataFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentMetadataPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.PaymentMetadataFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentMetadataPayload>
+          }
+          findMany: {
+            args: Prisma.PaymentMetadataFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentMetadataPayload>[]
+          }
+          create: {
+            args: Prisma.PaymentMetadataCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentMetadataPayload>
+          }
+          createMany: {
+            args: Prisma.PaymentMetadataCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.PaymentMetadataCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentMetadataPayload>[]
+          }
+          delete: {
+            args: Prisma.PaymentMetadataDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentMetadataPayload>
+          }
+          update: {
+            args: Prisma.PaymentMetadataUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentMetadataPayload>
+          }
+          deleteMany: {
+            args: Prisma.PaymentMetadataDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.PaymentMetadataUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.PaymentMetadataUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentMetadataPayload>
+          }
+          aggregate: {
+            args: Prisma.PaymentMetadataAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregatePaymentMetadata>
+          }
+          groupBy: {
+            args: Prisma.PaymentMetadataGroupByArgs<ExtArgs>
+            result: $Utils.Optional<PaymentMetadataGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.PaymentMetadataCountArgs<ExtArgs>
+            result: $Utils.Optional<PaymentMetadataCountAggregateOutputType> | number
+          }
+        }
+      }
+      PaymentCategoryRule: {
+        payload: Prisma.$PaymentCategoryRulePayload<ExtArgs>
+        fields: Prisma.PaymentCategoryRuleFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.PaymentCategoryRuleFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentCategoryRulePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.PaymentCategoryRuleFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentCategoryRulePayload>
+          }
+          findFirst: {
+            args: Prisma.PaymentCategoryRuleFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentCategoryRulePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.PaymentCategoryRuleFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentCategoryRulePayload>
+          }
+          findMany: {
+            args: Prisma.PaymentCategoryRuleFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentCategoryRulePayload>[]
+          }
+          create: {
+            args: Prisma.PaymentCategoryRuleCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentCategoryRulePayload>
+          }
+          createMany: {
+            args: Prisma.PaymentCategoryRuleCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.PaymentCategoryRuleCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentCategoryRulePayload>[]
+          }
+          delete: {
+            args: Prisma.PaymentCategoryRuleDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentCategoryRulePayload>
+          }
+          update: {
+            args: Prisma.PaymentCategoryRuleUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentCategoryRulePayload>
+          }
+          deleteMany: {
+            args: Prisma.PaymentCategoryRuleDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.PaymentCategoryRuleUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.PaymentCategoryRuleUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentCategoryRulePayload>
+          }
+          aggregate: {
+            args: Prisma.PaymentCategoryRuleAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregatePaymentCategoryRule>
+          }
+          groupBy: {
+            args: Prisma.PaymentCategoryRuleGroupByArgs<ExtArgs>
+            result: $Utils.Optional<PaymentCategoryRuleGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.PaymentCategoryRuleCountArgs<ExtArgs>
+            result: $Utils.Optional<PaymentCategoryRuleCountAggregateOutputType> | number
+          }
+        }
+      }
       Stream: {
         payload: Prisma.$StreamPayload<ExtArgs>
         fields: Prisma.StreamFieldRefs
@@ -1984,6 +2340,76 @@ export namespace Prisma {
           }
         }
       }
+      Event: {
+        payload: Prisma.$EventPayload<ExtArgs>
+        fields: Prisma.EventFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.EventFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EventPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.EventFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EventPayload>
+          }
+          findFirst: {
+            args: Prisma.EventFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EventPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.EventFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EventPayload>
+          }
+          findMany: {
+            args: Prisma.EventFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EventPayload>[]
+          }
+          create: {
+            args: Prisma.EventCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EventPayload>
+          }
+          createMany: {
+            args: Prisma.EventCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.EventCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EventPayload>[]
+          }
+          delete: {
+            args: Prisma.EventDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EventPayload>
+          }
+          update: {
+            args: Prisma.EventUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EventPayload>
+          }
+          deleteMany: {
+            args: Prisma.EventDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.EventUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.EventUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EventPayload>
+          }
+          aggregate: {
+            args: Prisma.EventAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateEvent>
+          }
+          groupBy: {
+            args: Prisma.EventGroupByArgs<ExtArgs>
+            result: $Utils.Optional<EventGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.EventCountArgs<ExtArgs>
+            result: $Utils.Optional<EventCountAggregateOutputType> | number
+          }
+        }
+      }
       OrganizationMember: {
         payload: Prisma.$OrganizationMemberPayload<ExtArgs>
         fields: Prisma.OrganizationMemberFieldRefs
@@ -2191,6 +2617,146 @@ export namespace Prisma {
           count: {
             args: Prisma.LedgerHashCountArgs<ExtArgs>
             result: $Utils.Optional<LedgerHashCountAggregateOutputType> | number
+          }
+        }
+      }
+      SyncMetadata: {
+        payload: Prisma.$SyncMetadataPayload<ExtArgs>
+        fields: Prisma.SyncMetadataFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.SyncMetadataFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SyncMetadataPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.SyncMetadataFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SyncMetadataPayload>
+          }
+          findFirst: {
+            args: Prisma.SyncMetadataFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SyncMetadataPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.SyncMetadataFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SyncMetadataPayload>
+          }
+          findMany: {
+            args: Prisma.SyncMetadataFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SyncMetadataPayload>[]
+          }
+          create: {
+            args: Prisma.SyncMetadataCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SyncMetadataPayload>
+          }
+          createMany: {
+            args: Prisma.SyncMetadataCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.SyncMetadataCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SyncMetadataPayload>[]
+          }
+          delete: {
+            args: Prisma.SyncMetadataDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SyncMetadataPayload>
+          }
+          update: {
+            args: Prisma.SyncMetadataUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SyncMetadataPayload>
+          }
+          deleteMany: {
+            args: Prisma.SyncMetadataDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.SyncMetadataUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.SyncMetadataUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SyncMetadataPayload>
+          }
+          aggregate: {
+            args: Prisma.SyncMetadataAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateSyncMetadata>
+          }
+          groupBy: {
+            args: Prisma.SyncMetadataGroupByArgs<ExtArgs>
+            result: $Utils.Optional<SyncMetadataGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.SyncMetadataCountArgs<ExtArgs>
+            result: $Utils.Optional<SyncMetadataCountAggregateOutputType> | number
+          }
+        }
+      }
+      ClawbackHistory: {
+        payload: Prisma.$ClawbackHistoryPayload<ExtArgs>
+        fields: Prisma.ClawbackHistoryFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ClawbackHistoryFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ClawbackHistoryPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ClawbackHistoryFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ClawbackHistoryPayload>
+          }
+          findFirst: {
+            args: Prisma.ClawbackHistoryFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ClawbackHistoryPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ClawbackHistoryFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ClawbackHistoryPayload>
+          }
+          findMany: {
+            args: Prisma.ClawbackHistoryFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ClawbackHistoryPayload>[]
+          }
+          create: {
+            args: Prisma.ClawbackHistoryCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ClawbackHistoryPayload>
+          }
+          createMany: {
+            args: Prisma.ClawbackHistoryCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ClawbackHistoryCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ClawbackHistoryPayload>[]
+          }
+          delete: {
+            args: Prisma.ClawbackHistoryDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ClawbackHistoryPayload>
+          }
+          update: {
+            args: Prisma.ClawbackHistoryUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ClawbackHistoryPayload>
+          }
+          deleteMany: {
+            args: Prisma.ClawbackHistoryDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ClawbackHistoryUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.ClawbackHistoryUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ClawbackHistoryPayload>
+          }
+          aggregate: {
+            args: Prisma.ClawbackHistoryAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateClawbackHistory>
+          }
+          groupBy: {
+            args: Prisma.ClawbackHistoryGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ClawbackHistoryGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ClawbackHistoryCountArgs<ExtArgs>
+            result: $Utils.Optional<ClawbackHistoryCountAggregateOutputType> | number
           }
         }
       }
@@ -2824,6 +3390,76 @@ export namespace Prisma {
           }
         }
       }
+      ArchivedDisbursement: {
+        payload: Prisma.$ArchivedDisbursementPayload<ExtArgs>
+        fields: Prisma.ArchivedDisbursementFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ArchivedDisbursementFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ArchivedDisbursementPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ArchivedDisbursementFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ArchivedDisbursementPayload>
+          }
+          findFirst: {
+            args: Prisma.ArchivedDisbursementFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ArchivedDisbursementPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ArchivedDisbursementFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ArchivedDisbursementPayload>
+          }
+          findMany: {
+            args: Prisma.ArchivedDisbursementFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ArchivedDisbursementPayload>[]
+          }
+          create: {
+            args: Prisma.ArchivedDisbursementCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ArchivedDisbursementPayload>
+          }
+          createMany: {
+            args: Prisma.ArchivedDisbursementCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ArchivedDisbursementCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ArchivedDisbursementPayload>[]
+          }
+          delete: {
+            args: Prisma.ArchivedDisbursementDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ArchivedDisbursementPayload>
+          }
+          update: {
+            args: Prisma.ArchivedDisbursementUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ArchivedDisbursementPayload>
+          }
+          deleteMany: {
+            args: Prisma.ArchivedDisbursementDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ArchivedDisbursementUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.ArchivedDisbursementUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ArchivedDisbursementPayload>
+          }
+          aggregate: {
+            args: Prisma.ArchivedDisbursementAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateArchivedDisbursement>
+          }
+          groupBy: {
+            args: Prisma.ArchivedDisbursementGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ArchivedDisbursementGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ArchivedDisbursementCountArgs<ExtArgs>
+            result: $Utils.Optional<ArchivedDisbursementCountAggregateOutputType> | number
+          }
+        }
+      }
       Disbursement: {
         payload: Prisma.$DisbursementPayload<ExtArgs>
         fields: Prisma.DisbursementFieldRefs
@@ -2891,76 +3527,6 @@ export namespace Prisma {
           count: {
             args: Prisma.DisbursementCountArgs<ExtArgs>
             result: $Utils.Optional<DisbursementCountAggregateOutputType> | number
-          }
-        }
-      }
-      SplitRecipient: {
-        payload: Prisma.$SplitRecipientPayload<ExtArgs>
-        fields: Prisma.SplitRecipientFieldRefs
-        operations: {
-          findUnique: {
-            args: Prisma.SplitRecipientFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$SplitRecipientPayload> | null
-          }
-          findUniqueOrThrow: {
-            args: Prisma.SplitRecipientFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$SplitRecipientPayload>
-          }
-          findFirst: {
-            args: Prisma.SplitRecipientFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$SplitRecipientPayload> | null
-          }
-          findFirstOrThrow: {
-            args: Prisma.SplitRecipientFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$SplitRecipientPayload>
-          }
-          findMany: {
-            args: Prisma.SplitRecipientFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$SplitRecipientPayload>[]
-          }
-          create: {
-            args: Prisma.SplitRecipientCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$SplitRecipientPayload>
-          }
-          createMany: {
-            args: Prisma.SplitRecipientCreateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          createManyAndReturn: {
-            args: Prisma.SplitRecipientCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$SplitRecipientPayload>[]
-          }
-          delete: {
-            args: Prisma.SplitRecipientDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$SplitRecipientPayload>
-          }
-          update: {
-            args: Prisma.SplitRecipientUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$SplitRecipientPayload>
-          }
-          deleteMany: {
-            args: Prisma.SplitRecipientDeleteManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          updateMany: {
-            args: Prisma.SplitRecipientUpdateManyArgs<ExtArgs>
-            result: BatchPayload
-          }
-          upsert: {
-            args: Prisma.SplitRecipientUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$SplitRecipientPayload>
-          }
-          aggregate: {
-            args: Prisma.SplitRecipientAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateSplitRecipient>
-          }
-          groupBy: {
-            args: Prisma.SplitRecipientGroupByArgs<ExtArgs>
-            result: $Utils.Optional<SplitRecipientGroupByOutputType>[]
-          }
-          count: {
-            args: Prisma.SplitRecipientCountArgs<ExtArgs>
-            result: $Utils.Optional<SplitRecipientCountAggregateOutputType> | number
           }
         }
       }
@@ -3594,6 +4160,76 @@ export namespace Prisma {
           }
         }
       }
+      StreamTemplate: {
+        payload: Prisma.$StreamTemplatePayload<ExtArgs>
+        fields: Prisma.StreamTemplateFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.StreamTemplateFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StreamTemplatePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.StreamTemplateFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StreamTemplatePayload>
+          }
+          findFirst: {
+            args: Prisma.StreamTemplateFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StreamTemplatePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.StreamTemplateFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StreamTemplatePayload>
+          }
+          findMany: {
+            args: Prisma.StreamTemplateFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StreamTemplatePayload>[]
+          }
+          create: {
+            args: Prisma.StreamTemplateCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StreamTemplatePayload>
+          }
+          createMany: {
+            args: Prisma.StreamTemplateCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.StreamTemplateCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StreamTemplatePayload>[]
+          }
+          delete: {
+            args: Prisma.StreamTemplateDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StreamTemplatePayload>
+          }
+          update: {
+            args: Prisma.StreamTemplateUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StreamTemplatePayload>
+          }
+          deleteMany: {
+            args: Prisma.StreamTemplateDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.StreamTemplateUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.StreamTemplateUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$StreamTemplatePayload>
+          }
+          aggregate: {
+            args: Prisma.StreamTemplateAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateStreamTemplate>
+          }
+          groupBy: {
+            args: Prisma.StreamTemplateGroupByArgs<ExtArgs>
+            result: $Utils.Optional<StreamTemplateGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.StreamTemplateCountArgs<ExtArgs>
+            result: $Utils.Optional<StreamTemplateCountAggregateOutputType> | number
+          }
+        }
+      }
       SplitLink: {
         payload: Prisma.$SplitLinkPayload<ExtArgs>
         fields: Prisma.SplitLinkFieldRefs
@@ -3661,6 +4297,146 @@ export namespace Prisma {
           count: {
             args: Prisma.SplitLinkCountArgs<ExtArgs>
             result: $Utils.Optional<SplitLinkCountAggregateOutputType> | number
+          }
+        }
+      }
+      OfacAuditLog: {
+        payload: Prisma.$OfacAuditLogPayload<ExtArgs>
+        fields: Prisma.OfacAuditLogFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.OfacAuditLogFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OfacAuditLogPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.OfacAuditLogFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OfacAuditLogPayload>
+          }
+          findFirst: {
+            args: Prisma.OfacAuditLogFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OfacAuditLogPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.OfacAuditLogFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OfacAuditLogPayload>
+          }
+          findMany: {
+            args: Prisma.OfacAuditLogFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OfacAuditLogPayload>[]
+          }
+          create: {
+            args: Prisma.OfacAuditLogCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OfacAuditLogPayload>
+          }
+          createMany: {
+            args: Prisma.OfacAuditLogCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.OfacAuditLogCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OfacAuditLogPayload>[]
+          }
+          delete: {
+            args: Prisma.OfacAuditLogDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OfacAuditLogPayload>
+          }
+          update: {
+            args: Prisma.OfacAuditLogUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OfacAuditLogPayload>
+          }
+          deleteMany: {
+            args: Prisma.OfacAuditLogDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.OfacAuditLogUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.OfacAuditLogUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$OfacAuditLogPayload>
+          }
+          aggregate: {
+            args: Prisma.OfacAuditLogAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateOfacAuditLog>
+          }
+          groupBy: {
+            args: Prisma.OfacAuditLogGroupByArgs<ExtArgs>
+            result: $Utils.Optional<OfacAuditLogGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.OfacAuditLogCountArgs<ExtArgs>
+            result: $Utils.Optional<OfacAuditLogCountAggregateOutputType> | number
+          }
+        }
+      }
+      AdminAuditLog: {
+        payload: Prisma.$AdminAuditLogPayload<ExtArgs>
+        fields: Prisma.AdminAuditLogFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.AdminAuditLogFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AdminAuditLogPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.AdminAuditLogFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AdminAuditLogPayload>
+          }
+          findFirst: {
+            args: Prisma.AdminAuditLogFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AdminAuditLogPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.AdminAuditLogFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AdminAuditLogPayload>
+          }
+          findMany: {
+            args: Prisma.AdminAuditLogFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AdminAuditLogPayload>[]
+          }
+          create: {
+            args: Prisma.AdminAuditLogCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AdminAuditLogPayload>
+          }
+          createMany: {
+            args: Prisma.AdminAuditLogCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.AdminAuditLogCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AdminAuditLogPayload>[]
+          }
+          delete: {
+            args: Prisma.AdminAuditLogDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AdminAuditLogPayload>
+          }
+          update: {
+            args: Prisma.AdminAuditLogUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AdminAuditLogPayload>
+          }
+          deleteMany: {
+            args: Prisma.AdminAuditLogDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.AdminAuditLogUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.AdminAuditLogUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AdminAuditLogPayload>
+          }
+          aggregate: {
+            args: Prisma.AdminAuditLogAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateAdminAuditLog>
+          }
+          groupBy: {
+            args: Prisma.AdminAuditLogGroupByArgs<ExtArgs>
+            result: $Utils.Optional<AdminAuditLogGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.AdminAuditLogCountArgs<ExtArgs>
+            result: $Utils.Optional<AdminAuditLogCountAggregateOutputType> | number
           }
         }
       }
@@ -3821,33 +4597,51 @@ export namespace Prisma {
 
 
   /**
-   * Count Type DisbursementCountOutputType
+   * Count Type PaymentCategoryCountOutputType
    */
 
-  export type DisbursementCountOutputType = {
-    recipients: number
+  export type PaymentCategoryCountOutputType = {
+    rules: number
+    streams: number
+    disbursements: number
   }
 
-  export type DisbursementCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    recipients?: boolean | DisbursementCountOutputTypeCountRecipientsArgs
+  export type PaymentCategoryCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    rules?: boolean | PaymentCategoryCountOutputTypeCountRulesArgs
+    streams?: boolean | PaymentCategoryCountOutputTypeCountStreamsArgs
+    disbursements?: boolean | PaymentCategoryCountOutputTypeCountDisbursementsArgs
   }
 
   // Custom InputTypes
   /**
-   * DisbursementCountOutputType without action
+   * PaymentCategoryCountOutputType without action
    */
-  export type DisbursementCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type PaymentCategoryCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the DisbursementCountOutputType
+     * Select specific fields to fetch from the PaymentCategoryCountOutputType
      */
-    select?: DisbursementCountOutputTypeSelect<ExtArgs> | null
+    select?: PaymentCategoryCountOutputTypeSelect<ExtArgs> | null
   }
 
   /**
-   * DisbursementCountOutputType without action
+   * PaymentCategoryCountOutputType without action
    */
-  export type DisbursementCountOutputTypeCountRecipientsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: SplitRecipientWhereInput
+  export type PaymentCategoryCountOutputTypeCountRulesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PaymentCategoryRuleWhereInput
+  }
+
+  /**
+   * PaymentCategoryCountOutputType without action
+   */
+  export type PaymentCategoryCountOutputTypeCountStreamsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: StreamWhereInput
+  }
+
+  /**
+   * PaymentCategoryCountOutputType without action
+   */
+  export type PaymentCategoryCountOutputTypeCountDisbursementsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DisbursementWhereInput
   }
 
 
@@ -3885,6 +4679,2955 @@ export namespace Prisma {
   /**
    * Models
    */
+
+  /**
+   * Model PaymentCategory
+   */
+
+  export type AggregatePaymentCategory = {
+    _count: PaymentCategoryCountAggregateOutputType | null
+    _min: PaymentCategoryMinAggregateOutputType | null
+    _max: PaymentCategoryMaxAggregateOutputType | null
+  }
+
+  export type PaymentCategoryMinAggregateOutputType = {
+    id: string | null
+    name: string | null
+    description: string | null
+    color: string | null
+    icon: string | null
+    ownerAddress: string | null
+    isDefault: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type PaymentCategoryMaxAggregateOutputType = {
+    id: string | null
+    name: string | null
+    description: string | null
+    color: string | null
+    icon: string | null
+    ownerAddress: string | null
+    isDefault: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type PaymentCategoryCountAggregateOutputType = {
+    id: number
+    name: number
+    description: number
+    color: number
+    icon: number
+    ownerAddress: number
+    isDefault: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type PaymentCategoryMinAggregateInputType = {
+    id?: true
+    name?: true
+    description?: true
+    color?: true
+    icon?: true
+    ownerAddress?: true
+    isDefault?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type PaymentCategoryMaxAggregateInputType = {
+    id?: true
+    name?: true
+    description?: true
+    color?: true
+    icon?: true
+    ownerAddress?: true
+    isDefault?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type PaymentCategoryCountAggregateInputType = {
+    id?: true
+    name?: true
+    description?: true
+    color?: true
+    icon?: true
+    ownerAddress?: true
+    isDefault?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type PaymentCategoryAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PaymentCategory to aggregate.
+     */
+    where?: PaymentCategoryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PaymentCategories to fetch.
+     */
+    orderBy?: PaymentCategoryOrderByWithRelationInput | PaymentCategoryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: PaymentCategoryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PaymentCategories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PaymentCategories.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned PaymentCategories
+    **/
+    _count?: true | PaymentCategoryCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: PaymentCategoryMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: PaymentCategoryMaxAggregateInputType
+  }
+
+  export type GetPaymentCategoryAggregateType<T extends PaymentCategoryAggregateArgs> = {
+        [P in keyof T & keyof AggregatePaymentCategory]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregatePaymentCategory[P]>
+      : GetScalarType<T[P], AggregatePaymentCategory[P]>
+  }
+
+
+
+
+  export type PaymentCategoryGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PaymentCategoryWhereInput
+    orderBy?: PaymentCategoryOrderByWithAggregationInput | PaymentCategoryOrderByWithAggregationInput[]
+    by: PaymentCategoryScalarFieldEnum[] | PaymentCategoryScalarFieldEnum
+    having?: PaymentCategoryScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: PaymentCategoryCountAggregateInputType | true
+    _min?: PaymentCategoryMinAggregateInputType
+    _max?: PaymentCategoryMaxAggregateInputType
+  }
+
+  export type PaymentCategoryGroupByOutputType = {
+    id: string
+    name: string
+    description: string | null
+    color: string
+    icon: string | null
+    ownerAddress: string
+    isDefault: boolean
+    createdAt: Date
+    updatedAt: Date
+    _count: PaymentCategoryCountAggregateOutputType | null
+    _min: PaymentCategoryMinAggregateOutputType | null
+    _max: PaymentCategoryMaxAggregateOutputType | null
+  }
+
+  type GetPaymentCategoryGroupByPayload<T extends PaymentCategoryGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<PaymentCategoryGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof PaymentCategoryGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], PaymentCategoryGroupByOutputType[P]>
+            : GetScalarType<T[P], PaymentCategoryGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type PaymentCategorySelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    description?: boolean
+    color?: boolean
+    icon?: boolean
+    ownerAddress?: boolean
+    isDefault?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    rules?: boolean | PaymentCategory$rulesArgs<ExtArgs>
+    streams?: boolean | PaymentCategory$streamsArgs<ExtArgs>
+    disbursements?: boolean | PaymentCategory$disbursementsArgs<ExtArgs>
+    _count?: boolean | PaymentCategoryCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["paymentCategory"]>
+
+  export type PaymentCategorySelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    description?: boolean
+    color?: boolean
+    icon?: boolean
+    ownerAddress?: boolean
+    isDefault?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["paymentCategory"]>
+
+  export type PaymentCategorySelectScalar = {
+    id?: boolean
+    name?: boolean
+    description?: boolean
+    color?: boolean
+    icon?: boolean
+    ownerAddress?: boolean
+    isDefault?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type PaymentCategoryInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    rules?: boolean | PaymentCategory$rulesArgs<ExtArgs>
+    streams?: boolean | PaymentCategory$streamsArgs<ExtArgs>
+    disbursements?: boolean | PaymentCategory$disbursementsArgs<ExtArgs>
+    _count?: boolean | PaymentCategoryCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type PaymentCategoryIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+
+  export type $PaymentCategoryPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "PaymentCategory"
+    objects: {
+      rules: Prisma.$PaymentCategoryRulePayload<ExtArgs>[]
+      streams: Prisma.$StreamPayload<ExtArgs>[]
+      disbursements: Prisma.$DisbursementPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      name: string
+      description: string | null
+      color: string
+      icon: string | null
+      ownerAddress: string
+      isDefault: boolean
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["paymentCategory"]>
+    composites: {}
+  }
+
+  type PaymentCategoryGetPayload<S extends boolean | null | undefined | PaymentCategoryDefaultArgs> = $Result.GetResult<Prisma.$PaymentCategoryPayload, S>
+
+  type PaymentCategoryCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<PaymentCategoryFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: PaymentCategoryCountAggregateInputType | true
+    }
+
+  export interface PaymentCategoryDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['PaymentCategory'], meta: { name: 'PaymentCategory' } }
+    /**
+     * Find zero or one PaymentCategory that matches the filter.
+     * @param {PaymentCategoryFindUniqueArgs} args - Arguments to find a PaymentCategory
+     * @example
+     * // Get one PaymentCategory
+     * const paymentCategory = await prisma.paymentCategory.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends PaymentCategoryFindUniqueArgs>(args: SelectSubset<T, PaymentCategoryFindUniqueArgs<ExtArgs>>): Prisma__PaymentCategoryClient<$Result.GetResult<Prisma.$PaymentCategoryPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one PaymentCategory that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {PaymentCategoryFindUniqueOrThrowArgs} args - Arguments to find a PaymentCategory
+     * @example
+     * // Get one PaymentCategory
+     * const paymentCategory = await prisma.paymentCategory.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends PaymentCategoryFindUniqueOrThrowArgs>(args: SelectSubset<T, PaymentCategoryFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PaymentCategoryClient<$Result.GetResult<Prisma.$PaymentCategoryPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first PaymentCategory that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PaymentCategoryFindFirstArgs} args - Arguments to find a PaymentCategory
+     * @example
+     * // Get one PaymentCategory
+     * const paymentCategory = await prisma.paymentCategory.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends PaymentCategoryFindFirstArgs>(args?: SelectSubset<T, PaymentCategoryFindFirstArgs<ExtArgs>>): Prisma__PaymentCategoryClient<$Result.GetResult<Prisma.$PaymentCategoryPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first PaymentCategory that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PaymentCategoryFindFirstOrThrowArgs} args - Arguments to find a PaymentCategory
+     * @example
+     * // Get one PaymentCategory
+     * const paymentCategory = await prisma.paymentCategory.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends PaymentCategoryFindFirstOrThrowArgs>(args?: SelectSubset<T, PaymentCategoryFindFirstOrThrowArgs<ExtArgs>>): Prisma__PaymentCategoryClient<$Result.GetResult<Prisma.$PaymentCategoryPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more PaymentCategories that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PaymentCategoryFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all PaymentCategories
+     * const paymentCategories = await prisma.paymentCategory.findMany()
+     * 
+     * // Get first 10 PaymentCategories
+     * const paymentCategories = await prisma.paymentCategory.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const paymentCategoryWithIdOnly = await prisma.paymentCategory.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends PaymentCategoryFindManyArgs>(args?: SelectSubset<T, PaymentCategoryFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PaymentCategoryPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a PaymentCategory.
+     * @param {PaymentCategoryCreateArgs} args - Arguments to create a PaymentCategory.
+     * @example
+     * // Create one PaymentCategory
+     * const PaymentCategory = await prisma.paymentCategory.create({
+     *   data: {
+     *     // ... data to create a PaymentCategory
+     *   }
+     * })
+     * 
+     */
+    create<T extends PaymentCategoryCreateArgs>(args: SelectSubset<T, PaymentCategoryCreateArgs<ExtArgs>>): Prisma__PaymentCategoryClient<$Result.GetResult<Prisma.$PaymentCategoryPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many PaymentCategories.
+     * @param {PaymentCategoryCreateManyArgs} args - Arguments to create many PaymentCategories.
+     * @example
+     * // Create many PaymentCategories
+     * const paymentCategory = await prisma.paymentCategory.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends PaymentCategoryCreateManyArgs>(args?: SelectSubset<T, PaymentCategoryCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many PaymentCategories and returns the data saved in the database.
+     * @param {PaymentCategoryCreateManyAndReturnArgs} args - Arguments to create many PaymentCategories.
+     * @example
+     * // Create many PaymentCategories
+     * const paymentCategory = await prisma.paymentCategory.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many PaymentCategories and only return the `id`
+     * const paymentCategoryWithIdOnly = await prisma.paymentCategory.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends PaymentCategoryCreateManyAndReturnArgs>(args?: SelectSubset<T, PaymentCategoryCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PaymentCategoryPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a PaymentCategory.
+     * @param {PaymentCategoryDeleteArgs} args - Arguments to delete one PaymentCategory.
+     * @example
+     * // Delete one PaymentCategory
+     * const PaymentCategory = await prisma.paymentCategory.delete({
+     *   where: {
+     *     // ... filter to delete one PaymentCategory
+     *   }
+     * })
+     * 
+     */
+    delete<T extends PaymentCategoryDeleteArgs>(args: SelectSubset<T, PaymentCategoryDeleteArgs<ExtArgs>>): Prisma__PaymentCategoryClient<$Result.GetResult<Prisma.$PaymentCategoryPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one PaymentCategory.
+     * @param {PaymentCategoryUpdateArgs} args - Arguments to update one PaymentCategory.
+     * @example
+     * // Update one PaymentCategory
+     * const paymentCategory = await prisma.paymentCategory.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends PaymentCategoryUpdateArgs>(args: SelectSubset<T, PaymentCategoryUpdateArgs<ExtArgs>>): Prisma__PaymentCategoryClient<$Result.GetResult<Prisma.$PaymentCategoryPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more PaymentCategories.
+     * @param {PaymentCategoryDeleteManyArgs} args - Arguments to filter PaymentCategories to delete.
+     * @example
+     * // Delete a few PaymentCategories
+     * const { count } = await prisma.paymentCategory.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends PaymentCategoryDeleteManyArgs>(args?: SelectSubset<T, PaymentCategoryDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PaymentCategories.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PaymentCategoryUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many PaymentCategories
+     * const paymentCategory = await prisma.paymentCategory.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends PaymentCategoryUpdateManyArgs>(args: SelectSubset<T, PaymentCategoryUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one PaymentCategory.
+     * @param {PaymentCategoryUpsertArgs} args - Arguments to update or create a PaymentCategory.
+     * @example
+     * // Update or create a PaymentCategory
+     * const paymentCategory = await prisma.paymentCategory.upsert({
+     *   create: {
+     *     // ... data to create a PaymentCategory
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the PaymentCategory we want to update
+     *   }
+     * })
+     */
+    upsert<T extends PaymentCategoryUpsertArgs>(args: SelectSubset<T, PaymentCategoryUpsertArgs<ExtArgs>>): Prisma__PaymentCategoryClient<$Result.GetResult<Prisma.$PaymentCategoryPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of PaymentCategories.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PaymentCategoryCountArgs} args - Arguments to filter PaymentCategories to count.
+     * @example
+     * // Count the number of PaymentCategories
+     * const count = await prisma.paymentCategory.count({
+     *   where: {
+     *     // ... the filter for the PaymentCategories we want to count
+     *   }
+     * })
+    **/
+    count<T extends PaymentCategoryCountArgs>(
+      args?: Subset<T, PaymentCategoryCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], PaymentCategoryCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a PaymentCategory.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PaymentCategoryAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends PaymentCategoryAggregateArgs>(args: Subset<T, PaymentCategoryAggregateArgs>): Prisma.PrismaPromise<GetPaymentCategoryAggregateType<T>>
+
+    /**
+     * Group by PaymentCategory.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PaymentCategoryGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends PaymentCategoryGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: PaymentCategoryGroupByArgs['orderBy'] }
+        : { orderBy?: PaymentCategoryGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, PaymentCategoryGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPaymentCategoryGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the PaymentCategory model
+   */
+  readonly fields: PaymentCategoryFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for PaymentCategory.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__PaymentCategoryClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    rules<T extends PaymentCategory$rulesArgs<ExtArgs> = {}>(args?: Subset<T, PaymentCategory$rulesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PaymentCategoryRulePayload<ExtArgs>, T, "findMany"> | Null>
+    streams<T extends PaymentCategory$streamsArgs<ExtArgs> = {}>(args?: Subset<T, PaymentCategory$streamsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StreamPayload<ExtArgs>, T, "findMany"> | Null>
+    disbursements<T extends PaymentCategory$disbursementsArgs<ExtArgs> = {}>(args?: Subset<T, PaymentCategory$disbursementsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DisbursementPayload<ExtArgs>, T, "findMany"> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the PaymentCategory model
+   */ 
+  interface PaymentCategoryFieldRefs {
+    readonly id: FieldRef<"PaymentCategory", 'String'>
+    readonly name: FieldRef<"PaymentCategory", 'String'>
+    readonly description: FieldRef<"PaymentCategory", 'String'>
+    readonly color: FieldRef<"PaymentCategory", 'String'>
+    readonly icon: FieldRef<"PaymentCategory", 'String'>
+    readonly ownerAddress: FieldRef<"PaymentCategory", 'String'>
+    readonly isDefault: FieldRef<"PaymentCategory", 'Boolean'>
+    readonly createdAt: FieldRef<"PaymentCategory", 'DateTime'>
+    readonly updatedAt: FieldRef<"PaymentCategory", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * PaymentCategory findUnique
+   */
+  export type PaymentCategoryFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentCategory
+     */
+    select?: PaymentCategorySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentCategoryInclude<ExtArgs> | null
+    /**
+     * Filter, which PaymentCategory to fetch.
+     */
+    where: PaymentCategoryWhereUniqueInput
+  }
+
+  /**
+   * PaymentCategory findUniqueOrThrow
+   */
+  export type PaymentCategoryFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentCategory
+     */
+    select?: PaymentCategorySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentCategoryInclude<ExtArgs> | null
+    /**
+     * Filter, which PaymentCategory to fetch.
+     */
+    where: PaymentCategoryWhereUniqueInput
+  }
+
+  /**
+   * PaymentCategory findFirst
+   */
+  export type PaymentCategoryFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentCategory
+     */
+    select?: PaymentCategorySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentCategoryInclude<ExtArgs> | null
+    /**
+     * Filter, which PaymentCategory to fetch.
+     */
+    where?: PaymentCategoryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PaymentCategories to fetch.
+     */
+    orderBy?: PaymentCategoryOrderByWithRelationInput | PaymentCategoryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PaymentCategories.
+     */
+    cursor?: PaymentCategoryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PaymentCategories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PaymentCategories.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PaymentCategories.
+     */
+    distinct?: PaymentCategoryScalarFieldEnum | PaymentCategoryScalarFieldEnum[]
+  }
+
+  /**
+   * PaymentCategory findFirstOrThrow
+   */
+  export type PaymentCategoryFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentCategory
+     */
+    select?: PaymentCategorySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentCategoryInclude<ExtArgs> | null
+    /**
+     * Filter, which PaymentCategory to fetch.
+     */
+    where?: PaymentCategoryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PaymentCategories to fetch.
+     */
+    orderBy?: PaymentCategoryOrderByWithRelationInput | PaymentCategoryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PaymentCategories.
+     */
+    cursor?: PaymentCategoryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PaymentCategories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PaymentCategories.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PaymentCategories.
+     */
+    distinct?: PaymentCategoryScalarFieldEnum | PaymentCategoryScalarFieldEnum[]
+  }
+
+  /**
+   * PaymentCategory findMany
+   */
+  export type PaymentCategoryFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentCategory
+     */
+    select?: PaymentCategorySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentCategoryInclude<ExtArgs> | null
+    /**
+     * Filter, which PaymentCategories to fetch.
+     */
+    where?: PaymentCategoryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PaymentCategories to fetch.
+     */
+    orderBy?: PaymentCategoryOrderByWithRelationInput | PaymentCategoryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing PaymentCategories.
+     */
+    cursor?: PaymentCategoryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PaymentCategories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PaymentCategories.
+     */
+    skip?: number
+    distinct?: PaymentCategoryScalarFieldEnum | PaymentCategoryScalarFieldEnum[]
+  }
+
+  /**
+   * PaymentCategory create
+   */
+  export type PaymentCategoryCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentCategory
+     */
+    select?: PaymentCategorySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentCategoryInclude<ExtArgs> | null
+    /**
+     * The data needed to create a PaymentCategory.
+     */
+    data: XOR<PaymentCategoryCreateInput, PaymentCategoryUncheckedCreateInput>
+  }
+
+  /**
+   * PaymentCategory createMany
+   */
+  export type PaymentCategoryCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many PaymentCategories.
+     */
+    data: PaymentCategoryCreateManyInput | PaymentCategoryCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * PaymentCategory createManyAndReturn
+   */
+  export type PaymentCategoryCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentCategory
+     */
+    select?: PaymentCategorySelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many PaymentCategories.
+     */
+    data: PaymentCategoryCreateManyInput | PaymentCategoryCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * PaymentCategory update
+   */
+  export type PaymentCategoryUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentCategory
+     */
+    select?: PaymentCategorySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentCategoryInclude<ExtArgs> | null
+    /**
+     * The data needed to update a PaymentCategory.
+     */
+    data: XOR<PaymentCategoryUpdateInput, PaymentCategoryUncheckedUpdateInput>
+    /**
+     * Choose, which PaymentCategory to update.
+     */
+    where: PaymentCategoryWhereUniqueInput
+  }
+
+  /**
+   * PaymentCategory updateMany
+   */
+  export type PaymentCategoryUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update PaymentCategories.
+     */
+    data: XOR<PaymentCategoryUpdateManyMutationInput, PaymentCategoryUncheckedUpdateManyInput>
+    /**
+     * Filter which PaymentCategories to update
+     */
+    where?: PaymentCategoryWhereInput
+  }
+
+  /**
+   * PaymentCategory upsert
+   */
+  export type PaymentCategoryUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentCategory
+     */
+    select?: PaymentCategorySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentCategoryInclude<ExtArgs> | null
+    /**
+     * The filter to search for the PaymentCategory to update in case it exists.
+     */
+    where: PaymentCategoryWhereUniqueInput
+    /**
+     * In case the PaymentCategory found by the `where` argument doesn't exist, create a new PaymentCategory with this data.
+     */
+    create: XOR<PaymentCategoryCreateInput, PaymentCategoryUncheckedCreateInput>
+    /**
+     * In case the PaymentCategory was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<PaymentCategoryUpdateInput, PaymentCategoryUncheckedUpdateInput>
+  }
+
+  /**
+   * PaymentCategory delete
+   */
+  export type PaymentCategoryDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentCategory
+     */
+    select?: PaymentCategorySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentCategoryInclude<ExtArgs> | null
+    /**
+     * Filter which PaymentCategory to delete.
+     */
+    where: PaymentCategoryWhereUniqueInput
+  }
+
+  /**
+   * PaymentCategory deleteMany
+   */
+  export type PaymentCategoryDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PaymentCategories to delete
+     */
+    where?: PaymentCategoryWhereInput
+  }
+
+  /**
+   * PaymentCategory.rules
+   */
+  export type PaymentCategory$rulesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentCategoryRule
+     */
+    select?: PaymentCategoryRuleSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentCategoryRuleInclude<ExtArgs> | null
+    where?: PaymentCategoryRuleWhereInput
+    orderBy?: PaymentCategoryRuleOrderByWithRelationInput | PaymentCategoryRuleOrderByWithRelationInput[]
+    cursor?: PaymentCategoryRuleWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PaymentCategoryRuleScalarFieldEnum | PaymentCategoryRuleScalarFieldEnum[]
+  }
+
+  /**
+   * PaymentCategory.streams
+   */
+  export type PaymentCategory$streamsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Stream
+     */
+    select?: StreamSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StreamInclude<ExtArgs> | null
+    where?: StreamWhereInput
+    orderBy?: StreamOrderByWithRelationInput | StreamOrderByWithRelationInput[]
+    cursor?: StreamWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: StreamScalarFieldEnum | StreamScalarFieldEnum[]
+  }
+
+  /**
+   * PaymentCategory.disbursements
+   */
+  export type PaymentCategory$disbursementsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Disbursement
+     */
+    select?: DisbursementSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DisbursementInclude<ExtArgs> | null
+    where?: DisbursementWhereInput
+    orderBy?: DisbursementOrderByWithRelationInput | DisbursementOrderByWithRelationInput[]
+    cursor?: DisbursementWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: DisbursementScalarFieldEnum | DisbursementScalarFieldEnum[]
+  }
+
+  /**
+   * PaymentCategory without action
+   */
+  export type PaymentCategoryDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentCategory
+     */
+    select?: PaymentCategorySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentCategoryInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model PaymentMetadata
+   */
+
+  export type AggregatePaymentMetadata = {
+    _count: PaymentMetadataCountAggregateOutputType | null
+    _min: PaymentMetadataMinAggregateOutputType | null
+    _max: PaymentMetadataMaxAggregateOutputType | null
+  }
+
+  export type PaymentMetadataMinAggregateOutputType = {
+    id: string | null
+    entityType: string | null
+    entityId: string | null
+    key: string | null
+    value: string | null
+    ownerAddress: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type PaymentMetadataMaxAggregateOutputType = {
+    id: string | null
+    entityType: string | null
+    entityId: string | null
+    key: string | null
+    value: string | null
+    ownerAddress: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type PaymentMetadataCountAggregateOutputType = {
+    id: number
+    entityType: number
+    entityId: number
+    key: number
+    value: number
+    ownerAddress: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type PaymentMetadataMinAggregateInputType = {
+    id?: true
+    entityType?: true
+    entityId?: true
+    key?: true
+    value?: true
+    ownerAddress?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type PaymentMetadataMaxAggregateInputType = {
+    id?: true
+    entityType?: true
+    entityId?: true
+    key?: true
+    value?: true
+    ownerAddress?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type PaymentMetadataCountAggregateInputType = {
+    id?: true
+    entityType?: true
+    entityId?: true
+    key?: true
+    value?: true
+    ownerAddress?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type PaymentMetadataAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PaymentMetadata to aggregate.
+     */
+    where?: PaymentMetadataWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PaymentMetadata to fetch.
+     */
+    orderBy?: PaymentMetadataOrderByWithRelationInput | PaymentMetadataOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: PaymentMetadataWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PaymentMetadata from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PaymentMetadata.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned PaymentMetadata
+    **/
+    _count?: true | PaymentMetadataCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: PaymentMetadataMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: PaymentMetadataMaxAggregateInputType
+  }
+
+  export type GetPaymentMetadataAggregateType<T extends PaymentMetadataAggregateArgs> = {
+        [P in keyof T & keyof AggregatePaymentMetadata]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregatePaymentMetadata[P]>
+      : GetScalarType<T[P], AggregatePaymentMetadata[P]>
+  }
+
+
+
+
+  export type PaymentMetadataGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PaymentMetadataWhereInput
+    orderBy?: PaymentMetadataOrderByWithAggregationInput | PaymentMetadataOrderByWithAggregationInput[]
+    by: PaymentMetadataScalarFieldEnum[] | PaymentMetadataScalarFieldEnum
+    having?: PaymentMetadataScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: PaymentMetadataCountAggregateInputType | true
+    _min?: PaymentMetadataMinAggregateInputType
+    _max?: PaymentMetadataMaxAggregateInputType
+  }
+
+  export type PaymentMetadataGroupByOutputType = {
+    id: string
+    entityType: string
+    entityId: string
+    key: string
+    value: string
+    ownerAddress: string
+    createdAt: Date
+    updatedAt: Date
+    _count: PaymentMetadataCountAggregateOutputType | null
+    _min: PaymentMetadataMinAggregateOutputType | null
+    _max: PaymentMetadataMaxAggregateOutputType | null
+  }
+
+  type GetPaymentMetadataGroupByPayload<T extends PaymentMetadataGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<PaymentMetadataGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof PaymentMetadataGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], PaymentMetadataGroupByOutputType[P]>
+            : GetScalarType<T[P], PaymentMetadataGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type PaymentMetadataSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    entityType?: boolean
+    entityId?: boolean
+    key?: boolean
+    value?: boolean
+    ownerAddress?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["paymentMetadata"]>
+
+  export type PaymentMetadataSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    entityType?: boolean
+    entityId?: boolean
+    key?: boolean
+    value?: boolean
+    ownerAddress?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["paymentMetadata"]>
+
+  export type PaymentMetadataSelectScalar = {
+    id?: boolean
+    entityType?: boolean
+    entityId?: boolean
+    key?: boolean
+    value?: boolean
+    ownerAddress?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+
+  export type $PaymentMetadataPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "PaymentMetadata"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      entityType: string
+      entityId: string
+      key: string
+      value: string
+      ownerAddress: string
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["paymentMetadata"]>
+    composites: {}
+  }
+
+  type PaymentMetadataGetPayload<S extends boolean | null | undefined | PaymentMetadataDefaultArgs> = $Result.GetResult<Prisma.$PaymentMetadataPayload, S>
+
+  type PaymentMetadataCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<PaymentMetadataFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: PaymentMetadataCountAggregateInputType | true
+    }
+
+  export interface PaymentMetadataDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['PaymentMetadata'], meta: { name: 'PaymentMetadata' } }
+    /**
+     * Find zero or one PaymentMetadata that matches the filter.
+     * @param {PaymentMetadataFindUniqueArgs} args - Arguments to find a PaymentMetadata
+     * @example
+     * // Get one PaymentMetadata
+     * const paymentMetadata = await prisma.paymentMetadata.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends PaymentMetadataFindUniqueArgs>(args: SelectSubset<T, PaymentMetadataFindUniqueArgs<ExtArgs>>): Prisma__PaymentMetadataClient<$Result.GetResult<Prisma.$PaymentMetadataPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one PaymentMetadata that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {PaymentMetadataFindUniqueOrThrowArgs} args - Arguments to find a PaymentMetadata
+     * @example
+     * // Get one PaymentMetadata
+     * const paymentMetadata = await prisma.paymentMetadata.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends PaymentMetadataFindUniqueOrThrowArgs>(args: SelectSubset<T, PaymentMetadataFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PaymentMetadataClient<$Result.GetResult<Prisma.$PaymentMetadataPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first PaymentMetadata that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PaymentMetadataFindFirstArgs} args - Arguments to find a PaymentMetadata
+     * @example
+     * // Get one PaymentMetadata
+     * const paymentMetadata = await prisma.paymentMetadata.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends PaymentMetadataFindFirstArgs>(args?: SelectSubset<T, PaymentMetadataFindFirstArgs<ExtArgs>>): Prisma__PaymentMetadataClient<$Result.GetResult<Prisma.$PaymentMetadataPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first PaymentMetadata that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PaymentMetadataFindFirstOrThrowArgs} args - Arguments to find a PaymentMetadata
+     * @example
+     * // Get one PaymentMetadata
+     * const paymentMetadata = await prisma.paymentMetadata.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends PaymentMetadataFindFirstOrThrowArgs>(args?: SelectSubset<T, PaymentMetadataFindFirstOrThrowArgs<ExtArgs>>): Prisma__PaymentMetadataClient<$Result.GetResult<Prisma.$PaymentMetadataPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more PaymentMetadata that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PaymentMetadataFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all PaymentMetadata
+     * const paymentMetadata = await prisma.paymentMetadata.findMany()
+     * 
+     * // Get first 10 PaymentMetadata
+     * const paymentMetadata = await prisma.paymentMetadata.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const paymentMetadataWithIdOnly = await prisma.paymentMetadata.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends PaymentMetadataFindManyArgs>(args?: SelectSubset<T, PaymentMetadataFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PaymentMetadataPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a PaymentMetadata.
+     * @param {PaymentMetadataCreateArgs} args - Arguments to create a PaymentMetadata.
+     * @example
+     * // Create one PaymentMetadata
+     * const PaymentMetadata = await prisma.paymentMetadata.create({
+     *   data: {
+     *     // ... data to create a PaymentMetadata
+     *   }
+     * })
+     * 
+     */
+    create<T extends PaymentMetadataCreateArgs>(args: SelectSubset<T, PaymentMetadataCreateArgs<ExtArgs>>): Prisma__PaymentMetadataClient<$Result.GetResult<Prisma.$PaymentMetadataPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many PaymentMetadata.
+     * @param {PaymentMetadataCreateManyArgs} args - Arguments to create many PaymentMetadata.
+     * @example
+     * // Create many PaymentMetadata
+     * const paymentMetadata = await prisma.paymentMetadata.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends PaymentMetadataCreateManyArgs>(args?: SelectSubset<T, PaymentMetadataCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many PaymentMetadata and returns the data saved in the database.
+     * @param {PaymentMetadataCreateManyAndReturnArgs} args - Arguments to create many PaymentMetadata.
+     * @example
+     * // Create many PaymentMetadata
+     * const paymentMetadata = await prisma.paymentMetadata.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many PaymentMetadata and only return the `id`
+     * const paymentMetadataWithIdOnly = await prisma.paymentMetadata.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends PaymentMetadataCreateManyAndReturnArgs>(args?: SelectSubset<T, PaymentMetadataCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PaymentMetadataPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a PaymentMetadata.
+     * @param {PaymentMetadataDeleteArgs} args - Arguments to delete one PaymentMetadata.
+     * @example
+     * // Delete one PaymentMetadata
+     * const PaymentMetadata = await prisma.paymentMetadata.delete({
+     *   where: {
+     *     // ... filter to delete one PaymentMetadata
+     *   }
+     * })
+     * 
+     */
+    delete<T extends PaymentMetadataDeleteArgs>(args: SelectSubset<T, PaymentMetadataDeleteArgs<ExtArgs>>): Prisma__PaymentMetadataClient<$Result.GetResult<Prisma.$PaymentMetadataPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one PaymentMetadata.
+     * @param {PaymentMetadataUpdateArgs} args - Arguments to update one PaymentMetadata.
+     * @example
+     * // Update one PaymentMetadata
+     * const paymentMetadata = await prisma.paymentMetadata.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends PaymentMetadataUpdateArgs>(args: SelectSubset<T, PaymentMetadataUpdateArgs<ExtArgs>>): Prisma__PaymentMetadataClient<$Result.GetResult<Prisma.$PaymentMetadataPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more PaymentMetadata.
+     * @param {PaymentMetadataDeleteManyArgs} args - Arguments to filter PaymentMetadata to delete.
+     * @example
+     * // Delete a few PaymentMetadata
+     * const { count } = await prisma.paymentMetadata.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends PaymentMetadataDeleteManyArgs>(args?: SelectSubset<T, PaymentMetadataDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PaymentMetadata.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PaymentMetadataUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many PaymentMetadata
+     * const paymentMetadata = await prisma.paymentMetadata.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends PaymentMetadataUpdateManyArgs>(args: SelectSubset<T, PaymentMetadataUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one PaymentMetadata.
+     * @param {PaymentMetadataUpsertArgs} args - Arguments to update or create a PaymentMetadata.
+     * @example
+     * // Update or create a PaymentMetadata
+     * const paymentMetadata = await prisma.paymentMetadata.upsert({
+     *   create: {
+     *     // ... data to create a PaymentMetadata
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the PaymentMetadata we want to update
+     *   }
+     * })
+     */
+    upsert<T extends PaymentMetadataUpsertArgs>(args: SelectSubset<T, PaymentMetadataUpsertArgs<ExtArgs>>): Prisma__PaymentMetadataClient<$Result.GetResult<Prisma.$PaymentMetadataPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of PaymentMetadata.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PaymentMetadataCountArgs} args - Arguments to filter PaymentMetadata to count.
+     * @example
+     * // Count the number of PaymentMetadata
+     * const count = await prisma.paymentMetadata.count({
+     *   where: {
+     *     // ... the filter for the PaymentMetadata we want to count
+     *   }
+     * })
+    **/
+    count<T extends PaymentMetadataCountArgs>(
+      args?: Subset<T, PaymentMetadataCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], PaymentMetadataCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a PaymentMetadata.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PaymentMetadataAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends PaymentMetadataAggregateArgs>(args: Subset<T, PaymentMetadataAggregateArgs>): Prisma.PrismaPromise<GetPaymentMetadataAggregateType<T>>
+
+    /**
+     * Group by PaymentMetadata.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PaymentMetadataGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends PaymentMetadataGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: PaymentMetadataGroupByArgs['orderBy'] }
+        : { orderBy?: PaymentMetadataGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, PaymentMetadataGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPaymentMetadataGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the PaymentMetadata model
+   */
+  readonly fields: PaymentMetadataFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for PaymentMetadata.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__PaymentMetadataClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the PaymentMetadata model
+   */ 
+  interface PaymentMetadataFieldRefs {
+    readonly id: FieldRef<"PaymentMetadata", 'String'>
+    readonly entityType: FieldRef<"PaymentMetadata", 'String'>
+    readonly entityId: FieldRef<"PaymentMetadata", 'String'>
+    readonly key: FieldRef<"PaymentMetadata", 'String'>
+    readonly value: FieldRef<"PaymentMetadata", 'String'>
+    readonly ownerAddress: FieldRef<"PaymentMetadata", 'String'>
+    readonly createdAt: FieldRef<"PaymentMetadata", 'DateTime'>
+    readonly updatedAt: FieldRef<"PaymentMetadata", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * PaymentMetadata findUnique
+   */
+  export type PaymentMetadataFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentMetadata
+     */
+    select?: PaymentMetadataSelect<ExtArgs> | null
+    /**
+     * Filter, which PaymentMetadata to fetch.
+     */
+    where: PaymentMetadataWhereUniqueInput
+  }
+
+  /**
+   * PaymentMetadata findUniqueOrThrow
+   */
+  export type PaymentMetadataFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentMetadata
+     */
+    select?: PaymentMetadataSelect<ExtArgs> | null
+    /**
+     * Filter, which PaymentMetadata to fetch.
+     */
+    where: PaymentMetadataWhereUniqueInput
+  }
+
+  /**
+   * PaymentMetadata findFirst
+   */
+  export type PaymentMetadataFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentMetadata
+     */
+    select?: PaymentMetadataSelect<ExtArgs> | null
+    /**
+     * Filter, which PaymentMetadata to fetch.
+     */
+    where?: PaymentMetadataWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PaymentMetadata to fetch.
+     */
+    orderBy?: PaymentMetadataOrderByWithRelationInput | PaymentMetadataOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PaymentMetadata.
+     */
+    cursor?: PaymentMetadataWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PaymentMetadata from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PaymentMetadata.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PaymentMetadata.
+     */
+    distinct?: PaymentMetadataScalarFieldEnum | PaymentMetadataScalarFieldEnum[]
+  }
+
+  /**
+   * PaymentMetadata findFirstOrThrow
+   */
+  export type PaymentMetadataFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentMetadata
+     */
+    select?: PaymentMetadataSelect<ExtArgs> | null
+    /**
+     * Filter, which PaymentMetadata to fetch.
+     */
+    where?: PaymentMetadataWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PaymentMetadata to fetch.
+     */
+    orderBy?: PaymentMetadataOrderByWithRelationInput | PaymentMetadataOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PaymentMetadata.
+     */
+    cursor?: PaymentMetadataWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PaymentMetadata from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PaymentMetadata.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PaymentMetadata.
+     */
+    distinct?: PaymentMetadataScalarFieldEnum | PaymentMetadataScalarFieldEnum[]
+  }
+
+  /**
+   * PaymentMetadata findMany
+   */
+  export type PaymentMetadataFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentMetadata
+     */
+    select?: PaymentMetadataSelect<ExtArgs> | null
+    /**
+     * Filter, which PaymentMetadata to fetch.
+     */
+    where?: PaymentMetadataWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PaymentMetadata to fetch.
+     */
+    orderBy?: PaymentMetadataOrderByWithRelationInput | PaymentMetadataOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing PaymentMetadata.
+     */
+    cursor?: PaymentMetadataWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PaymentMetadata from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PaymentMetadata.
+     */
+    skip?: number
+    distinct?: PaymentMetadataScalarFieldEnum | PaymentMetadataScalarFieldEnum[]
+  }
+
+  /**
+   * PaymentMetadata create
+   */
+  export type PaymentMetadataCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentMetadata
+     */
+    select?: PaymentMetadataSelect<ExtArgs> | null
+    /**
+     * The data needed to create a PaymentMetadata.
+     */
+    data: XOR<PaymentMetadataCreateInput, PaymentMetadataUncheckedCreateInput>
+  }
+
+  /**
+   * PaymentMetadata createMany
+   */
+  export type PaymentMetadataCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many PaymentMetadata.
+     */
+    data: PaymentMetadataCreateManyInput | PaymentMetadataCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * PaymentMetadata createManyAndReturn
+   */
+  export type PaymentMetadataCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentMetadata
+     */
+    select?: PaymentMetadataSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many PaymentMetadata.
+     */
+    data: PaymentMetadataCreateManyInput | PaymentMetadataCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * PaymentMetadata update
+   */
+  export type PaymentMetadataUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentMetadata
+     */
+    select?: PaymentMetadataSelect<ExtArgs> | null
+    /**
+     * The data needed to update a PaymentMetadata.
+     */
+    data: XOR<PaymentMetadataUpdateInput, PaymentMetadataUncheckedUpdateInput>
+    /**
+     * Choose, which PaymentMetadata to update.
+     */
+    where: PaymentMetadataWhereUniqueInput
+  }
+
+  /**
+   * PaymentMetadata updateMany
+   */
+  export type PaymentMetadataUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update PaymentMetadata.
+     */
+    data: XOR<PaymentMetadataUpdateManyMutationInput, PaymentMetadataUncheckedUpdateManyInput>
+    /**
+     * Filter which PaymentMetadata to update
+     */
+    where?: PaymentMetadataWhereInput
+  }
+
+  /**
+   * PaymentMetadata upsert
+   */
+  export type PaymentMetadataUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentMetadata
+     */
+    select?: PaymentMetadataSelect<ExtArgs> | null
+    /**
+     * The filter to search for the PaymentMetadata to update in case it exists.
+     */
+    where: PaymentMetadataWhereUniqueInput
+    /**
+     * In case the PaymentMetadata found by the `where` argument doesn't exist, create a new PaymentMetadata with this data.
+     */
+    create: XOR<PaymentMetadataCreateInput, PaymentMetadataUncheckedCreateInput>
+    /**
+     * In case the PaymentMetadata was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<PaymentMetadataUpdateInput, PaymentMetadataUncheckedUpdateInput>
+  }
+
+  /**
+   * PaymentMetadata delete
+   */
+  export type PaymentMetadataDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentMetadata
+     */
+    select?: PaymentMetadataSelect<ExtArgs> | null
+    /**
+     * Filter which PaymentMetadata to delete.
+     */
+    where: PaymentMetadataWhereUniqueInput
+  }
+
+  /**
+   * PaymentMetadata deleteMany
+   */
+  export type PaymentMetadataDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PaymentMetadata to delete
+     */
+    where?: PaymentMetadataWhereInput
+  }
+
+  /**
+   * PaymentMetadata without action
+   */
+  export type PaymentMetadataDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentMetadata
+     */
+    select?: PaymentMetadataSelect<ExtArgs> | null
+  }
+
+
+  /**
+   * Model PaymentCategoryRule
+   */
+
+  export type AggregatePaymentCategoryRule = {
+    _count: PaymentCategoryRuleCountAggregateOutputType | null
+    _avg: PaymentCategoryRuleAvgAggregateOutputType | null
+    _sum: PaymentCategoryRuleSumAggregateOutputType | null
+    _min: PaymentCategoryRuleMinAggregateOutputType | null
+    _max: PaymentCategoryRuleMaxAggregateOutputType | null
+  }
+
+  export type PaymentCategoryRuleAvgAggregateOutputType = {
+    priority: number | null
+  }
+
+  export type PaymentCategoryRuleSumAggregateOutputType = {
+    priority: number | null
+  }
+
+  export type PaymentCategoryRuleMinAggregateOutputType = {
+    id: string | null
+    categoryId: string | null
+    field: string | null
+    operator: string | null
+    value: string | null
+    priority: number | null
+    createdAt: Date | null
+  }
+
+  export type PaymentCategoryRuleMaxAggregateOutputType = {
+    id: string | null
+    categoryId: string | null
+    field: string | null
+    operator: string | null
+    value: string | null
+    priority: number | null
+    createdAt: Date | null
+  }
+
+  export type PaymentCategoryRuleCountAggregateOutputType = {
+    id: number
+    categoryId: number
+    field: number
+    operator: number
+    value: number
+    priority: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type PaymentCategoryRuleAvgAggregateInputType = {
+    priority?: true
+  }
+
+  export type PaymentCategoryRuleSumAggregateInputType = {
+    priority?: true
+  }
+
+  export type PaymentCategoryRuleMinAggregateInputType = {
+    id?: true
+    categoryId?: true
+    field?: true
+    operator?: true
+    value?: true
+    priority?: true
+    createdAt?: true
+  }
+
+  export type PaymentCategoryRuleMaxAggregateInputType = {
+    id?: true
+    categoryId?: true
+    field?: true
+    operator?: true
+    value?: true
+    priority?: true
+    createdAt?: true
+  }
+
+  export type PaymentCategoryRuleCountAggregateInputType = {
+    id?: true
+    categoryId?: true
+    field?: true
+    operator?: true
+    value?: true
+    priority?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type PaymentCategoryRuleAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PaymentCategoryRule to aggregate.
+     */
+    where?: PaymentCategoryRuleWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PaymentCategoryRules to fetch.
+     */
+    orderBy?: PaymentCategoryRuleOrderByWithRelationInput | PaymentCategoryRuleOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: PaymentCategoryRuleWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PaymentCategoryRules from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PaymentCategoryRules.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned PaymentCategoryRules
+    **/
+    _count?: true | PaymentCategoryRuleCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: PaymentCategoryRuleAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: PaymentCategoryRuleSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: PaymentCategoryRuleMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: PaymentCategoryRuleMaxAggregateInputType
+  }
+
+  export type GetPaymentCategoryRuleAggregateType<T extends PaymentCategoryRuleAggregateArgs> = {
+        [P in keyof T & keyof AggregatePaymentCategoryRule]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregatePaymentCategoryRule[P]>
+      : GetScalarType<T[P], AggregatePaymentCategoryRule[P]>
+  }
+
+
+
+
+  export type PaymentCategoryRuleGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PaymentCategoryRuleWhereInput
+    orderBy?: PaymentCategoryRuleOrderByWithAggregationInput | PaymentCategoryRuleOrderByWithAggregationInput[]
+    by: PaymentCategoryRuleScalarFieldEnum[] | PaymentCategoryRuleScalarFieldEnum
+    having?: PaymentCategoryRuleScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: PaymentCategoryRuleCountAggregateInputType | true
+    _avg?: PaymentCategoryRuleAvgAggregateInputType
+    _sum?: PaymentCategoryRuleSumAggregateInputType
+    _min?: PaymentCategoryRuleMinAggregateInputType
+    _max?: PaymentCategoryRuleMaxAggregateInputType
+  }
+
+  export type PaymentCategoryRuleGroupByOutputType = {
+    id: string
+    categoryId: string
+    field: string
+    operator: string
+    value: string
+    priority: number
+    createdAt: Date
+    _count: PaymentCategoryRuleCountAggregateOutputType | null
+    _avg: PaymentCategoryRuleAvgAggregateOutputType | null
+    _sum: PaymentCategoryRuleSumAggregateOutputType | null
+    _min: PaymentCategoryRuleMinAggregateOutputType | null
+    _max: PaymentCategoryRuleMaxAggregateOutputType | null
+  }
+
+  type GetPaymentCategoryRuleGroupByPayload<T extends PaymentCategoryRuleGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<PaymentCategoryRuleGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof PaymentCategoryRuleGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], PaymentCategoryRuleGroupByOutputType[P]>
+            : GetScalarType<T[P], PaymentCategoryRuleGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type PaymentCategoryRuleSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    categoryId?: boolean
+    field?: boolean
+    operator?: boolean
+    value?: boolean
+    priority?: boolean
+    createdAt?: boolean
+    category?: boolean | PaymentCategoryDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["paymentCategoryRule"]>
+
+  export type PaymentCategoryRuleSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    categoryId?: boolean
+    field?: boolean
+    operator?: boolean
+    value?: boolean
+    priority?: boolean
+    createdAt?: boolean
+    category?: boolean | PaymentCategoryDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["paymentCategoryRule"]>
+
+  export type PaymentCategoryRuleSelectScalar = {
+    id?: boolean
+    categoryId?: boolean
+    field?: boolean
+    operator?: boolean
+    value?: boolean
+    priority?: boolean
+    createdAt?: boolean
+  }
+
+  export type PaymentCategoryRuleInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    category?: boolean | PaymentCategoryDefaultArgs<ExtArgs>
+  }
+  export type PaymentCategoryRuleIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    category?: boolean | PaymentCategoryDefaultArgs<ExtArgs>
+  }
+
+  export type $PaymentCategoryRulePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "PaymentCategoryRule"
+    objects: {
+      category: Prisma.$PaymentCategoryPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      categoryId: string
+      field: string
+      operator: string
+      value: string
+      priority: number
+      createdAt: Date
+    }, ExtArgs["result"]["paymentCategoryRule"]>
+    composites: {}
+  }
+
+  type PaymentCategoryRuleGetPayload<S extends boolean | null | undefined | PaymentCategoryRuleDefaultArgs> = $Result.GetResult<Prisma.$PaymentCategoryRulePayload, S>
+
+  type PaymentCategoryRuleCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<PaymentCategoryRuleFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: PaymentCategoryRuleCountAggregateInputType | true
+    }
+
+  export interface PaymentCategoryRuleDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['PaymentCategoryRule'], meta: { name: 'PaymentCategoryRule' } }
+    /**
+     * Find zero or one PaymentCategoryRule that matches the filter.
+     * @param {PaymentCategoryRuleFindUniqueArgs} args - Arguments to find a PaymentCategoryRule
+     * @example
+     * // Get one PaymentCategoryRule
+     * const paymentCategoryRule = await prisma.paymentCategoryRule.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends PaymentCategoryRuleFindUniqueArgs>(args: SelectSubset<T, PaymentCategoryRuleFindUniqueArgs<ExtArgs>>): Prisma__PaymentCategoryRuleClient<$Result.GetResult<Prisma.$PaymentCategoryRulePayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one PaymentCategoryRule that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {PaymentCategoryRuleFindUniqueOrThrowArgs} args - Arguments to find a PaymentCategoryRule
+     * @example
+     * // Get one PaymentCategoryRule
+     * const paymentCategoryRule = await prisma.paymentCategoryRule.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends PaymentCategoryRuleFindUniqueOrThrowArgs>(args: SelectSubset<T, PaymentCategoryRuleFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PaymentCategoryRuleClient<$Result.GetResult<Prisma.$PaymentCategoryRulePayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first PaymentCategoryRule that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PaymentCategoryRuleFindFirstArgs} args - Arguments to find a PaymentCategoryRule
+     * @example
+     * // Get one PaymentCategoryRule
+     * const paymentCategoryRule = await prisma.paymentCategoryRule.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends PaymentCategoryRuleFindFirstArgs>(args?: SelectSubset<T, PaymentCategoryRuleFindFirstArgs<ExtArgs>>): Prisma__PaymentCategoryRuleClient<$Result.GetResult<Prisma.$PaymentCategoryRulePayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first PaymentCategoryRule that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PaymentCategoryRuleFindFirstOrThrowArgs} args - Arguments to find a PaymentCategoryRule
+     * @example
+     * // Get one PaymentCategoryRule
+     * const paymentCategoryRule = await prisma.paymentCategoryRule.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends PaymentCategoryRuleFindFirstOrThrowArgs>(args?: SelectSubset<T, PaymentCategoryRuleFindFirstOrThrowArgs<ExtArgs>>): Prisma__PaymentCategoryRuleClient<$Result.GetResult<Prisma.$PaymentCategoryRulePayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more PaymentCategoryRules that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PaymentCategoryRuleFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all PaymentCategoryRules
+     * const paymentCategoryRules = await prisma.paymentCategoryRule.findMany()
+     * 
+     * // Get first 10 PaymentCategoryRules
+     * const paymentCategoryRules = await prisma.paymentCategoryRule.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const paymentCategoryRuleWithIdOnly = await prisma.paymentCategoryRule.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends PaymentCategoryRuleFindManyArgs>(args?: SelectSubset<T, PaymentCategoryRuleFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PaymentCategoryRulePayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a PaymentCategoryRule.
+     * @param {PaymentCategoryRuleCreateArgs} args - Arguments to create a PaymentCategoryRule.
+     * @example
+     * // Create one PaymentCategoryRule
+     * const PaymentCategoryRule = await prisma.paymentCategoryRule.create({
+     *   data: {
+     *     // ... data to create a PaymentCategoryRule
+     *   }
+     * })
+     * 
+     */
+    create<T extends PaymentCategoryRuleCreateArgs>(args: SelectSubset<T, PaymentCategoryRuleCreateArgs<ExtArgs>>): Prisma__PaymentCategoryRuleClient<$Result.GetResult<Prisma.$PaymentCategoryRulePayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many PaymentCategoryRules.
+     * @param {PaymentCategoryRuleCreateManyArgs} args - Arguments to create many PaymentCategoryRules.
+     * @example
+     * // Create many PaymentCategoryRules
+     * const paymentCategoryRule = await prisma.paymentCategoryRule.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends PaymentCategoryRuleCreateManyArgs>(args?: SelectSubset<T, PaymentCategoryRuleCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many PaymentCategoryRules and returns the data saved in the database.
+     * @param {PaymentCategoryRuleCreateManyAndReturnArgs} args - Arguments to create many PaymentCategoryRules.
+     * @example
+     * // Create many PaymentCategoryRules
+     * const paymentCategoryRule = await prisma.paymentCategoryRule.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many PaymentCategoryRules and only return the `id`
+     * const paymentCategoryRuleWithIdOnly = await prisma.paymentCategoryRule.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends PaymentCategoryRuleCreateManyAndReturnArgs>(args?: SelectSubset<T, PaymentCategoryRuleCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PaymentCategoryRulePayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a PaymentCategoryRule.
+     * @param {PaymentCategoryRuleDeleteArgs} args - Arguments to delete one PaymentCategoryRule.
+     * @example
+     * // Delete one PaymentCategoryRule
+     * const PaymentCategoryRule = await prisma.paymentCategoryRule.delete({
+     *   where: {
+     *     // ... filter to delete one PaymentCategoryRule
+     *   }
+     * })
+     * 
+     */
+    delete<T extends PaymentCategoryRuleDeleteArgs>(args: SelectSubset<T, PaymentCategoryRuleDeleteArgs<ExtArgs>>): Prisma__PaymentCategoryRuleClient<$Result.GetResult<Prisma.$PaymentCategoryRulePayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one PaymentCategoryRule.
+     * @param {PaymentCategoryRuleUpdateArgs} args - Arguments to update one PaymentCategoryRule.
+     * @example
+     * // Update one PaymentCategoryRule
+     * const paymentCategoryRule = await prisma.paymentCategoryRule.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends PaymentCategoryRuleUpdateArgs>(args: SelectSubset<T, PaymentCategoryRuleUpdateArgs<ExtArgs>>): Prisma__PaymentCategoryRuleClient<$Result.GetResult<Prisma.$PaymentCategoryRulePayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more PaymentCategoryRules.
+     * @param {PaymentCategoryRuleDeleteManyArgs} args - Arguments to filter PaymentCategoryRules to delete.
+     * @example
+     * // Delete a few PaymentCategoryRules
+     * const { count } = await prisma.paymentCategoryRule.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends PaymentCategoryRuleDeleteManyArgs>(args?: SelectSubset<T, PaymentCategoryRuleDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PaymentCategoryRules.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PaymentCategoryRuleUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many PaymentCategoryRules
+     * const paymentCategoryRule = await prisma.paymentCategoryRule.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends PaymentCategoryRuleUpdateManyArgs>(args: SelectSubset<T, PaymentCategoryRuleUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one PaymentCategoryRule.
+     * @param {PaymentCategoryRuleUpsertArgs} args - Arguments to update or create a PaymentCategoryRule.
+     * @example
+     * // Update or create a PaymentCategoryRule
+     * const paymentCategoryRule = await prisma.paymentCategoryRule.upsert({
+     *   create: {
+     *     // ... data to create a PaymentCategoryRule
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the PaymentCategoryRule we want to update
+     *   }
+     * })
+     */
+    upsert<T extends PaymentCategoryRuleUpsertArgs>(args: SelectSubset<T, PaymentCategoryRuleUpsertArgs<ExtArgs>>): Prisma__PaymentCategoryRuleClient<$Result.GetResult<Prisma.$PaymentCategoryRulePayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of PaymentCategoryRules.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PaymentCategoryRuleCountArgs} args - Arguments to filter PaymentCategoryRules to count.
+     * @example
+     * // Count the number of PaymentCategoryRules
+     * const count = await prisma.paymentCategoryRule.count({
+     *   where: {
+     *     // ... the filter for the PaymentCategoryRules we want to count
+     *   }
+     * })
+    **/
+    count<T extends PaymentCategoryRuleCountArgs>(
+      args?: Subset<T, PaymentCategoryRuleCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], PaymentCategoryRuleCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a PaymentCategoryRule.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PaymentCategoryRuleAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends PaymentCategoryRuleAggregateArgs>(args: Subset<T, PaymentCategoryRuleAggregateArgs>): Prisma.PrismaPromise<GetPaymentCategoryRuleAggregateType<T>>
+
+    /**
+     * Group by PaymentCategoryRule.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PaymentCategoryRuleGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends PaymentCategoryRuleGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: PaymentCategoryRuleGroupByArgs['orderBy'] }
+        : { orderBy?: PaymentCategoryRuleGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, PaymentCategoryRuleGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPaymentCategoryRuleGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the PaymentCategoryRule model
+   */
+  readonly fields: PaymentCategoryRuleFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for PaymentCategoryRule.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__PaymentCategoryRuleClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    category<T extends PaymentCategoryDefaultArgs<ExtArgs> = {}>(args?: Subset<T, PaymentCategoryDefaultArgs<ExtArgs>>): Prisma__PaymentCategoryClient<$Result.GetResult<Prisma.$PaymentCategoryPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the PaymentCategoryRule model
+   */ 
+  interface PaymentCategoryRuleFieldRefs {
+    readonly id: FieldRef<"PaymentCategoryRule", 'String'>
+    readonly categoryId: FieldRef<"PaymentCategoryRule", 'String'>
+    readonly field: FieldRef<"PaymentCategoryRule", 'String'>
+    readonly operator: FieldRef<"PaymentCategoryRule", 'String'>
+    readonly value: FieldRef<"PaymentCategoryRule", 'String'>
+    readonly priority: FieldRef<"PaymentCategoryRule", 'Int'>
+    readonly createdAt: FieldRef<"PaymentCategoryRule", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * PaymentCategoryRule findUnique
+   */
+  export type PaymentCategoryRuleFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentCategoryRule
+     */
+    select?: PaymentCategoryRuleSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentCategoryRuleInclude<ExtArgs> | null
+    /**
+     * Filter, which PaymentCategoryRule to fetch.
+     */
+    where: PaymentCategoryRuleWhereUniqueInput
+  }
+
+  /**
+   * PaymentCategoryRule findUniqueOrThrow
+   */
+  export type PaymentCategoryRuleFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentCategoryRule
+     */
+    select?: PaymentCategoryRuleSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentCategoryRuleInclude<ExtArgs> | null
+    /**
+     * Filter, which PaymentCategoryRule to fetch.
+     */
+    where: PaymentCategoryRuleWhereUniqueInput
+  }
+
+  /**
+   * PaymentCategoryRule findFirst
+   */
+  export type PaymentCategoryRuleFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentCategoryRule
+     */
+    select?: PaymentCategoryRuleSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentCategoryRuleInclude<ExtArgs> | null
+    /**
+     * Filter, which PaymentCategoryRule to fetch.
+     */
+    where?: PaymentCategoryRuleWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PaymentCategoryRules to fetch.
+     */
+    orderBy?: PaymentCategoryRuleOrderByWithRelationInput | PaymentCategoryRuleOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PaymentCategoryRules.
+     */
+    cursor?: PaymentCategoryRuleWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PaymentCategoryRules from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PaymentCategoryRules.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PaymentCategoryRules.
+     */
+    distinct?: PaymentCategoryRuleScalarFieldEnum | PaymentCategoryRuleScalarFieldEnum[]
+  }
+
+  /**
+   * PaymentCategoryRule findFirstOrThrow
+   */
+  export type PaymentCategoryRuleFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentCategoryRule
+     */
+    select?: PaymentCategoryRuleSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentCategoryRuleInclude<ExtArgs> | null
+    /**
+     * Filter, which PaymentCategoryRule to fetch.
+     */
+    where?: PaymentCategoryRuleWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PaymentCategoryRules to fetch.
+     */
+    orderBy?: PaymentCategoryRuleOrderByWithRelationInput | PaymentCategoryRuleOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PaymentCategoryRules.
+     */
+    cursor?: PaymentCategoryRuleWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PaymentCategoryRules from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PaymentCategoryRules.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PaymentCategoryRules.
+     */
+    distinct?: PaymentCategoryRuleScalarFieldEnum | PaymentCategoryRuleScalarFieldEnum[]
+  }
+
+  /**
+   * PaymentCategoryRule findMany
+   */
+  export type PaymentCategoryRuleFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentCategoryRule
+     */
+    select?: PaymentCategoryRuleSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentCategoryRuleInclude<ExtArgs> | null
+    /**
+     * Filter, which PaymentCategoryRules to fetch.
+     */
+    where?: PaymentCategoryRuleWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PaymentCategoryRules to fetch.
+     */
+    orderBy?: PaymentCategoryRuleOrderByWithRelationInput | PaymentCategoryRuleOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing PaymentCategoryRules.
+     */
+    cursor?: PaymentCategoryRuleWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PaymentCategoryRules from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PaymentCategoryRules.
+     */
+    skip?: number
+    distinct?: PaymentCategoryRuleScalarFieldEnum | PaymentCategoryRuleScalarFieldEnum[]
+  }
+
+  /**
+   * PaymentCategoryRule create
+   */
+  export type PaymentCategoryRuleCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentCategoryRule
+     */
+    select?: PaymentCategoryRuleSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentCategoryRuleInclude<ExtArgs> | null
+    /**
+     * The data needed to create a PaymentCategoryRule.
+     */
+    data: XOR<PaymentCategoryRuleCreateInput, PaymentCategoryRuleUncheckedCreateInput>
+  }
+
+  /**
+   * PaymentCategoryRule createMany
+   */
+  export type PaymentCategoryRuleCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many PaymentCategoryRules.
+     */
+    data: PaymentCategoryRuleCreateManyInput | PaymentCategoryRuleCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * PaymentCategoryRule createManyAndReturn
+   */
+  export type PaymentCategoryRuleCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentCategoryRule
+     */
+    select?: PaymentCategoryRuleSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many PaymentCategoryRules.
+     */
+    data: PaymentCategoryRuleCreateManyInput | PaymentCategoryRuleCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentCategoryRuleIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * PaymentCategoryRule update
+   */
+  export type PaymentCategoryRuleUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentCategoryRule
+     */
+    select?: PaymentCategoryRuleSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentCategoryRuleInclude<ExtArgs> | null
+    /**
+     * The data needed to update a PaymentCategoryRule.
+     */
+    data: XOR<PaymentCategoryRuleUpdateInput, PaymentCategoryRuleUncheckedUpdateInput>
+    /**
+     * Choose, which PaymentCategoryRule to update.
+     */
+    where: PaymentCategoryRuleWhereUniqueInput
+  }
+
+  /**
+   * PaymentCategoryRule updateMany
+   */
+  export type PaymentCategoryRuleUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update PaymentCategoryRules.
+     */
+    data: XOR<PaymentCategoryRuleUpdateManyMutationInput, PaymentCategoryRuleUncheckedUpdateManyInput>
+    /**
+     * Filter which PaymentCategoryRules to update
+     */
+    where?: PaymentCategoryRuleWhereInput
+  }
+
+  /**
+   * PaymentCategoryRule upsert
+   */
+  export type PaymentCategoryRuleUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentCategoryRule
+     */
+    select?: PaymentCategoryRuleSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentCategoryRuleInclude<ExtArgs> | null
+    /**
+     * The filter to search for the PaymentCategoryRule to update in case it exists.
+     */
+    where: PaymentCategoryRuleWhereUniqueInput
+    /**
+     * In case the PaymentCategoryRule found by the `where` argument doesn't exist, create a new PaymentCategoryRule with this data.
+     */
+    create: XOR<PaymentCategoryRuleCreateInput, PaymentCategoryRuleUncheckedCreateInput>
+    /**
+     * In case the PaymentCategoryRule was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<PaymentCategoryRuleUpdateInput, PaymentCategoryRuleUncheckedUpdateInput>
+  }
+
+  /**
+   * PaymentCategoryRule delete
+   */
+  export type PaymentCategoryRuleDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentCategoryRule
+     */
+    select?: PaymentCategoryRuleSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentCategoryRuleInclude<ExtArgs> | null
+    /**
+     * Filter which PaymentCategoryRule to delete.
+     */
+    where: PaymentCategoryRuleWhereUniqueInput
+  }
+
+  /**
+   * PaymentCategoryRule deleteMany
+   */
+  export type PaymentCategoryRuleDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PaymentCategoryRules to delete
+     */
+    where?: PaymentCategoryRuleWhereInput
+  }
+
+  /**
+   * PaymentCategoryRule without action
+   */
+  export type PaymentCategoryRuleDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentCategoryRule
+     */
+    select?: PaymentCategoryRuleSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentCategoryRuleInclude<ExtArgs> | null
+  }
+
 
   /**
    * Model Stream
@@ -3932,6 +7675,7 @@ export namespace Prisma {
     lastYieldAccrualAt: Date | null
     isDust: boolean | null
     affiliateId: string | null
+    categoryId: string | null
     createdAt: Date | null
   }
 
@@ -3959,6 +7703,7 @@ export namespace Prisma {
     lastYieldAccrualAt: Date | null
     isDust: boolean | null
     affiliateId: string | null
+    categoryId: string | null
     createdAt: Date | null
   }
 
@@ -3986,6 +7731,7 @@ export namespace Prisma {
     lastYieldAccrualAt: number
     isDust: number
     affiliateId: number
+    categoryId: number
     createdAt: number
     _all: number
   }
@@ -4025,6 +7771,7 @@ export namespace Prisma {
     lastYieldAccrualAt?: true
     isDust?: true
     affiliateId?: true
+    categoryId?: true
     createdAt?: true
   }
 
@@ -4052,6 +7799,7 @@ export namespace Prisma {
     lastYieldAccrualAt?: true
     isDust?: true
     affiliateId?: true
+    categoryId?: true
     createdAt?: true
   }
 
@@ -4079,6 +7827,7 @@ export namespace Prisma {
     lastYieldAccrualAt?: true
     isDust?: true
     affiliateId?: true
+    categoryId?: true
     createdAt?: true
     _all?: true
   }
@@ -4193,6 +7942,7 @@ export namespace Prisma {
     lastYieldAccrualAt: Date | null
     isDust: boolean
     affiliateId: string | null
+    categoryId: string | null
     createdAt: Date
     _count: StreamCountAggregateOutputType | null
     _avg: StreamAvgAggregateOutputType | null
@@ -4239,7 +7989,9 @@ export namespace Prisma {
     lastYieldAccrualAt?: boolean
     isDust?: boolean
     affiliateId?: boolean
+    categoryId?: boolean
     createdAt?: boolean
+    category?: boolean | Stream$categoryArgs<ExtArgs>
   }, ExtArgs["result"]["stream"]>
 
   export type StreamSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -4266,7 +8018,9 @@ export namespace Prisma {
     lastYieldAccrualAt?: boolean
     isDust?: boolean
     affiliateId?: boolean
+    categoryId?: boolean
     createdAt?: boolean
+    category?: boolean | Stream$categoryArgs<ExtArgs>
   }, ExtArgs["result"]["stream"]>
 
   export type StreamSelectScalar = {
@@ -4293,13 +8047,22 @@ export namespace Prisma {
     lastYieldAccrualAt?: boolean
     isDust?: boolean
     affiliateId?: boolean
+    categoryId?: boolean
     createdAt?: boolean
   }
 
+  export type StreamInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    category?: boolean | Stream$categoryArgs<ExtArgs>
+  }
+  export type StreamIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    category?: boolean | Stream$categoryArgs<ExtArgs>
+  }
 
   export type $StreamPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Stream"
-    objects: {}
+    objects: {
+      category: Prisma.$PaymentCategoryPayload<ExtArgs> | null
+    }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       streamId: string | null
@@ -4324,6 +8087,7 @@ export namespace Prisma {
       lastYieldAccrualAt: Date | null
       isDust: boolean
       affiliateId: string | null
+      categoryId: string | null
       createdAt: Date
     }, ExtArgs["result"]["stream"]>
     composites: {}
@@ -4689,6 +8453,7 @@ export namespace Prisma {
    */
   export interface Prisma__StreamClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    category<T extends Stream$categoryArgs<ExtArgs> = {}>(args?: Subset<T, Stream$categoryArgs<ExtArgs>>): Prisma__PaymentCategoryClient<$Result.GetResult<Prisma.$PaymentCategoryPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4741,6 +8506,7 @@ export namespace Prisma {
     readonly lastYieldAccrualAt: FieldRef<"Stream", 'DateTime'>
     readonly isDust: FieldRef<"Stream", 'Boolean'>
     readonly affiliateId: FieldRef<"Stream", 'String'>
+    readonly categoryId: FieldRef<"Stream", 'String'>
     readonly createdAt: FieldRef<"Stream", 'DateTime'>
   }
     
@@ -4754,6 +8520,10 @@ export namespace Prisma {
      * Select specific fields to fetch from the Stream
      */
     select?: StreamSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StreamInclude<ExtArgs> | null
     /**
      * Filter, which Stream to fetch.
      */
@@ -4769,6 +8539,10 @@ export namespace Prisma {
      */
     select?: StreamSelect<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StreamInclude<ExtArgs> | null
+    /**
      * Filter, which Stream to fetch.
      */
     where: StreamWhereUniqueInput
@@ -4782,6 +8556,10 @@ export namespace Prisma {
      * Select specific fields to fetch from the Stream
      */
     select?: StreamSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StreamInclude<ExtArgs> | null
     /**
      * Filter, which Stream to fetch.
      */
@@ -4827,6 +8605,10 @@ export namespace Prisma {
      */
     select?: StreamSelect<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StreamInclude<ExtArgs> | null
+    /**
      * Filter, which Stream to fetch.
      */
     where?: StreamWhereInput
@@ -4871,6 +8653,10 @@ export namespace Prisma {
      */
     select?: StreamSelect<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StreamInclude<ExtArgs> | null
+    /**
      * Filter, which Streams to fetch.
      */
     where?: StreamWhereInput
@@ -4910,6 +8696,10 @@ export namespace Prisma {
      */
     select?: StreamSelect<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StreamInclude<ExtArgs> | null
+    /**
      * The data needed to create a Stream.
      */
     data: XOR<StreamCreateInput, StreamUncheckedCreateInput>
@@ -4939,6 +8729,10 @@ export namespace Prisma {
      */
     data: StreamCreateManyInput | StreamCreateManyInput[]
     skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StreamIncludeCreateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -4949,6 +8743,10 @@ export namespace Prisma {
      * Select specific fields to fetch from the Stream
      */
     select?: StreamSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StreamInclude<ExtArgs> | null
     /**
      * The data needed to update a Stream.
      */
@@ -4982,6 +8780,10 @@ export namespace Prisma {
      */
     select?: StreamSelect<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StreamInclude<ExtArgs> | null
+    /**
      * The filter to search for the Stream to update in case it exists.
      */
     where: StreamWhereUniqueInput
@@ -5004,6 +8806,10 @@ export namespace Prisma {
      */
     select?: StreamSelect<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StreamInclude<ExtArgs> | null
+    /**
      * Filter which Stream to delete.
      */
     where: StreamWhereUniqueInput
@@ -5020,6 +8826,21 @@ export namespace Prisma {
   }
 
   /**
+   * Stream.category
+   */
+  export type Stream$categoryArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentCategory
+     */
+    select?: PaymentCategorySelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentCategoryInclude<ExtArgs> | null
+    where?: PaymentCategoryWhereInput
+  }
+
+  /**
    * Stream without action
    */
   export type StreamDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -5027,6 +8848,10 @@ export namespace Prisma {
      * Select specific fields to fetch from the Stream
      */
     select?: StreamSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StreamInclude<ExtArgs> | null
   }
 
 
@@ -14687,6 +18512,916 @@ export namespace Prisma {
 
 
   /**
+   * Model Event
+   */
+
+  export type AggregateEvent = {
+    _count: EventCountAggregateOutputType | null
+    _min: EventMinAggregateOutputType | null
+    _max: EventMaxAggregateOutputType | null
+  }
+
+  export type EventMinAggregateOutputType = {
+    id: string | null
+    eventId: string | null
+    streamId: string | null
+    eventType: string | null
+    timestamp: Date | null
+    hash: string | null
+    previousHash: string | null
+  }
+
+  export type EventMaxAggregateOutputType = {
+    id: string | null
+    eventId: string | null
+    streamId: string | null
+    eventType: string | null
+    timestamp: Date | null
+    hash: string | null
+    previousHash: string | null
+  }
+
+  export type EventCountAggregateOutputType = {
+    id: number
+    eventId: number
+    streamId: number
+    eventType: number
+    payload: number
+    timestamp: number
+    hash: number
+    previousHash: number
+    _all: number
+  }
+
+
+  export type EventMinAggregateInputType = {
+    id?: true
+    eventId?: true
+    streamId?: true
+    eventType?: true
+    timestamp?: true
+    hash?: true
+    previousHash?: true
+  }
+
+  export type EventMaxAggregateInputType = {
+    id?: true
+    eventId?: true
+    streamId?: true
+    eventType?: true
+    timestamp?: true
+    hash?: true
+    previousHash?: true
+  }
+
+  export type EventCountAggregateInputType = {
+    id?: true
+    eventId?: true
+    streamId?: true
+    eventType?: true
+    payload?: true
+    timestamp?: true
+    hash?: true
+    previousHash?: true
+    _all?: true
+  }
+
+  export type EventAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Event to aggregate.
+     */
+    where?: EventWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Events to fetch.
+     */
+    orderBy?: EventOrderByWithRelationInput | EventOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: EventWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Events from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Events.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Events
+    **/
+    _count?: true | EventCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: EventMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: EventMaxAggregateInputType
+  }
+
+  export type GetEventAggregateType<T extends EventAggregateArgs> = {
+        [P in keyof T & keyof AggregateEvent]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateEvent[P]>
+      : GetScalarType<T[P], AggregateEvent[P]>
+  }
+
+
+
+
+  export type EventGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: EventWhereInput
+    orderBy?: EventOrderByWithAggregationInput | EventOrderByWithAggregationInput[]
+    by: EventScalarFieldEnum[] | EventScalarFieldEnum
+    having?: EventScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: EventCountAggregateInputType | true
+    _min?: EventMinAggregateInputType
+    _max?: EventMaxAggregateInputType
+  }
+
+  export type EventGroupByOutputType = {
+    id: string
+    eventId: string
+    streamId: string
+    eventType: string
+    payload: JsonValue
+    timestamp: Date
+    hash: string
+    previousHash: string | null
+    _count: EventCountAggregateOutputType | null
+    _min: EventMinAggregateOutputType | null
+    _max: EventMaxAggregateOutputType | null
+  }
+
+  type GetEventGroupByPayload<T extends EventGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<EventGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof EventGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], EventGroupByOutputType[P]>
+            : GetScalarType<T[P], EventGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type EventSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    eventId?: boolean
+    streamId?: boolean
+    eventType?: boolean
+    payload?: boolean
+    timestamp?: boolean
+    hash?: boolean
+    previousHash?: boolean
+  }, ExtArgs["result"]["event"]>
+
+  export type EventSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    eventId?: boolean
+    streamId?: boolean
+    eventType?: boolean
+    payload?: boolean
+    timestamp?: boolean
+    hash?: boolean
+    previousHash?: boolean
+  }, ExtArgs["result"]["event"]>
+
+  export type EventSelectScalar = {
+    id?: boolean
+    eventId?: boolean
+    streamId?: boolean
+    eventType?: boolean
+    payload?: boolean
+    timestamp?: boolean
+    hash?: boolean
+    previousHash?: boolean
+  }
+
+
+  export type $EventPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Event"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      eventId: string
+      streamId: string
+      eventType: string
+      payload: Prisma.JsonValue
+      timestamp: Date
+      hash: string
+      previousHash: string | null
+    }, ExtArgs["result"]["event"]>
+    composites: {}
+  }
+
+  type EventGetPayload<S extends boolean | null | undefined | EventDefaultArgs> = $Result.GetResult<Prisma.$EventPayload, S>
+
+  type EventCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<EventFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: EventCountAggregateInputType | true
+    }
+
+  export interface EventDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Event'], meta: { name: 'Event' } }
+    /**
+     * Find zero or one Event that matches the filter.
+     * @param {EventFindUniqueArgs} args - Arguments to find a Event
+     * @example
+     * // Get one Event
+     * const event = await prisma.event.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends EventFindUniqueArgs>(args: SelectSubset<T, EventFindUniqueArgs<ExtArgs>>): Prisma__EventClient<$Result.GetResult<Prisma.$EventPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one Event that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {EventFindUniqueOrThrowArgs} args - Arguments to find a Event
+     * @example
+     * // Get one Event
+     * const event = await prisma.event.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends EventFindUniqueOrThrowArgs>(args: SelectSubset<T, EventFindUniqueOrThrowArgs<ExtArgs>>): Prisma__EventClient<$Result.GetResult<Prisma.$EventPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first Event that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EventFindFirstArgs} args - Arguments to find a Event
+     * @example
+     * // Get one Event
+     * const event = await prisma.event.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends EventFindFirstArgs>(args?: SelectSubset<T, EventFindFirstArgs<ExtArgs>>): Prisma__EventClient<$Result.GetResult<Prisma.$EventPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first Event that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EventFindFirstOrThrowArgs} args - Arguments to find a Event
+     * @example
+     * // Get one Event
+     * const event = await prisma.event.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends EventFindFirstOrThrowArgs>(args?: SelectSubset<T, EventFindFirstOrThrowArgs<ExtArgs>>): Prisma__EventClient<$Result.GetResult<Prisma.$EventPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more Events that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EventFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Events
+     * const events = await prisma.event.findMany()
+     * 
+     * // Get first 10 Events
+     * const events = await prisma.event.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const eventWithIdOnly = await prisma.event.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends EventFindManyArgs>(args?: SelectSubset<T, EventFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EventPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a Event.
+     * @param {EventCreateArgs} args - Arguments to create a Event.
+     * @example
+     * // Create one Event
+     * const Event = await prisma.event.create({
+     *   data: {
+     *     // ... data to create a Event
+     *   }
+     * })
+     * 
+     */
+    create<T extends EventCreateArgs>(args: SelectSubset<T, EventCreateArgs<ExtArgs>>): Prisma__EventClient<$Result.GetResult<Prisma.$EventPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many Events.
+     * @param {EventCreateManyArgs} args - Arguments to create many Events.
+     * @example
+     * // Create many Events
+     * const event = await prisma.event.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends EventCreateManyArgs>(args?: SelectSubset<T, EventCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Events and returns the data saved in the database.
+     * @param {EventCreateManyAndReturnArgs} args - Arguments to create many Events.
+     * @example
+     * // Create many Events
+     * const event = await prisma.event.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Events and only return the `id`
+     * const eventWithIdOnly = await prisma.event.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends EventCreateManyAndReturnArgs>(args?: SelectSubset<T, EventCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EventPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a Event.
+     * @param {EventDeleteArgs} args - Arguments to delete one Event.
+     * @example
+     * // Delete one Event
+     * const Event = await prisma.event.delete({
+     *   where: {
+     *     // ... filter to delete one Event
+     *   }
+     * })
+     * 
+     */
+    delete<T extends EventDeleteArgs>(args: SelectSubset<T, EventDeleteArgs<ExtArgs>>): Prisma__EventClient<$Result.GetResult<Prisma.$EventPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one Event.
+     * @param {EventUpdateArgs} args - Arguments to update one Event.
+     * @example
+     * // Update one Event
+     * const event = await prisma.event.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends EventUpdateArgs>(args: SelectSubset<T, EventUpdateArgs<ExtArgs>>): Prisma__EventClient<$Result.GetResult<Prisma.$EventPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more Events.
+     * @param {EventDeleteManyArgs} args - Arguments to filter Events to delete.
+     * @example
+     * // Delete a few Events
+     * const { count } = await prisma.event.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends EventDeleteManyArgs>(args?: SelectSubset<T, EventDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Events.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EventUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Events
+     * const event = await prisma.event.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends EventUpdateManyArgs>(args: SelectSubset<T, EventUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Event.
+     * @param {EventUpsertArgs} args - Arguments to update or create a Event.
+     * @example
+     * // Update or create a Event
+     * const event = await prisma.event.upsert({
+     *   create: {
+     *     // ... data to create a Event
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Event we want to update
+     *   }
+     * })
+     */
+    upsert<T extends EventUpsertArgs>(args: SelectSubset<T, EventUpsertArgs<ExtArgs>>): Prisma__EventClient<$Result.GetResult<Prisma.$EventPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of Events.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EventCountArgs} args - Arguments to filter Events to count.
+     * @example
+     * // Count the number of Events
+     * const count = await prisma.event.count({
+     *   where: {
+     *     // ... the filter for the Events we want to count
+     *   }
+     * })
+    **/
+    count<T extends EventCountArgs>(
+      args?: Subset<T, EventCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], EventCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Event.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EventAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends EventAggregateArgs>(args: Subset<T, EventAggregateArgs>): Prisma.PrismaPromise<GetEventAggregateType<T>>
+
+    /**
+     * Group by Event.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EventGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends EventGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: EventGroupByArgs['orderBy'] }
+        : { orderBy?: EventGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, EventGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetEventGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Event model
+   */
+  readonly fields: EventFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Event.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__EventClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Event model
+   */ 
+  interface EventFieldRefs {
+    readonly id: FieldRef<"Event", 'String'>
+    readonly eventId: FieldRef<"Event", 'String'>
+    readonly streamId: FieldRef<"Event", 'String'>
+    readonly eventType: FieldRef<"Event", 'String'>
+    readonly payload: FieldRef<"Event", 'Json'>
+    readonly timestamp: FieldRef<"Event", 'DateTime'>
+    readonly hash: FieldRef<"Event", 'String'>
+    readonly previousHash: FieldRef<"Event", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Event findUnique
+   */
+  export type EventFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Event
+     */
+    select?: EventSelect<ExtArgs> | null
+    /**
+     * Filter, which Event to fetch.
+     */
+    where: EventWhereUniqueInput
+  }
+
+  /**
+   * Event findUniqueOrThrow
+   */
+  export type EventFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Event
+     */
+    select?: EventSelect<ExtArgs> | null
+    /**
+     * Filter, which Event to fetch.
+     */
+    where: EventWhereUniqueInput
+  }
+
+  /**
+   * Event findFirst
+   */
+  export type EventFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Event
+     */
+    select?: EventSelect<ExtArgs> | null
+    /**
+     * Filter, which Event to fetch.
+     */
+    where?: EventWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Events to fetch.
+     */
+    orderBy?: EventOrderByWithRelationInput | EventOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Events.
+     */
+    cursor?: EventWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Events from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Events.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Events.
+     */
+    distinct?: EventScalarFieldEnum | EventScalarFieldEnum[]
+  }
+
+  /**
+   * Event findFirstOrThrow
+   */
+  export type EventFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Event
+     */
+    select?: EventSelect<ExtArgs> | null
+    /**
+     * Filter, which Event to fetch.
+     */
+    where?: EventWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Events to fetch.
+     */
+    orderBy?: EventOrderByWithRelationInput | EventOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Events.
+     */
+    cursor?: EventWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Events from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Events.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Events.
+     */
+    distinct?: EventScalarFieldEnum | EventScalarFieldEnum[]
+  }
+
+  /**
+   * Event findMany
+   */
+  export type EventFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Event
+     */
+    select?: EventSelect<ExtArgs> | null
+    /**
+     * Filter, which Events to fetch.
+     */
+    where?: EventWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Events to fetch.
+     */
+    orderBy?: EventOrderByWithRelationInput | EventOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Events.
+     */
+    cursor?: EventWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Events from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Events.
+     */
+    skip?: number
+    distinct?: EventScalarFieldEnum | EventScalarFieldEnum[]
+  }
+
+  /**
+   * Event create
+   */
+  export type EventCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Event
+     */
+    select?: EventSelect<ExtArgs> | null
+    /**
+     * The data needed to create a Event.
+     */
+    data: XOR<EventCreateInput, EventUncheckedCreateInput>
+  }
+
+  /**
+   * Event createMany
+   */
+  export type EventCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Events.
+     */
+    data: EventCreateManyInput | EventCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Event createManyAndReturn
+   */
+  export type EventCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Event
+     */
+    select?: EventSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many Events.
+     */
+    data: EventCreateManyInput | EventCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Event update
+   */
+  export type EventUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Event
+     */
+    select?: EventSelect<ExtArgs> | null
+    /**
+     * The data needed to update a Event.
+     */
+    data: XOR<EventUpdateInput, EventUncheckedUpdateInput>
+    /**
+     * Choose, which Event to update.
+     */
+    where: EventWhereUniqueInput
+  }
+
+  /**
+   * Event updateMany
+   */
+  export type EventUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Events.
+     */
+    data: XOR<EventUpdateManyMutationInput, EventUncheckedUpdateManyInput>
+    /**
+     * Filter which Events to update
+     */
+    where?: EventWhereInput
+  }
+
+  /**
+   * Event upsert
+   */
+  export type EventUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Event
+     */
+    select?: EventSelect<ExtArgs> | null
+    /**
+     * The filter to search for the Event to update in case it exists.
+     */
+    where: EventWhereUniqueInput
+    /**
+     * In case the Event found by the `where` argument doesn't exist, create a new Event with this data.
+     */
+    create: XOR<EventCreateInput, EventUncheckedCreateInput>
+    /**
+     * In case the Event was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<EventUpdateInput, EventUncheckedUpdateInput>
+  }
+
+  /**
+   * Event delete
+   */
+  export type EventDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Event
+     */
+    select?: EventSelect<ExtArgs> | null
+    /**
+     * Filter which Event to delete.
+     */
+    where: EventWhereUniqueInput
+  }
+
+  /**
+   * Event deleteMany
+   */
+  export type EventDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Events to delete
+     */
+    where?: EventWhereInput
+  }
+
+  /**
+   * Event without action
+   */
+  export type EventDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Event
+     */
+    select?: EventSelect<ExtArgs> | null
+  }
+
+
+  /**
    * Model OrganizationMember
    */
 
@@ -17454,6 +22189,1796 @@ export namespace Prisma {
      * Select specific fields to fetch from the LedgerHash
      */
     select?: LedgerHashSelect<ExtArgs> | null
+  }
+
+
+  /**
+   * Model SyncMetadata
+   */
+
+  export type AggregateSyncMetadata = {
+    _count: SyncMetadataCountAggregateOutputType | null
+    _avg: SyncMetadataAvgAggregateOutputType | null
+    _sum: SyncMetadataSumAggregateOutputType | null
+    _min: SyncMetadataMinAggregateOutputType | null
+    _max: SyncMetadataMaxAggregateOutputType | null
+  }
+
+  export type SyncMetadataAvgAggregateOutputType = {
+    lastLedgerSequence: number | null
+  }
+
+  export type SyncMetadataSumAggregateOutputType = {
+    lastLedgerSequence: number | null
+  }
+
+  export type SyncMetadataMinAggregateOutputType = {
+    id: string | null
+    lastLedgerSequence: number | null
+  }
+
+  export type SyncMetadataMaxAggregateOutputType = {
+    id: string | null
+    lastLedgerSequence: number | null
+  }
+
+  export type SyncMetadataCountAggregateOutputType = {
+    id: number
+    lastLedgerSequence: number
+    _all: number
+  }
+
+
+  export type SyncMetadataAvgAggregateInputType = {
+    lastLedgerSequence?: true
+  }
+
+  export type SyncMetadataSumAggregateInputType = {
+    lastLedgerSequence?: true
+  }
+
+  export type SyncMetadataMinAggregateInputType = {
+    id?: true
+    lastLedgerSequence?: true
+  }
+
+  export type SyncMetadataMaxAggregateInputType = {
+    id?: true
+    lastLedgerSequence?: true
+  }
+
+  export type SyncMetadataCountAggregateInputType = {
+    id?: true
+    lastLedgerSequence?: true
+    _all?: true
+  }
+
+  export type SyncMetadataAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SyncMetadata to aggregate.
+     */
+    where?: SyncMetadataWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SyncMetadata to fetch.
+     */
+    orderBy?: SyncMetadataOrderByWithRelationInput | SyncMetadataOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: SyncMetadataWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SyncMetadata from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SyncMetadata.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned SyncMetadata
+    **/
+    _count?: true | SyncMetadataCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: SyncMetadataAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: SyncMetadataSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: SyncMetadataMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: SyncMetadataMaxAggregateInputType
+  }
+
+  export type GetSyncMetadataAggregateType<T extends SyncMetadataAggregateArgs> = {
+        [P in keyof T & keyof AggregateSyncMetadata]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateSyncMetadata[P]>
+      : GetScalarType<T[P], AggregateSyncMetadata[P]>
+  }
+
+
+
+
+  export type SyncMetadataGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SyncMetadataWhereInput
+    orderBy?: SyncMetadataOrderByWithAggregationInput | SyncMetadataOrderByWithAggregationInput[]
+    by: SyncMetadataScalarFieldEnum[] | SyncMetadataScalarFieldEnum
+    having?: SyncMetadataScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: SyncMetadataCountAggregateInputType | true
+    _avg?: SyncMetadataAvgAggregateInputType
+    _sum?: SyncMetadataSumAggregateInputType
+    _min?: SyncMetadataMinAggregateInputType
+    _max?: SyncMetadataMaxAggregateInputType
+  }
+
+  export type SyncMetadataGroupByOutputType = {
+    id: string
+    lastLedgerSequence: number
+    _count: SyncMetadataCountAggregateOutputType | null
+    _avg: SyncMetadataAvgAggregateOutputType | null
+    _sum: SyncMetadataSumAggregateOutputType | null
+    _min: SyncMetadataMinAggregateOutputType | null
+    _max: SyncMetadataMaxAggregateOutputType | null
+  }
+
+  type GetSyncMetadataGroupByPayload<T extends SyncMetadataGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<SyncMetadataGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof SyncMetadataGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], SyncMetadataGroupByOutputType[P]>
+            : GetScalarType<T[P], SyncMetadataGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type SyncMetadataSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    lastLedgerSequence?: boolean
+  }, ExtArgs["result"]["syncMetadata"]>
+
+  export type SyncMetadataSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    lastLedgerSequence?: boolean
+  }, ExtArgs["result"]["syncMetadata"]>
+
+  export type SyncMetadataSelectScalar = {
+    id?: boolean
+    lastLedgerSequence?: boolean
+  }
+
+
+  export type $SyncMetadataPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "SyncMetadata"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      lastLedgerSequence: number
+    }, ExtArgs["result"]["syncMetadata"]>
+    composites: {}
+  }
+
+  type SyncMetadataGetPayload<S extends boolean | null | undefined | SyncMetadataDefaultArgs> = $Result.GetResult<Prisma.$SyncMetadataPayload, S>
+
+  type SyncMetadataCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<SyncMetadataFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: SyncMetadataCountAggregateInputType | true
+    }
+
+  export interface SyncMetadataDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['SyncMetadata'], meta: { name: 'SyncMetadata' } }
+    /**
+     * Find zero or one SyncMetadata that matches the filter.
+     * @param {SyncMetadataFindUniqueArgs} args - Arguments to find a SyncMetadata
+     * @example
+     * // Get one SyncMetadata
+     * const syncMetadata = await prisma.syncMetadata.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends SyncMetadataFindUniqueArgs>(args: SelectSubset<T, SyncMetadataFindUniqueArgs<ExtArgs>>): Prisma__SyncMetadataClient<$Result.GetResult<Prisma.$SyncMetadataPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one SyncMetadata that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {SyncMetadataFindUniqueOrThrowArgs} args - Arguments to find a SyncMetadata
+     * @example
+     * // Get one SyncMetadata
+     * const syncMetadata = await prisma.syncMetadata.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends SyncMetadataFindUniqueOrThrowArgs>(args: SelectSubset<T, SyncMetadataFindUniqueOrThrowArgs<ExtArgs>>): Prisma__SyncMetadataClient<$Result.GetResult<Prisma.$SyncMetadataPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first SyncMetadata that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SyncMetadataFindFirstArgs} args - Arguments to find a SyncMetadata
+     * @example
+     * // Get one SyncMetadata
+     * const syncMetadata = await prisma.syncMetadata.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends SyncMetadataFindFirstArgs>(args?: SelectSubset<T, SyncMetadataFindFirstArgs<ExtArgs>>): Prisma__SyncMetadataClient<$Result.GetResult<Prisma.$SyncMetadataPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first SyncMetadata that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SyncMetadataFindFirstOrThrowArgs} args - Arguments to find a SyncMetadata
+     * @example
+     * // Get one SyncMetadata
+     * const syncMetadata = await prisma.syncMetadata.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends SyncMetadataFindFirstOrThrowArgs>(args?: SelectSubset<T, SyncMetadataFindFirstOrThrowArgs<ExtArgs>>): Prisma__SyncMetadataClient<$Result.GetResult<Prisma.$SyncMetadataPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more SyncMetadata that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SyncMetadataFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all SyncMetadata
+     * const syncMetadata = await prisma.syncMetadata.findMany()
+     * 
+     * // Get first 10 SyncMetadata
+     * const syncMetadata = await prisma.syncMetadata.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const syncMetadataWithIdOnly = await prisma.syncMetadata.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends SyncMetadataFindManyArgs>(args?: SelectSubset<T, SyncMetadataFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SyncMetadataPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a SyncMetadata.
+     * @param {SyncMetadataCreateArgs} args - Arguments to create a SyncMetadata.
+     * @example
+     * // Create one SyncMetadata
+     * const SyncMetadata = await prisma.syncMetadata.create({
+     *   data: {
+     *     // ... data to create a SyncMetadata
+     *   }
+     * })
+     * 
+     */
+    create<T extends SyncMetadataCreateArgs>(args: SelectSubset<T, SyncMetadataCreateArgs<ExtArgs>>): Prisma__SyncMetadataClient<$Result.GetResult<Prisma.$SyncMetadataPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many SyncMetadata.
+     * @param {SyncMetadataCreateManyArgs} args - Arguments to create many SyncMetadata.
+     * @example
+     * // Create many SyncMetadata
+     * const syncMetadata = await prisma.syncMetadata.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends SyncMetadataCreateManyArgs>(args?: SelectSubset<T, SyncMetadataCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many SyncMetadata and returns the data saved in the database.
+     * @param {SyncMetadataCreateManyAndReturnArgs} args - Arguments to create many SyncMetadata.
+     * @example
+     * // Create many SyncMetadata
+     * const syncMetadata = await prisma.syncMetadata.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many SyncMetadata and only return the `id`
+     * const syncMetadataWithIdOnly = await prisma.syncMetadata.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends SyncMetadataCreateManyAndReturnArgs>(args?: SelectSubset<T, SyncMetadataCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SyncMetadataPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a SyncMetadata.
+     * @param {SyncMetadataDeleteArgs} args - Arguments to delete one SyncMetadata.
+     * @example
+     * // Delete one SyncMetadata
+     * const SyncMetadata = await prisma.syncMetadata.delete({
+     *   where: {
+     *     // ... filter to delete one SyncMetadata
+     *   }
+     * })
+     * 
+     */
+    delete<T extends SyncMetadataDeleteArgs>(args: SelectSubset<T, SyncMetadataDeleteArgs<ExtArgs>>): Prisma__SyncMetadataClient<$Result.GetResult<Prisma.$SyncMetadataPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one SyncMetadata.
+     * @param {SyncMetadataUpdateArgs} args - Arguments to update one SyncMetadata.
+     * @example
+     * // Update one SyncMetadata
+     * const syncMetadata = await prisma.syncMetadata.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends SyncMetadataUpdateArgs>(args: SelectSubset<T, SyncMetadataUpdateArgs<ExtArgs>>): Prisma__SyncMetadataClient<$Result.GetResult<Prisma.$SyncMetadataPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more SyncMetadata.
+     * @param {SyncMetadataDeleteManyArgs} args - Arguments to filter SyncMetadata to delete.
+     * @example
+     * // Delete a few SyncMetadata
+     * const { count } = await prisma.syncMetadata.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends SyncMetadataDeleteManyArgs>(args?: SelectSubset<T, SyncMetadataDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more SyncMetadata.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SyncMetadataUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many SyncMetadata
+     * const syncMetadata = await prisma.syncMetadata.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends SyncMetadataUpdateManyArgs>(args: SelectSubset<T, SyncMetadataUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one SyncMetadata.
+     * @param {SyncMetadataUpsertArgs} args - Arguments to update or create a SyncMetadata.
+     * @example
+     * // Update or create a SyncMetadata
+     * const syncMetadata = await prisma.syncMetadata.upsert({
+     *   create: {
+     *     // ... data to create a SyncMetadata
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the SyncMetadata we want to update
+     *   }
+     * })
+     */
+    upsert<T extends SyncMetadataUpsertArgs>(args: SelectSubset<T, SyncMetadataUpsertArgs<ExtArgs>>): Prisma__SyncMetadataClient<$Result.GetResult<Prisma.$SyncMetadataPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of SyncMetadata.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SyncMetadataCountArgs} args - Arguments to filter SyncMetadata to count.
+     * @example
+     * // Count the number of SyncMetadata
+     * const count = await prisma.syncMetadata.count({
+     *   where: {
+     *     // ... the filter for the SyncMetadata we want to count
+     *   }
+     * })
+    **/
+    count<T extends SyncMetadataCountArgs>(
+      args?: Subset<T, SyncMetadataCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], SyncMetadataCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a SyncMetadata.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SyncMetadataAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends SyncMetadataAggregateArgs>(args: Subset<T, SyncMetadataAggregateArgs>): Prisma.PrismaPromise<GetSyncMetadataAggregateType<T>>
+
+    /**
+     * Group by SyncMetadata.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SyncMetadataGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends SyncMetadataGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: SyncMetadataGroupByArgs['orderBy'] }
+        : { orderBy?: SyncMetadataGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, SyncMetadataGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetSyncMetadataGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the SyncMetadata model
+   */
+  readonly fields: SyncMetadataFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for SyncMetadata.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__SyncMetadataClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the SyncMetadata model
+   */ 
+  interface SyncMetadataFieldRefs {
+    readonly id: FieldRef<"SyncMetadata", 'String'>
+    readonly lastLedgerSequence: FieldRef<"SyncMetadata", 'Int'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * SyncMetadata findUnique
+   */
+  export type SyncMetadataFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SyncMetadata
+     */
+    select?: SyncMetadataSelect<ExtArgs> | null
+    /**
+     * Filter, which SyncMetadata to fetch.
+     */
+    where: SyncMetadataWhereUniqueInput
+  }
+
+  /**
+   * SyncMetadata findUniqueOrThrow
+   */
+  export type SyncMetadataFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SyncMetadata
+     */
+    select?: SyncMetadataSelect<ExtArgs> | null
+    /**
+     * Filter, which SyncMetadata to fetch.
+     */
+    where: SyncMetadataWhereUniqueInput
+  }
+
+  /**
+   * SyncMetadata findFirst
+   */
+  export type SyncMetadataFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SyncMetadata
+     */
+    select?: SyncMetadataSelect<ExtArgs> | null
+    /**
+     * Filter, which SyncMetadata to fetch.
+     */
+    where?: SyncMetadataWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SyncMetadata to fetch.
+     */
+    orderBy?: SyncMetadataOrderByWithRelationInput | SyncMetadataOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SyncMetadata.
+     */
+    cursor?: SyncMetadataWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SyncMetadata from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SyncMetadata.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SyncMetadata.
+     */
+    distinct?: SyncMetadataScalarFieldEnum | SyncMetadataScalarFieldEnum[]
+  }
+
+  /**
+   * SyncMetadata findFirstOrThrow
+   */
+  export type SyncMetadataFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SyncMetadata
+     */
+    select?: SyncMetadataSelect<ExtArgs> | null
+    /**
+     * Filter, which SyncMetadata to fetch.
+     */
+    where?: SyncMetadataWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SyncMetadata to fetch.
+     */
+    orderBy?: SyncMetadataOrderByWithRelationInput | SyncMetadataOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SyncMetadata.
+     */
+    cursor?: SyncMetadataWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SyncMetadata from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SyncMetadata.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SyncMetadata.
+     */
+    distinct?: SyncMetadataScalarFieldEnum | SyncMetadataScalarFieldEnum[]
+  }
+
+  /**
+   * SyncMetadata findMany
+   */
+  export type SyncMetadataFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SyncMetadata
+     */
+    select?: SyncMetadataSelect<ExtArgs> | null
+    /**
+     * Filter, which SyncMetadata to fetch.
+     */
+    where?: SyncMetadataWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SyncMetadata to fetch.
+     */
+    orderBy?: SyncMetadataOrderByWithRelationInput | SyncMetadataOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing SyncMetadata.
+     */
+    cursor?: SyncMetadataWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SyncMetadata from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SyncMetadata.
+     */
+    skip?: number
+    distinct?: SyncMetadataScalarFieldEnum | SyncMetadataScalarFieldEnum[]
+  }
+
+  /**
+   * SyncMetadata create
+   */
+  export type SyncMetadataCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SyncMetadata
+     */
+    select?: SyncMetadataSelect<ExtArgs> | null
+    /**
+     * The data needed to create a SyncMetadata.
+     */
+    data: XOR<SyncMetadataCreateInput, SyncMetadataUncheckedCreateInput>
+  }
+
+  /**
+   * SyncMetadata createMany
+   */
+  export type SyncMetadataCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many SyncMetadata.
+     */
+    data: SyncMetadataCreateManyInput | SyncMetadataCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * SyncMetadata createManyAndReturn
+   */
+  export type SyncMetadataCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SyncMetadata
+     */
+    select?: SyncMetadataSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many SyncMetadata.
+     */
+    data: SyncMetadataCreateManyInput | SyncMetadataCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * SyncMetadata update
+   */
+  export type SyncMetadataUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SyncMetadata
+     */
+    select?: SyncMetadataSelect<ExtArgs> | null
+    /**
+     * The data needed to update a SyncMetadata.
+     */
+    data: XOR<SyncMetadataUpdateInput, SyncMetadataUncheckedUpdateInput>
+    /**
+     * Choose, which SyncMetadata to update.
+     */
+    where: SyncMetadataWhereUniqueInput
+  }
+
+  /**
+   * SyncMetadata updateMany
+   */
+  export type SyncMetadataUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update SyncMetadata.
+     */
+    data: XOR<SyncMetadataUpdateManyMutationInput, SyncMetadataUncheckedUpdateManyInput>
+    /**
+     * Filter which SyncMetadata to update
+     */
+    where?: SyncMetadataWhereInput
+  }
+
+  /**
+   * SyncMetadata upsert
+   */
+  export type SyncMetadataUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SyncMetadata
+     */
+    select?: SyncMetadataSelect<ExtArgs> | null
+    /**
+     * The filter to search for the SyncMetadata to update in case it exists.
+     */
+    where: SyncMetadataWhereUniqueInput
+    /**
+     * In case the SyncMetadata found by the `where` argument doesn't exist, create a new SyncMetadata with this data.
+     */
+    create: XOR<SyncMetadataCreateInput, SyncMetadataUncheckedCreateInput>
+    /**
+     * In case the SyncMetadata was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<SyncMetadataUpdateInput, SyncMetadataUncheckedUpdateInput>
+  }
+
+  /**
+   * SyncMetadata delete
+   */
+  export type SyncMetadataDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SyncMetadata
+     */
+    select?: SyncMetadataSelect<ExtArgs> | null
+    /**
+     * Filter which SyncMetadata to delete.
+     */
+    where: SyncMetadataWhereUniqueInput
+  }
+
+  /**
+   * SyncMetadata deleteMany
+   */
+  export type SyncMetadataDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SyncMetadata to delete
+     */
+    where?: SyncMetadataWhereInput
+  }
+
+  /**
+   * SyncMetadata without action
+   */
+  export type SyncMetadataDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SyncMetadata
+     */
+    select?: SyncMetadataSelect<ExtArgs> | null
+  }
+
+
+  /**
+   * Model ClawbackHistory
+   */
+
+  export type AggregateClawbackHistory = {
+    _count: ClawbackHistoryCountAggregateOutputType | null
+    _min: ClawbackHistoryMinAggregateOutputType | null
+    _max: ClawbackHistoryMaxAggregateOutputType | null
+  }
+
+  export type ClawbackHistoryMinAggregateOutputType = {
+    id: string | null
+    streamId: string | null
+    amount: string | null
+    reason: string | null
+    createdAt: Date | null
+    executedAt: Date | null
+    txHash: string | null
+    status: string | null
+  }
+
+  export type ClawbackHistoryMaxAggregateOutputType = {
+    id: string | null
+    streamId: string | null
+    amount: string | null
+    reason: string | null
+    createdAt: Date | null
+    executedAt: Date | null
+    txHash: string | null
+    status: string | null
+  }
+
+  export type ClawbackHistoryCountAggregateOutputType = {
+    id: number
+    streamId: number
+    amount: number
+    reason: number
+    createdAt: number
+    executedAt: number
+    txHash: number
+    status: number
+    _all: number
+  }
+
+
+  export type ClawbackHistoryMinAggregateInputType = {
+    id?: true
+    streamId?: true
+    amount?: true
+    reason?: true
+    createdAt?: true
+    executedAt?: true
+    txHash?: true
+    status?: true
+  }
+
+  export type ClawbackHistoryMaxAggregateInputType = {
+    id?: true
+    streamId?: true
+    amount?: true
+    reason?: true
+    createdAt?: true
+    executedAt?: true
+    txHash?: true
+    status?: true
+  }
+
+  export type ClawbackHistoryCountAggregateInputType = {
+    id?: true
+    streamId?: true
+    amount?: true
+    reason?: true
+    createdAt?: true
+    executedAt?: true
+    txHash?: true
+    status?: true
+    _all?: true
+  }
+
+  export type ClawbackHistoryAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ClawbackHistory to aggregate.
+     */
+    where?: ClawbackHistoryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ClawbackHistories to fetch.
+     */
+    orderBy?: ClawbackHistoryOrderByWithRelationInput | ClawbackHistoryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ClawbackHistoryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ClawbackHistories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ClawbackHistories.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ClawbackHistories
+    **/
+    _count?: true | ClawbackHistoryCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ClawbackHistoryMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ClawbackHistoryMaxAggregateInputType
+  }
+
+  export type GetClawbackHistoryAggregateType<T extends ClawbackHistoryAggregateArgs> = {
+        [P in keyof T & keyof AggregateClawbackHistory]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateClawbackHistory[P]>
+      : GetScalarType<T[P], AggregateClawbackHistory[P]>
+  }
+
+
+
+
+  export type ClawbackHistoryGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ClawbackHistoryWhereInput
+    orderBy?: ClawbackHistoryOrderByWithAggregationInput | ClawbackHistoryOrderByWithAggregationInput[]
+    by: ClawbackHistoryScalarFieldEnum[] | ClawbackHistoryScalarFieldEnum
+    having?: ClawbackHistoryScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ClawbackHistoryCountAggregateInputType | true
+    _min?: ClawbackHistoryMinAggregateInputType
+    _max?: ClawbackHistoryMaxAggregateInputType
+  }
+
+  export type ClawbackHistoryGroupByOutputType = {
+    id: string
+    streamId: string
+    amount: string
+    reason: string
+    createdAt: Date
+    executedAt: Date
+    txHash: string | null
+    status: string
+    _count: ClawbackHistoryCountAggregateOutputType | null
+    _min: ClawbackHistoryMinAggregateOutputType | null
+    _max: ClawbackHistoryMaxAggregateOutputType | null
+  }
+
+  type GetClawbackHistoryGroupByPayload<T extends ClawbackHistoryGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ClawbackHistoryGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ClawbackHistoryGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ClawbackHistoryGroupByOutputType[P]>
+            : GetScalarType<T[P], ClawbackHistoryGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ClawbackHistorySelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    streamId?: boolean
+    amount?: boolean
+    reason?: boolean
+    createdAt?: boolean
+    executedAt?: boolean
+    txHash?: boolean
+    status?: boolean
+  }, ExtArgs["result"]["clawbackHistory"]>
+
+  export type ClawbackHistorySelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    streamId?: boolean
+    amount?: boolean
+    reason?: boolean
+    createdAt?: boolean
+    executedAt?: boolean
+    txHash?: boolean
+    status?: boolean
+  }, ExtArgs["result"]["clawbackHistory"]>
+
+  export type ClawbackHistorySelectScalar = {
+    id?: boolean
+    streamId?: boolean
+    amount?: boolean
+    reason?: boolean
+    createdAt?: boolean
+    executedAt?: boolean
+    txHash?: boolean
+    status?: boolean
+  }
+
+
+  export type $ClawbackHistoryPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ClawbackHistory"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      streamId: string
+      amount: string
+      reason: string
+      createdAt: Date
+      executedAt: Date
+      txHash: string | null
+      status: string
+    }, ExtArgs["result"]["clawbackHistory"]>
+    composites: {}
+  }
+
+  type ClawbackHistoryGetPayload<S extends boolean | null | undefined | ClawbackHistoryDefaultArgs> = $Result.GetResult<Prisma.$ClawbackHistoryPayload, S>
+
+  type ClawbackHistoryCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<ClawbackHistoryFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: ClawbackHistoryCountAggregateInputType | true
+    }
+
+  export interface ClawbackHistoryDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ClawbackHistory'], meta: { name: 'ClawbackHistory' } }
+    /**
+     * Find zero or one ClawbackHistory that matches the filter.
+     * @param {ClawbackHistoryFindUniqueArgs} args - Arguments to find a ClawbackHistory
+     * @example
+     * // Get one ClawbackHistory
+     * const clawbackHistory = await prisma.clawbackHistory.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ClawbackHistoryFindUniqueArgs>(args: SelectSubset<T, ClawbackHistoryFindUniqueArgs<ExtArgs>>): Prisma__ClawbackHistoryClient<$Result.GetResult<Prisma.$ClawbackHistoryPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one ClawbackHistory that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {ClawbackHistoryFindUniqueOrThrowArgs} args - Arguments to find a ClawbackHistory
+     * @example
+     * // Get one ClawbackHistory
+     * const clawbackHistory = await prisma.clawbackHistory.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ClawbackHistoryFindUniqueOrThrowArgs>(args: SelectSubset<T, ClawbackHistoryFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ClawbackHistoryClient<$Result.GetResult<Prisma.$ClawbackHistoryPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first ClawbackHistory that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ClawbackHistoryFindFirstArgs} args - Arguments to find a ClawbackHistory
+     * @example
+     * // Get one ClawbackHistory
+     * const clawbackHistory = await prisma.clawbackHistory.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ClawbackHistoryFindFirstArgs>(args?: SelectSubset<T, ClawbackHistoryFindFirstArgs<ExtArgs>>): Prisma__ClawbackHistoryClient<$Result.GetResult<Prisma.$ClawbackHistoryPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first ClawbackHistory that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ClawbackHistoryFindFirstOrThrowArgs} args - Arguments to find a ClawbackHistory
+     * @example
+     * // Get one ClawbackHistory
+     * const clawbackHistory = await prisma.clawbackHistory.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ClawbackHistoryFindFirstOrThrowArgs>(args?: SelectSubset<T, ClawbackHistoryFindFirstOrThrowArgs<ExtArgs>>): Prisma__ClawbackHistoryClient<$Result.GetResult<Prisma.$ClawbackHistoryPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more ClawbackHistories that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ClawbackHistoryFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ClawbackHistories
+     * const clawbackHistories = await prisma.clawbackHistory.findMany()
+     * 
+     * // Get first 10 ClawbackHistories
+     * const clawbackHistories = await prisma.clawbackHistory.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const clawbackHistoryWithIdOnly = await prisma.clawbackHistory.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ClawbackHistoryFindManyArgs>(args?: SelectSubset<T, ClawbackHistoryFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ClawbackHistoryPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a ClawbackHistory.
+     * @param {ClawbackHistoryCreateArgs} args - Arguments to create a ClawbackHistory.
+     * @example
+     * // Create one ClawbackHistory
+     * const ClawbackHistory = await prisma.clawbackHistory.create({
+     *   data: {
+     *     // ... data to create a ClawbackHistory
+     *   }
+     * })
+     * 
+     */
+    create<T extends ClawbackHistoryCreateArgs>(args: SelectSubset<T, ClawbackHistoryCreateArgs<ExtArgs>>): Prisma__ClawbackHistoryClient<$Result.GetResult<Prisma.$ClawbackHistoryPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many ClawbackHistories.
+     * @param {ClawbackHistoryCreateManyArgs} args - Arguments to create many ClawbackHistories.
+     * @example
+     * // Create many ClawbackHistories
+     * const clawbackHistory = await prisma.clawbackHistory.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ClawbackHistoryCreateManyArgs>(args?: SelectSubset<T, ClawbackHistoryCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ClawbackHistories and returns the data saved in the database.
+     * @param {ClawbackHistoryCreateManyAndReturnArgs} args - Arguments to create many ClawbackHistories.
+     * @example
+     * // Create many ClawbackHistories
+     * const clawbackHistory = await prisma.clawbackHistory.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ClawbackHistories and only return the `id`
+     * const clawbackHistoryWithIdOnly = await prisma.clawbackHistory.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ClawbackHistoryCreateManyAndReturnArgs>(args?: SelectSubset<T, ClawbackHistoryCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ClawbackHistoryPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a ClawbackHistory.
+     * @param {ClawbackHistoryDeleteArgs} args - Arguments to delete one ClawbackHistory.
+     * @example
+     * // Delete one ClawbackHistory
+     * const ClawbackHistory = await prisma.clawbackHistory.delete({
+     *   where: {
+     *     // ... filter to delete one ClawbackHistory
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ClawbackHistoryDeleteArgs>(args: SelectSubset<T, ClawbackHistoryDeleteArgs<ExtArgs>>): Prisma__ClawbackHistoryClient<$Result.GetResult<Prisma.$ClawbackHistoryPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one ClawbackHistory.
+     * @param {ClawbackHistoryUpdateArgs} args - Arguments to update one ClawbackHistory.
+     * @example
+     * // Update one ClawbackHistory
+     * const clawbackHistory = await prisma.clawbackHistory.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ClawbackHistoryUpdateArgs>(args: SelectSubset<T, ClawbackHistoryUpdateArgs<ExtArgs>>): Prisma__ClawbackHistoryClient<$Result.GetResult<Prisma.$ClawbackHistoryPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more ClawbackHistories.
+     * @param {ClawbackHistoryDeleteManyArgs} args - Arguments to filter ClawbackHistories to delete.
+     * @example
+     * // Delete a few ClawbackHistories
+     * const { count } = await prisma.clawbackHistory.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ClawbackHistoryDeleteManyArgs>(args?: SelectSubset<T, ClawbackHistoryDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ClawbackHistories.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ClawbackHistoryUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ClawbackHistories
+     * const clawbackHistory = await prisma.clawbackHistory.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ClawbackHistoryUpdateManyArgs>(args: SelectSubset<T, ClawbackHistoryUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one ClawbackHistory.
+     * @param {ClawbackHistoryUpsertArgs} args - Arguments to update or create a ClawbackHistory.
+     * @example
+     * // Update or create a ClawbackHistory
+     * const clawbackHistory = await prisma.clawbackHistory.upsert({
+     *   create: {
+     *     // ... data to create a ClawbackHistory
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ClawbackHistory we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ClawbackHistoryUpsertArgs>(args: SelectSubset<T, ClawbackHistoryUpsertArgs<ExtArgs>>): Prisma__ClawbackHistoryClient<$Result.GetResult<Prisma.$ClawbackHistoryPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of ClawbackHistories.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ClawbackHistoryCountArgs} args - Arguments to filter ClawbackHistories to count.
+     * @example
+     * // Count the number of ClawbackHistories
+     * const count = await prisma.clawbackHistory.count({
+     *   where: {
+     *     // ... the filter for the ClawbackHistories we want to count
+     *   }
+     * })
+    **/
+    count<T extends ClawbackHistoryCountArgs>(
+      args?: Subset<T, ClawbackHistoryCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ClawbackHistoryCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ClawbackHistory.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ClawbackHistoryAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ClawbackHistoryAggregateArgs>(args: Subset<T, ClawbackHistoryAggregateArgs>): Prisma.PrismaPromise<GetClawbackHistoryAggregateType<T>>
+
+    /**
+     * Group by ClawbackHistory.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ClawbackHistoryGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ClawbackHistoryGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ClawbackHistoryGroupByArgs['orderBy'] }
+        : { orderBy?: ClawbackHistoryGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ClawbackHistoryGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetClawbackHistoryGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ClawbackHistory model
+   */
+  readonly fields: ClawbackHistoryFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ClawbackHistory.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ClawbackHistoryClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ClawbackHistory model
+   */ 
+  interface ClawbackHistoryFieldRefs {
+    readonly id: FieldRef<"ClawbackHistory", 'String'>
+    readonly streamId: FieldRef<"ClawbackHistory", 'String'>
+    readonly amount: FieldRef<"ClawbackHistory", 'String'>
+    readonly reason: FieldRef<"ClawbackHistory", 'String'>
+    readonly createdAt: FieldRef<"ClawbackHistory", 'DateTime'>
+    readonly executedAt: FieldRef<"ClawbackHistory", 'DateTime'>
+    readonly txHash: FieldRef<"ClawbackHistory", 'String'>
+    readonly status: FieldRef<"ClawbackHistory", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ClawbackHistory findUnique
+   */
+  export type ClawbackHistoryFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClawbackHistory
+     */
+    select?: ClawbackHistorySelect<ExtArgs> | null
+    /**
+     * Filter, which ClawbackHistory to fetch.
+     */
+    where: ClawbackHistoryWhereUniqueInput
+  }
+
+  /**
+   * ClawbackHistory findUniqueOrThrow
+   */
+  export type ClawbackHistoryFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClawbackHistory
+     */
+    select?: ClawbackHistorySelect<ExtArgs> | null
+    /**
+     * Filter, which ClawbackHistory to fetch.
+     */
+    where: ClawbackHistoryWhereUniqueInput
+  }
+
+  /**
+   * ClawbackHistory findFirst
+   */
+  export type ClawbackHistoryFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClawbackHistory
+     */
+    select?: ClawbackHistorySelect<ExtArgs> | null
+    /**
+     * Filter, which ClawbackHistory to fetch.
+     */
+    where?: ClawbackHistoryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ClawbackHistories to fetch.
+     */
+    orderBy?: ClawbackHistoryOrderByWithRelationInput | ClawbackHistoryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ClawbackHistories.
+     */
+    cursor?: ClawbackHistoryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ClawbackHistories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ClawbackHistories.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ClawbackHistories.
+     */
+    distinct?: ClawbackHistoryScalarFieldEnum | ClawbackHistoryScalarFieldEnum[]
+  }
+
+  /**
+   * ClawbackHistory findFirstOrThrow
+   */
+  export type ClawbackHistoryFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClawbackHistory
+     */
+    select?: ClawbackHistorySelect<ExtArgs> | null
+    /**
+     * Filter, which ClawbackHistory to fetch.
+     */
+    where?: ClawbackHistoryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ClawbackHistories to fetch.
+     */
+    orderBy?: ClawbackHistoryOrderByWithRelationInput | ClawbackHistoryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ClawbackHistories.
+     */
+    cursor?: ClawbackHistoryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ClawbackHistories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ClawbackHistories.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ClawbackHistories.
+     */
+    distinct?: ClawbackHistoryScalarFieldEnum | ClawbackHistoryScalarFieldEnum[]
+  }
+
+  /**
+   * ClawbackHistory findMany
+   */
+  export type ClawbackHistoryFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClawbackHistory
+     */
+    select?: ClawbackHistorySelect<ExtArgs> | null
+    /**
+     * Filter, which ClawbackHistories to fetch.
+     */
+    where?: ClawbackHistoryWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ClawbackHistories to fetch.
+     */
+    orderBy?: ClawbackHistoryOrderByWithRelationInput | ClawbackHistoryOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ClawbackHistories.
+     */
+    cursor?: ClawbackHistoryWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ClawbackHistories from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ClawbackHistories.
+     */
+    skip?: number
+    distinct?: ClawbackHistoryScalarFieldEnum | ClawbackHistoryScalarFieldEnum[]
+  }
+
+  /**
+   * ClawbackHistory create
+   */
+  export type ClawbackHistoryCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClawbackHistory
+     */
+    select?: ClawbackHistorySelect<ExtArgs> | null
+    /**
+     * The data needed to create a ClawbackHistory.
+     */
+    data: XOR<ClawbackHistoryCreateInput, ClawbackHistoryUncheckedCreateInput>
+  }
+
+  /**
+   * ClawbackHistory createMany
+   */
+  export type ClawbackHistoryCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ClawbackHistories.
+     */
+    data: ClawbackHistoryCreateManyInput | ClawbackHistoryCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ClawbackHistory createManyAndReturn
+   */
+  export type ClawbackHistoryCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClawbackHistory
+     */
+    select?: ClawbackHistorySelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many ClawbackHistories.
+     */
+    data: ClawbackHistoryCreateManyInput | ClawbackHistoryCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ClawbackHistory update
+   */
+  export type ClawbackHistoryUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClawbackHistory
+     */
+    select?: ClawbackHistorySelect<ExtArgs> | null
+    /**
+     * The data needed to update a ClawbackHistory.
+     */
+    data: XOR<ClawbackHistoryUpdateInput, ClawbackHistoryUncheckedUpdateInput>
+    /**
+     * Choose, which ClawbackHistory to update.
+     */
+    where: ClawbackHistoryWhereUniqueInput
+  }
+
+  /**
+   * ClawbackHistory updateMany
+   */
+  export type ClawbackHistoryUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ClawbackHistories.
+     */
+    data: XOR<ClawbackHistoryUpdateManyMutationInput, ClawbackHistoryUncheckedUpdateManyInput>
+    /**
+     * Filter which ClawbackHistories to update
+     */
+    where?: ClawbackHistoryWhereInput
+  }
+
+  /**
+   * ClawbackHistory upsert
+   */
+  export type ClawbackHistoryUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClawbackHistory
+     */
+    select?: ClawbackHistorySelect<ExtArgs> | null
+    /**
+     * The filter to search for the ClawbackHistory to update in case it exists.
+     */
+    where: ClawbackHistoryWhereUniqueInput
+    /**
+     * In case the ClawbackHistory found by the `where` argument doesn't exist, create a new ClawbackHistory with this data.
+     */
+    create: XOR<ClawbackHistoryCreateInput, ClawbackHistoryUncheckedCreateInput>
+    /**
+     * In case the ClawbackHistory was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ClawbackHistoryUpdateInput, ClawbackHistoryUncheckedUpdateInput>
+  }
+
+  /**
+   * ClawbackHistory delete
+   */
+  export type ClawbackHistoryDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClawbackHistory
+     */
+    select?: ClawbackHistorySelect<ExtArgs> | null
+    /**
+     * Filter which ClawbackHistory to delete.
+     */
+    where: ClawbackHistoryWhereUniqueInput
+  }
+
+  /**
+   * ClawbackHistory deleteMany
+   */
+  export type ClawbackHistoryDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ClawbackHistories to delete
+     */
+    where?: ClawbackHistoryWhereInput
+  }
+
+  /**
+   * ClawbackHistory without action
+   */
+  export type ClawbackHistoryDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClawbackHistory
+     */
+    select?: ClawbackHistorySelect<ExtArgs> | null
   }
 
 
@@ -23044,6 +29569,10 @@ export namespace Prisma {
     imageUrl: string | null
     decimals: number | null
     isVerified: boolean | null
+    stellarExpertVerified: boolean | null
+    tomlUrl: string | null
+    orgVerified: boolean | null
+    orgHomeDomain: string | null
     lastFetchedAt: Date | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -23058,6 +29587,10 @@ export namespace Prisma {
     imageUrl: string | null
     decimals: number | null
     isVerified: boolean | null
+    stellarExpertVerified: boolean | null
+    tomlUrl: string | null
+    orgVerified: boolean | null
+    orgHomeDomain: string | null
     lastFetchedAt: Date | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -23072,6 +29605,10 @@ export namespace Prisma {
     imageUrl: number
     decimals: number
     isVerified: number
+    stellarExpertVerified: number
+    tomlUrl: number
+    orgVerified: number
+    orgHomeDomain: number
     lastFetchedAt: number
     createdAt: number
     updatedAt: number
@@ -23096,6 +29633,10 @@ export namespace Prisma {
     imageUrl?: true
     decimals?: true
     isVerified?: true
+    stellarExpertVerified?: true
+    tomlUrl?: true
+    orgVerified?: true
+    orgHomeDomain?: true
     lastFetchedAt?: true
     createdAt?: true
     updatedAt?: true
@@ -23110,6 +29651,10 @@ export namespace Prisma {
     imageUrl?: true
     decimals?: true
     isVerified?: true
+    stellarExpertVerified?: true
+    tomlUrl?: true
+    orgVerified?: true
+    orgHomeDomain?: true
     lastFetchedAt?: true
     createdAt?: true
     updatedAt?: true
@@ -23124,6 +29669,10 @@ export namespace Prisma {
     imageUrl?: true
     decimals?: true
     isVerified?: true
+    stellarExpertVerified?: true
+    tomlUrl?: true
+    orgVerified?: true
+    orgHomeDomain?: true
     lastFetchedAt?: true
     createdAt?: true
     updatedAt?: true
@@ -23225,6 +29774,10 @@ export namespace Prisma {
     imageUrl: string | null
     decimals: number
     isVerified: boolean
+    stellarExpertVerified: boolean
+    tomlUrl: string | null
+    orgVerified: boolean
+    orgHomeDomain: string | null
     lastFetchedAt: Date | null
     createdAt: Date
     updatedAt: Date
@@ -23258,6 +29811,10 @@ export namespace Prisma {
     imageUrl?: boolean
     decimals?: boolean
     isVerified?: boolean
+    stellarExpertVerified?: boolean
+    tomlUrl?: boolean
+    orgVerified?: boolean
+    orgHomeDomain?: boolean
     lastFetchedAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -23272,6 +29829,10 @@ export namespace Prisma {
     imageUrl?: boolean
     decimals?: boolean
     isVerified?: boolean
+    stellarExpertVerified?: boolean
+    tomlUrl?: boolean
+    orgVerified?: boolean
+    orgHomeDomain?: boolean
     lastFetchedAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -23286,6 +29847,10 @@ export namespace Prisma {
     imageUrl?: boolean
     decimals?: boolean
     isVerified?: boolean
+    stellarExpertVerified?: boolean
+    tomlUrl?: boolean
+    orgVerified?: boolean
+    orgHomeDomain?: boolean
     lastFetchedAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -23304,6 +29869,10 @@ export namespace Prisma {
       imageUrl: string | null
       decimals: number
       isVerified: boolean
+      stellarExpertVerified: boolean
+      tomlUrl: string | null
+      orgVerified: boolean
+      orgHomeDomain: string | null
       lastFetchedAt: Date | null
       createdAt: Date
       updatedAt: Date
@@ -23708,6 +30277,10 @@ export namespace Prisma {
     readonly imageUrl: FieldRef<"Asset", 'String'>
     readonly decimals: FieldRef<"Asset", 'Int'>
     readonly isVerified: FieldRef<"Asset", 'Boolean'>
+    readonly stellarExpertVerified: FieldRef<"Asset", 'Boolean'>
+    readonly tomlUrl: FieldRef<"Asset", 'String'>
+    readonly orgVerified: FieldRef<"Asset", 'Boolean'>
+    readonly orgHomeDomain: FieldRef<"Asset", 'String'>
     readonly lastFetchedAt: FieldRef<"Asset", 'DateTime'>
     readonly createdAt: FieldRef<"Asset", 'DateTime'>
     readonly updatedAt: FieldRef<"Asset", 'DateTime'>
@@ -25980,69 +32553,1121 @@ export namespace Prisma {
 
 
   /**
+   * Model ArchivedDisbursement
+   */
+
+  export type AggregateArchivedDisbursement = {
+    _count: ArchivedDisbursementCountAggregateOutputType | null
+    _avg: ArchivedDisbursementAvgAggregateOutputType | null
+    _sum: ArchivedDisbursementSumAggregateOutputType | null
+    _min: ArchivedDisbursementMinAggregateOutputType | null
+    _max: ArchivedDisbursementMaxAggregateOutputType | null
+  }
+
+  export type ArchivedDisbursementAvgAggregateOutputType = {
+    amount: number | null
+    originalLedger: number | null
+  }
+
+  export type ArchivedDisbursementSumAggregateOutputType = {
+    amount: bigint | null
+    originalLedger: number | null
+  }
+
+  export type ArchivedDisbursementMinAggregateOutputType = {
+    id: string | null
+    streamId: string | null
+    txHash: string | null
+    sender: string | null
+    receiver: string | null
+    amount: bigint | null
+    tokenAddress: string | null
+    status: string | null
+    completedAt: Date | null
+    archivedAt: Date | null
+    originalLedger: number | null
+  }
+
+  export type ArchivedDisbursementMaxAggregateOutputType = {
+    id: string | null
+    streamId: string | null
+    txHash: string | null
+    sender: string | null
+    receiver: string | null
+    amount: bigint | null
+    tokenAddress: string | null
+    status: string | null
+    completedAt: Date | null
+    archivedAt: Date | null
+    originalLedger: number | null
+  }
+
+  export type ArchivedDisbursementCountAggregateOutputType = {
+    id: number
+    streamId: number
+    txHash: number
+    sender: number
+    receiver: number
+    amount: number
+    tokenAddress: number
+    status: number
+    completedAt: number
+    archivedAt: number
+    originalLedger: number
+    _all: number
+  }
+
+
+  export type ArchivedDisbursementAvgAggregateInputType = {
+    amount?: true
+    originalLedger?: true
+  }
+
+  export type ArchivedDisbursementSumAggregateInputType = {
+    amount?: true
+    originalLedger?: true
+  }
+
+  export type ArchivedDisbursementMinAggregateInputType = {
+    id?: true
+    streamId?: true
+    txHash?: true
+    sender?: true
+    receiver?: true
+    amount?: true
+    tokenAddress?: true
+    status?: true
+    completedAt?: true
+    archivedAt?: true
+    originalLedger?: true
+  }
+
+  export type ArchivedDisbursementMaxAggregateInputType = {
+    id?: true
+    streamId?: true
+    txHash?: true
+    sender?: true
+    receiver?: true
+    amount?: true
+    tokenAddress?: true
+    status?: true
+    completedAt?: true
+    archivedAt?: true
+    originalLedger?: true
+  }
+
+  export type ArchivedDisbursementCountAggregateInputType = {
+    id?: true
+    streamId?: true
+    txHash?: true
+    sender?: true
+    receiver?: true
+    amount?: true
+    tokenAddress?: true
+    status?: true
+    completedAt?: true
+    archivedAt?: true
+    originalLedger?: true
+    _all?: true
+  }
+
+  export type ArchivedDisbursementAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ArchivedDisbursement to aggregate.
+     */
+    where?: ArchivedDisbursementWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ArchivedDisbursements to fetch.
+     */
+    orderBy?: ArchivedDisbursementOrderByWithRelationInput | ArchivedDisbursementOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ArchivedDisbursementWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ArchivedDisbursements from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ArchivedDisbursements.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ArchivedDisbursements
+    **/
+    _count?: true | ArchivedDisbursementCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: ArchivedDisbursementAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ArchivedDisbursementSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ArchivedDisbursementMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ArchivedDisbursementMaxAggregateInputType
+  }
+
+  export type GetArchivedDisbursementAggregateType<T extends ArchivedDisbursementAggregateArgs> = {
+        [P in keyof T & keyof AggregateArchivedDisbursement]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateArchivedDisbursement[P]>
+      : GetScalarType<T[P], AggregateArchivedDisbursement[P]>
+  }
+
+
+
+
+  export type ArchivedDisbursementGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ArchivedDisbursementWhereInput
+    orderBy?: ArchivedDisbursementOrderByWithAggregationInput | ArchivedDisbursementOrderByWithAggregationInput[]
+    by: ArchivedDisbursementScalarFieldEnum[] | ArchivedDisbursementScalarFieldEnum
+    having?: ArchivedDisbursementScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ArchivedDisbursementCountAggregateInputType | true
+    _avg?: ArchivedDisbursementAvgAggregateInputType
+    _sum?: ArchivedDisbursementSumAggregateInputType
+    _min?: ArchivedDisbursementMinAggregateInputType
+    _max?: ArchivedDisbursementMaxAggregateInputType
+  }
+
+  export type ArchivedDisbursementGroupByOutputType = {
+    id: string
+    streamId: string
+    txHash: string
+    sender: string
+    receiver: string
+    amount: bigint
+    tokenAddress: string
+    status: string
+    completedAt: Date
+    archivedAt: Date
+    originalLedger: number
+    _count: ArchivedDisbursementCountAggregateOutputType | null
+    _avg: ArchivedDisbursementAvgAggregateOutputType | null
+    _sum: ArchivedDisbursementSumAggregateOutputType | null
+    _min: ArchivedDisbursementMinAggregateOutputType | null
+    _max: ArchivedDisbursementMaxAggregateOutputType | null
+  }
+
+  type GetArchivedDisbursementGroupByPayload<T extends ArchivedDisbursementGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ArchivedDisbursementGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ArchivedDisbursementGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ArchivedDisbursementGroupByOutputType[P]>
+            : GetScalarType<T[P], ArchivedDisbursementGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ArchivedDisbursementSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    streamId?: boolean
+    txHash?: boolean
+    sender?: boolean
+    receiver?: boolean
+    amount?: boolean
+    tokenAddress?: boolean
+    status?: boolean
+    completedAt?: boolean
+    archivedAt?: boolean
+    originalLedger?: boolean
+  }, ExtArgs["result"]["archivedDisbursement"]>
+
+  export type ArchivedDisbursementSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    streamId?: boolean
+    txHash?: boolean
+    sender?: boolean
+    receiver?: boolean
+    amount?: boolean
+    tokenAddress?: boolean
+    status?: boolean
+    completedAt?: boolean
+    archivedAt?: boolean
+    originalLedger?: boolean
+  }, ExtArgs["result"]["archivedDisbursement"]>
+
+  export type ArchivedDisbursementSelectScalar = {
+    id?: boolean
+    streamId?: boolean
+    txHash?: boolean
+    sender?: boolean
+    receiver?: boolean
+    amount?: boolean
+    tokenAddress?: boolean
+    status?: boolean
+    completedAt?: boolean
+    archivedAt?: boolean
+    originalLedger?: boolean
+  }
+
+
+  export type $ArchivedDisbursementPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ArchivedDisbursement"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      streamId: string
+      txHash: string
+      sender: string
+      receiver: string
+      amount: bigint
+      tokenAddress: string
+      status: string
+      completedAt: Date
+      archivedAt: Date
+      originalLedger: number
+    }, ExtArgs["result"]["archivedDisbursement"]>
+    composites: {}
+  }
+
+  type ArchivedDisbursementGetPayload<S extends boolean | null | undefined | ArchivedDisbursementDefaultArgs> = $Result.GetResult<Prisma.$ArchivedDisbursementPayload, S>
+
+  type ArchivedDisbursementCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<ArchivedDisbursementFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: ArchivedDisbursementCountAggregateInputType | true
+    }
+
+  export interface ArchivedDisbursementDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ArchivedDisbursement'], meta: { name: 'ArchivedDisbursement' } }
+    /**
+     * Find zero or one ArchivedDisbursement that matches the filter.
+     * @param {ArchivedDisbursementFindUniqueArgs} args - Arguments to find a ArchivedDisbursement
+     * @example
+     * // Get one ArchivedDisbursement
+     * const archivedDisbursement = await prisma.archivedDisbursement.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ArchivedDisbursementFindUniqueArgs>(args: SelectSubset<T, ArchivedDisbursementFindUniqueArgs<ExtArgs>>): Prisma__ArchivedDisbursementClient<$Result.GetResult<Prisma.$ArchivedDisbursementPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one ArchivedDisbursement that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {ArchivedDisbursementFindUniqueOrThrowArgs} args - Arguments to find a ArchivedDisbursement
+     * @example
+     * // Get one ArchivedDisbursement
+     * const archivedDisbursement = await prisma.archivedDisbursement.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ArchivedDisbursementFindUniqueOrThrowArgs>(args: SelectSubset<T, ArchivedDisbursementFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ArchivedDisbursementClient<$Result.GetResult<Prisma.$ArchivedDisbursementPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first ArchivedDisbursement that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ArchivedDisbursementFindFirstArgs} args - Arguments to find a ArchivedDisbursement
+     * @example
+     * // Get one ArchivedDisbursement
+     * const archivedDisbursement = await prisma.archivedDisbursement.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ArchivedDisbursementFindFirstArgs>(args?: SelectSubset<T, ArchivedDisbursementFindFirstArgs<ExtArgs>>): Prisma__ArchivedDisbursementClient<$Result.GetResult<Prisma.$ArchivedDisbursementPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first ArchivedDisbursement that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ArchivedDisbursementFindFirstOrThrowArgs} args - Arguments to find a ArchivedDisbursement
+     * @example
+     * // Get one ArchivedDisbursement
+     * const archivedDisbursement = await prisma.archivedDisbursement.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ArchivedDisbursementFindFirstOrThrowArgs>(args?: SelectSubset<T, ArchivedDisbursementFindFirstOrThrowArgs<ExtArgs>>): Prisma__ArchivedDisbursementClient<$Result.GetResult<Prisma.$ArchivedDisbursementPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more ArchivedDisbursements that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ArchivedDisbursementFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ArchivedDisbursements
+     * const archivedDisbursements = await prisma.archivedDisbursement.findMany()
+     * 
+     * // Get first 10 ArchivedDisbursements
+     * const archivedDisbursements = await prisma.archivedDisbursement.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const archivedDisbursementWithIdOnly = await prisma.archivedDisbursement.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ArchivedDisbursementFindManyArgs>(args?: SelectSubset<T, ArchivedDisbursementFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ArchivedDisbursementPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a ArchivedDisbursement.
+     * @param {ArchivedDisbursementCreateArgs} args - Arguments to create a ArchivedDisbursement.
+     * @example
+     * // Create one ArchivedDisbursement
+     * const ArchivedDisbursement = await prisma.archivedDisbursement.create({
+     *   data: {
+     *     // ... data to create a ArchivedDisbursement
+     *   }
+     * })
+     * 
+     */
+    create<T extends ArchivedDisbursementCreateArgs>(args: SelectSubset<T, ArchivedDisbursementCreateArgs<ExtArgs>>): Prisma__ArchivedDisbursementClient<$Result.GetResult<Prisma.$ArchivedDisbursementPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many ArchivedDisbursements.
+     * @param {ArchivedDisbursementCreateManyArgs} args - Arguments to create many ArchivedDisbursements.
+     * @example
+     * // Create many ArchivedDisbursements
+     * const archivedDisbursement = await prisma.archivedDisbursement.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ArchivedDisbursementCreateManyArgs>(args?: SelectSubset<T, ArchivedDisbursementCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ArchivedDisbursements and returns the data saved in the database.
+     * @param {ArchivedDisbursementCreateManyAndReturnArgs} args - Arguments to create many ArchivedDisbursements.
+     * @example
+     * // Create many ArchivedDisbursements
+     * const archivedDisbursement = await prisma.archivedDisbursement.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ArchivedDisbursements and only return the `id`
+     * const archivedDisbursementWithIdOnly = await prisma.archivedDisbursement.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ArchivedDisbursementCreateManyAndReturnArgs>(args?: SelectSubset<T, ArchivedDisbursementCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ArchivedDisbursementPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a ArchivedDisbursement.
+     * @param {ArchivedDisbursementDeleteArgs} args - Arguments to delete one ArchivedDisbursement.
+     * @example
+     * // Delete one ArchivedDisbursement
+     * const ArchivedDisbursement = await prisma.archivedDisbursement.delete({
+     *   where: {
+     *     // ... filter to delete one ArchivedDisbursement
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ArchivedDisbursementDeleteArgs>(args: SelectSubset<T, ArchivedDisbursementDeleteArgs<ExtArgs>>): Prisma__ArchivedDisbursementClient<$Result.GetResult<Prisma.$ArchivedDisbursementPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one ArchivedDisbursement.
+     * @param {ArchivedDisbursementUpdateArgs} args - Arguments to update one ArchivedDisbursement.
+     * @example
+     * // Update one ArchivedDisbursement
+     * const archivedDisbursement = await prisma.archivedDisbursement.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ArchivedDisbursementUpdateArgs>(args: SelectSubset<T, ArchivedDisbursementUpdateArgs<ExtArgs>>): Prisma__ArchivedDisbursementClient<$Result.GetResult<Prisma.$ArchivedDisbursementPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more ArchivedDisbursements.
+     * @param {ArchivedDisbursementDeleteManyArgs} args - Arguments to filter ArchivedDisbursements to delete.
+     * @example
+     * // Delete a few ArchivedDisbursements
+     * const { count } = await prisma.archivedDisbursement.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ArchivedDisbursementDeleteManyArgs>(args?: SelectSubset<T, ArchivedDisbursementDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ArchivedDisbursements.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ArchivedDisbursementUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ArchivedDisbursements
+     * const archivedDisbursement = await prisma.archivedDisbursement.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ArchivedDisbursementUpdateManyArgs>(args: SelectSubset<T, ArchivedDisbursementUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one ArchivedDisbursement.
+     * @param {ArchivedDisbursementUpsertArgs} args - Arguments to update or create a ArchivedDisbursement.
+     * @example
+     * // Update or create a ArchivedDisbursement
+     * const archivedDisbursement = await prisma.archivedDisbursement.upsert({
+     *   create: {
+     *     // ... data to create a ArchivedDisbursement
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ArchivedDisbursement we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ArchivedDisbursementUpsertArgs>(args: SelectSubset<T, ArchivedDisbursementUpsertArgs<ExtArgs>>): Prisma__ArchivedDisbursementClient<$Result.GetResult<Prisma.$ArchivedDisbursementPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of ArchivedDisbursements.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ArchivedDisbursementCountArgs} args - Arguments to filter ArchivedDisbursements to count.
+     * @example
+     * // Count the number of ArchivedDisbursements
+     * const count = await prisma.archivedDisbursement.count({
+     *   where: {
+     *     // ... the filter for the ArchivedDisbursements we want to count
+     *   }
+     * })
+    **/
+    count<T extends ArchivedDisbursementCountArgs>(
+      args?: Subset<T, ArchivedDisbursementCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ArchivedDisbursementCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ArchivedDisbursement.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ArchivedDisbursementAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ArchivedDisbursementAggregateArgs>(args: Subset<T, ArchivedDisbursementAggregateArgs>): Prisma.PrismaPromise<GetArchivedDisbursementAggregateType<T>>
+
+    /**
+     * Group by ArchivedDisbursement.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ArchivedDisbursementGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ArchivedDisbursementGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ArchivedDisbursementGroupByArgs['orderBy'] }
+        : { orderBy?: ArchivedDisbursementGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ArchivedDisbursementGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetArchivedDisbursementGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ArchivedDisbursement model
+   */
+  readonly fields: ArchivedDisbursementFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ArchivedDisbursement.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ArchivedDisbursementClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ArchivedDisbursement model
+   */ 
+  interface ArchivedDisbursementFieldRefs {
+    readonly id: FieldRef<"ArchivedDisbursement", 'String'>
+    readonly streamId: FieldRef<"ArchivedDisbursement", 'String'>
+    readonly txHash: FieldRef<"ArchivedDisbursement", 'String'>
+    readonly sender: FieldRef<"ArchivedDisbursement", 'String'>
+    readonly receiver: FieldRef<"ArchivedDisbursement", 'String'>
+    readonly amount: FieldRef<"ArchivedDisbursement", 'BigInt'>
+    readonly tokenAddress: FieldRef<"ArchivedDisbursement", 'String'>
+    readonly status: FieldRef<"ArchivedDisbursement", 'String'>
+    readonly completedAt: FieldRef<"ArchivedDisbursement", 'DateTime'>
+    readonly archivedAt: FieldRef<"ArchivedDisbursement", 'DateTime'>
+    readonly originalLedger: FieldRef<"ArchivedDisbursement", 'Int'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ArchivedDisbursement findUnique
+   */
+  export type ArchivedDisbursementFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ArchivedDisbursement
+     */
+    select?: ArchivedDisbursementSelect<ExtArgs> | null
+    /**
+     * Filter, which ArchivedDisbursement to fetch.
+     */
+    where: ArchivedDisbursementWhereUniqueInput
+  }
+
+  /**
+   * ArchivedDisbursement findUniqueOrThrow
+   */
+  export type ArchivedDisbursementFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ArchivedDisbursement
+     */
+    select?: ArchivedDisbursementSelect<ExtArgs> | null
+    /**
+     * Filter, which ArchivedDisbursement to fetch.
+     */
+    where: ArchivedDisbursementWhereUniqueInput
+  }
+
+  /**
+   * ArchivedDisbursement findFirst
+   */
+  export type ArchivedDisbursementFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ArchivedDisbursement
+     */
+    select?: ArchivedDisbursementSelect<ExtArgs> | null
+    /**
+     * Filter, which ArchivedDisbursement to fetch.
+     */
+    where?: ArchivedDisbursementWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ArchivedDisbursements to fetch.
+     */
+    orderBy?: ArchivedDisbursementOrderByWithRelationInput | ArchivedDisbursementOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ArchivedDisbursements.
+     */
+    cursor?: ArchivedDisbursementWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ArchivedDisbursements from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ArchivedDisbursements.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ArchivedDisbursements.
+     */
+    distinct?: ArchivedDisbursementScalarFieldEnum | ArchivedDisbursementScalarFieldEnum[]
+  }
+
+  /**
+   * ArchivedDisbursement findFirstOrThrow
+   */
+  export type ArchivedDisbursementFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ArchivedDisbursement
+     */
+    select?: ArchivedDisbursementSelect<ExtArgs> | null
+    /**
+     * Filter, which ArchivedDisbursement to fetch.
+     */
+    where?: ArchivedDisbursementWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ArchivedDisbursements to fetch.
+     */
+    orderBy?: ArchivedDisbursementOrderByWithRelationInput | ArchivedDisbursementOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ArchivedDisbursements.
+     */
+    cursor?: ArchivedDisbursementWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ArchivedDisbursements from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ArchivedDisbursements.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ArchivedDisbursements.
+     */
+    distinct?: ArchivedDisbursementScalarFieldEnum | ArchivedDisbursementScalarFieldEnum[]
+  }
+
+  /**
+   * ArchivedDisbursement findMany
+   */
+  export type ArchivedDisbursementFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ArchivedDisbursement
+     */
+    select?: ArchivedDisbursementSelect<ExtArgs> | null
+    /**
+     * Filter, which ArchivedDisbursements to fetch.
+     */
+    where?: ArchivedDisbursementWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ArchivedDisbursements to fetch.
+     */
+    orderBy?: ArchivedDisbursementOrderByWithRelationInput | ArchivedDisbursementOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ArchivedDisbursements.
+     */
+    cursor?: ArchivedDisbursementWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ArchivedDisbursements from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ArchivedDisbursements.
+     */
+    skip?: number
+    distinct?: ArchivedDisbursementScalarFieldEnum | ArchivedDisbursementScalarFieldEnum[]
+  }
+
+  /**
+   * ArchivedDisbursement create
+   */
+  export type ArchivedDisbursementCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ArchivedDisbursement
+     */
+    select?: ArchivedDisbursementSelect<ExtArgs> | null
+    /**
+     * The data needed to create a ArchivedDisbursement.
+     */
+    data: XOR<ArchivedDisbursementCreateInput, ArchivedDisbursementUncheckedCreateInput>
+  }
+
+  /**
+   * ArchivedDisbursement createMany
+   */
+  export type ArchivedDisbursementCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ArchivedDisbursements.
+     */
+    data: ArchivedDisbursementCreateManyInput | ArchivedDisbursementCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ArchivedDisbursement createManyAndReturn
+   */
+  export type ArchivedDisbursementCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ArchivedDisbursement
+     */
+    select?: ArchivedDisbursementSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many ArchivedDisbursements.
+     */
+    data: ArchivedDisbursementCreateManyInput | ArchivedDisbursementCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ArchivedDisbursement update
+   */
+  export type ArchivedDisbursementUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ArchivedDisbursement
+     */
+    select?: ArchivedDisbursementSelect<ExtArgs> | null
+    /**
+     * The data needed to update a ArchivedDisbursement.
+     */
+    data: XOR<ArchivedDisbursementUpdateInput, ArchivedDisbursementUncheckedUpdateInput>
+    /**
+     * Choose, which ArchivedDisbursement to update.
+     */
+    where: ArchivedDisbursementWhereUniqueInput
+  }
+
+  /**
+   * ArchivedDisbursement updateMany
+   */
+  export type ArchivedDisbursementUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ArchivedDisbursements.
+     */
+    data: XOR<ArchivedDisbursementUpdateManyMutationInput, ArchivedDisbursementUncheckedUpdateManyInput>
+    /**
+     * Filter which ArchivedDisbursements to update
+     */
+    where?: ArchivedDisbursementWhereInput
+  }
+
+  /**
+   * ArchivedDisbursement upsert
+   */
+  export type ArchivedDisbursementUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ArchivedDisbursement
+     */
+    select?: ArchivedDisbursementSelect<ExtArgs> | null
+    /**
+     * The filter to search for the ArchivedDisbursement to update in case it exists.
+     */
+    where: ArchivedDisbursementWhereUniqueInput
+    /**
+     * In case the ArchivedDisbursement found by the `where` argument doesn't exist, create a new ArchivedDisbursement with this data.
+     */
+    create: XOR<ArchivedDisbursementCreateInput, ArchivedDisbursementUncheckedCreateInput>
+    /**
+     * In case the ArchivedDisbursement was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ArchivedDisbursementUpdateInput, ArchivedDisbursementUncheckedUpdateInput>
+  }
+
+  /**
+   * ArchivedDisbursement delete
+   */
+  export type ArchivedDisbursementDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ArchivedDisbursement
+     */
+    select?: ArchivedDisbursementSelect<ExtArgs> | null
+    /**
+     * Filter which ArchivedDisbursement to delete.
+     */
+    where: ArchivedDisbursementWhereUniqueInput
+  }
+
+  /**
+   * ArchivedDisbursement deleteMany
+   */
+  export type ArchivedDisbursementDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ArchivedDisbursements to delete
+     */
+    where?: ArchivedDisbursementWhereInput
+  }
+
+  /**
+   * ArchivedDisbursement without action
+   */
+  export type ArchivedDisbursementDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ArchivedDisbursement
+     */
+    select?: ArchivedDisbursementSelect<ExtArgs> | null
+  }
+
+
+  /**
    * Model Disbursement
    */
 
   export type AggregateDisbursement = {
     _count: DisbursementCountAggregateOutputType | null
+    _avg: DisbursementAvgAggregateOutputType | null
+    _sum: DisbursementSumAggregateOutputType | null
     _min: DisbursementMinAggregateOutputType | null
     _max: DisbursementMaxAggregateOutputType | null
   }
 
+  export type DisbursementAvgAggregateOutputType = {
+    amount: number | null
+    ledger: number | null
+  }
+
+  export type DisbursementSumAggregateOutputType = {
+    amount: bigint | null
+    ledger: number | null
+  }
+
   export type DisbursementMinAggregateOutputType = {
     id: string | null
-    senderAddress: string | null
-    totalAmount: string | null
-    asset: string | null
+    streamId: string | null
     txHash: string | null
+    sender: string | null
+    receiver: string | null
+    amount: bigint | null
+    tokenAddress: string | null
+    status: $Enums.DisbursementStatus | null
     createdAt: Date | null
+    completedAt: Date | null
+    ledger: number | null
+    batchId: string | null
+    categoryId: string | null
   }
 
   export type DisbursementMaxAggregateOutputType = {
     id: string | null
-    senderAddress: string | null
-    totalAmount: string | null
-    asset: string | null
+    streamId: string | null
     txHash: string | null
+    sender: string | null
+    receiver: string | null
+    amount: bigint | null
+    tokenAddress: string | null
+    status: $Enums.DisbursementStatus | null
     createdAt: Date | null
+    completedAt: Date | null
+    ledger: number | null
+    batchId: string | null
+    categoryId: string | null
   }
 
   export type DisbursementCountAggregateOutputType = {
     id: number
-    senderAddress: number
-    totalAmount: number
-    asset: number
+    streamId: number
     txHash: number
+    sender: number
+    receiver: number
+    amount: number
+    tokenAddress: number
+    status: number
     createdAt: number
+    completedAt: number
+    ledger: number
+    batchId: number
+    categoryId: number
     _all: number
   }
 
 
+  export type DisbursementAvgAggregateInputType = {
+    amount?: true
+    ledger?: true
+  }
+
+  export type DisbursementSumAggregateInputType = {
+    amount?: true
+    ledger?: true
+  }
+
   export type DisbursementMinAggregateInputType = {
     id?: true
-    senderAddress?: true
-    totalAmount?: true
-    asset?: true
+    streamId?: true
     txHash?: true
+    sender?: true
+    receiver?: true
+    amount?: true
+    tokenAddress?: true
+    status?: true
     createdAt?: true
+    completedAt?: true
+    ledger?: true
+    batchId?: true
+    categoryId?: true
   }
 
   export type DisbursementMaxAggregateInputType = {
     id?: true
-    senderAddress?: true
-    totalAmount?: true
-    asset?: true
+    streamId?: true
     txHash?: true
+    sender?: true
+    receiver?: true
+    amount?: true
+    tokenAddress?: true
+    status?: true
     createdAt?: true
+    completedAt?: true
+    ledger?: true
+    batchId?: true
+    categoryId?: true
   }
 
   export type DisbursementCountAggregateInputType = {
     id?: true
-    senderAddress?: true
-    totalAmount?: true
-    asset?: true
+    streamId?: true
     txHash?: true
+    sender?: true
+    receiver?: true
+    amount?: true
+    tokenAddress?: true
+    status?: true
     createdAt?: true
+    completedAt?: true
+    ledger?: true
+    batchId?: true
+    categoryId?: true
     _all?: true
   }
 
@@ -26084,6 +33709,18 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
+     * Select which fields to average
+    **/
+    _avg?: DisbursementAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: DisbursementSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
      * Select which fields to find the minimum value
     **/
     _min?: DisbursementMinAggregateInputType
@@ -26114,18 +33751,29 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: DisbursementCountAggregateInputType | true
+    _avg?: DisbursementAvgAggregateInputType
+    _sum?: DisbursementSumAggregateInputType
     _min?: DisbursementMinAggregateInputType
     _max?: DisbursementMaxAggregateInputType
   }
 
   export type DisbursementGroupByOutputType = {
     id: string
-    senderAddress: string
-    totalAmount: string
-    asset: string
+    streamId: string
     txHash: string
+    sender: string
+    receiver: string
+    amount: bigint
+    tokenAddress: string
+    status: $Enums.DisbursementStatus
     createdAt: Date
+    completedAt: Date | null
+    ledger: number
+    batchId: string | null
+    categoryId: string | null
     _count: DisbursementCountAggregateOutputType | null
+    _avg: DisbursementAvgAggregateOutputType | null
+    _sum: DisbursementSumAggregateOutputType | null
     _min: DisbursementMinAggregateOutputType | null
     _max: DisbursementMaxAggregateOutputType | null
   }
@@ -26146,51 +33794,80 @@ export namespace Prisma {
 
   export type DisbursementSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    senderAddress?: boolean
-    totalAmount?: boolean
-    asset?: boolean
+    streamId?: boolean
     txHash?: boolean
+    sender?: boolean
+    receiver?: boolean
+    amount?: boolean
+    tokenAddress?: boolean
+    status?: boolean
     createdAt?: boolean
-    recipients?: boolean | Disbursement$recipientsArgs<ExtArgs>
-    _count?: boolean | DisbursementCountOutputTypeDefaultArgs<ExtArgs>
+    completedAt?: boolean
+    ledger?: boolean
+    batchId?: boolean
+    categoryId?: boolean
+    category?: boolean | Disbursement$categoryArgs<ExtArgs>
   }, ExtArgs["result"]["disbursement"]>
 
   export type DisbursementSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    senderAddress?: boolean
-    totalAmount?: boolean
-    asset?: boolean
+    streamId?: boolean
     txHash?: boolean
+    sender?: boolean
+    receiver?: boolean
+    amount?: boolean
+    tokenAddress?: boolean
+    status?: boolean
     createdAt?: boolean
+    completedAt?: boolean
+    ledger?: boolean
+    batchId?: boolean
+    categoryId?: boolean
+    category?: boolean | Disbursement$categoryArgs<ExtArgs>
   }, ExtArgs["result"]["disbursement"]>
 
   export type DisbursementSelectScalar = {
     id?: boolean
-    senderAddress?: boolean
-    totalAmount?: boolean
-    asset?: boolean
+    streamId?: boolean
     txHash?: boolean
+    sender?: boolean
+    receiver?: boolean
+    amount?: boolean
+    tokenAddress?: boolean
+    status?: boolean
     createdAt?: boolean
+    completedAt?: boolean
+    ledger?: boolean
+    batchId?: boolean
+    categoryId?: boolean
   }
 
   export type DisbursementInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    recipients?: boolean | Disbursement$recipientsArgs<ExtArgs>
-    _count?: boolean | DisbursementCountOutputTypeDefaultArgs<ExtArgs>
+    category?: boolean | Disbursement$categoryArgs<ExtArgs>
   }
-  export type DisbursementIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type DisbursementIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    category?: boolean | Disbursement$categoryArgs<ExtArgs>
+  }
 
   export type $DisbursementPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Disbursement"
     objects: {
-      recipients: Prisma.$SplitRecipientPayload<ExtArgs>[]
+      category: Prisma.$PaymentCategoryPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
-      senderAddress: string
-      totalAmount: string
-      asset: string
+      streamId: string
       txHash: string
+      sender: string
+      receiver: string
+      amount: bigint
+      tokenAddress: string
+      status: $Enums.DisbursementStatus
       createdAt: Date
+      completedAt: Date | null
+      ledger: number
+      batchId: string | null
+      categoryId: string | null
     }, ExtArgs["result"]["disbursement"]>
     composites: {}
   }
@@ -26555,7 +34232,7 @@ export namespace Prisma {
    */
   export interface Prisma__DisbursementClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    recipients<T extends Disbursement$recipientsArgs<ExtArgs> = {}>(args?: Subset<T, Disbursement$recipientsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SplitRecipientPayload<ExtArgs>, T, "findMany"> | Null>
+    category<T extends Disbursement$categoryArgs<ExtArgs> = {}>(args?: Subset<T, Disbursement$categoryArgs<ExtArgs>>): Prisma__PaymentCategoryClient<$Result.GetResult<Prisma.$PaymentCategoryPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -26586,11 +34263,18 @@ export namespace Prisma {
    */ 
   interface DisbursementFieldRefs {
     readonly id: FieldRef<"Disbursement", 'String'>
-    readonly senderAddress: FieldRef<"Disbursement", 'String'>
-    readonly totalAmount: FieldRef<"Disbursement", 'String'>
-    readonly asset: FieldRef<"Disbursement", 'String'>
+    readonly streamId: FieldRef<"Disbursement", 'String'>
     readonly txHash: FieldRef<"Disbursement", 'String'>
+    readonly sender: FieldRef<"Disbursement", 'String'>
+    readonly receiver: FieldRef<"Disbursement", 'String'>
+    readonly amount: FieldRef<"Disbursement", 'BigInt'>
+    readonly tokenAddress: FieldRef<"Disbursement", 'String'>
+    readonly status: FieldRef<"Disbursement", 'DisbursementStatus'>
     readonly createdAt: FieldRef<"Disbursement", 'DateTime'>
+    readonly completedAt: FieldRef<"Disbursement", 'DateTime'>
+    readonly ledger: FieldRef<"Disbursement", 'Int'>
+    readonly batchId: FieldRef<"Disbursement", 'String'>
+    readonly categoryId: FieldRef<"Disbursement", 'String'>
   }
     
 
@@ -26812,6 +34496,10 @@ export namespace Prisma {
      */
     data: DisbursementCreateManyInput | DisbursementCreateManyInput[]
     skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DisbursementIncludeCreateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -26905,23 +34593,18 @@ export namespace Prisma {
   }
 
   /**
-   * Disbursement.recipients
+   * Disbursement.category
    */
-  export type Disbursement$recipientsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Disbursement$categoryArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the SplitRecipient
+     * Select specific fields to fetch from the PaymentCategory
      */
-    select?: SplitRecipientSelect<ExtArgs> | null
+    select?: PaymentCategorySelect<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: SplitRecipientInclude<ExtArgs> | null
-    where?: SplitRecipientWhereInput
-    orderBy?: SplitRecipientOrderByWithRelationInput | SplitRecipientOrderByWithRelationInput[]
-    cursor?: SplitRecipientWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: SplitRecipientScalarFieldEnum | SplitRecipientScalarFieldEnum[]
+    include?: PaymentCategoryInclude<ExtArgs> | null
+    where?: PaymentCategoryWhereInput
   }
 
   /**
@@ -26936,939 +34619,6 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: DisbursementInclude<ExtArgs> | null
-  }
-
-
-  /**
-   * Model SplitRecipient
-   */
-
-  export type AggregateSplitRecipient = {
-    _count: SplitRecipientCountAggregateOutputType | null
-    _min: SplitRecipientMinAggregateOutputType | null
-    _max: SplitRecipientMaxAggregateOutputType | null
-  }
-
-  export type SplitRecipientMinAggregateOutputType = {
-    id: string | null
-    disbursementId: string | null
-    recipientAddress: string | null
-    amount: string | null
-    status: $Enums.PayoutStatus | null
-  }
-
-  export type SplitRecipientMaxAggregateOutputType = {
-    id: string | null
-    disbursementId: string | null
-    recipientAddress: string | null
-    amount: string | null
-    status: $Enums.PayoutStatus | null
-  }
-
-  export type SplitRecipientCountAggregateOutputType = {
-    id: number
-    disbursementId: number
-    recipientAddress: number
-    amount: number
-    status: number
-    _all: number
-  }
-
-
-  export type SplitRecipientMinAggregateInputType = {
-    id?: true
-    disbursementId?: true
-    recipientAddress?: true
-    amount?: true
-    status?: true
-  }
-
-  export type SplitRecipientMaxAggregateInputType = {
-    id?: true
-    disbursementId?: true
-    recipientAddress?: true
-    amount?: true
-    status?: true
-  }
-
-  export type SplitRecipientCountAggregateInputType = {
-    id?: true
-    disbursementId?: true
-    recipientAddress?: true
-    amount?: true
-    status?: true
-    _all?: true
-  }
-
-  export type SplitRecipientAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which SplitRecipient to aggregate.
-     */
-    where?: SplitRecipientWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of SplitRecipients to fetch.
-     */
-    orderBy?: SplitRecipientOrderByWithRelationInput | SplitRecipientOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the start position
-     */
-    cursor?: SplitRecipientWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` SplitRecipients from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` SplitRecipients.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Count returned SplitRecipients
-    **/
-    _count?: true | SplitRecipientCountAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the minimum value
-    **/
-    _min?: SplitRecipientMinAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the maximum value
-    **/
-    _max?: SplitRecipientMaxAggregateInputType
-  }
-
-  export type GetSplitRecipientAggregateType<T extends SplitRecipientAggregateArgs> = {
-        [P in keyof T & keyof AggregateSplitRecipient]: P extends '_count' | 'count'
-      ? T[P] extends true
-        ? number
-        : GetScalarType<T[P], AggregateSplitRecipient[P]>
-      : GetScalarType<T[P], AggregateSplitRecipient[P]>
-  }
-
-
-
-
-  export type SplitRecipientGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: SplitRecipientWhereInput
-    orderBy?: SplitRecipientOrderByWithAggregationInput | SplitRecipientOrderByWithAggregationInput[]
-    by: SplitRecipientScalarFieldEnum[] | SplitRecipientScalarFieldEnum
-    having?: SplitRecipientScalarWhereWithAggregatesInput
-    take?: number
-    skip?: number
-    _count?: SplitRecipientCountAggregateInputType | true
-    _min?: SplitRecipientMinAggregateInputType
-    _max?: SplitRecipientMaxAggregateInputType
-  }
-
-  export type SplitRecipientGroupByOutputType = {
-    id: string
-    disbursementId: string
-    recipientAddress: string
-    amount: string
-    status: $Enums.PayoutStatus
-    _count: SplitRecipientCountAggregateOutputType | null
-    _min: SplitRecipientMinAggregateOutputType | null
-    _max: SplitRecipientMaxAggregateOutputType | null
-  }
-
-  type GetSplitRecipientGroupByPayload<T extends SplitRecipientGroupByArgs> = Prisma.PrismaPromise<
-    Array<
-      PickEnumerable<SplitRecipientGroupByOutputType, T['by']> &
-        {
-          [P in ((keyof T) & (keyof SplitRecipientGroupByOutputType))]: P extends '_count'
-            ? T[P] extends boolean
-              ? number
-              : GetScalarType<T[P], SplitRecipientGroupByOutputType[P]>
-            : GetScalarType<T[P], SplitRecipientGroupByOutputType[P]>
-        }
-      >
-    >
-
-
-  export type SplitRecipientSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    disbursementId?: boolean
-    recipientAddress?: boolean
-    amount?: boolean
-    status?: boolean
-    disbursement?: boolean | DisbursementDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["splitRecipient"]>
-
-  export type SplitRecipientSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    disbursementId?: boolean
-    recipientAddress?: boolean
-    amount?: boolean
-    status?: boolean
-    disbursement?: boolean | DisbursementDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["splitRecipient"]>
-
-  export type SplitRecipientSelectScalar = {
-    id?: boolean
-    disbursementId?: boolean
-    recipientAddress?: boolean
-    amount?: boolean
-    status?: boolean
-  }
-
-  export type SplitRecipientInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    disbursement?: boolean | DisbursementDefaultArgs<ExtArgs>
-  }
-  export type SplitRecipientIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    disbursement?: boolean | DisbursementDefaultArgs<ExtArgs>
-  }
-
-  export type $SplitRecipientPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "SplitRecipient"
-    objects: {
-      disbursement: Prisma.$DisbursementPayload<ExtArgs>
-    }
-    scalars: $Extensions.GetPayloadResult<{
-      id: string
-      disbursementId: string
-      recipientAddress: string
-      amount: string
-      status: $Enums.PayoutStatus
-    }, ExtArgs["result"]["splitRecipient"]>
-    composites: {}
-  }
-
-  type SplitRecipientGetPayload<S extends boolean | null | undefined | SplitRecipientDefaultArgs> = $Result.GetResult<Prisma.$SplitRecipientPayload, S>
-
-  type SplitRecipientCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
-    Omit<SplitRecipientFindManyArgs, 'select' | 'include' | 'distinct'> & {
-      select?: SplitRecipientCountAggregateInputType | true
-    }
-
-  export interface SplitRecipientDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['SplitRecipient'], meta: { name: 'SplitRecipient' } }
-    /**
-     * Find zero or one SplitRecipient that matches the filter.
-     * @param {SplitRecipientFindUniqueArgs} args - Arguments to find a SplitRecipient
-     * @example
-     * // Get one SplitRecipient
-     * const splitRecipient = await prisma.splitRecipient.findUnique({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUnique<T extends SplitRecipientFindUniqueArgs>(args: SelectSubset<T, SplitRecipientFindUniqueArgs<ExtArgs>>): Prisma__SplitRecipientClient<$Result.GetResult<Prisma.$SplitRecipientPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
-
-    /**
-     * Find one SplitRecipient that matches the filter or throw an error with `error.code='P2025'` 
-     * if no matches were found.
-     * @param {SplitRecipientFindUniqueOrThrowArgs} args - Arguments to find a SplitRecipient
-     * @example
-     * // Get one SplitRecipient
-     * const splitRecipient = await prisma.splitRecipient.findUniqueOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUniqueOrThrow<T extends SplitRecipientFindUniqueOrThrowArgs>(args: SelectSubset<T, SplitRecipientFindUniqueOrThrowArgs<ExtArgs>>): Prisma__SplitRecipientClient<$Result.GetResult<Prisma.$SplitRecipientPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
-
-    /**
-     * Find the first SplitRecipient that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {SplitRecipientFindFirstArgs} args - Arguments to find a SplitRecipient
-     * @example
-     * // Get one SplitRecipient
-     * const splitRecipient = await prisma.splitRecipient.findFirst({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirst<T extends SplitRecipientFindFirstArgs>(args?: SelectSubset<T, SplitRecipientFindFirstArgs<ExtArgs>>): Prisma__SplitRecipientClient<$Result.GetResult<Prisma.$SplitRecipientPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
-
-    /**
-     * Find the first SplitRecipient that matches the filter or
-     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {SplitRecipientFindFirstOrThrowArgs} args - Arguments to find a SplitRecipient
-     * @example
-     * // Get one SplitRecipient
-     * const splitRecipient = await prisma.splitRecipient.findFirstOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirstOrThrow<T extends SplitRecipientFindFirstOrThrowArgs>(args?: SelectSubset<T, SplitRecipientFindFirstOrThrowArgs<ExtArgs>>): Prisma__SplitRecipientClient<$Result.GetResult<Prisma.$SplitRecipientPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
-
-    /**
-     * Find zero or more SplitRecipients that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {SplitRecipientFindManyArgs} args - Arguments to filter and select certain fields only.
-     * @example
-     * // Get all SplitRecipients
-     * const splitRecipients = await prisma.splitRecipient.findMany()
-     * 
-     * // Get first 10 SplitRecipients
-     * const splitRecipients = await prisma.splitRecipient.findMany({ take: 10 })
-     * 
-     * // Only select the `id`
-     * const splitRecipientWithIdOnly = await prisma.splitRecipient.findMany({ select: { id: true } })
-     * 
-     */
-    findMany<T extends SplitRecipientFindManyArgs>(args?: SelectSubset<T, SplitRecipientFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SplitRecipientPayload<ExtArgs>, T, "findMany">>
-
-    /**
-     * Create a SplitRecipient.
-     * @param {SplitRecipientCreateArgs} args - Arguments to create a SplitRecipient.
-     * @example
-     * // Create one SplitRecipient
-     * const SplitRecipient = await prisma.splitRecipient.create({
-     *   data: {
-     *     // ... data to create a SplitRecipient
-     *   }
-     * })
-     * 
-     */
-    create<T extends SplitRecipientCreateArgs>(args: SelectSubset<T, SplitRecipientCreateArgs<ExtArgs>>): Prisma__SplitRecipientClient<$Result.GetResult<Prisma.$SplitRecipientPayload<ExtArgs>, T, "create">, never, ExtArgs>
-
-    /**
-     * Create many SplitRecipients.
-     * @param {SplitRecipientCreateManyArgs} args - Arguments to create many SplitRecipients.
-     * @example
-     * // Create many SplitRecipients
-     * const splitRecipient = await prisma.splitRecipient.createMany({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     *     
-     */
-    createMany<T extends SplitRecipientCreateManyArgs>(args?: SelectSubset<T, SplitRecipientCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Create many SplitRecipients and returns the data saved in the database.
-     * @param {SplitRecipientCreateManyAndReturnArgs} args - Arguments to create many SplitRecipients.
-     * @example
-     * // Create many SplitRecipients
-     * const splitRecipient = await prisma.splitRecipient.createManyAndReturn({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Create many SplitRecipients and only return the `id`
-     * const splitRecipientWithIdOnly = await prisma.splitRecipient.createManyAndReturn({ 
-     *   select: { id: true },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    createManyAndReturn<T extends SplitRecipientCreateManyAndReturnArgs>(args?: SelectSubset<T, SplitRecipientCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SplitRecipientPayload<ExtArgs>, T, "createManyAndReturn">>
-
-    /**
-     * Delete a SplitRecipient.
-     * @param {SplitRecipientDeleteArgs} args - Arguments to delete one SplitRecipient.
-     * @example
-     * // Delete one SplitRecipient
-     * const SplitRecipient = await prisma.splitRecipient.delete({
-     *   where: {
-     *     // ... filter to delete one SplitRecipient
-     *   }
-     * })
-     * 
-     */
-    delete<T extends SplitRecipientDeleteArgs>(args: SelectSubset<T, SplitRecipientDeleteArgs<ExtArgs>>): Prisma__SplitRecipientClient<$Result.GetResult<Prisma.$SplitRecipientPayload<ExtArgs>, T, "delete">, never, ExtArgs>
-
-    /**
-     * Update one SplitRecipient.
-     * @param {SplitRecipientUpdateArgs} args - Arguments to update one SplitRecipient.
-     * @example
-     * // Update one SplitRecipient
-     * const splitRecipient = await prisma.splitRecipient.update({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    update<T extends SplitRecipientUpdateArgs>(args: SelectSubset<T, SplitRecipientUpdateArgs<ExtArgs>>): Prisma__SplitRecipientClient<$Result.GetResult<Prisma.$SplitRecipientPayload<ExtArgs>, T, "update">, never, ExtArgs>
-
-    /**
-     * Delete zero or more SplitRecipients.
-     * @param {SplitRecipientDeleteManyArgs} args - Arguments to filter SplitRecipients to delete.
-     * @example
-     * // Delete a few SplitRecipients
-     * const { count } = await prisma.splitRecipient.deleteMany({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     * 
-     */
-    deleteMany<T extends SplitRecipientDeleteManyArgs>(args?: SelectSubset<T, SplitRecipientDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more SplitRecipients.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {SplitRecipientUpdateManyArgs} args - Arguments to update one or more rows.
-     * @example
-     * // Update many SplitRecipients
-     * const splitRecipient = await prisma.splitRecipient.updateMany({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    updateMany<T extends SplitRecipientUpdateManyArgs>(args: SelectSubset<T, SplitRecipientUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Create or update one SplitRecipient.
-     * @param {SplitRecipientUpsertArgs} args - Arguments to update or create a SplitRecipient.
-     * @example
-     * // Update or create a SplitRecipient
-     * const splitRecipient = await prisma.splitRecipient.upsert({
-     *   create: {
-     *     // ... data to create a SplitRecipient
-     *   },
-     *   update: {
-     *     // ... in case it already exists, update
-     *   },
-     *   where: {
-     *     // ... the filter for the SplitRecipient we want to update
-     *   }
-     * })
-     */
-    upsert<T extends SplitRecipientUpsertArgs>(args: SelectSubset<T, SplitRecipientUpsertArgs<ExtArgs>>): Prisma__SplitRecipientClient<$Result.GetResult<Prisma.$SplitRecipientPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
-
-
-    /**
-     * Count the number of SplitRecipients.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {SplitRecipientCountArgs} args - Arguments to filter SplitRecipients to count.
-     * @example
-     * // Count the number of SplitRecipients
-     * const count = await prisma.splitRecipient.count({
-     *   where: {
-     *     // ... the filter for the SplitRecipients we want to count
-     *   }
-     * })
-    **/
-    count<T extends SplitRecipientCountArgs>(
-      args?: Subset<T, SplitRecipientCountArgs>,
-    ): Prisma.PrismaPromise<
-      T extends $Utils.Record<'select', any>
-        ? T['select'] extends true
-          ? number
-          : GetScalarType<T['select'], SplitRecipientCountAggregateOutputType>
-        : number
-    >
-
-    /**
-     * Allows you to perform aggregations operations on a SplitRecipient.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {SplitRecipientAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
-     * @example
-     * // Ordered by age ascending
-     * // Where email contains prisma.io
-     * // Limited to the 10 users
-     * const aggregations = await prisma.user.aggregate({
-     *   _avg: {
-     *     age: true,
-     *   },
-     *   where: {
-     *     email: {
-     *       contains: "prisma.io",
-     *     },
-     *   },
-     *   orderBy: {
-     *     age: "asc",
-     *   },
-     *   take: 10,
-     * })
-    **/
-    aggregate<T extends SplitRecipientAggregateArgs>(args: Subset<T, SplitRecipientAggregateArgs>): Prisma.PrismaPromise<GetSplitRecipientAggregateType<T>>
-
-    /**
-     * Group by SplitRecipient.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {SplitRecipientGroupByArgs} args - Group by arguments.
-     * @example
-     * // Group by city, order by createdAt, get count
-     * const result = await prisma.user.groupBy({
-     *   by: ['city', 'createdAt'],
-     *   orderBy: {
-     *     createdAt: true
-     *   },
-     *   _count: {
-     *     _all: true
-     *   },
-     * })
-     * 
-    **/
-    groupBy<
-      T extends SplitRecipientGroupByArgs,
-      HasSelectOrTake extends Or<
-        Extends<'skip', Keys<T>>,
-        Extends<'take', Keys<T>>
-      >,
-      OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: SplitRecipientGroupByArgs['orderBy'] }
-        : { orderBy?: SplitRecipientGroupByArgs['orderBy'] },
-      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
-      ByFields extends MaybeTupleToUnion<T['by']>,
-      ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T['having']>,
-      HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T['by'] extends never[] ? True : False,
-      InputErrors extends ByEmpty extends True
-      ? `Error: "by" must not be empty.`
-      : HavingValid extends False
-      ? {
-          [P in HavingFields]: P extends ByFields
-            ? never
-            : P extends string
-            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-            : [
-                Error,
-                'Field ',
-                P,
-                ` in "having" needs to be provided in "by"`,
-              ]
-        }[HavingFields]
-      : 'take' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "take", you also need to provide "orderBy"'
-      : 'skip' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "skip", you also need to provide "orderBy"'
-      : ByValid extends True
-      ? {}
-      : {
-          [P in OrderFields]: P extends ByFields
-            ? never
-            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-        }[OrderFields]
-    >(args: SubsetIntersection<T, SplitRecipientGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetSplitRecipientGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
-  /**
-   * Fields of the SplitRecipient model
-   */
-  readonly fields: SplitRecipientFieldRefs;
-  }
-
-  /**
-   * The delegate class that acts as a "Promise-like" for SplitRecipient.
-   * Why is this prefixed with `Prisma__`?
-   * Because we want to prevent naming conflicts as mentioned in
-   * https://github.com/prisma/prisma-client-js/issues/707
-   */
-  export interface Prisma__SplitRecipientClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
-    readonly [Symbol.toStringTag]: "PrismaPromise"
-    disbursement<T extends DisbursementDefaultArgs<ExtArgs> = {}>(args?: Subset<T, DisbursementDefaultArgs<ExtArgs>>): Prisma__DisbursementClient<$Result.GetResult<Prisma.$DisbursementPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
-    /**
-     * Attaches callbacks for the resolution and/or rejection of the Promise.
-     * @param onfulfilled The callback to execute when the Promise is resolved.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of which ever callback is executed.
-     */
-    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
-    /**
-     * Attaches a callback for only the rejection of the Promise.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of the callback.
-     */
-    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
-    /**
-     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
-     * resolved value cannot be modified from the callback.
-     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
-     * @returns A Promise for the completion of the callback.
-     */
-    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
-  }
-
-
-
-
-  /**
-   * Fields of the SplitRecipient model
-   */ 
-  interface SplitRecipientFieldRefs {
-    readonly id: FieldRef<"SplitRecipient", 'String'>
-    readonly disbursementId: FieldRef<"SplitRecipient", 'String'>
-    readonly recipientAddress: FieldRef<"SplitRecipient", 'String'>
-    readonly amount: FieldRef<"SplitRecipient", 'String'>
-    readonly status: FieldRef<"SplitRecipient", 'PayoutStatus'>
-  }
-    
-
-  // Custom InputTypes
-  /**
-   * SplitRecipient findUnique
-   */
-  export type SplitRecipientFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the SplitRecipient
-     */
-    select?: SplitRecipientSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: SplitRecipientInclude<ExtArgs> | null
-    /**
-     * Filter, which SplitRecipient to fetch.
-     */
-    where: SplitRecipientWhereUniqueInput
-  }
-
-  /**
-   * SplitRecipient findUniqueOrThrow
-   */
-  export type SplitRecipientFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the SplitRecipient
-     */
-    select?: SplitRecipientSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: SplitRecipientInclude<ExtArgs> | null
-    /**
-     * Filter, which SplitRecipient to fetch.
-     */
-    where: SplitRecipientWhereUniqueInput
-  }
-
-  /**
-   * SplitRecipient findFirst
-   */
-  export type SplitRecipientFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the SplitRecipient
-     */
-    select?: SplitRecipientSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: SplitRecipientInclude<ExtArgs> | null
-    /**
-     * Filter, which SplitRecipient to fetch.
-     */
-    where?: SplitRecipientWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of SplitRecipients to fetch.
-     */
-    orderBy?: SplitRecipientOrderByWithRelationInput | SplitRecipientOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for SplitRecipients.
-     */
-    cursor?: SplitRecipientWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` SplitRecipients from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` SplitRecipients.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of SplitRecipients.
-     */
-    distinct?: SplitRecipientScalarFieldEnum | SplitRecipientScalarFieldEnum[]
-  }
-
-  /**
-   * SplitRecipient findFirstOrThrow
-   */
-  export type SplitRecipientFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the SplitRecipient
-     */
-    select?: SplitRecipientSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: SplitRecipientInclude<ExtArgs> | null
-    /**
-     * Filter, which SplitRecipient to fetch.
-     */
-    where?: SplitRecipientWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of SplitRecipients to fetch.
-     */
-    orderBy?: SplitRecipientOrderByWithRelationInput | SplitRecipientOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for SplitRecipients.
-     */
-    cursor?: SplitRecipientWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` SplitRecipients from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` SplitRecipients.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of SplitRecipients.
-     */
-    distinct?: SplitRecipientScalarFieldEnum | SplitRecipientScalarFieldEnum[]
-  }
-
-  /**
-   * SplitRecipient findMany
-   */
-  export type SplitRecipientFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the SplitRecipient
-     */
-    select?: SplitRecipientSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: SplitRecipientInclude<ExtArgs> | null
-    /**
-     * Filter, which SplitRecipients to fetch.
-     */
-    where?: SplitRecipientWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of SplitRecipients to fetch.
-     */
-    orderBy?: SplitRecipientOrderByWithRelationInput | SplitRecipientOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for listing SplitRecipients.
-     */
-    cursor?: SplitRecipientWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` SplitRecipients from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` SplitRecipients.
-     */
-    skip?: number
-    distinct?: SplitRecipientScalarFieldEnum | SplitRecipientScalarFieldEnum[]
-  }
-
-  /**
-   * SplitRecipient create
-   */
-  export type SplitRecipientCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the SplitRecipient
-     */
-    select?: SplitRecipientSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: SplitRecipientInclude<ExtArgs> | null
-    /**
-     * The data needed to create a SplitRecipient.
-     */
-    data: XOR<SplitRecipientCreateInput, SplitRecipientUncheckedCreateInput>
-  }
-
-  /**
-   * SplitRecipient createMany
-   */
-  export type SplitRecipientCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to create many SplitRecipients.
-     */
-    data: SplitRecipientCreateManyInput | SplitRecipientCreateManyInput[]
-    skipDuplicates?: boolean
-  }
-
-  /**
-   * SplitRecipient createManyAndReturn
-   */
-  export type SplitRecipientCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the SplitRecipient
-     */
-    select?: SplitRecipientSelectCreateManyAndReturn<ExtArgs> | null
-    /**
-     * The data used to create many SplitRecipients.
-     */
-    data: SplitRecipientCreateManyInput | SplitRecipientCreateManyInput[]
-    skipDuplicates?: boolean
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: SplitRecipientIncludeCreateManyAndReturn<ExtArgs> | null
-  }
-
-  /**
-   * SplitRecipient update
-   */
-  export type SplitRecipientUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the SplitRecipient
-     */
-    select?: SplitRecipientSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: SplitRecipientInclude<ExtArgs> | null
-    /**
-     * The data needed to update a SplitRecipient.
-     */
-    data: XOR<SplitRecipientUpdateInput, SplitRecipientUncheckedUpdateInput>
-    /**
-     * Choose, which SplitRecipient to update.
-     */
-    where: SplitRecipientWhereUniqueInput
-  }
-
-  /**
-   * SplitRecipient updateMany
-   */
-  export type SplitRecipientUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to update SplitRecipients.
-     */
-    data: XOR<SplitRecipientUpdateManyMutationInput, SplitRecipientUncheckedUpdateManyInput>
-    /**
-     * Filter which SplitRecipients to update
-     */
-    where?: SplitRecipientWhereInput
-  }
-
-  /**
-   * SplitRecipient upsert
-   */
-  export type SplitRecipientUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the SplitRecipient
-     */
-    select?: SplitRecipientSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: SplitRecipientInclude<ExtArgs> | null
-    /**
-     * The filter to search for the SplitRecipient to update in case it exists.
-     */
-    where: SplitRecipientWhereUniqueInput
-    /**
-     * In case the SplitRecipient found by the `where` argument doesn't exist, create a new SplitRecipient with this data.
-     */
-    create: XOR<SplitRecipientCreateInput, SplitRecipientUncheckedCreateInput>
-    /**
-     * In case the SplitRecipient was found with the provided `where` argument, update it with this data.
-     */
-    update: XOR<SplitRecipientUpdateInput, SplitRecipientUncheckedUpdateInput>
-  }
-
-  /**
-   * SplitRecipient delete
-   */
-  export type SplitRecipientDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the SplitRecipient
-     */
-    select?: SplitRecipientSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: SplitRecipientInclude<ExtArgs> | null
-    /**
-     * Filter which SplitRecipient to delete.
-     */
-    where: SplitRecipientWhereUniqueInput
-  }
-
-  /**
-   * SplitRecipient deleteMany
-   */
-  export type SplitRecipientDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which SplitRecipients to delete
-     */
-    where?: SplitRecipientWhereInput
-  }
-
-  /**
-   * SplitRecipient without action
-   */
-  export type SplitRecipientDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the SplitRecipient
-     */
-    select?: SplitRecipientSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: SplitRecipientInclude<ExtArgs> | null
   }
 
 
@@ -36778,6 +43528,1030 @@ export namespace Prisma {
 
 
   /**
+   * Model StreamTemplate
+   */
+
+  export type AggregateStreamTemplate = {
+    _count: StreamTemplateCountAggregateOutputType | null
+    _avg: StreamTemplateAvgAggregateOutputType | null
+    _sum: StreamTemplateSumAggregateOutputType | null
+    _min: StreamTemplateMinAggregateOutputType | null
+    _max: StreamTemplateMaxAggregateOutputType | null
+  }
+
+  export type StreamTemplateAvgAggregateOutputType = {
+    splitPercent: number | null
+    usageCount: number | null
+  }
+
+  export type StreamTemplateSumAggregateOutputType = {
+    splitPercent: number | null
+    usageCount: number | null
+  }
+
+  export type StreamTemplateMinAggregateOutputType = {
+    id: string | null
+    name: string | null
+    asset: string | null
+    recipientAddress: string | null
+    splitEnabled: boolean | null
+    splitAddress: string | null
+    splitPercent: number | null
+    totalAmount: string | null
+    rateType: string | null
+    durationPreset: string | null
+    usageCount: number | null
+    createdBy: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type StreamTemplateMaxAggregateOutputType = {
+    id: string | null
+    name: string | null
+    asset: string | null
+    recipientAddress: string | null
+    splitEnabled: boolean | null
+    splitAddress: string | null
+    splitPercent: number | null
+    totalAmount: string | null
+    rateType: string | null
+    durationPreset: string | null
+    usageCount: number | null
+    createdBy: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type StreamTemplateCountAggregateOutputType = {
+    id: number
+    name: number
+    asset: number
+    recipientAddress: number
+    splitEnabled: number
+    splitAddress: number
+    splitPercent: number
+    totalAmount: number
+    rateType: number
+    durationPreset: number
+    usageCount: number
+    createdBy: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type StreamTemplateAvgAggregateInputType = {
+    splitPercent?: true
+    usageCount?: true
+  }
+
+  export type StreamTemplateSumAggregateInputType = {
+    splitPercent?: true
+    usageCount?: true
+  }
+
+  export type StreamTemplateMinAggregateInputType = {
+    id?: true
+    name?: true
+    asset?: true
+    recipientAddress?: true
+    splitEnabled?: true
+    splitAddress?: true
+    splitPercent?: true
+    totalAmount?: true
+    rateType?: true
+    durationPreset?: true
+    usageCount?: true
+    createdBy?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type StreamTemplateMaxAggregateInputType = {
+    id?: true
+    name?: true
+    asset?: true
+    recipientAddress?: true
+    splitEnabled?: true
+    splitAddress?: true
+    splitPercent?: true
+    totalAmount?: true
+    rateType?: true
+    durationPreset?: true
+    usageCount?: true
+    createdBy?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type StreamTemplateCountAggregateInputType = {
+    id?: true
+    name?: true
+    asset?: true
+    recipientAddress?: true
+    splitEnabled?: true
+    splitAddress?: true
+    splitPercent?: true
+    totalAmount?: true
+    rateType?: true
+    durationPreset?: true
+    usageCount?: true
+    createdBy?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type StreamTemplateAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which StreamTemplate to aggregate.
+     */
+    where?: StreamTemplateWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of StreamTemplates to fetch.
+     */
+    orderBy?: StreamTemplateOrderByWithRelationInput | StreamTemplateOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: StreamTemplateWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` StreamTemplates from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` StreamTemplates.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned StreamTemplates
+    **/
+    _count?: true | StreamTemplateCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: StreamTemplateAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: StreamTemplateSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: StreamTemplateMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: StreamTemplateMaxAggregateInputType
+  }
+
+  export type GetStreamTemplateAggregateType<T extends StreamTemplateAggregateArgs> = {
+        [P in keyof T & keyof AggregateStreamTemplate]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateStreamTemplate[P]>
+      : GetScalarType<T[P], AggregateStreamTemplate[P]>
+  }
+
+
+
+
+  export type StreamTemplateGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: StreamTemplateWhereInput
+    orderBy?: StreamTemplateOrderByWithAggregationInput | StreamTemplateOrderByWithAggregationInput[]
+    by: StreamTemplateScalarFieldEnum[] | StreamTemplateScalarFieldEnum
+    having?: StreamTemplateScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: StreamTemplateCountAggregateInputType | true
+    _avg?: StreamTemplateAvgAggregateInputType
+    _sum?: StreamTemplateSumAggregateInputType
+    _min?: StreamTemplateMinAggregateInputType
+    _max?: StreamTemplateMaxAggregateInputType
+  }
+
+  export type StreamTemplateGroupByOutputType = {
+    id: string
+    name: string
+    asset: string
+    recipientAddress: string
+    splitEnabled: boolean
+    splitAddress: string | null
+    splitPercent: number
+    totalAmount: string
+    rateType: string
+    durationPreset: string
+    usageCount: number
+    createdBy: string
+    createdAt: Date
+    updatedAt: Date
+    _count: StreamTemplateCountAggregateOutputType | null
+    _avg: StreamTemplateAvgAggregateOutputType | null
+    _sum: StreamTemplateSumAggregateOutputType | null
+    _min: StreamTemplateMinAggregateOutputType | null
+    _max: StreamTemplateMaxAggregateOutputType | null
+  }
+
+  type GetStreamTemplateGroupByPayload<T extends StreamTemplateGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<StreamTemplateGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof StreamTemplateGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], StreamTemplateGroupByOutputType[P]>
+            : GetScalarType<T[P], StreamTemplateGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type StreamTemplateSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    asset?: boolean
+    recipientAddress?: boolean
+    splitEnabled?: boolean
+    splitAddress?: boolean
+    splitPercent?: boolean
+    totalAmount?: boolean
+    rateType?: boolean
+    durationPreset?: boolean
+    usageCount?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["streamTemplate"]>
+
+  export type StreamTemplateSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    asset?: boolean
+    recipientAddress?: boolean
+    splitEnabled?: boolean
+    splitAddress?: boolean
+    splitPercent?: boolean
+    totalAmount?: boolean
+    rateType?: boolean
+    durationPreset?: boolean
+    usageCount?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["streamTemplate"]>
+
+  export type StreamTemplateSelectScalar = {
+    id?: boolean
+    name?: boolean
+    asset?: boolean
+    recipientAddress?: boolean
+    splitEnabled?: boolean
+    splitAddress?: boolean
+    splitPercent?: boolean
+    totalAmount?: boolean
+    rateType?: boolean
+    durationPreset?: boolean
+    usageCount?: boolean
+    createdBy?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+
+  export type $StreamTemplatePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "StreamTemplate"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      name: string
+      asset: string
+      recipientAddress: string
+      splitEnabled: boolean
+      splitAddress: string | null
+      splitPercent: number
+      totalAmount: string
+      rateType: string
+      durationPreset: string
+      usageCount: number
+      createdBy: string
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["streamTemplate"]>
+    composites: {}
+  }
+
+  type StreamTemplateGetPayload<S extends boolean | null | undefined | StreamTemplateDefaultArgs> = $Result.GetResult<Prisma.$StreamTemplatePayload, S>
+
+  type StreamTemplateCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<StreamTemplateFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: StreamTemplateCountAggregateInputType | true
+    }
+
+  export interface StreamTemplateDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['StreamTemplate'], meta: { name: 'StreamTemplate' } }
+    /**
+     * Find zero or one StreamTemplate that matches the filter.
+     * @param {StreamTemplateFindUniqueArgs} args - Arguments to find a StreamTemplate
+     * @example
+     * // Get one StreamTemplate
+     * const streamTemplate = await prisma.streamTemplate.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends StreamTemplateFindUniqueArgs>(args: SelectSubset<T, StreamTemplateFindUniqueArgs<ExtArgs>>): Prisma__StreamTemplateClient<$Result.GetResult<Prisma.$StreamTemplatePayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one StreamTemplate that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {StreamTemplateFindUniqueOrThrowArgs} args - Arguments to find a StreamTemplate
+     * @example
+     * // Get one StreamTemplate
+     * const streamTemplate = await prisma.streamTemplate.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends StreamTemplateFindUniqueOrThrowArgs>(args: SelectSubset<T, StreamTemplateFindUniqueOrThrowArgs<ExtArgs>>): Prisma__StreamTemplateClient<$Result.GetResult<Prisma.$StreamTemplatePayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first StreamTemplate that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StreamTemplateFindFirstArgs} args - Arguments to find a StreamTemplate
+     * @example
+     * // Get one StreamTemplate
+     * const streamTemplate = await prisma.streamTemplate.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends StreamTemplateFindFirstArgs>(args?: SelectSubset<T, StreamTemplateFindFirstArgs<ExtArgs>>): Prisma__StreamTemplateClient<$Result.GetResult<Prisma.$StreamTemplatePayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first StreamTemplate that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StreamTemplateFindFirstOrThrowArgs} args - Arguments to find a StreamTemplate
+     * @example
+     * // Get one StreamTemplate
+     * const streamTemplate = await prisma.streamTemplate.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends StreamTemplateFindFirstOrThrowArgs>(args?: SelectSubset<T, StreamTemplateFindFirstOrThrowArgs<ExtArgs>>): Prisma__StreamTemplateClient<$Result.GetResult<Prisma.$StreamTemplatePayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more StreamTemplates that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StreamTemplateFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all StreamTemplates
+     * const streamTemplates = await prisma.streamTemplate.findMany()
+     * 
+     * // Get first 10 StreamTemplates
+     * const streamTemplates = await prisma.streamTemplate.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const streamTemplateWithIdOnly = await prisma.streamTemplate.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends StreamTemplateFindManyArgs>(args?: SelectSubset<T, StreamTemplateFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StreamTemplatePayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a StreamTemplate.
+     * @param {StreamTemplateCreateArgs} args - Arguments to create a StreamTemplate.
+     * @example
+     * // Create one StreamTemplate
+     * const StreamTemplate = await prisma.streamTemplate.create({
+     *   data: {
+     *     // ... data to create a StreamTemplate
+     *   }
+     * })
+     * 
+     */
+    create<T extends StreamTemplateCreateArgs>(args: SelectSubset<T, StreamTemplateCreateArgs<ExtArgs>>): Prisma__StreamTemplateClient<$Result.GetResult<Prisma.$StreamTemplatePayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many StreamTemplates.
+     * @param {StreamTemplateCreateManyArgs} args - Arguments to create many StreamTemplates.
+     * @example
+     * // Create many StreamTemplates
+     * const streamTemplate = await prisma.streamTemplate.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends StreamTemplateCreateManyArgs>(args?: SelectSubset<T, StreamTemplateCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many StreamTemplates and returns the data saved in the database.
+     * @param {StreamTemplateCreateManyAndReturnArgs} args - Arguments to create many StreamTemplates.
+     * @example
+     * // Create many StreamTemplates
+     * const streamTemplate = await prisma.streamTemplate.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many StreamTemplates and only return the `id`
+     * const streamTemplateWithIdOnly = await prisma.streamTemplate.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends StreamTemplateCreateManyAndReturnArgs>(args?: SelectSubset<T, StreamTemplateCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StreamTemplatePayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a StreamTemplate.
+     * @param {StreamTemplateDeleteArgs} args - Arguments to delete one StreamTemplate.
+     * @example
+     * // Delete one StreamTemplate
+     * const StreamTemplate = await prisma.streamTemplate.delete({
+     *   where: {
+     *     // ... filter to delete one StreamTemplate
+     *   }
+     * })
+     * 
+     */
+    delete<T extends StreamTemplateDeleteArgs>(args: SelectSubset<T, StreamTemplateDeleteArgs<ExtArgs>>): Prisma__StreamTemplateClient<$Result.GetResult<Prisma.$StreamTemplatePayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one StreamTemplate.
+     * @param {StreamTemplateUpdateArgs} args - Arguments to update one StreamTemplate.
+     * @example
+     * // Update one StreamTemplate
+     * const streamTemplate = await prisma.streamTemplate.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends StreamTemplateUpdateArgs>(args: SelectSubset<T, StreamTemplateUpdateArgs<ExtArgs>>): Prisma__StreamTemplateClient<$Result.GetResult<Prisma.$StreamTemplatePayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more StreamTemplates.
+     * @param {StreamTemplateDeleteManyArgs} args - Arguments to filter StreamTemplates to delete.
+     * @example
+     * // Delete a few StreamTemplates
+     * const { count } = await prisma.streamTemplate.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends StreamTemplateDeleteManyArgs>(args?: SelectSubset<T, StreamTemplateDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more StreamTemplates.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StreamTemplateUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many StreamTemplates
+     * const streamTemplate = await prisma.streamTemplate.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends StreamTemplateUpdateManyArgs>(args: SelectSubset<T, StreamTemplateUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one StreamTemplate.
+     * @param {StreamTemplateUpsertArgs} args - Arguments to update or create a StreamTemplate.
+     * @example
+     * // Update or create a StreamTemplate
+     * const streamTemplate = await prisma.streamTemplate.upsert({
+     *   create: {
+     *     // ... data to create a StreamTemplate
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the StreamTemplate we want to update
+     *   }
+     * })
+     */
+    upsert<T extends StreamTemplateUpsertArgs>(args: SelectSubset<T, StreamTemplateUpsertArgs<ExtArgs>>): Prisma__StreamTemplateClient<$Result.GetResult<Prisma.$StreamTemplatePayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of StreamTemplates.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StreamTemplateCountArgs} args - Arguments to filter StreamTemplates to count.
+     * @example
+     * // Count the number of StreamTemplates
+     * const count = await prisma.streamTemplate.count({
+     *   where: {
+     *     // ... the filter for the StreamTemplates we want to count
+     *   }
+     * })
+    **/
+    count<T extends StreamTemplateCountArgs>(
+      args?: Subset<T, StreamTemplateCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], StreamTemplateCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a StreamTemplate.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StreamTemplateAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends StreamTemplateAggregateArgs>(args: Subset<T, StreamTemplateAggregateArgs>): Prisma.PrismaPromise<GetStreamTemplateAggregateType<T>>
+
+    /**
+     * Group by StreamTemplate.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StreamTemplateGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends StreamTemplateGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: StreamTemplateGroupByArgs['orderBy'] }
+        : { orderBy?: StreamTemplateGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, StreamTemplateGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetStreamTemplateGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the StreamTemplate model
+   */
+  readonly fields: StreamTemplateFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for StreamTemplate.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__StreamTemplateClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the StreamTemplate model
+   */ 
+  interface StreamTemplateFieldRefs {
+    readonly id: FieldRef<"StreamTemplate", 'String'>
+    readonly name: FieldRef<"StreamTemplate", 'String'>
+    readonly asset: FieldRef<"StreamTemplate", 'String'>
+    readonly recipientAddress: FieldRef<"StreamTemplate", 'String'>
+    readonly splitEnabled: FieldRef<"StreamTemplate", 'Boolean'>
+    readonly splitAddress: FieldRef<"StreamTemplate", 'String'>
+    readonly splitPercent: FieldRef<"StreamTemplate", 'Int'>
+    readonly totalAmount: FieldRef<"StreamTemplate", 'String'>
+    readonly rateType: FieldRef<"StreamTemplate", 'String'>
+    readonly durationPreset: FieldRef<"StreamTemplate", 'String'>
+    readonly usageCount: FieldRef<"StreamTemplate", 'Int'>
+    readonly createdBy: FieldRef<"StreamTemplate", 'String'>
+    readonly createdAt: FieldRef<"StreamTemplate", 'DateTime'>
+    readonly updatedAt: FieldRef<"StreamTemplate", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * StreamTemplate findUnique
+   */
+  export type StreamTemplateFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StreamTemplate
+     */
+    select?: StreamTemplateSelect<ExtArgs> | null
+    /**
+     * Filter, which StreamTemplate to fetch.
+     */
+    where: StreamTemplateWhereUniqueInput
+  }
+
+  /**
+   * StreamTemplate findUniqueOrThrow
+   */
+  export type StreamTemplateFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StreamTemplate
+     */
+    select?: StreamTemplateSelect<ExtArgs> | null
+    /**
+     * Filter, which StreamTemplate to fetch.
+     */
+    where: StreamTemplateWhereUniqueInput
+  }
+
+  /**
+   * StreamTemplate findFirst
+   */
+  export type StreamTemplateFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StreamTemplate
+     */
+    select?: StreamTemplateSelect<ExtArgs> | null
+    /**
+     * Filter, which StreamTemplate to fetch.
+     */
+    where?: StreamTemplateWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of StreamTemplates to fetch.
+     */
+    orderBy?: StreamTemplateOrderByWithRelationInput | StreamTemplateOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for StreamTemplates.
+     */
+    cursor?: StreamTemplateWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` StreamTemplates from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` StreamTemplates.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of StreamTemplates.
+     */
+    distinct?: StreamTemplateScalarFieldEnum | StreamTemplateScalarFieldEnum[]
+  }
+
+  /**
+   * StreamTemplate findFirstOrThrow
+   */
+  export type StreamTemplateFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StreamTemplate
+     */
+    select?: StreamTemplateSelect<ExtArgs> | null
+    /**
+     * Filter, which StreamTemplate to fetch.
+     */
+    where?: StreamTemplateWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of StreamTemplates to fetch.
+     */
+    orderBy?: StreamTemplateOrderByWithRelationInput | StreamTemplateOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for StreamTemplates.
+     */
+    cursor?: StreamTemplateWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` StreamTemplates from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` StreamTemplates.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of StreamTemplates.
+     */
+    distinct?: StreamTemplateScalarFieldEnum | StreamTemplateScalarFieldEnum[]
+  }
+
+  /**
+   * StreamTemplate findMany
+   */
+  export type StreamTemplateFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StreamTemplate
+     */
+    select?: StreamTemplateSelect<ExtArgs> | null
+    /**
+     * Filter, which StreamTemplates to fetch.
+     */
+    where?: StreamTemplateWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of StreamTemplates to fetch.
+     */
+    orderBy?: StreamTemplateOrderByWithRelationInput | StreamTemplateOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing StreamTemplates.
+     */
+    cursor?: StreamTemplateWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` StreamTemplates from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` StreamTemplates.
+     */
+    skip?: number
+    distinct?: StreamTemplateScalarFieldEnum | StreamTemplateScalarFieldEnum[]
+  }
+
+  /**
+   * StreamTemplate create
+   */
+  export type StreamTemplateCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StreamTemplate
+     */
+    select?: StreamTemplateSelect<ExtArgs> | null
+    /**
+     * The data needed to create a StreamTemplate.
+     */
+    data: XOR<StreamTemplateCreateInput, StreamTemplateUncheckedCreateInput>
+  }
+
+  /**
+   * StreamTemplate createMany
+   */
+  export type StreamTemplateCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many StreamTemplates.
+     */
+    data: StreamTemplateCreateManyInput | StreamTemplateCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * StreamTemplate createManyAndReturn
+   */
+  export type StreamTemplateCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StreamTemplate
+     */
+    select?: StreamTemplateSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many StreamTemplates.
+     */
+    data: StreamTemplateCreateManyInput | StreamTemplateCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * StreamTemplate update
+   */
+  export type StreamTemplateUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StreamTemplate
+     */
+    select?: StreamTemplateSelect<ExtArgs> | null
+    /**
+     * The data needed to update a StreamTemplate.
+     */
+    data: XOR<StreamTemplateUpdateInput, StreamTemplateUncheckedUpdateInput>
+    /**
+     * Choose, which StreamTemplate to update.
+     */
+    where: StreamTemplateWhereUniqueInput
+  }
+
+  /**
+   * StreamTemplate updateMany
+   */
+  export type StreamTemplateUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update StreamTemplates.
+     */
+    data: XOR<StreamTemplateUpdateManyMutationInput, StreamTemplateUncheckedUpdateManyInput>
+    /**
+     * Filter which StreamTemplates to update
+     */
+    where?: StreamTemplateWhereInput
+  }
+
+  /**
+   * StreamTemplate upsert
+   */
+  export type StreamTemplateUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StreamTemplate
+     */
+    select?: StreamTemplateSelect<ExtArgs> | null
+    /**
+     * The filter to search for the StreamTemplate to update in case it exists.
+     */
+    where: StreamTemplateWhereUniqueInput
+    /**
+     * In case the StreamTemplate found by the `where` argument doesn't exist, create a new StreamTemplate with this data.
+     */
+    create: XOR<StreamTemplateCreateInput, StreamTemplateUncheckedCreateInput>
+    /**
+     * In case the StreamTemplate was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<StreamTemplateUpdateInput, StreamTemplateUncheckedUpdateInput>
+  }
+
+  /**
+   * StreamTemplate delete
+   */
+  export type StreamTemplateDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StreamTemplate
+     */
+    select?: StreamTemplateSelect<ExtArgs> | null
+    /**
+     * Filter which StreamTemplate to delete.
+     */
+    where: StreamTemplateWhereUniqueInput
+  }
+
+  /**
+   * StreamTemplate deleteMany
+   */
+  export type StreamTemplateDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which StreamTemplates to delete
+     */
+    where?: StreamTemplateWhereInput
+  }
+
+  /**
+   * StreamTemplate without action
+   */
+  export type StreamTemplateDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StreamTemplate
+     */
+    select?: StreamTemplateSelect<ExtArgs> | null
+  }
+
+
+  /**
    * Model SplitLink
    */
 
@@ -36803,6 +44577,7 @@ export namespace Prisma {
     fullUrl: string | null
     payloadHash: string | null
     creatorAddress: string | null
+    passwordHash: string | null
     clickCount: number | null
     lastClickedAt: Date | null
     expiresAt: Date | null
@@ -36815,6 +44590,7 @@ export namespace Prisma {
     fullUrl: string | null
     payloadHash: string | null
     creatorAddress: string | null
+    passwordHash: string | null
     clickCount: number | null
     lastClickedAt: Date | null
     expiresAt: Date | null
@@ -36827,6 +44603,7 @@ export namespace Prisma {
     fullUrl: number
     payloadHash: number
     creatorAddress: number
+    passwordHash: number
     clickCount: number
     lastClickedAt: number
     expiresAt: number
@@ -36849,6 +44626,7 @@ export namespace Prisma {
     fullUrl?: true
     payloadHash?: true
     creatorAddress?: true
+    passwordHash?: true
     clickCount?: true
     lastClickedAt?: true
     expiresAt?: true
@@ -36861,6 +44639,7 @@ export namespace Prisma {
     fullUrl?: true
     payloadHash?: true
     creatorAddress?: true
+    passwordHash?: true
     clickCount?: true
     lastClickedAt?: true
     expiresAt?: true
@@ -36873,6 +44652,7 @@ export namespace Prisma {
     fullUrl?: true
     payloadHash?: true
     creatorAddress?: true
+    passwordHash?: true
     clickCount?: true
     lastClickedAt?: true
     expiresAt?: true
@@ -36972,6 +44752,7 @@ export namespace Prisma {
     fullUrl: string
     payloadHash: string
     creatorAddress: string
+    passwordHash: string | null
     clickCount: number
     lastClickedAt: Date | null
     expiresAt: Date | null
@@ -37003,6 +44784,7 @@ export namespace Prisma {
     fullUrl?: boolean
     payloadHash?: boolean
     creatorAddress?: boolean
+    passwordHash?: boolean
     clickCount?: boolean
     lastClickedAt?: boolean
     expiresAt?: boolean
@@ -37015,6 +44797,7 @@ export namespace Prisma {
     fullUrl?: boolean
     payloadHash?: boolean
     creatorAddress?: boolean
+    passwordHash?: boolean
     clickCount?: boolean
     lastClickedAt?: boolean
     expiresAt?: boolean
@@ -37027,6 +44810,7 @@ export namespace Prisma {
     fullUrl?: boolean
     payloadHash?: boolean
     creatorAddress?: boolean
+    passwordHash?: boolean
     clickCount?: boolean
     lastClickedAt?: boolean
     expiresAt?: boolean
@@ -37043,6 +44827,7 @@ export namespace Prisma {
       fullUrl: string
       payloadHash: string
       creatorAddress: string
+      passwordHash: string | null
       clickCount: number
       lastClickedAt: Date | null
       expiresAt: Date | null
@@ -37445,6 +45230,7 @@ export namespace Prisma {
     readonly fullUrl: FieldRef<"SplitLink", 'String'>
     readonly payloadHash: FieldRef<"SplitLink", 'String'>
     readonly creatorAddress: FieldRef<"SplitLink", 'String'>
+    readonly passwordHash: FieldRef<"SplitLink", 'String'>
     readonly clickCount: FieldRef<"SplitLink", 'Int'>
     readonly lastClickedAt: FieldRef<"SplitLink", 'DateTime'>
     readonly expiresAt: FieldRef<"SplitLink", 'DateTime'>
@@ -37738,6 +45524,1956 @@ export namespace Prisma {
 
 
   /**
+   * Model OfacAuditLog
+   */
+
+  export type AggregateOfacAuditLog = {
+    _count: OfacAuditLogCountAggregateOutputType | null
+    _min: OfacAuditLogMinAggregateOutputType | null
+    _max: OfacAuditLogMaxAggregateOutputType | null
+  }
+
+  export type OfacAuditLogMinAggregateOutputType = {
+    id: string | null
+    address: string | null
+    isSanctioned: boolean | null
+    checkedAt: Date | null
+    source: string | null
+    createdAt: Date | null
+  }
+
+  export type OfacAuditLogMaxAggregateOutputType = {
+    id: string | null
+    address: string | null
+    isSanctioned: boolean | null
+    checkedAt: Date | null
+    source: string | null
+    createdAt: Date | null
+  }
+
+  export type OfacAuditLogCountAggregateOutputType = {
+    id: number
+    address: number
+    isSanctioned: number
+    checkedAt: number
+    source: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type OfacAuditLogMinAggregateInputType = {
+    id?: true
+    address?: true
+    isSanctioned?: true
+    checkedAt?: true
+    source?: true
+    createdAt?: true
+  }
+
+  export type OfacAuditLogMaxAggregateInputType = {
+    id?: true
+    address?: true
+    isSanctioned?: true
+    checkedAt?: true
+    source?: true
+    createdAt?: true
+  }
+
+  export type OfacAuditLogCountAggregateInputType = {
+    id?: true
+    address?: true
+    isSanctioned?: true
+    checkedAt?: true
+    source?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type OfacAuditLogAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which OfacAuditLog to aggregate.
+     */
+    where?: OfacAuditLogWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of OfacAuditLogs to fetch.
+     */
+    orderBy?: OfacAuditLogOrderByWithRelationInput | OfacAuditLogOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: OfacAuditLogWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` OfacAuditLogs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` OfacAuditLogs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned OfacAuditLogs
+    **/
+    _count?: true | OfacAuditLogCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: OfacAuditLogMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: OfacAuditLogMaxAggregateInputType
+  }
+
+  export type GetOfacAuditLogAggregateType<T extends OfacAuditLogAggregateArgs> = {
+        [P in keyof T & keyof AggregateOfacAuditLog]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateOfacAuditLog[P]>
+      : GetScalarType<T[P], AggregateOfacAuditLog[P]>
+  }
+
+
+
+
+  export type OfacAuditLogGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: OfacAuditLogWhereInput
+    orderBy?: OfacAuditLogOrderByWithAggregationInput | OfacAuditLogOrderByWithAggregationInput[]
+    by: OfacAuditLogScalarFieldEnum[] | OfacAuditLogScalarFieldEnum
+    having?: OfacAuditLogScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: OfacAuditLogCountAggregateInputType | true
+    _min?: OfacAuditLogMinAggregateInputType
+    _max?: OfacAuditLogMaxAggregateInputType
+  }
+
+  export type OfacAuditLogGroupByOutputType = {
+    id: string
+    address: string
+    isSanctioned: boolean
+    checkedAt: Date
+    source: string
+    createdAt: Date
+    _count: OfacAuditLogCountAggregateOutputType | null
+    _min: OfacAuditLogMinAggregateOutputType | null
+    _max: OfacAuditLogMaxAggregateOutputType | null
+  }
+
+  type GetOfacAuditLogGroupByPayload<T extends OfacAuditLogGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<OfacAuditLogGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof OfacAuditLogGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], OfacAuditLogGroupByOutputType[P]>
+            : GetScalarType<T[P], OfacAuditLogGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type OfacAuditLogSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    address?: boolean
+    isSanctioned?: boolean
+    checkedAt?: boolean
+    source?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["ofacAuditLog"]>
+
+  export type OfacAuditLogSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    address?: boolean
+    isSanctioned?: boolean
+    checkedAt?: boolean
+    source?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["ofacAuditLog"]>
+
+  export type OfacAuditLogSelectScalar = {
+    id?: boolean
+    address?: boolean
+    isSanctioned?: boolean
+    checkedAt?: boolean
+    source?: boolean
+    createdAt?: boolean
+  }
+
+
+  export type $OfacAuditLogPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "OfacAuditLog"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      address: string
+      isSanctioned: boolean
+      checkedAt: Date
+      source: string
+      createdAt: Date
+    }, ExtArgs["result"]["ofacAuditLog"]>
+    composites: {}
+  }
+
+  type OfacAuditLogGetPayload<S extends boolean | null | undefined | OfacAuditLogDefaultArgs> = $Result.GetResult<Prisma.$OfacAuditLogPayload, S>
+
+  type OfacAuditLogCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<OfacAuditLogFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: OfacAuditLogCountAggregateInputType | true
+    }
+
+  export interface OfacAuditLogDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['OfacAuditLog'], meta: { name: 'OfacAuditLog' } }
+    /**
+     * Find zero or one OfacAuditLog that matches the filter.
+     * @param {OfacAuditLogFindUniqueArgs} args - Arguments to find a OfacAuditLog
+     * @example
+     * // Get one OfacAuditLog
+     * const ofacAuditLog = await prisma.ofacAuditLog.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends OfacAuditLogFindUniqueArgs>(args: SelectSubset<T, OfacAuditLogFindUniqueArgs<ExtArgs>>): Prisma__OfacAuditLogClient<$Result.GetResult<Prisma.$OfacAuditLogPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one OfacAuditLog that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {OfacAuditLogFindUniqueOrThrowArgs} args - Arguments to find a OfacAuditLog
+     * @example
+     * // Get one OfacAuditLog
+     * const ofacAuditLog = await prisma.ofacAuditLog.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends OfacAuditLogFindUniqueOrThrowArgs>(args: SelectSubset<T, OfacAuditLogFindUniqueOrThrowArgs<ExtArgs>>): Prisma__OfacAuditLogClient<$Result.GetResult<Prisma.$OfacAuditLogPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first OfacAuditLog that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OfacAuditLogFindFirstArgs} args - Arguments to find a OfacAuditLog
+     * @example
+     * // Get one OfacAuditLog
+     * const ofacAuditLog = await prisma.ofacAuditLog.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends OfacAuditLogFindFirstArgs>(args?: SelectSubset<T, OfacAuditLogFindFirstArgs<ExtArgs>>): Prisma__OfacAuditLogClient<$Result.GetResult<Prisma.$OfacAuditLogPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first OfacAuditLog that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OfacAuditLogFindFirstOrThrowArgs} args - Arguments to find a OfacAuditLog
+     * @example
+     * // Get one OfacAuditLog
+     * const ofacAuditLog = await prisma.ofacAuditLog.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends OfacAuditLogFindFirstOrThrowArgs>(args?: SelectSubset<T, OfacAuditLogFindFirstOrThrowArgs<ExtArgs>>): Prisma__OfacAuditLogClient<$Result.GetResult<Prisma.$OfacAuditLogPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more OfacAuditLogs that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OfacAuditLogFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all OfacAuditLogs
+     * const ofacAuditLogs = await prisma.ofacAuditLog.findMany()
+     * 
+     * // Get first 10 OfacAuditLogs
+     * const ofacAuditLogs = await prisma.ofacAuditLog.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const ofacAuditLogWithIdOnly = await prisma.ofacAuditLog.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends OfacAuditLogFindManyArgs>(args?: SelectSubset<T, OfacAuditLogFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OfacAuditLogPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a OfacAuditLog.
+     * @param {OfacAuditLogCreateArgs} args - Arguments to create a OfacAuditLog.
+     * @example
+     * // Create one OfacAuditLog
+     * const OfacAuditLog = await prisma.ofacAuditLog.create({
+     *   data: {
+     *     // ... data to create a OfacAuditLog
+     *   }
+     * })
+     * 
+     */
+    create<T extends OfacAuditLogCreateArgs>(args: SelectSubset<T, OfacAuditLogCreateArgs<ExtArgs>>): Prisma__OfacAuditLogClient<$Result.GetResult<Prisma.$OfacAuditLogPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many OfacAuditLogs.
+     * @param {OfacAuditLogCreateManyArgs} args - Arguments to create many OfacAuditLogs.
+     * @example
+     * // Create many OfacAuditLogs
+     * const ofacAuditLog = await prisma.ofacAuditLog.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends OfacAuditLogCreateManyArgs>(args?: SelectSubset<T, OfacAuditLogCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many OfacAuditLogs and returns the data saved in the database.
+     * @param {OfacAuditLogCreateManyAndReturnArgs} args - Arguments to create many OfacAuditLogs.
+     * @example
+     * // Create many OfacAuditLogs
+     * const ofacAuditLog = await prisma.ofacAuditLog.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many OfacAuditLogs and only return the `id`
+     * const ofacAuditLogWithIdOnly = await prisma.ofacAuditLog.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends OfacAuditLogCreateManyAndReturnArgs>(args?: SelectSubset<T, OfacAuditLogCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OfacAuditLogPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a OfacAuditLog.
+     * @param {OfacAuditLogDeleteArgs} args - Arguments to delete one OfacAuditLog.
+     * @example
+     * // Delete one OfacAuditLog
+     * const OfacAuditLog = await prisma.ofacAuditLog.delete({
+     *   where: {
+     *     // ... filter to delete one OfacAuditLog
+     *   }
+     * })
+     * 
+     */
+    delete<T extends OfacAuditLogDeleteArgs>(args: SelectSubset<T, OfacAuditLogDeleteArgs<ExtArgs>>): Prisma__OfacAuditLogClient<$Result.GetResult<Prisma.$OfacAuditLogPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one OfacAuditLog.
+     * @param {OfacAuditLogUpdateArgs} args - Arguments to update one OfacAuditLog.
+     * @example
+     * // Update one OfacAuditLog
+     * const ofacAuditLog = await prisma.ofacAuditLog.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends OfacAuditLogUpdateArgs>(args: SelectSubset<T, OfacAuditLogUpdateArgs<ExtArgs>>): Prisma__OfacAuditLogClient<$Result.GetResult<Prisma.$OfacAuditLogPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more OfacAuditLogs.
+     * @param {OfacAuditLogDeleteManyArgs} args - Arguments to filter OfacAuditLogs to delete.
+     * @example
+     * // Delete a few OfacAuditLogs
+     * const { count } = await prisma.ofacAuditLog.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends OfacAuditLogDeleteManyArgs>(args?: SelectSubset<T, OfacAuditLogDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more OfacAuditLogs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OfacAuditLogUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many OfacAuditLogs
+     * const ofacAuditLog = await prisma.ofacAuditLog.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends OfacAuditLogUpdateManyArgs>(args: SelectSubset<T, OfacAuditLogUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one OfacAuditLog.
+     * @param {OfacAuditLogUpsertArgs} args - Arguments to update or create a OfacAuditLog.
+     * @example
+     * // Update or create a OfacAuditLog
+     * const ofacAuditLog = await prisma.ofacAuditLog.upsert({
+     *   create: {
+     *     // ... data to create a OfacAuditLog
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the OfacAuditLog we want to update
+     *   }
+     * })
+     */
+    upsert<T extends OfacAuditLogUpsertArgs>(args: SelectSubset<T, OfacAuditLogUpsertArgs<ExtArgs>>): Prisma__OfacAuditLogClient<$Result.GetResult<Prisma.$OfacAuditLogPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of OfacAuditLogs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OfacAuditLogCountArgs} args - Arguments to filter OfacAuditLogs to count.
+     * @example
+     * // Count the number of OfacAuditLogs
+     * const count = await prisma.ofacAuditLog.count({
+     *   where: {
+     *     // ... the filter for the OfacAuditLogs we want to count
+     *   }
+     * })
+    **/
+    count<T extends OfacAuditLogCountArgs>(
+      args?: Subset<T, OfacAuditLogCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], OfacAuditLogCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a OfacAuditLog.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OfacAuditLogAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends OfacAuditLogAggregateArgs>(args: Subset<T, OfacAuditLogAggregateArgs>): Prisma.PrismaPromise<GetOfacAuditLogAggregateType<T>>
+
+    /**
+     * Group by OfacAuditLog.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {OfacAuditLogGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends OfacAuditLogGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: OfacAuditLogGroupByArgs['orderBy'] }
+        : { orderBy?: OfacAuditLogGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, OfacAuditLogGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetOfacAuditLogGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the OfacAuditLog model
+   */
+  readonly fields: OfacAuditLogFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for OfacAuditLog.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__OfacAuditLogClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the OfacAuditLog model
+   */ 
+  interface OfacAuditLogFieldRefs {
+    readonly id: FieldRef<"OfacAuditLog", 'String'>
+    readonly address: FieldRef<"OfacAuditLog", 'String'>
+    readonly isSanctioned: FieldRef<"OfacAuditLog", 'Boolean'>
+    readonly checkedAt: FieldRef<"OfacAuditLog", 'DateTime'>
+    readonly source: FieldRef<"OfacAuditLog", 'String'>
+    readonly createdAt: FieldRef<"OfacAuditLog", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * OfacAuditLog findUnique
+   */
+  export type OfacAuditLogFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OfacAuditLog
+     */
+    select?: OfacAuditLogSelect<ExtArgs> | null
+    /**
+     * Filter, which OfacAuditLog to fetch.
+     */
+    where: OfacAuditLogWhereUniqueInput
+  }
+
+  /**
+   * OfacAuditLog findUniqueOrThrow
+   */
+  export type OfacAuditLogFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OfacAuditLog
+     */
+    select?: OfacAuditLogSelect<ExtArgs> | null
+    /**
+     * Filter, which OfacAuditLog to fetch.
+     */
+    where: OfacAuditLogWhereUniqueInput
+  }
+
+  /**
+   * OfacAuditLog findFirst
+   */
+  export type OfacAuditLogFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OfacAuditLog
+     */
+    select?: OfacAuditLogSelect<ExtArgs> | null
+    /**
+     * Filter, which OfacAuditLog to fetch.
+     */
+    where?: OfacAuditLogWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of OfacAuditLogs to fetch.
+     */
+    orderBy?: OfacAuditLogOrderByWithRelationInput | OfacAuditLogOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for OfacAuditLogs.
+     */
+    cursor?: OfacAuditLogWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` OfacAuditLogs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` OfacAuditLogs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of OfacAuditLogs.
+     */
+    distinct?: OfacAuditLogScalarFieldEnum | OfacAuditLogScalarFieldEnum[]
+  }
+
+  /**
+   * OfacAuditLog findFirstOrThrow
+   */
+  export type OfacAuditLogFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OfacAuditLog
+     */
+    select?: OfacAuditLogSelect<ExtArgs> | null
+    /**
+     * Filter, which OfacAuditLog to fetch.
+     */
+    where?: OfacAuditLogWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of OfacAuditLogs to fetch.
+     */
+    orderBy?: OfacAuditLogOrderByWithRelationInput | OfacAuditLogOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for OfacAuditLogs.
+     */
+    cursor?: OfacAuditLogWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` OfacAuditLogs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` OfacAuditLogs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of OfacAuditLogs.
+     */
+    distinct?: OfacAuditLogScalarFieldEnum | OfacAuditLogScalarFieldEnum[]
+  }
+
+  /**
+   * OfacAuditLog findMany
+   */
+  export type OfacAuditLogFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OfacAuditLog
+     */
+    select?: OfacAuditLogSelect<ExtArgs> | null
+    /**
+     * Filter, which OfacAuditLogs to fetch.
+     */
+    where?: OfacAuditLogWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of OfacAuditLogs to fetch.
+     */
+    orderBy?: OfacAuditLogOrderByWithRelationInput | OfacAuditLogOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing OfacAuditLogs.
+     */
+    cursor?: OfacAuditLogWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` OfacAuditLogs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` OfacAuditLogs.
+     */
+    skip?: number
+    distinct?: OfacAuditLogScalarFieldEnum | OfacAuditLogScalarFieldEnum[]
+  }
+
+  /**
+   * OfacAuditLog create
+   */
+  export type OfacAuditLogCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OfacAuditLog
+     */
+    select?: OfacAuditLogSelect<ExtArgs> | null
+    /**
+     * The data needed to create a OfacAuditLog.
+     */
+    data: XOR<OfacAuditLogCreateInput, OfacAuditLogUncheckedCreateInput>
+  }
+
+  /**
+   * OfacAuditLog createMany
+   */
+  export type OfacAuditLogCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many OfacAuditLogs.
+     */
+    data: OfacAuditLogCreateManyInput | OfacAuditLogCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * OfacAuditLog createManyAndReturn
+   */
+  export type OfacAuditLogCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OfacAuditLog
+     */
+    select?: OfacAuditLogSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many OfacAuditLogs.
+     */
+    data: OfacAuditLogCreateManyInput | OfacAuditLogCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * OfacAuditLog update
+   */
+  export type OfacAuditLogUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OfacAuditLog
+     */
+    select?: OfacAuditLogSelect<ExtArgs> | null
+    /**
+     * The data needed to update a OfacAuditLog.
+     */
+    data: XOR<OfacAuditLogUpdateInput, OfacAuditLogUncheckedUpdateInput>
+    /**
+     * Choose, which OfacAuditLog to update.
+     */
+    where: OfacAuditLogWhereUniqueInput
+  }
+
+  /**
+   * OfacAuditLog updateMany
+   */
+  export type OfacAuditLogUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update OfacAuditLogs.
+     */
+    data: XOR<OfacAuditLogUpdateManyMutationInput, OfacAuditLogUncheckedUpdateManyInput>
+    /**
+     * Filter which OfacAuditLogs to update
+     */
+    where?: OfacAuditLogWhereInput
+  }
+
+  /**
+   * OfacAuditLog upsert
+   */
+  export type OfacAuditLogUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OfacAuditLog
+     */
+    select?: OfacAuditLogSelect<ExtArgs> | null
+    /**
+     * The filter to search for the OfacAuditLog to update in case it exists.
+     */
+    where: OfacAuditLogWhereUniqueInput
+    /**
+     * In case the OfacAuditLog found by the `where` argument doesn't exist, create a new OfacAuditLog with this data.
+     */
+    create: XOR<OfacAuditLogCreateInput, OfacAuditLogUncheckedCreateInput>
+    /**
+     * In case the OfacAuditLog was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<OfacAuditLogUpdateInput, OfacAuditLogUncheckedUpdateInput>
+  }
+
+  /**
+   * OfacAuditLog delete
+   */
+  export type OfacAuditLogDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OfacAuditLog
+     */
+    select?: OfacAuditLogSelect<ExtArgs> | null
+    /**
+     * Filter which OfacAuditLog to delete.
+     */
+    where: OfacAuditLogWhereUniqueInput
+  }
+
+  /**
+   * OfacAuditLog deleteMany
+   */
+  export type OfacAuditLogDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which OfacAuditLogs to delete
+     */
+    where?: OfacAuditLogWhereInput
+  }
+
+  /**
+   * OfacAuditLog without action
+   */
+  export type OfacAuditLogDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OfacAuditLog
+     */
+    select?: OfacAuditLogSelect<ExtArgs> | null
+  }
+
+
+  /**
+   * Model AdminAuditLog
+   */
+
+  export type AggregateAdminAuditLog = {
+    _count: AdminAuditLogCountAggregateOutputType | null
+    _avg: AdminAuditLogAvgAggregateOutputType | null
+    _sum: AdminAuditLogSumAggregateOutputType | null
+    _min: AdminAuditLogMinAggregateOutputType | null
+    _max: AdminAuditLogMaxAggregateOutputType | null
+  }
+
+  export type AdminAuditLogAvgAggregateOutputType = {
+    statusCode: number | null
+    executionTimeMs: number | null
+  }
+
+  export type AdminAuditLogSumAggregateOutputType = {
+    statusCode: number | null
+    executionTimeMs: number | null
+  }
+
+  export type AdminAuditLogMinAggregateOutputType = {
+    id: string | null
+    timestamp: Date | null
+    userId: string | null
+    userEmail: string | null
+    method: string | null
+    path: string | null
+    statusCode: number | null
+    executionTimeMs: number | null
+    clientIp: string | null
+    userAgent: string | null
+    requestBody: string | null
+    responseBody: string | null
+    beforeSnapshot: string | null
+    afterSnapshot: string | null
+    error: string | null
+    changesSummary: string | null
+    createdAt: Date | null
+  }
+
+  export type AdminAuditLogMaxAggregateOutputType = {
+    id: string | null
+    timestamp: Date | null
+    userId: string | null
+    userEmail: string | null
+    method: string | null
+    path: string | null
+    statusCode: number | null
+    executionTimeMs: number | null
+    clientIp: string | null
+    userAgent: string | null
+    requestBody: string | null
+    responseBody: string | null
+    beforeSnapshot: string | null
+    afterSnapshot: string | null
+    error: string | null
+    changesSummary: string | null
+    createdAt: Date | null
+  }
+
+  export type AdminAuditLogCountAggregateOutputType = {
+    id: number
+    timestamp: number
+    userId: number
+    userEmail: number
+    method: number
+    path: number
+    statusCode: number
+    executionTimeMs: number
+    clientIp: number
+    userAgent: number
+    requestBody: number
+    responseBody: number
+    beforeSnapshot: number
+    afterSnapshot: number
+    error: number
+    changesSummary: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type AdminAuditLogAvgAggregateInputType = {
+    statusCode?: true
+    executionTimeMs?: true
+  }
+
+  export type AdminAuditLogSumAggregateInputType = {
+    statusCode?: true
+    executionTimeMs?: true
+  }
+
+  export type AdminAuditLogMinAggregateInputType = {
+    id?: true
+    timestamp?: true
+    userId?: true
+    userEmail?: true
+    method?: true
+    path?: true
+    statusCode?: true
+    executionTimeMs?: true
+    clientIp?: true
+    userAgent?: true
+    requestBody?: true
+    responseBody?: true
+    beforeSnapshot?: true
+    afterSnapshot?: true
+    error?: true
+    changesSummary?: true
+    createdAt?: true
+  }
+
+  export type AdminAuditLogMaxAggregateInputType = {
+    id?: true
+    timestamp?: true
+    userId?: true
+    userEmail?: true
+    method?: true
+    path?: true
+    statusCode?: true
+    executionTimeMs?: true
+    clientIp?: true
+    userAgent?: true
+    requestBody?: true
+    responseBody?: true
+    beforeSnapshot?: true
+    afterSnapshot?: true
+    error?: true
+    changesSummary?: true
+    createdAt?: true
+  }
+
+  export type AdminAuditLogCountAggregateInputType = {
+    id?: true
+    timestamp?: true
+    userId?: true
+    userEmail?: true
+    method?: true
+    path?: true
+    statusCode?: true
+    executionTimeMs?: true
+    clientIp?: true
+    userAgent?: true
+    requestBody?: true
+    responseBody?: true
+    beforeSnapshot?: true
+    afterSnapshot?: true
+    error?: true
+    changesSummary?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type AdminAuditLogAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AdminAuditLog to aggregate.
+     */
+    where?: AdminAuditLogWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AdminAuditLogs to fetch.
+     */
+    orderBy?: AdminAuditLogOrderByWithRelationInput | AdminAuditLogOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: AdminAuditLogWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AdminAuditLogs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AdminAuditLogs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned AdminAuditLogs
+    **/
+    _count?: true | AdminAuditLogCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: AdminAuditLogAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: AdminAuditLogSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: AdminAuditLogMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: AdminAuditLogMaxAggregateInputType
+  }
+
+  export type GetAdminAuditLogAggregateType<T extends AdminAuditLogAggregateArgs> = {
+        [P in keyof T & keyof AggregateAdminAuditLog]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateAdminAuditLog[P]>
+      : GetScalarType<T[P], AggregateAdminAuditLog[P]>
+  }
+
+
+
+
+  export type AdminAuditLogGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AdminAuditLogWhereInput
+    orderBy?: AdminAuditLogOrderByWithAggregationInput | AdminAuditLogOrderByWithAggregationInput[]
+    by: AdminAuditLogScalarFieldEnum[] | AdminAuditLogScalarFieldEnum
+    having?: AdminAuditLogScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: AdminAuditLogCountAggregateInputType | true
+    _avg?: AdminAuditLogAvgAggregateInputType
+    _sum?: AdminAuditLogSumAggregateInputType
+    _min?: AdminAuditLogMinAggregateInputType
+    _max?: AdminAuditLogMaxAggregateInputType
+  }
+
+  export type AdminAuditLogGroupByOutputType = {
+    id: string
+    timestamp: Date
+    userId: string | null
+    userEmail: string | null
+    method: string
+    path: string
+    statusCode: number
+    executionTimeMs: number
+    clientIp: string | null
+    userAgent: string | null
+    requestBody: string | null
+    responseBody: string | null
+    beforeSnapshot: string | null
+    afterSnapshot: string | null
+    error: string | null
+    changesSummary: string | null
+    createdAt: Date
+    _count: AdminAuditLogCountAggregateOutputType | null
+    _avg: AdminAuditLogAvgAggregateOutputType | null
+    _sum: AdminAuditLogSumAggregateOutputType | null
+    _min: AdminAuditLogMinAggregateOutputType | null
+    _max: AdminAuditLogMaxAggregateOutputType | null
+  }
+
+  type GetAdminAuditLogGroupByPayload<T extends AdminAuditLogGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<AdminAuditLogGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof AdminAuditLogGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], AdminAuditLogGroupByOutputType[P]>
+            : GetScalarType<T[P], AdminAuditLogGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type AdminAuditLogSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    timestamp?: boolean
+    userId?: boolean
+    userEmail?: boolean
+    method?: boolean
+    path?: boolean
+    statusCode?: boolean
+    executionTimeMs?: boolean
+    clientIp?: boolean
+    userAgent?: boolean
+    requestBody?: boolean
+    responseBody?: boolean
+    beforeSnapshot?: boolean
+    afterSnapshot?: boolean
+    error?: boolean
+    changesSummary?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["adminAuditLog"]>
+
+  export type AdminAuditLogSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    timestamp?: boolean
+    userId?: boolean
+    userEmail?: boolean
+    method?: boolean
+    path?: boolean
+    statusCode?: boolean
+    executionTimeMs?: boolean
+    clientIp?: boolean
+    userAgent?: boolean
+    requestBody?: boolean
+    responseBody?: boolean
+    beforeSnapshot?: boolean
+    afterSnapshot?: boolean
+    error?: boolean
+    changesSummary?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["adminAuditLog"]>
+
+  export type AdminAuditLogSelectScalar = {
+    id?: boolean
+    timestamp?: boolean
+    userId?: boolean
+    userEmail?: boolean
+    method?: boolean
+    path?: boolean
+    statusCode?: boolean
+    executionTimeMs?: boolean
+    clientIp?: boolean
+    userAgent?: boolean
+    requestBody?: boolean
+    responseBody?: boolean
+    beforeSnapshot?: boolean
+    afterSnapshot?: boolean
+    error?: boolean
+    changesSummary?: boolean
+    createdAt?: boolean
+  }
+
+
+  export type $AdminAuditLogPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "AdminAuditLog"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      timestamp: Date
+      userId: string | null
+      userEmail: string | null
+      method: string
+      path: string
+      statusCode: number
+      executionTimeMs: number
+      clientIp: string | null
+      userAgent: string | null
+      requestBody: string | null
+      responseBody: string | null
+      beforeSnapshot: string | null
+      afterSnapshot: string | null
+      error: string | null
+      changesSummary: string | null
+      createdAt: Date
+    }, ExtArgs["result"]["adminAuditLog"]>
+    composites: {}
+  }
+
+  type AdminAuditLogGetPayload<S extends boolean | null | undefined | AdminAuditLogDefaultArgs> = $Result.GetResult<Prisma.$AdminAuditLogPayload, S>
+
+  type AdminAuditLogCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<AdminAuditLogFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: AdminAuditLogCountAggregateInputType | true
+    }
+
+  export interface AdminAuditLogDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['AdminAuditLog'], meta: { name: 'AdminAuditLog' } }
+    /**
+     * Find zero or one AdminAuditLog that matches the filter.
+     * @param {AdminAuditLogFindUniqueArgs} args - Arguments to find a AdminAuditLog
+     * @example
+     * // Get one AdminAuditLog
+     * const adminAuditLog = await prisma.adminAuditLog.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends AdminAuditLogFindUniqueArgs>(args: SelectSubset<T, AdminAuditLogFindUniqueArgs<ExtArgs>>): Prisma__AdminAuditLogClient<$Result.GetResult<Prisma.$AdminAuditLogPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one AdminAuditLog that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {AdminAuditLogFindUniqueOrThrowArgs} args - Arguments to find a AdminAuditLog
+     * @example
+     * // Get one AdminAuditLog
+     * const adminAuditLog = await prisma.adminAuditLog.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends AdminAuditLogFindUniqueOrThrowArgs>(args: SelectSubset<T, AdminAuditLogFindUniqueOrThrowArgs<ExtArgs>>): Prisma__AdminAuditLogClient<$Result.GetResult<Prisma.$AdminAuditLogPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first AdminAuditLog that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AdminAuditLogFindFirstArgs} args - Arguments to find a AdminAuditLog
+     * @example
+     * // Get one AdminAuditLog
+     * const adminAuditLog = await prisma.adminAuditLog.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends AdminAuditLogFindFirstArgs>(args?: SelectSubset<T, AdminAuditLogFindFirstArgs<ExtArgs>>): Prisma__AdminAuditLogClient<$Result.GetResult<Prisma.$AdminAuditLogPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first AdminAuditLog that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AdminAuditLogFindFirstOrThrowArgs} args - Arguments to find a AdminAuditLog
+     * @example
+     * // Get one AdminAuditLog
+     * const adminAuditLog = await prisma.adminAuditLog.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends AdminAuditLogFindFirstOrThrowArgs>(args?: SelectSubset<T, AdminAuditLogFindFirstOrThrowArgs<ExtArgs>>): Prisma__AdminAuditLogClient<$Result.GetResult<Prisma.$AdminAuditLogPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more AdminAuditLogs that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AdminAuditLogFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all AdminAuditLogs
+     * const adminAuditLogs = await prisma.adminAuditLog.findMany()
+     * 
+     * // Get first 10 AdminAuditLogs
+     * const adminAuditLogs = await prisma.adminAuditLog.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const adminAuditLogWithIdOnly = await prisma.adminAuditLog.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends AdminAuditLogFindManyArgs>(args?: SelectSubset<T, AdminAuditLogFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AdminAuditLogPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a AdminAuditLog.
+     * @param {AdminAuditLogCreateArgs} args - Arguments to create a AdminAuditLog.
+     * @example
+     * // Create one AdminAuditLog
+     * const AdminAuditLog = await prisma.adminAuditLog.create({
+     *   data: {
+     *     // ... data to create a AdminAuditLog
+     *   }
+     * })
+     * 
+     */
+    create<T extends AdminAuditLogCreateArgs>(args: SelectSubset<T, AdminAuditLogCreateArgs<ExtArgs>>): Prisma__AdminAuditLogClient<$Result.GetResult<Prisma.$AdminAuditLogPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many AdminAuditLogs.
+     * @param {AdminAuditLogCreateManyArgs} args - Arguments to create many AdminAuditLogs.
+     * @example
+     * // Create many AdminAuditLogs
+     * const adminAuditLog = await prisma.adminAuditLog.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends AdminAuditLogCreateManyArgs>(args?: SelectSubset<T, AdminAuditLogCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many AdminAuditLogs and returns the data saved in the database.
+     * @param {AdminAuditLogCreateManyAndReturnArgs} args - Arguments to create many AdminAuditLogs.
+     * @example
+     * // Create many AdminAuditLogs
+     * const adminAuditLog = await prisma.adminAuditLog.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many AdminAuditLogs and only return the `id`
+     * const adminAuditLogWithIdOnly = await prisma.adminAuditLog.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends AdminAuditLogCreateManyAndReturnArgs>(args?: SelectSubset<T, AdminAuditLogCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AdminAuditLogPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a AdminAuditLog.
+     * @param {AdminAuditLogDeleteArgs} args - Arguments to delete one AdminAuditLog.
+     * @example
+     * // Delete one AdminAuditLog
+     * const AdminAuditLog = await prisma.adminAuditLog.delete({
+     *   where: {
+     *     // ... filter to delete one AdminAuditLog
+     *   }
+     * })
+     * 
+     */
+    delete<T extends AdminAuditLogDeleteArgs>(args: SelectSubset<T, AdminAuditLogDeleteArgs<ExtArgs>>): Prisma__AdminAuditLogClient<$Result.GetResult<Prisma.$AdminAuditLogPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one AdminAuditLog.
+     * @param {AdminAuditLogUpdateArgs} args - Arguments to update one AdminAuditLog.
+     * @example
+     * // Update one AdminAuditLog
+     * const adminAuditLog = await prisma.adminAuditLog.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends AdminAuditLogUpdateArgs>(args: SelectSubset<T, AdminAuditLogUpdateArgs<ExtArgs>>): Prisma__AdminAuditLogClient<$Result.GetResult<Prisma.$AdminAuditLogPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more AdminAuditLogs.
+     * @param {AdminAuditLogDeleteManyArgs} args - Arguments to filter AdminAuditLogs to delete.
+     * @example
+     * // Delete a few AdminAuditLogs
+     * const { count } = await prisma.adminAuditLog.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends AdminAuditLogDeleteManyArgs>(args?: SelectSubset<T, AdminAuditLogDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more AdminAuditLogs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AdminAuditLogUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many AdminAuditLogs
+     * const adminAuditLog = await prisma.adminAuditLog.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends AdminAuditLogUpdateManyArgs>(args: SelectSubset<T, AdminAuditLogUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one AdminAuditLog.
+     * @param {AdminAuditLogUpsertArgs} args - Arguments to update or create a AdminAuditLog.
+     * @example
+     * // Update or create a AdminAuditLog
+     * const adminAuditLog = await prisma.adminAuditLog.upsert({
+     *   create: {
+     *     // ... data to create a AdminAuditLog
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the AdminAuditLog we want to update
+     *   }
+     * })
+     */
+    upsert<T extends AdminAuditLogUpsertArgs>(args: SelectSubset<T, AdminAuditLogUpsertArgs<ExtArgs>>): Prisma__AdminAuditLogClient<$Result.GetResult<Prisma.$AdminAuditLogPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of AdminAuditLogs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AdminAuditLogCountArgs} args - Arguments to filter AdminAuditLogs to count.
+     * @example
+     * // Count the number of AdminAuditLogs
+     * const count = await prisma.adminAuditLog.count({
+     *   where: {
+     *     // ... the filter for the AdminAuditLogs we want to count
+     *   }
+     * })
+    **/
+    count<T extends AdminAuditLogCountArgs>(
+      args?: Subset<T, AdminAuditLogCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], AdminAuditLogCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a AdminAuditLog.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AdminAuditLogAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends AdminAuditLogAggregateArgs>(args: Subset<T, AdminAuditLogAggregateArgs>): Prisma.PrismaPromise<GetAdminAuditLogAggregateType<T>>
+
+    /**
+     * Group by AdminAuditLog.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AdminAuditLogGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends AdminAuditLogGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: AdminAuditLogGroupByArgs['orderBy'] }
+        : { orderBy?: AdminAuditLogGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, AdminAuditLogGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAdminAuditLogGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the AdminAuditLog model
+   */
+  readonly fields: AdminAuditLogFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for AdminAuditLog.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__AdminAuditLogClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the AdminAuditLog model
+   */ 
+  interface AdminAuditLogFieldRefs {
+    readonly id: FieldRef<"AdminAuditLog", 'String'>
+    readonly timestamp: FieldRef<"AdminAuditLog", 'DateTime'>
+    readonly userId: FieldRef<"AdminAuditLog", 'String'>
+    readonly userEmail: FieldRef<"AdminAuditLog", 'String'>
+    readonly method: FieldRef<"AdminAuditLog", 'String'>
+    readonly path: FieldRef<"AdminAuditLog", 'String'>
+    readonly statusCode: FieldRef<"AdminAuditLog", 'Int'>
+    readonly executionTimeMs: FieldRef<"AdminAuditLog", 'Float'>
+    readonly clientIp: FieldRef<"AdminAuditLog", 'String'>
+    readonly userAgent: FieldRef<"AdminAuditLog", 'String'>
+    readonly requestBody: FieldRef<"AdminAuditLog", 'String'>
+    readonly responseBody: FieldRef<"AdminAuditLog", 'String'>
+    readonly beforeSnapshot: FieldRef<"AdminAuditLog", 'String'>
+    readonly afterSnapshot: FieldRef<"AdminAuditLog", 'String'>
+    readonly error: FieldRef<"AdminAuditLog", 'String'>
+    readonly changesSummary: FieldRef<"AdminAuditLog", 'String'>
+    readonly createdAt: FieldRef<"AdminAuditLog", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * AdminAuditLog findUnique
+   */
+  export type AdminAuditLogFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AdminAuditLog
+     */
+    select?: AdminAuditLogSelect<ExtArgs> | null
+    /**
+     * Filter, which AdminAuditLog to fetch.
+     */
+    where: AdminAuditLogWhereUniqueInput
+  }
+
+  /**
+   * AdminAuditLog findUniqueOrThrow
+   */
+  export type AdminAuditLogFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AdminAuditLog
+     */
+    select?: AdminAuditLogSelect<ExtArgs> | null
+    /**
+     * Filter, which AdminAuditLog to fetch.
+     */
+    where: AdminAuditLogWhereUniqueInput
+  }
+
+  /**
+   * AdminAuditLog findFirst
+   */
+  export type AdminAuditLogFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AdminAuditLog
+     */
+    select?: AdminAuditLogSelect<ExtArgs> | null
+    /**
+     * Filter, which AdminAuditLog to fetch.
+     */
+    where?: AdminAuditLogWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AdminAuditLogs to fetch.
+     */
+    orderBy?: AdminAuditLogOrderByWithRelationInput | AdminAuditLogOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AdminAuditLogs.
+     */
+    cursor?: AdminAuditLogWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AdminAuditLogs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AdminAuditLogs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AdminAuditLogs.
+     */
+    distinct?: AdminAuditLogScalarFieldEnum | AdminAuditLogScalarFieldEnum[]
+  }
+
+  /**
+   * AdminAuditLog findFirstOrThrow
+   */
+  export type AdminAuditLogFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AdminAuditLog
+     */
+    select?: AdminAuditLogSelect<ExtArgs> | null
+    /**
+     * Filter, which AdminAuditLog to fetch.
+     */
+    where?: AdminAuditLogWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AdminAuditLogs to fetch.
+     */
+    orderBy?: AdminAuditLogOrderByWithRelationInput | AdminAuditLogOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for AdminAuditLogs.
+     */
+    cursor?: AdminAuditLogWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AdminAuditLogs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AdminAuditLogs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of AdminAuditLogs.
+     */
+    distinct?: AdminAuditLogScalarFieldEnum | AdminAuditLogScalarFieldEnum[]
+  }
+
+  /**
+   * AdminAuditLog findMany
+   */
+  export type AdminAuditLogFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AdminAuditLog
+     */
+    select?: AdminAuditLogSelect<ExtArgs> | null
+    /**
+     * Filter, which AdminAuditLogs to fetch.
+     */
+    where?: AdminAuditLogWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of AdminAuditLogs to fetch.
+     */
+    orderBy?: AdminAuditLogOrderByWithRelationInput | AdminAuditLogOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing AdminAuditLogs.
+     */
+    cursor?: AdminAuditLogWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` AdminAuditLogs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` AdminAuditLogs.
+     */
+    skip?: number
+    distinct?: AdminAuditLogScalarFieldEnum | AdminAuditLogScalarFieldEnum[]
+  }
+
+  /**
+   * AdminAuditLog create
+   */
+  export type AdminAuditLogCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AdminAuditLog
+     */
+    select?: AdminAuditLogSelect<ExtArgs> | null
+    /**
+     * The data needed to create a AdminAuditLog.
+     */
+    data: XOR<AdminAuditLogCreateInput, AdminAuditLogUncheckedCreateInput>
+  }
+
+  /**
+   * AdminAuditLog createMany
+   */
+  export type AdminAuditLogCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many AdminAuditLogs.
+     */
+    data: AdminAuditLogCreateManyInput | AdminAuditLogCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * AdminAuditLog createManyAndReturn
+   */
+  export type AdminAuditLogCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AdminAuditLog
+     */
+    select?: AdminAuditLogSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many AdminAuditLogs.
+     */
+    data: AdminAuditLogCreateManyInput | AdminAuditLogCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * AdminAuditLog update
+   */
+  export type AdminAuditLogUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AdminAuditLog
+     */
+    select?: AdminAuditLogSelect<ExtArgs> | null
+    /**
+     * The data needed to update a AdminAuditLog.
+     */
+    data: XOR<AdminAuditLogUpdateInput, AdminAuditLogUncheckedUpdateInput>
+    /**
+     * Choose, which AdminAuditLog to update.
+     */
+    where: AdminAuditLogWhereUniqueInput
+  }
+
+  /**
+   * AdminAuditLog updateMany
+   */
+  export type AdminAuditLogUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update AdminAuditLogs.
+     */
+    data: XOR<AdminAuditLogUpdateManyMutationInput, AdminAuditLogUncheckedUpdateManyInput>
+    /**
+     * Filter which AdminAuditLogs to update
+     */
+    where?: AdminAuditLogWhereInput
+  }
+
+  /**
+   * AdminAuditLog upsert
+   */
+  export type AdminAuditLogUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AdminAuditLog
+     */
+    select?: AdminAuditLogSelect<ExtArgs> | null
+    /**
+     * The filter to search for the AdminAuditLog to update in case it exists.
+     */
+    where: AdminAuditLogWhereUniqueInput
+    /**
+     * In case the AdminAuditLog found by the `where` argument doesn't exist, create a new AdminAuditLog with this data.
+     */
+    create: XOR<AdminAuditLogCreateInput, AdminAuditLogUncheckedCreateInput>
+    /**
+     * In case the AdminAuditLog was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<AdminAuditLogUpdateInput, AdminAuditLogUncheckedUpdateInput>
+  }
+
+  /**
+   * AdminAuditLog delete
+   */
+  export type AdminAuditLogDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AdminAuditLog
+     */
+    select?: AdminAuditLogSelect<ExtArgs> | null
+    /**
+     * Filter which AdminAuditLog to delete.
+     */
+    where: AdminAuditLogWhereUniqueInput
+  }
+
+  /**
+   * AdminAuditLog deleteMany
+   */
+  export type AdminAuditLogDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which AdminAuditLogs to delete
+     */
+    where?: AdminAuditLogWhereInput
+  }
+
+  /**
+   * AdminAuditLog without action
+   */
+  export type AdminAuditLogDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AdminAuditLog
+     */
+    select?: AdminAuditLogSelect<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -37749,6 +47485,48 @@ export namespace Prisma {
   };
 
   export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
+
+
+  export const PaymentCategoryScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    description: 'description',
+    color: 'color',
+    icon: 'icon',
+    ownerAddress: 'ownerAddress',
+    isDefault: 'isDefault',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type PaymentCategoryScalarFieldEnum = (typeof PaymentCategoryScalarFieldEnum)[keyof typeof PaymentCategoryScalarFieldEnum]
+
+
+  export const PaymentMetadataScalarFieldEnum: {
+    id: 'id',
+    entityType: 'entityType',
+    entityId: 'entityId',
+    key: 'key',
+    value: 'value',
+    ownerAddress: 'ownerAddress',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type PaymentMetadataScalarFieldEnum = (typeof PaymentMetadataScalarFieldEnum)[keyof typeof PaymentMetadataScalarFieldEnum]
+
+
+  export const PaymentCategoryRuleScalarFieldEnum: {
+    id: 'id',
+    categoryId: 'categoryId',
+    field: 'field',
+    operator: 'operator',
+    value: 'value',
+    priority: 'priority',
+    createdAt: 'createdAt'
+  };
+
+  export type PaymentCategoryRuleScalarFieldEnum = (typeof PaymentCategoryRuleScalarFieldEnum)[keyof typeof PaymentCategoryRuleScalarFieldEnum]
 
 
   export const StreamScalarFieldEnum: {
@@ -37775,6 +47553,7 @@ export namespace Prisma {
     lastYieldAccrualAt: 'lastYieldAccrualAt',
     isDust: 'isDust',
     affiliateId: 'affiliateId',
+    categoryId: 'categoryId',
     createdAt: 'createdAt'
   };
 
@@ -37939,6 +47718,20 @@ export namespace Prisma {
   export type ProposalScalarFieldEnum = (typeof ProposalScalarFieldEnum)[keyof typeof ProposalScalarFieldEnum]
 
 
+  export const EventScalarFieldEnum: {
+    id: 'id',
+    eventId: 'eventId',
+    streamId: 'streamId',
+    eventType: 'eventType',
+    payload: 'payload',
+    timestamp: 'timestamp',
+    hash: 'hash',
+    previousHash: 'previousHash'
+  };
+
+  export type EventScalarFieldEnum = (typeof EventScalarFieldEnum)[keyof typeof EventScalarFieldEnum]
+
+
   export const OrganizationMemberScalarFieldEnum: {
     id: 'id',
     orgAddress: 'orgAddress',
@@ -37975,6 +47768,28 @@ export namespace Prisma {
   };
 
   export type LedgerHashScalarFieldEnum = (typeof LedgerHashScalarFieldEnum)[keyof typeof LedgerHashScalarFieldEnum]
+
+
+  export const SyncMetadataScalarFieldEnum: {
+    id: 'id',
+    lastLedgerSequence: 'lastLedgerSequence'
+  };
+
+  export type SyncMetadataScalarFieldEnum = (typeof SyncMetadataScalarFieldEnum)[keyof typeof SyncMetadataScalarFieldEnum]
+
+
+  export const ClawbackHistoryScalarFieldEnum: {
+    id: 'id',
+    streamId: 'streamId',
+    amount: 'amount',
+    reason: 'reason',
+    createdAt: 'createdAt',
+    executedAt: 'executedAt',
+    txHash: 'txHash',
+    status: 'status'
+  };
+
+  export type ClawbackHistoryScalarFieldEnum = (typeof ClawbackHistoryScalarFieldEnum)[keyof typeof ClawbackHistoryScalarFieldEnum]
 
 
   export const NotificationSubscriptionScalarFieldEnum: {
@@ -38067,6 +47882,10 @@ export namespace Prisma {
     imageUrl: 'imageUrl',
     decimals: 'decimals',
     isVerified: 'isVerified',
+    stellarExpertVerified: 'stellarExpertVerified',
+    tomlUrl: 'tomlUrl',
+    orgVerified: 'orgVerified',
+    orgHomeDomain: 'orgHomeDomain',
     lastFetchedAt: 'lastFetchedAt',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
@@ -38110,27 +47929,40 @@ export namespace Prisma {
   export type AssetConfigScalarFieldEnum = (typeof AssetConfigScalarFieldEnum)[keyof typeof AssetConfigScalarFieldEnum]
 
 
+  export const ArchivedDisbursementScalarFieldEnum: {
+    id: 'id',
+    streamId: 'streamId',
+    txHash: 'txHash',
+    sender: 'sender',
+    receiver: 'receiver',
+    amount: 'amount',
+    tokenAddress: 'tokenAddress',
+    status: 'status',
+    completedAt: 'completedAt',
+    archivedAt: 'archivedAt',
+    originalLedger: 'originalLedger'
+  };
+
+  export type ArchivedDisbursementScalarFieldEnum = (typeof ArchivedDisbursementScalarFieldEnum)[keyof typeof ArchivedDisbursementScalarFieldEnum]
+
+
   export const DisbursementScalarFieldEnum: {
     id: 'id',
-    senderAddress: 'senderAddress',
-    totalAmount: 'totalAmount',
-    asset: 'asset',
+    streamId: 'streamId',
     txHash: 'txHash',
-    createdAt: 'createdAt'
+    sender: 'sender',
+    receiver: 'receiver',
+    amount: 'amount',
+    tokenAddress: 'tokenAddress',
+    status: 'status',
+    createdAt: 'createdAt',
+    completedAt: 'completedAt',
+    ledger: 'ledger',
+    batchId: 'batchId',
+    categoryId: 'categoryId'
   };
 
   export type DisbursementScalarFieldEnum = (typeof DisbursementScalarFieldEnum)[keyof typeof DisbursementScalarFieldEnum]
-
-
-  export const SplitRecipientScalarFieldEnum: {
-    id: 'id',
-    disbursementId: 'disbursementId',
-    recipientAddress: 'recipientAddress',
-    amount: 'amount',
-    status: 'status'
-  };
-
-  export type SplitRecipientScalarFieldEnum = (typeof SplitRecipientScalarFieldEnum)[keyof typeof SplitRecipientScalarFieldEnum]
 
 
   export const AssetMappingScalarFieldEnum: {
@@ -38279,12 +48111,33 @@ export namespace Prisma {
   export type CachedAssetScalarFieldEnum = (typeof CachedAssetScalarFieldEnum)[keyof typeof CachedAssetScalarFieldEnum]
 
 
+  export const StreamTemplateScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    asset: 'asset',
+    recipientAddress: 'recipientAddress',
+    splitEnabled: 'splitEnabled',
+    splitAddress: 'splitAddress',
+    splitPercent: 'splitPercent',
+    totalAmount: 'totalAmount',
+    rateType: 'rateType',
+    durationPreset: 'durationPreset',
+    usageCount: 'usageCount',
+    createdBy: 'createdBy',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type StreamTemplateScalarFieldEnum = (typeof StreamTemplateScalarFieldEnum)[keyof typeof StreamTemplateScalarFieldEnum]
+
+
   export const SplitLinkScalarFieldEnum: {
     id: 'id',
     slug: 'slug',
     fullUrl: 'fullUrl',
     payloadHash: 'payloadHash',
     creatorAddress: 'creatorAddress',
+    passwordHash: 'passwordHash',
     clickCount: 'clickCount',
     lastClickedAt: 'lastClickedAt',
     expiresAt: 'expiresAt',
@@ -38292,6 +48145,41 @@ export namespace Prisma {
   };
 
   export type SplitLinkScalarFieldEnum = (typeof SplitLinkScalarFieldEnum)[keyof typeof SplitLinkScalarFieldEnum]
+
+
+  export const OfacAuditLogScalarFieldEnum: {
+    id: 'id',
+    address: 'address',
+    isSanctioned: 'isSanctioned',
+    checkedAt: 'checkedAt',
+    source: 'source',
+    createdAt: 'createdAt'
+  };
+
+  export type OfacAuditLogScalarFieldEnum = (typeof OfacAuditLogScalarFieldEnum)[keyof typeof OfacAuditLogScalarFieldEnum]
+
+
+  export const AdminAuditLogScalarFieldEnum: {
+    id: 'id',
+    timestamp: 'timestamp',
+    userId: 'userId',
+    userEmail: 'userEmail',
+    method: 'method',
+    path: 'path',
+    statusCode: 'statusCode',
+    executionTimeMs: 'executionTimeMs',
+    clientIp: 'clientIp',
+    userAgent: 'userAgent',
+    requestBody: 'requestBody',
+    responseBody: 'responseBody',
+    beforeSnapshot: 'beforeSnapshot',
+    afterSnapshot: 'afterSnapshot',
+    error: 'error',
+    changesSummary: 'changesSummary',
+    createdAt: 'createdAt'
+  };
+
+  export type AdminAuditLogScalarFieldEnum = (typeof AdminAuditLogScalarFieldEnum)[keyof typeof AdminAuditLogScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -38354,6 +48242,27 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'Boolean'
+   */
+  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+    
+
+
+  /**
+   * Reference to a field of type 'DateTime'
+   */
+  export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
+    
+
+
+  /**
+   * Reference to a field of type 'DateTime[]'
+   */
+  export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
+    
+
+
+  /**
    * Reference to a field of type 'Int'
    */
   export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
@@ -38378,27 +48287,6 @@ export namespace Prisma {
    * Reference to a field of type 'StreamStatus[]'
    */
   export type ListEnumStreamStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'StreamStatus[]'>
-    
-
-
-  /**
-   * Reference to a field of type 'Boolean'
-   */
-  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
-    
-
-
-  /**
-   * Reference to a field of type 'DateTime'
-   */
-  export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
-    
-
-
-  /**
-   * Reference to a field of type 'DateTime[]'
-   */
-  export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
     
 
 
@@ -38466,21 +48354,238 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'PayoutStatus'
+   * Reference to a field of type 'DisbursementStatus'
    */
-  export type EnumPayoutStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PayoutStatus'>
+  export type EnumDisbursementStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DisbursementStatus'>
     
 
 
   /**
-   * Reference to a field of type 'PayoutStatus[]'
+   * Reference to a field of type 'DisbursementStatus[]'
    */
-  export type ListEnumPayoutStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PayoutStatus[]'>
+  export type ListEnumDisbursementStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DisbursementStatus[]'>
     
   /**
    * Deep Input Types
    */
 
+
+  export type PaymentCategoryWhereInput = {
+    AND?: PaymentCategoryWhereInput | PaymentCategoryWhereInput[]
+    OR?: PaymentCategoryWhereInput[]
+    NOT?: PaymentCategoryWhereInput | PaymentCategoryWhereInput[]
+    id?: StringFilter<"PaymentCategory"> | string
+    name?: StringFilter<"PaymentCategory"> | string
+    description?: StringNullableFilter<"PaymentCategory"> | string | null
+    color?: StringFilter<"PaymentCategory"> | string
+    icon?: StringNullableFilter<"PaymentCategory"> | string | null
+    ownerAddress?: StringFilter<"PaymentCategory"> | string
+    isDefault?: BoolFilter<"PaymentCategory"> | boolean
+    createdAt?: DateTimeFilter<"PaymentCategory"> | Date | string
+    updatedAt?: DateTimeFilter<"PaymentCategory"> | Date | string
+    rules?: PaymentCategoryRuleListRelationFilter
+    streams?: StreamListRelationFilter
+    disbursements?: DisbursementListRelationFilter
+  }
+
+  export type PaymentCategoryOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    description?: SortOrderInput | SortOrder
+    color?: SortOrder
+    icon?: SortOrderInput | SortOrder
+    ownerAddress?: SortOrder
+    isDefault?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    rules?: PaymentCategoryRuleOrderByRelationAggregateInput
+    streams?: StreamOrderByRelationAggregateInput
+    disbursements?: DisbursementOrderByRelationAggregateInput
+  }
+
+  export type PaymentCategoryWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    ownerAddress_name?: PaymentCategoryOwnerAddressNameCompoundUniqueInput
+    AND?: PaymentCategoryWhereInput | PaymentCategoryWhereInput[]
+    OR?: PaymentCategoryWhereInput[]
+    NOT?: PaymentCategoryWhereInput | PaymentCategoryWhereInput[]
+    name?: StringFilter<"PaymentCategory"> | string
+    description?: StringNullableFilter<"PaymentCategory"> | string | null
+    color?: StringFilter<"PaymentCategory"> | string
+    icon?: StringNullableFilter<"PaymentCategory"> | string | null
+    ownerAddress?: StringFilter<"PaymentCategory"> | string
+    isDefault?: BoolFilter<"PaymentCategory"> | boolean
+    createdAt?: DateTimeFilter<"PaymentCategory"> | Date | string
+    updatedAt?: DateTimeFilter<"PaymentCategory"> | Date | string
+    rules?: PaymentCategoryRuleListRelationFilter
+    streams?: StreamListRelationFilter
+    disbursements?: DisbursementListRelationFilter
+  }, "id" | "ownerAddress_name">
+
+  export type PaymentCategoryOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    description?: SortOrderInput | SortOrder
+    color?: SortOrder
+    icon?: SortOrderInput | SortOrder
+    ownerAddress?: SortOrder
+    isDefault?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: PaymentCategoryCountOrderByAggregateInput
+    _max?: PaymentCategoryMaxOrderByAggregateInput
+    _min?: PaymentCategoryMinOrderByAggregateInput
+  }
+
+  export type PaymentCategoryScalarWhereWithAggregatesInput = {
+    AND?: PaymentCategoryScalarWhereWithAggregatesInput | PaymentCategoryScalarWhereWithAggregatesInput[]
+    OR?: PaymentCategoryScalarWhereWithAggregatesInput[]
+    NOT?: PaymentCategoryScalarWhereWithAggregatesInput | PaymentCategoryScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"PaymentCategory"> | string
+    name?: StringWithAggregatesFilter<"PaymentCategory"> | string
+    description?: StringNullableWithAggregatesFilter<"PaymentCategory"> | string | null
+    color?: StringWithAggregatesFilter<"PaymentCategory"> | string
+    icon?: StringNullableWithAggregatesFilter<"PaymentCategory"> | string | null
+    ownerAddress?: StringWithAggregatesFilter<"PaymentCategory"> | string
+    isDefault?: BoolWithAggregatesFilter<"PaymentCategory"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"PaymentCategory"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"PaymentCategory"> | Date | string
+  }
+
+  export type PaymentMetadataWhereInput = {
+    AND?: PaymentMetadataWhereInput | PaymentMetadataWhereInput[]
+    OR?: PaymentMetadataWhereInput[]
+    NOT?: PaymentMetadataWhereInput | PaymentMetadataWhereInput[]
+    id?: StringFilter<"PaymentMetadata"> | string
+    entityType?: StringFilter<"PaymentMetadata"> | string
+    entityId?: StringFilter<"PaymentMetadata"> | string
+    key?: StringFilter<"PaymentMetadata"> | string
+    value?: StringFilter<"PaymentMetadata"> | string
+    ownerAddress?: StringFilter<"PaymentMetadata"> | string
+    createdAt?: DateTimeFilter<"PaymentMetadata"> | Date | string
+    updatedAt?: DateTimeFilter<"PaymentMetadata"> | Date | string
+  }
+
+  export type PaymentMetadataOrderByWithRelationInput = {
+    id?: SortOrder
+    entityType?: SortOrder
+    entityId?: SortOrder
+    key?: SortOrder
+    value?: SortOrder
+    ownerAddress?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PaymentMetadataWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    entityType_entityId_key?: PaymentMetadataEntityTypeEntityIdKeyCompoundUniqueInput
+    AND?: PaymentMetadataWhereInput | PaymentMetadataWhereInput[]
+    OR?: PaymentMetadataWhereInput[]
+    NOT?: PaymentMetadataWhereInput | PaymentMetadataWhereInput[]
+    entityType?: StringFilter<"PaymentMetadata"> | string
+    entityId?: StringFilter<"PaymentMetadata"> | string
+    key?: StringFilter<"PaymentMetadata"> | string
+    value?: StringFilter<"PaymentMetadata"> | string
+    ownerAddress?: StringFilter<"PaymentMetadata"> | string
+    createdAt?: DateTimeFilter<"PaymentMetadata"> | Date | string
+    updatedAt?: DateTimeFilter<"PaymentMetadata"> | Date | string
+  }, "id" | "entityType_entityId_key">
+
+  export type PaymentMetadataOrderByWithAggregationInput = {
+    id?: SortOrder
+    entityType?: SortOrder
+    entityId?: SortOrder
+    key?: SortOrder
+    value?: SortOrder
+    ownerAddress?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: PaymentMetadataCountOrderByAggregateInput
+    _max?: PaymentMetadataMaxOrderByAggregateInput
+    _min?: PaymentMetadataMinOrderByAggregateInput
+  }
+
+  export type PaymentMetadataScalarWhereWithAggregatesInput = {
+    AND?: PaymentMetadataScalarWhereWithAggregatesInput | PaymentMetadataScalarWhereWithAggregatesInput[]
+    OR?: PaymentMetadataScalarWhereWithAggregatesInput[]
+    NOT?: PaymentMetadataScalarWhereWithAggregatesInput | PaymentMetadataScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"PaymentMetadata"> | string
+    entityType?: StringWithAggregatesFilter<"PaymentMetadata"> | string
+    entityId?: StringWithAggregatesFilter<"PaymentMetadata"> | string
+    key?: StringWithAggregatesFilter<"PaymentMetadata"> | string
+    value?: StringWithAggregatesFilter<"PaymentMetadata"> | string
+    ownerAddress?: StringWithAggregatesFilter<"PaymentMetadata"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"PaymentMetadata"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"PaymentMetadata"> | Date | string
+  }
+
+  export type PaymentCategoryRuleWhereInput = {
+    AND?: PaymentCategoryRuleWhereInput | PaymentCategoryRuleWhereInput[]
+    OR?: PaymentCategoryRuleWhereInput[]
+    NOT?: PaymentCategoryRuleWhereInput | PaymentCategoryRuleWhereInput[]
+    id?: StringFilter<"PaymentCategoryRule"> | string
+    categoryId?: StringFilter<"PaymentCategoryRule"> | string
+    field?: StringFilter<"PaymentCategoryRule"> | string
+    operator?: StringFilter<"PaymentCategoryRule"> | string
+    value?: StringFilter<"PaymentCategoryRule"> | string
+    priority?: IntFilter<"PaymentCategoryRule"> | number
+    createdAt?: DateTimeFilter<"PaymentCategoryRule"> | Date | string
+    category?: XOR<PaymentCategoryRelationFilter, PaymentCategoryWhereInput>
+  }
+
+  export type PaymentCategoryRuleOrderByWithRelationInput = {
+    id?: SortOrder
+    categoryId?: SortOrder
+    field?: SortOrder
+    operator?: SortOrder
+    value?: SortOrder
+    priority?: SortOrder
+    createdAt?: SortOrder
+    category?: PaymentCategoryOrderByWithRelationInput
+  }
+
+  export type PaymentCategoryRuleWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: PaymentCategoryRuleWhereInput | PaymentCategoryRuleWhereInput[]
+    OR?: PaymentCategoryRuleWhereInput[]
+    NOT?: PaymentCategoryRuleWhereInput | PaymentCategoryRuleWhereInput[]
+    categoryId?: StringFilter<"PaymentCategoryRule"> | string
+    field?: StringFilter<"PaymentCategoryRule"> | string
+    operator?: StringFilter<"PaymentCategoryRule"> | string
+    value?: StringFilter<"PaymentCategoryRule"> | string
+    priority?: IntFilter<"PaymentCategoryRule"> | number
+    createdAt?: DateTimeFilter<"PaymentCategoryRule"> | Date | string
+    category?: XOR<PaymentCategoryRelationFilter, PaymentCategoryWhereInput>
+  }, "id">
+
+  export type PaymentCategoryRuleOrderByWithAggregationInput = {
+    id?: SortOrder
+    categoryId?: SortOrder
+    field?: SortOrder
+    operator?: SortOrder
+    value?: SortOrder
+    priority?: SortOrder
+    createdAt?: SortOrder
+    _count?: PaymentCategoryRuleCountOrderByAggregateInput
+    _avg?: PaymentCategoryRuleAvgOrderByAggregateInput
+    _max?: PaymentCategoryRuleMaxOrderByAggregateInput
+    _min?: PaymentCategoryRuleMinOrderByAggregateInput
+    _sum?: PaymentCategoryRuleSumOrderByAggregateInput
+  }
+
+  export type PaymentCategoryRuleScalarWhereWithAggregatesInput = {
+    AND?: PaymentCategoryRuleScalarWhereWithAggregatesInput | PaymentCategoryRuleScalarWhereWithAggregatesInput[]
+    OR?: PaymentCategoryRuleScalarWhereWithAggregatesInput[]
+    NOT?: PaymentCategoryRuleScalarWhereWithAggregatesInput | PaymentCategoryRuleScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"PaymentCategoryRule"> | string
+    categoryId?: StringWithAggregatesFilter<"PaymentCategoryRule"> | string
+    field?: StringWithAggregatesFilter<"PaymentCategoryRule"> | string
+    operator?: StringWithAggregatesFilter<"PaymentCategoryRule"> | string
+    value?: StringWithAggregatesFilter<"PaymentCategoryRule"> | string
+    priority?: IntWithAggregatesFilter<"PaymentCategoryRule"> | number
+    createdAt?: DateTimeWithAggregatesFilter<"PaymentCategoryRule"> | Date | string
+  }
 
   export type StreamWhereInput = {
     AND?: StreamWhereInput | StreamWhereInput[]
@@ -38509,7 +48614,9 @@ export namespace Prisma {
     lastYieldAccrualAt?: DateTimeNullableFilter<"Stream"> | Date | string | null
     isDust?: BoolFilter<"Stream"> | boolean
     affiliateId?: StringNullableFilter<"Stream"> | string | null
+    categoryId?: StringNullableFilter<"Stream"> | string | null
     createdAt?: DateTimeFilter<"Stream"> | Date | string
+    category?: XOR<PaymentCategoryNullableRelationFilter, PaymentCategoryWhereInput> | null
   }
 
   export type StreamOrderByWithRelationInput = {
@@ -38536,7 +48643,9 @@ export namespace Prisma {
     lastYieldAccrualAt?: SortOrderInput | SortOrder
     isDust?: SortOrder
     affiliateId?: SortOrderInput | SortOrder
+    categoryId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
+    category?: PaymentCategoryOrderByWithRelationInput
   }
 
   export type StreamWhereUniqueInput = Prisma.AtLeast<{
@@ -38566,7 +48675,9 @@ export namespace Prisma {
     lastYieldAccrualAt?: DateTimeNullableFilter<"Stream"> | Date | string | null
     isDust?: BoolFilter<"Stream"> | boolean
     affiliateId?: StringNullableFilter<"Stream"> | string | null
+    categoryId?: StringNullableFilter<"Stream"> | string | null
     createdAt?: DateTimeFilter<"Stream"> | Date | string
+    category?: XOR<PaymentCategoryNullableRelationFilter, PaymentCategoryWhereInput> | null
   }, "id" | "streamId" | "txHash">
 
   export type StreamOrderByWithAggregationInput = {
@@ -38593,6 +48704,7 @@ export namespace Prisma {
     lastYieldAccrualAt?: SortOrderInput | SortOrder
     isDust?: SortOrder
     affiliateId?: SortOrderInput | SortOrder
+    categoryId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     _count?: StreamCountOrderByAggregateInput
     _avg?: StreamAvgOrderByAggregateInput
@@ -38628,6 +48740,7 @@ export namespace Prisma {
     lastYieldAccrualAt?: DateTimeNullableWithAggregatesFilter<"Stream"> | Date | string | null
     isDust?: BoolWithAggregatesFilter<"Stream"> | boolean
     affiliateId?: StringNullableWithAggregatesFilter<"Stream"> | string | null
+    categoryId?: StringNullableWithAggregatesFilter<"Stream"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Stream"> | Date | string
   }
 
@@ -39410,6 +49523,73 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"Proposal"> | Date | string
   }
 
+  export type EventWhereInput = {
+    AND?: EventWhereInput | EventWhereInput[]
+    OR?: EventWhereInput[]
+    NOT?: EventWhereInput | EventWhereInput[]
+    id?: StringFilter<"Event"> | string
+    eventId?: StringFilter<"Event"> | string
+    streamId?: StringFilter<"Event"> | string
+    eventType?: StringFilter<"Event"> | string
+    payload?: JsonFilter<"Event">
+    timestamp?: DateTimeFilter<"Event"> | Date | string
+    hash?: StringFilter<"Event"> | string
+    previousHash?: StringNullableFilter<"Event"> | string | null
+  }
+
+  export type EventOrderByWithRelationInput = {
+    id?: SortOrder
+    eventId?: SortOrder
+    streamId?: SortOrder
+    eventType?: SortOrder
+    payload?: SortOrder
+    timestamp?: SortOrder
+    hash?: SortOrder
+    previousHash?: SortOrderInput | SortOrder
+  }
+
+  export type EventWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    eventId?: string
+    AND?: EventWhereInput | EventWhereInput[]
+    OR?: EventWhereInput[]
+    NOT?: EventWhereInput | EventWhereInput[]
+    streamId?: StringFilter<"Event"> | string
+    eventType?: StringFilter<"Event"> | string
+    payload?: JsonFilter<"Event">
+    timestamp?: DateTimeFilter<"Event"> | Date | string
+    hash?: StringFilter<"Event"> | string
+    previousHash?: StringNullableFilter<"Event"> | string | null
+  }, "id" | "eventId">
+
+  export type EventOrderByWithAggregationInput = {
+    id?: SortOrder
+    eventId?: SortOrder
+    streamId?: SortOrder
+    eventType?: SortOrder
+    payload?: SortOrder
+    timestamp?: SortOrder
+    hash?: SortOrder
+    previousHash?: SortOrderInput | SortOrder
+    _count?: EventCountOrderByAggregateInput
+    _max?: EventMaxOrderByAggregateInput
+    _min?: EventMinOrderByAggregateInput
+  }
+
+  export type EventScalarWhereWithAggregatesInput = {
+    AND?: EventScalarWhereWithAggregatesInput | EventScalarWhereWithAggregatesInput[]
+    OR?: EventScalarWhereWithAggregatesInput[]
+    NOT?: EventScalarWhereWithAggregatesInput | EventScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Event"> | string
+    eventId?: StringWithAggregatesFilter<"Event"> | string
+    streamId?: StringWithAggregatesFilter<"Event"> | string
+    eventType?: StringWithAggregatesFilter<"Event"> | string
+    payload?: JsonWithAggregatesFilter<"Event">
+    timestamp?: DateTimeWithAggregatesFilter<"Event"> | Date | string
+    hash?: StringWithAggregatesFilter<"Event"> | string
+    previousHash?: StringNullableWithAggregatesFilter<"Event"> | string | null
+  }
+
   export type OrganizationMemberWhereInput = {
     AND?: OrganizationMemberWhereInput | OrganizationMemberWhereInput[]
     OR?: OrganizationMemberWhereInput[]
@@ -39594,6 +49774,112 @@ export namespace Prisma {
     sequence?: IntWithAggregatesFilter<"LedgerHash"> | number
     hash?: StringWithAggregatesFilter<"LedgerHash"> | string
     createdAt?: DateTimeWithAggregatesFilter<"LedgerHash"> | Date | string
+  }
+
+  export type SyncMetadataWhereInput = {
+    AND?: SyncMetadataWhereInput | SyncMetadataWhereInput[]
+    OR?: SyncMetadataWhereInput[]
+    NOT?: SyncMetadataWhereInput | SyncMetadataWhereInput[]
+    id?: StringFilter<"SyncMetadata"> | string
+    lastLedgerSequence?: IntFilter<"SyncMetadata"> | number
+  }
+
+  export type SyncMetadataOrderByWithRelationInput = {
+    id?: SortOrder
+    lastLedgerSequence?: SortOrder
+  }
+
+  export type SyncMetadataWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: SyncMetadataWhereInput | SyncMetadataWhereInput[]
+    OR?: SyncMetadataWhereInput[]
+    NOT?: SyncMetadataWhereInput | SyncMetadataWhereInput[]
+    lastLedgerSequence?: IntFilter<"SyncMetadata"> | number
+  }, "id">
+
+  export type SyncMetadataOrderByWithAggregationInput = {
+    id?: SortOrder
+    lastLedgerSequence?: SortOrder
+    _count?: SyncMetadataCountOrderByAggregateInput
+    _avg?: SyncMetadataAvgOrderByAggregateInput
+    _max?: SyncMetadataMaxOrderByAggregateInput
+    _min?: SyncMetadataMinOrderByAggregateInput
+    _sum?: SyncMetadataSumOrderByAggregateInput
+  }
+
+  export type SyncMetadataScalarWhereWithAggregatesInput = {
+    AND?: SyncMetadataScalarWhereWithAggregatesInput | SyncMetadataScalarWhereWithAggregatesInput[]
+    OR?: SyncMetadataScalarWhereWithAggregatesInput[]
+    NOT?: SyncMetadataScalarWhereWithAggregatesInput | SyncMetadataScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"SyncMetadata"> | string
+    lastLedgerSequence?: IntWithAggregatesFilter<"SyncMetadata"> | number
+  }
+
+  export type ClawbackHistoryWhereInput = {
+    AND?: ClawbackHistoryWhereInput | ClawbackHistoryWhereInput[]
+    OR?: ClawbackHistoryWhereInput[]
+    NOT?: ClawbackHistoryWhereInput | ClawbackHistoryWhereInput[]
+    id?: StringFilter<"ClawbackHistory"> | string
+    streamId?: StringFilter<"ClawbackHistory"> | string
+    amount?: StringFilter<"ClawbackHistory"> | string
+    reason?: StringFilter<"ClawbackHistory"> | string
+    createdAt?: DateTimeFilter<"ClawbackHistory"> | Date | string
+    executedAt?: DateTimeFilter<"ClawbackHistory"> | Date | string
+    txHash?: StringNullableFilter<"ClawbackHistory"> | string | null
+    status?: StringFilter<"ClawbackHistory"> | string
+  }
+
+  export type ClawbackHistoryOrderByWithRelationInput = {
+    id?: SortOrder
+    streamId?: SortOrder
+    amount?: SortOrder
+    reason?: SortOrder
+    createdAt?: SortOrder
+    executedAt?: SortOrder
+    txHash?: SortOrderInput | SortOrder
+    status?: SortOrder
+  }
+
+  export type ClawbackHistoryWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: ClawbackHistoryWhereInput | ClawbackHistoryWhereInput[]
+    OR?: ClawbackHistoryWhereInput[]
+    NOT?: ClawbackHistoryWhereInput | ClawbackHistoryWhereInput[]
+    streamId?: StringFilter<"ClawbackHistory"> | string
+    amount?: StringFilter<"ClawbackHistory"> | string
+    reason?: StringFilter<"ClawbackHistory"> | string
+    createdAt?: DateTimeFilter<"ClawbackHistory"> | Date | string
+    executedAt?: DateTimeFilter<"ClawbackHistory"> | Date | string
+    txHash?: StringNullableFilter<"ClawbackHistory"> | string | null
+    status?: StringFilter<"ClawbackHistory"> | string
+  }, "id">
+
+  export type ClawbackHistoryOrderByWithAggregationInput = {
+    id?: SortOrder
+    streamId?: SortOrder
+    amount?: SortOrder
+    reason?: SortOrder
+    createdAt?: SortOrder
+    executedAt?: SortOrder
+    txHash?: SortOrderInput | SortOrder
+    status?: SortOrder
+    _count?: ClawbackHistoryCountOrderByAggregateInput
+    _max?: ClawbackHistoryMaxOrderByAggregateInput
+    _min?: ClawbackHistoryMinOrderByAggregateInput
+  }
+
+  export type ClawbackHistoryScalarWhereWithAggregatesInput = {
+    AND?: ClawbackHistoryScalarWhereWithAggregatesInput | ClawbackHistoryScalarWhereWithAggregatesInput[]
+    OR?: ClawbackHistoryScalarWhereWithAggregatesInput[]
+    NOT?: ClawbackHistoryScalarWhereWithAggregatesInput | ClawbackHistoryScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ClawbackHistory"> | string
+    streamId?: StringWithAggregatesFilter<"ClawbackHistory"> | string
+    amount?: StringWithAggregatesFilter<"ClawbackHistory"> | string
+    reason?: StringWithAggregatesFilter<"ClawbackHistory"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"ClawbackHistory"> | Date | string
+    executedAt?: DateTimeWithAggregatesFilter<"ClawbackHistory"> | Date | string
+    txHash?: StringNullableWithAggregatesFilter<"ClawbackHistory"> | string | null
+    status?: StringWithAggregatesFilter<"ClawbackHistory"> | string
   }
 
   export type NotificationSubscriptionWhereInput = {
@@ -40002,6 +50288,10 @@ export namespace Prisma {
     imageUrl?: StringNullableFilter<"Asset"> | string | null
     decimals?: IntFilter<"Asset"> | number
     isVerified?: BoolFilter<"Asset"> | boolean
+    stellarExpertVerified?: BoolFilter<"Asset"> | boolean
+    tomlUrl?: StringNullableFilter<"Asset"> | string | null
+    orgVerified?: BoolFilter<"Asset"> | boolean
+    orgHomeDomain?: StringNullableFilter<"Asset"> | string | null
     lastFetchedAt?: DateTimeNullableFilter<"Asset"> | Date | string | null
     createdAt?: DateTimeFilter<"Asset"> | Date | string
     updatedAt?: DateTimeFilter<"Asset"> | Date | string
@@ -40016,6 +50306,10 @@ export namespace Prisma {
     imageUrl?: SortOrderInput | SortOrder
     decimals?: SortOrder
     isVerified?: SortOrder
+    stellarExpertVerified?: SortOrder
+    tomlUrl?: SortOrderInput | SortOrder
+    orgVerified?: SortOrder
+    orgHomeDomain?: SortOrderInput | SortOrder
     lastFetchedAt?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -40033,6 +50327,10 @@ export namespace Prisma {
     imageUrl?: StringNullableFilter<"Asset"> | string | null
     decimals?: IntFilter<"Asset"> | number
     isVerified?: BoolFilter<"Asset"> | boolean
+    stellarExpertVerified?: BoolFilter<"Asset"> | boolean
+    tomlUrl?: StringNullableFilter<"Asset"> | string | null
+    orgVerified?: BoolFilter<"Asset"> | boolean
+    orgHomeDomain?: StringNullableFilter<"Asset"> | string | null
     lastFetchedAt?: DateTimeNullableFilter<"Asset"> | Date | string | null
     createdAt?: DateTimeFilter<"Asset"> | Date | string
     updatedAt?: DateTimeFilter<"Asset"> | Date | string
@@ -40047,6 +50345,10 @@ export namespace Prisma {
     imageUrl?: SortOrderInput | SortOrder
     decimals?: SortOrder
     isVerified?: SortOrder
+    stellarExpertVerified?: SortOrder
+    tomlUrl?: SortOrderInput | SortOrder
+    orgVerified?: SortOrder
+    orgHomeDomain?: SortOrderInput | SortOrder
     lastFetchedAt?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -40069,6 +50371,10 @@ export namespace Prisma {
     imageUrl?: StringNullableWithAggregatesFilter<"Asset"> | string | null
     decimals?: IntWithAggregatesFilter<"Asset"> | number
     isVerified?: BoolWithAggregatesFilter<"Asset"> | boolean
+    stellarExpertVerified?: BoolWithAggregatesFilter<"Asset"> | boolean
+    tomlUrl?: StringNullableWithAggregatesFilter<"Asset"> | string | null
+    orgVerified?: BoolWithAggregatesFilter<"Asset"> | boolean
+    orgHomeDomain?: StringNullableWithAggregatesFilter<"Asset"> | string | null
     lastFetchedAt?: DateTimeNullableWithAggregatesFilter<"Asset"> | Date | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Asset"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Asset"> | Date | string
@@ -40247,27 +50553,125 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"AssetConfig"> | Date | string
   }
 
+  export type ArchivedDisbursementWhereInput = {
+    AND?: ArchivedDisbursementWhereInput | ArchivedDisbursementWhereInput[]
+    OR?: ArchivedDisbursementWhereInput[]
+    NOT?: ArchivedDisbursementWhereInput | ArchivedDisbursementWhereInput[]
+    id?: StringFilter<"ArchivedDisbursement"> | string
+    streamId?: StringFilter<"ArchivedDisbursement"> | string
+    txHash?: StringFilter<"ArchivedDisbursement"> | string
+    sender?: StringFilter<"ArchivedDisbursement"> | string
+    receiver?: StringFilter<"ArchivedDisbursement"> | string
+    amount?: BigIntFilter<"ArchivedDisbursement"> | bigint | number
+    tokenAddress?: StringFilter<"ArchivedDisbursement"> | string
+    status?: StringFilter<"ArchivedDisbursement"> | string
+    completedAt?: DateTimeFilter<"ArchivedDisbursement"> | Date | string
+    archivedAt?: DateTimeFilter<"ArchivedDisbursement"> | Date | string
+    originalLedger?: IntFilter<"ArchivedDisbursement"> | number
+  }
+
+  export type ArchivedDisbursementOrderByWithRelationInput = {
+    id?: SortOrder
+    streamId?: SortOrder
+    txHash?: SortOrder
+    sender?: SortOrder
+    receiver?: SortOrder
+    amount?: SortOrder
+    tokenAddress?: SortOrder
+    status?: SortOrder
+    completedAt?: SortOrder
+    archivedAt?: SortOrder
+    originalLedger?: SortOrder
+  }
+
+  export type ArchivedDisbursementWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: ArchivedDisbursementWhereInput | ArchivedDisbursementWhereInput[]
+    OR?: ArchivedDisbursementWhereInput[]
+    NOT?: ArchivedDisbursementWhereInput | ArchivedDisbursementWhereInput[]
+    streamId?: StringFilter<"ArchivedDisbursement"> | string
+    txHash?: StringFilter<"ArchivedDisbursement"> | string
+    sender?: StringFilter<"ArchivedDisbursement"> | string
+    receiver?: StringFilter<"ArchivedDisbursement"> | string
+    amount?: BigIntFilter<"ArchivedDisbursement"> | bigint | number
+    tokenAddress?: StringFilter<"ArchivedDisbursement"> | string
+    status?: StringFilter<"ArchivedDisbursement"> | string
+    completedAt?: DateTimeFilter<"ArchivedDisbursement"> | Date | string
+    archivedAt?: DateTimeFilter<"ArchivedDisbursement"> | Date | string
+    originalLedger?: IntFilter<"ArchivedDisbursement"> | number
+  }, "id">
+
+  export type ArchivedDisbursementOrderByWithAggregationInput = {
+    id?: SortOrder
+    streamId?: SortOrder
+    txHash?: SortOrder
+    sender?: SortOrder
+    receiver?: SortOrder
+    amount?: SortOrder
+    tokenAddress?: SortOrder
+    status?: SortOrder
+    completedAt?: SortOrder
+    archivedAt?: SortOrder
+    originalLedger?: SortOrder
+    _count?: ArchivedDisbursementCountOrderByAggregateInput
+    _avg?: ArchivedDisbursementAvgOrderByAggregateInput
+    _max?: ArchivedDisbursementMaxOrderByAggregateInput
+    _min?: ArchivedDisbursementMinOrderByAggregateInput
+    _sum?: ArchivedDisbursementSumOrderByAggregateInput
+  }
+
+  export type ArchivedDisbursementScalarWhereWithAggregatesInput = {
+    AND?: ArchivedDisbursementScalarWhereWithAggregatesInput | ArchivedDisbursementScalarWhereWithAggregatesInput[]
+    OR?: ArchivedDisbursementScalarWhereWithAggregatesInput[]
+    NOT?: ArchivedDisbursementScalarWhereWithAggregatesInput | ArchivedDisbursementScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ArchivedDisbursement"> | string
+    streamId?: StringWithAggregatesFilter<"ArchivedDisbursement"> | string
+    txHash?: StringWithAggregatesFilter<"ArchivedDisbursement"> | string
+    sender?: StringWithAggregatesFilter<"ArchivedDisbursement"> | string
+    receiver?: StringWithAggregatesFilter<"ArchivedDisbursement"> | string
+    amount?: BigIntWithAggregatesFilter<"ArchivedDisbursement"> | bigint | number
+    tokenAddress?: StringWithAggregatesFilter<"ArchivedDisbursement"> | string
+    status?: StringWithAggregatesFilter<"ArchivedDisbursement"> | string
+    completedAt?: DateTimeWithAggregatesFilter<"ArchivedDisbursement"> | Date | string
+    archivedAt?: DateTimeWithAggregatesFilter<"ArchivedDisbursement"> | Date | string
+    originalLedger?: IntWithAggregatesFilter<"ArchivedDisbursement"> | number
+  }
+
   export type DisbursementWhereInput = {
     AND?: DisbursementWhereInput | DisbursementWhereInput[]
     OR?: DisbursementWhereInput[]
     NOT?: DisbursementWhereInput | DisbursementWhereInput[]
     id?: StringFilter<"Disbursement"> | string
-    senderAddress?: StringFilter<"Disbursement"> | string
-    totalAmount?: StringFilter<"Disbursement"> | string
-    asset?: StringFilter<"Disbursement"> | string
+    streamId?: StringFilter<"Disbursement"> | string
     txHash?: StringFilter<"Disbursement"> | string
+    sender?: StringFilter<"Disbursement"> | string
+    receiver?: StringFilter<"Disbursement"> | string
+    amount?: BigIntFilter<"Disbursement"> | bigint | number
+    tokenAddress?: StringFilter<"Disbursement"> | string
+    status?: EnumDisbursementStatusFilter<"Disbursement"> | $Enums.DisbursementStatus
     createdAt?: DateTimeFilter<"Disbursement"> | Date | string
-    recipients?: SplitRecipientListRelationFilter
+    completedAt?: DateTimeNullableFilter<"Disbursement"> | Date | string | null
+    ledger?: IntFilter<"Disbursement"> | number
+    batchId?: StringNullableFilter<"Disbursement"> | string | null
+    categoryId?: StringNullableFilter<"Disbursement"> | string | null
+    category?: XOR<PaymentCategoryNullableRelationFilter, PaymentCategoryWhereInput> | null
   }
 
   export type DisbursementOrderByWithRelationInput = {
     id?: SortOrder
-    senderAddress?: SortOrder
-    totalAmount?: SortOrder
-    asset?: SortOrder
+    streamId?: SortOrder
     txHash?: SortOrder
+    sender?: SortOrder
+    receiver?: SortOrder
+    amount?: SortOrder
+    tokenAddress?: SortOrder
+    status?: SortOrder
     createdAt?: SortOrder
-    recipients?: SplitRecipientOrderByRelationAggregateInput
+    completedAt?: SortOrderInput | SortOrder
+    ledger?: SortOrder
+    batchId?: SortOrderInput | SortOrder
+    categoryId?: SortOrderInput | SortOrder
+    category?: PaymentCategoryOrderByWithRelationInput
   }
 
   export type DisbursementWhereUniqueInput = Prisma.AtLeast<{
@@ -40276,23 +50680,39 @@ export namespace Prisma {
     AND?: DisbursementWhereInput | DisbursementWhereInput[]
     OR?: DisbursementWhereInput[]
     NOT?: DisbursementWhereInput | DisbursementWhereInput[]
-    senderAddress?: StringFilter<"Disbursement"> | string
-    totalAmount?: StringFilter<"Disbursement"> | string
-    asset?: StringFilter<"Disbursement"> | string
+    streamId?: StringFilter<"Disbursement"> | string
+    sender?: StringFilter<"Disbursement"> | string
+    receiver?: StringFilter<"Disbursement"> | string
+    amount?: BigIntFilter<"Disbursement"> | bigint | number
+    tokenAddress?: StringFilter<"Disbursement"> | string
+    status?: EnumDisbursementStatusFilter<"Disbursement"> | $Enums.DisbursementStatus
     createdAt?: DateTimeFilter<"Disbursement"> | Date | string
-    recipients?: SplitRecipientListRelationFilter
+    completedAt?: DateTimeNullableFilter<"Disbursement"> | Date | string | null
+    ledger?: IntFilter<"Disbursement"> | number
+    batchId?: StringNullableFilter<"Disbursement"> | string | null
+    categoryId?: StringNullableFilter<"Disbursement"> | string | null
+    category?: XOR<PaymentCategoryNullableRelationFilter, PaymentCategoryWhereInput> | null
   }, "id" | "txHash">
 
   export type DisbursementOrderByWithAggregationInput = {
     id?: SortOrder
-    senderAddress?: SortOrder
-    totalAmount?: SortOrder
-    asset?: SortOrder
+    streamId?: SortOrder
     txHash?: SortOrder
+    sender?: SortOrder
+    receiver?: SortOrder
+    amount?: SortOrder
+    tokenAddress?: SortOrder
+    status?: SortOrder
     createdAt?: SortOrder
+    completedAt?: SortOrderInput | SortOrder
+    ledger?: SortOrder
+    batchId?: SortOrderInput | SortOrder
+    categoryId?: SortOrderInput | SortOrder
     _count?: DisbursementCountOrderByAggregateInput
+    _avg?: DisbursementAvgOrderByAggregateInput
     _max?: DisbursementMaxOrderByAggregateInput
     _min?: DisbursementMinOrderByAggregateInput
+    _sum?: DisbursementSumOrderByAggregateInput
   }
 
   export type DisbursementScalarWhereWithAggregatesInput = {
@@ -40300,66 +50720,18 @@ export namespace Prisma {
     OR?: DisbursementScalarWhereWithAggregatesInput[]
     NOT?: DisbursementScalarWhereWithAggregatesInput | DisbursementScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Disbursement"> | string
-    senderAddress?: StringWithAggregatesFilter<"Disbursement"> | string
-    totalAmount?: StringWithAggregatesFilter<"Disbursement"> | string
-    asset?: StringWithAggregatesFilter<"Disbursement"> | string
+    streamId?: StringWithAggregatesFilter<"Disbursement"> | string
     txHash?: StringWithAggregatesFilter<"Disbursement"> | string
+    sender?: StringWithAggregatesFilter<"Disbursement"> | string
+    receiver?: StringWithAggregatesFilter<"Disbursement"> | string
+    amount?: BigIntWithAggregatesFilter<"Disbursement"> | bigint | number
+    tokenAddress?: StringWithAggregatesFilter<"Disbursement"> | string
+    status?: EnumDisbursementStatusWithAggregatesFilter<"Disbursement"> | $Enums.DisbursementStatus
     createdAt?: DateTimeWithAggregatesFilter<"Disbursement"> | Date | string
-  }
-
-  export type SplitRecipientWhereInput = {
-    AND?: SplitRecipientWhereInput | SplitRecipientWhereInput[]
-    OR?: SplitRecipientWhereInput[]
-    NOT?: SplitRecipientWhereInput | SplitRecipientWhereInput[]
-    id?: StringFilter<"SplitRecipient"> | string
-    disbursementId?: StringFilter<"SplitRecipient"> | string
-    recipientAddress?: StringFilter<"SplitRecipient"> | string
-    amount?: StringFilter<"SplitRecipient"> | string
-    status?: EnumPayoutStatusFilter<"SplitRecipient"> | $Enums.PayoutStatus
-    disbursement?: XOR<DisbursementRelationFilter, DisbursementWhereInput>
-  }
-
-  export type SplitRecipientOrderByWithRelationInput = {
-    id?: SortOrder
-    disbursementId?: SortOrder
-    recipientAddress?: SortOrder
-    amount?: SortOrder
-    status?: SortOrder
-    disbursement?: DisbursementOrderByWithRelationInput
-  }
-
-  export type SplitRecipientWhereUniqueInput = Prisma.AtLeast<{
-    id?: string
-    AND?: SplitRecipientWhereInput | SplitRecipientWhereInput[]
-    OR?: SplitRecipientWhereInput[]
-    NOT?: SplitRecipientWhereInput | SplitRecipientWhereInput[]
-    disbursementId?: StringFilter<"SplitRecipient"> | string
-    recipientAddress?: StringFilter<"SplitRecipient"> | string
-    amount?: StringFilter<"SplitRecipient"> | string
-    status?: EnumPayoutStatusFilter<"SplitRecipient"> | $Enums.PayoutStatus
-    disbursement?: XOR<DisbursementRelationFilter, DisbursementWhereInput>
-  }, "id">
-
-  export type SplitRecipientOrderByWithAggregationInput = {
-    id?: SortOrder
-    disbursementId?: SortOrder
-    recipientAddress?: SortOrder
-    amount?: SortOrder
-    status?: SortOrder
-    _count?: SplitRecipientCountOrderByAggregateInput
-    _max?: SplitRecipientMaxOrderByAggregateInput
-    _min?: SplitRecipientMinOrderByAggregateInput
-  }
-
-  export type SplitRecipientScalarWhereWithAggregatesInput = {
-    AND?: SplitRecipientScalarWhereWithAggregatesInput | SplitRecipientScalarWhereWithAggregatesInput[]
-    OR?: SplitRecipientScalarWhereWithAggregatesInput[]
-    NOT?: SplitRecipientScalarWhereWithAggregatesInput | SplitRecipientScalarWhereWithAggregatesInput[]
-    id?: StringWithAggregatesFilter<"SplitRecipient"> | string
-    disbursementId?: StringWithAggregatesFilter<"SplitRecipient"> | string
-    recipientAddress?: StringWithAggregatesFilter<"SplitRecipient"> | string
-    amount?: StringWithAggregatesFilter<"SplitRecipient"> | string
-    status?: EnumPayoutStatusWithAggregatesFilter<"SplitRecipient"> | $Enums.PayoutStatus
+    completedAt?: DateTimeNullableWithAggregatesFilter<"Disbursement"> | Date | string | null
+    ledger?: IntWithAggregatesFilter<"Disbursement"> | number
+    batchId?: StringNullableWithAggregatesFilter<"Disbursement"> | string | null
+    categoryId?: StringNullableWithAggregatesFilter<"Disbursement"> | string | null
   }
 
   export type AssetMappingWhereInput = {
@@ -41091,6 +51463,105 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"CachedAsset"> | Date | string
   }
 
+  export type StreamTemplateWhereInput = {
+    AND?: StreamTemplateWhereInput | StreamTemplateWhereInput[]
+    OR?: StreamTemplateWhereInput[]
+    NOT?: StreamTemplateWhereInput | StreamTemplateWhereInput[]
+    id?: StringFilter<"StreamTemplate"> | string
+    name?: StringFilter<"StreamTemplate"> | string
+    asset?: StringFilter<"StreamTemplate"> | string
+    recipientAddress?: StringFilter<"StreamTemplate"> | string
+    splitEnabled?: BoolFilter<"StreamTemplate"> | boolean
+    splitAddress?: StringNullableFilter<"StreamTemplate"> | string | null
+    splitPercent?: IntFilter<"StreamTemplate"> | number
+    totalAmount?: StringFilter<"StreamTemplate"> | string
+    rateType?: StringFilter<"StreamTemplate"> | string
+    durationPreset?: StringFilter<"StreamTemplate"> | string
+    usageCount?: IntFilter<"StreamTemplate"> | number
+    createdBy?: StringFilter<"StreamTemplate"> | string
+    createdAt?: DateTimeFilter<"StreamTemplate"> | Date | string
+    updatedAt?: DateTimeFilter<"StreamTemplate"> | Date | string
+  }
+
+  export type StreamTemplateOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    asset?: SortOrder
+    recipientAddress?: SortOrder
+    splitEnabled?: SortOrder
+    splitAddress?: SortOrderInput | SortOrder
+    splitPercent?: SortOrder
+    totalAmount?: SortOrder
+    rateType?: SortOrder
+    durationPreset?: SortOrder
+    usageCount?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type StreamTemplateWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: StreamTemplateWhereInput | StreamTemplateWhereInput[]
+    OR?: StreamTemplateWhereInput[]
+    NOT?: StreamTemplateWhereInput | StreamTemplateWhereInput[]
+    name?: StringFilter<"StreamTemplate"> | string
+    asset?: StringFilter<"StreamTemplate"> | string
+    recipientAddress?: StringFilter<"StreamTemplate"> | string
+    splitEnabled?: BoolFilter<"StreamTemplate"> | boolean
+    splitAddress?: StringNullableFilter<"StreamTemplate"> | string | null
+    splitPercent?: IntFilter<"StreamTemplate"> | number
+    totalAmount?: StringFilter<"StreamTemplate"> | string
+    rateType?: StringFilter<"StreamTemplate"> | string
+    durationPreset?: StringFilter<"StreamTemplate"> | string
+    usageCount?: IntFilter<"StreamTemplate"> | number
+    createdBy?: StringFilter<"StreamTemplate"> | string
+    createdAt?: DateTimeFilter<"StreamTemplate"> | Date | string
+    updatedAt?: DateTimeFilter<"StreamTemplate"> | Date | string
+  }, "id">
+
+  export type StreamTemplateOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    asset?: SortOrder
+    recipientAddress?: SortOrder
+    splitEnabled?: SortOrder
+    splitAddress?: SortOrderInput | SortOrder
+    splitPercent?: SortOrder
+    totalAmount?: SortOrder
+    rateType?: SortOrder
+    durationPreset?: SortOrder
+    usageCount?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: StreamTemplateCountOrderByAggregateInput
+    _avg?: StreamTemplateAvgOrderByAggregateInput
+    _max?: StreamTemplateMaxOrderByAggregateInput
+    _min?: StreamTemplateMinOrderByAggregateInput
+    _sum?: StreamTemplateSumOrderByAggregateInput
+  }
+
+  export type StreamTemplateScalarWhereWithAggregatesInput = {
+    AND?: StreamTemplateScalarWhereWithAggregatesInput | StreamTemplateScalarWhereWithAggregatesInput[]
+    OR?: StreamTemplateScalarWhereWithAggregatesInput[]
+    NOT?: StreamTemplateScalarWhereWithAggregatesInput | StreamTemplateScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"StreamTemplate"> | string
+    name?: StringWithAggregatesFilter<"StreamTemplate"> | string
+    asset?: StringWithAggregatesFilter<"StreamTemplate"> | string
+    recipientAddress?: StringWithAggregatesFilter<"StreamTemplate"> | string
+    splitEnabled?: BoolWithAggregatesFilter<"StreamTemplate"> | boolean
+    splitAddress?: StringNullableWithAggregatesFilter<"StreamTemplate"> | string | null
+    splitPercent?: IntWithAggregatesFilter<"StreamTemplate"> | number
+    totalAmount?: StringWithAggregatesFilter<"StreamTemplate"> | string
+    rateType?: StringWithAggregatesFilter<"StreamTemplate"> | string
+    durationPreset?: StringWithAggregatesFilter<"StreamTemplate"> | string
+    usageCount?: IntWithAggregatesFilter<"StreamTemplate"> | number
+    createdBy?: StringWithAggregatesFilter<"StreamTemplate"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"StreamTemplate"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"StreamTemplate"> | Date | string
+  }
+
   export type SplitLinkWhereInput = {
     AND?: SplitLinkWhereInput | SplitLinkWhereInput[]
     OR?: SplitLinkWhereInput[]
@@ -41100,6 +51571,7 @@ export namespace Prisma {
     fullUrl?: StringFilter<"SplitLink"> | string
     payloadHash?: StringFilter<"SplitLink"> | string
     creatorAddress?: StringFilter<"SplitLink"> | string
+    passwordHash?: StringNullableFilter<"SplitLink"> | string | null
     clickCount?: IntFilter<"SplitLink"> | number
     lastClickedAt?: DateTimeNullableFilter<"SplitLink"> | Date | string | null
     expiresAt?: DateTimeNullableFilter<"SplitLink"> | Date | string | null
@@ -41112,6 +51584,7 @@ export namespace Prisma {
     fullUrl?: SortOrder
     payloadHash?: SortOrder
     creatorAddress?: SortOrder
+    passwordHash?: SortOrderInput | SortOrder
     clickCount?: SortOrder
     lastClickedAt?: SortOrderInput | SortOrder
     expiresAt?: SortOrderInput | SortOrder
@@ -41127,6 +51600,7 @@ export namespace Prisma {
     NOT?: SplitLinkWhereInput | SplitLinkWhereInput[]
     fullUrl?: StringFilter<"SplitLink"> | string
     creatorAddress?: StringFilter<"SplitLink"> | string
+    passwordHash?: StringNullableFilter<"SplitLink"> | string | null
     clickCount?: IntFilter<"SplitLink"> | number
     lastClickedAt?: DateTimeNullableFilter<"SplitLink"> | Date | string | null
     expiresAt?: DateTimeNullableFilter<"SplitLink"> | Date | string | null
@@ -41139,6 +51613,7 @@ export namespace Prisma {
     fullUrl?: SortOrder
     payloadHash?: SortOrder
     creatorAddress?: SortOrder
+    passwordHash?: SortOrderInput | SortOrder
     clickCount?: SortOrder
     lastClickedAt?: SortOrderInput | SortOrder
     expiresAt?: SortOrderInput | SortOrder
@@ -41159,10 +51634,424 @@ export namespace Prisma {
     fullUrl?: StringWithAggregatesFilter<"SplitLink"> | string
     payloadHash?: StringWithAggregatesFilter<"SplitLink"> | string
     creatorAddress?: StringWithAggregatesFilter<"SplitLink"> | string
+    passwordHash?: StringNullableWithAggregatesFilter<"SplitLink"> | string | null
     clickCount?: IntWithAggregatesFilter<"SplitLink"> | number
     lastClickedAt?: DateTimeNullableWithAggregatesFilter<"SplitLink"> | Date | string | null
     expiresAt?: DateTimeNullableWithAggregatesFilter<"SplitLink"> | Date | string | null
     createdAt?: DateTimeWithAggregatesFilter<"SplitLink"> | Date | string
+  }
+
+  export type OfacAuditLogWhereInput = {
+    AND?: OfacAuditLogWhereInput | OfacAuditLogWhereInput[]
+    OR?: OfacAuditLogWhereInput[]
+    NOT?: OfacAuditLogWhereInput | OfacAuditLogWhereInput[]
+    id?: StringFilter<"OfacAuditLog"> | string
+    address?: StringFilter<"OfacAuditLog"> | string
+    isSanctioned?: BoolFilter<"OfacAuditLog"> | boolean
+    checkedAt?: DateTimeFilter<"OfacAuditLog"> | Date | string
+    source?: StringFilter<"OfacAuditLog"> | string
+    createdAt?: DateTimeFilter<"OfacAuditLog"> | Date | string
+  }
+
+  export type OfacAuditLogOrderByWithRelationInput = {
+    id?: SortOrder
+    address?: SortOrder
+    isSanctioned?: SortOrder
+    checkedAt?: SortOrder
+    source?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type OfacAuditLogWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: OfacAuditLogWhereInput | OfacAuditLogWhereInput[]
+    OR?: OfacAuditLogWhereInput[]
+    NOT?: OfacAuditLogWhereInput | OfacAuditLogWhereInput[]
+    address?: StringFilter<"OfacAuditLog"> | string
+    isSanctioned?: BoolFilter<"OfacAuditLog"> | boolean
+    checkedAt?: DateTimeFilter<"OfacAuditLog"> | Date | string
+    source?: StringFilter<"OfacAuditLog"> | string
+    createdAt?: DateTimeFilter<"OfacAuditLog"> | Date | string
+  }, "id">
+
+  export type OfacAuditLogOrderByWithAggregationInput = {
+    id?: SortOrder
+    address?: SortOrder
+    isSanctioned?: SortOrder
+    checkedAt?: SortOrder
+    source?: SortOrder
+    createdAt?: SortOrder
+    _count?: OfacAuditLogCountOrderByAggregateInput
+    _max?: OfacAuditLogMaxOrderByAggregateInput
+    _min?: OfacAuditLogMinOrderByAggregateInput
+  }
+
+  export type OfacAuditLogScalarWhereWithAggregatesInput = {
+    AND?: OfacAuditLogScalarWhereWithAggregatesInput | OfacAuditLogScalarWhereWithAggregatesInput[]
+    OR?: OfacAuditLogScalarWhereWithAggregatesInput[]
+    NOT?: OfacAuditLogScalarWhereWithAggregatesInput | OfacAuditLogScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"OfacAuditLog"> | string
+    address?: StringWithAggregatesFilter<"OfacAuditLog"> | string
+    isSanctioned?: BoolWithAggregatesFilter<"OfacAuditLog"> | boolean
+    checkedAt?: DateTimeWithAggregatesFilter<"OfacAuditLog"> | Date | string
+    source?: StringWithAggregatesFilter<"OfacAuditLog"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"OfacAuditLog"> | Date | string
+  }
+
+  export type AdminAuditLogWhereInput = {
+    AND?: AdminAuditLogWhereInput | AdminAuditLogWhereInput[]
+    OR?: AdminAuditLogWhereInput[]
+    NOT?: AdminAuditLogWhereInput | AdminAuditLogWhereInput[]
+    id?: StringFilter<"AdminAuditLog"> | string
+    timestamp?: DateTimeFilter<"AdminAuditLog"> | Date | string
+    userId?: StringNullableFilter<"AdminAuditLog"> | string | null
+    userEmail?: StringNullableFilter<"AdminAuditLog"> | string | null
+    method?: StringFilter<"AdminAuditLog"> | string
+    path?: StringFilter<"AdminAuditLog"> | string
+    statusCode?: IntFilter<"AdminAuditLog"> | number
+    executionTimeMs?: FloatFilter<"AdminAuditLog"> | number
+    clientIp?: StringNullableFilter<"AdminAuditLog"> | string | null
+    userAgent?: StringNullableFilter<"AdminAuditLog"> | string | null
+    requestBody?: StringNullableFilter<"AdminAuditLog"> | string | null
+    responseBody?: StringNullableFilter<"AdminAuditLog"> | string | null
+    beforeSnapshot?: StringNullableFilter<"AdminAuditLog"> | string | null
+    afterSnapshot?: StringNullableFilter<"AdminAuditLog"> | string | null
+    error?: StringNullableFilter<"AdminAuditLog"> | string | null
+    changesSummary?: StringNullableFilter<"AdminAuditLog"> | string | null
+    createdAt?: DateTimeFilter<"AdminAuditLog"> | Date | string
+  }
+
+  export type AdminAuditLogOrderByWithRelationInput = {
+    id?: SortOrder
+    timestamp?: SortOrder
+    userId?: SortOrderInput | SortOrder
+    userEmail?: SortOrderInput | SortOrder
+    method?: SortOrder
+    path?: SortOrder
+    statusCode?: SortOrder
+    executionTimeMs?: SortOrder
+    clientIp?: SortOrderInput | SortOrder
+    userAgent?: SortOrderInput | SortOrder
+    requestBody?: SortOrderInput | SortOrder
+    responseBody?: SortOrderInput | SortOrder
+    beforeSnapshot?: SortOrderInput | SortOrder
+    afterSnapshot?: SortOrderInput | SortOrder
+    error?: SortOrderInput | SortOrder
+    changesSummary?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type AdminAuditLogWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: AdminAuditLogWhereInput | AdminAuditLogWhereInput[]
+    OR?: AdminAuditLogWhereInput[]
+    NOT?: AdminAuditLogWhereInput | AdminAuditLogWhereInput[]
+    timestamp?: DateTimeFilter<"AdminAuditLog"> | Date | string
+    userId?: StringNullableFilter<"AdminAuditLog"> | string | null
+    userEmail?: StringNullableFilter<"AdminAuditLog"> | string | null
+    method?: StringFilter<"AdminAuditLog"> | string
+    path?: StringFilter<"AdminAuditLog"> | string
+    statusCode?: IntFilter<"AdminAuditLog"> | number
+    executionTimeMs?: FloatFilter<"AdminAuditLog"> | number
+    clientIp?: StringNullableFilter<"AdminAuditLog"> | string | null
+    userAgent?: StringNullableFilter<"AdminAuditLog"> | string | null
+    requestBody?: StringNullableFilter<"AdminAuditLog"> | string | null
+    responseBody?: StringNullableFilter<"AdminAuditLog"> | string | null
+    beforeSnapshot?: StringNullableFilter<"AdminAuditLog"> | string | null
+    afterSnapshot?: StringNullableFilter<"AdminAuditLog"> | string | null
+    error?: StringNullableFilter<"AdminAuditLog"> | string | null
+    changesSummary?: StringNullableFilter<"AdminAuditLog"> | string | null
+    createdAt?: DateTimeFilter<"AdminAuditLog"> | Date | string
+  }, "id">
+
+  export type AdminAuditLogOrderByWithAggregationInput = {
+    id?: SortOrder
+    timestamp?: SortOrder
+    userId?: SortOrderInput | SortOrder
+    userEmail?: SortOrderInput | SortOrder
+    method?: SortOrder
+    path?: SortOrder
+    statusCode?: SortOrder
+    executionTimeMs?: SortOrder
+    clientIp?: SortOrderInput | SortOrder
+    userAgent?: SortOrderInput | SortOrder
+    requestBody?: SortOrderInput | SortOrder
+    responseBody?: SortOrderInput | SortOrder
+    beforeSnapshot?: SortOrderInput | SortOrder
+    afterSnapshot?: SortOrderInput | SortOrder
+    error?: SortOrderInput | SortOrder
+    changesSummary?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: AdminAuditLogCountOrderByAggregateInput
+    _avg?: AdminAuditLogAvgOrderByAggregateInput
+    _max?: AdminAuditLogMaxOrderByAggregateInput
+    _min?: AdminAuditLogMinOrderByAggregateInput
+    _sum?: AdminAuditLogSumOrderByAggregateInput
+  }
+
+  export type AdminAuditLogScalarWhereWithAggregatesInput = {
+    AND?: AdminAuditLogScalarWhereWithAggregatesInput | AdminAuditLogScalarWhereWithAggregatesInput[]
+    OR?: AdminAuditLogScalarWhereWithAggregatesInput[]
+    NOT?: AdminAuditLogScalarWhereWithAggregatesInput | AdminAuditLogScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"AdminAuditLog"> | string
+    timestamp?: DateTimeWithAggregatesFilter<"AdminAuditLog"> | Date | string
+    userId?: StringNullableWithAggregatesFilter<"AdminAuditLog"> | string | null
+    userEmail?: StringNullableWithAggregatesFilter<"AdminAuditLog"> | string | null
+    method?: StringWithAggregatesFilter<"AdminAuditLog"> | string
+    path?: StringWithAggregatesFilter<"AdminAuditLog"> | string
+    statusCode?: IntWithAggregatesFilter<"AdminAuditLog"> | number
+    executionTimeMs?: FloatWithAggregatesFilter<"AdminAuditLog"> | number
+    clientIp?: StringNullableWithAggregatesFilter<"AdminAuditLog"> | string | null
+    userAgent?: StringNullableWithAggregatesFilter<"AdminAuditLog"> | string | null
+    requestBody?: StringNullableWithAggregatesFilter<"AdminAuditLog"> | string | null
+    responseBody?: StringNullableWithAggregatesFilter<"AdminAuditLog"> | string | null
+    beforeSnapshot?: StringNullableWithAggregatesFilter<"AdminAuditLog"> | string | null
+    afterSnapshot?: StringNullableWithAggregatesFilter<"AdminAuditLog"> | string | null
+    error?: StringNullableWithAggregatesFilter<"AdminAuditLog"> | string | null
+    changesSummary?: StringNullableWithAggregatesFilter<"AdminAuditLog"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"AdminAuditLog"> | Date | string
+  }
+
+  export type PaymentCategoryCreateInput = {
+    id?: string
+    name: string
+    description?: string | null
+    color?: string
+    icon?: string | null
+    ownerAddress: string
+    isDefault?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    rules?: PaymentCategoryRuleCreateNestedManyWithoutCategoryInput
+    streams?: StreamCreateNestedManyWithoutCategoryInput
+    disbursements?: DisbursementCreateNestedManyWithoutCategoryInput
+  }
+
+  export type PaymentCategoryUncheckedCreateInput = {
+    id?: string
+    name: string
+    description?: string | null
+    color?: string
+    icon?: string | null
+    ownerAddress: string
+    isDefault?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    rules?: PaymentCategoryRuleUncheckedCreateNestedManyWithoutCategoryInput
+    streams?: StreamUncheckedCreateNestedManyWithoutCategoryInput
+    disbursements?: DisbursementUncheckedCreateNestedManyWithoutCategoryInput
+  }
+
+  export type PaymentCategoryUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    color?: StringFieldUpdateOperationsInput | string
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
+    ownerAddress?: StringFieldUpdateOperationsInput | string
+    isDefault?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    rules?: PaymentCategoryRuleUpdateManyWithoutCategoryNestedInput
+    streams?: StreamUpdateManyWithoutCategoryNestedInput
+    disbursements?: DisbursementUpdateManyWithoutCategoryNestedInput
+  }
+
+  export type PaymentCategoryUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    color?: StringFieldUpdateOperationsInput | string
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
+    ownerAddress?: StringFieldUpdateOperationsInput | string
+    isDefault?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    rules?: PaymentCategoryRuleUncheckedUpdateManyWithoutCategoryNestedInput
+    streams?: StreamUncheckedUpdateManyWithoutCategoryNestedInput
+    disbursements?: DisbursementUncheckedUpdateManyWithoutCategoryNestedInput
+  }
+
+  export type PaymentCategoryCreateManyInput = {
+    id?: string
+    name: string
+    description?: string | null
+    color?: string
+    icon?: string | null
+    ownerAddress: string
+    isDefault?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PaymentCategoryUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    color?: StringFieldUpdateOperationsInput | string
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
+    ownerAddress?: StringFieldUpdateOperationsInput | string
+    isDefault?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PaymentCategoryUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    color?: StringFieldUpdateOperationsInput | string
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
+    ownerAddress?: StringFieldUpdateOperationsInput | string
+    isDefault?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PaymentMetadataCreateInput = {
+    id?: string
+    entityType: string
+    entityId: string
+    key: string
+    value: string
+    ownerAddress: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PaymentMetadataUncheckedCreateInput = {
+    id?: string
+    entityType: string
+    entityId: string
+    key: string
+    value: string
+    ownerAddress: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PaymentMetadataUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    entityType?: StringFieldUpdateOperationsInput | string
+    entityId?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    value?: StringFieldUpdateOperationsInput | string
+    ownerAddress?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PaymentMetadataUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    entityType?: StringFieldUpdateOperationsInput | string
+    entityId?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    value?: StringFieldUpdateOperationsInput | string
+    ownerAddress?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PaymentMetadataCreateManyInput = {
+    id?: string
+    entityType: string
+    entityId: string
+    key: string
+    value: string
+    ownerAddress: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PaymentMetadataUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    entityType?: StringFieldUpdateOperationsInput | string
+    entityId?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    value?: StringFieldUpdateOperationsInput | string
+    ownerAddress?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PaymentMetadataUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    entityType?: StringFieldUpdateOperationsInput | string
+    entityId?: StringFieldUpdateOperationsInput | string
+    key?: StringFieldUpdateOperationsInput | string
+    value?: StringFieldUpdateOperationsInput | string
+    ownerAddress?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PaymentCategoryRuleCreateInput = {
+    id?: string
+    field: string
+    operator: string
+    value: string
+    priority?: number
+    createdAt?: Date | string
+    category: PaymentCategoryCreateNestedOneWithoutRulesInput
+  }
+
+  export type PaymentCategoryRuleUncheckedCreateInput = {
+    id?: string
+    categoryId: string
+    field: string
+    operator: string
+    value: string
+    priority?: number
+    createdAt?: Date | string
+  }
+
+  export type PaymentCategoryRuleUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    field?: StringFieldUpdateOperationsInput | string
+    operator?: StringFieldUpdateOperationsInput | string
+    value?: StringFieldUpdateOperationsInput | string
+    priority?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    category?: PaymentCategoryUpdateOneRequiredWithoutRulesNestedInput
+  }
+
+  export type PaymentCategoryRuleUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    categoryId?: StringFieldUpdateOperationsInput | string
+    field?: StringFieldUpdateOperationsInput | string
+    operator?: StringFieldUpdateOperationsInput | string
+    value?: StringFieldUpdateOperationsInput | string
+    priority?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PaymentCategoryRuleCreateManyInput = {
+    id?: string
+    categoryId: string
+    field: string
+    operator: string
+    value: string
+    priority?: number
+    createdAt?: Date | string
+  }
+
+  export type PaymentCategoryRuleUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    field?: StringFieldUpdateOperationsInput | string
+    operator?: StringFieldUpdateOperationsInput | string
+    value?: StringFieldUpdateOperationsInput | string
+    priority?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PaymentCategoryRuleUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    categoryId?: StringFieldUpdateOperationsInput | string
+    field?: StringFieldUpdateOperationsInput | string
+    operator?: StringFieldUpdateOperationsInput | string
+    value?: StringFieldUpdateOperationsInput | string
+    priority?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type StreamCreateInput = {
@@ -41190,6 +52079,7 @@ export namespace Prisma {
     isDust?: boolean
     affiliateId?: string | null
     createdAt?: Date | string
+    category?: PaymentCategoryCreateNestedOneWithoutStreamsInput
   }
 
   export type StreamUncheckedCreateInput = {
@@ -41216,6 +52106,7 @@ export namespace Prisma {
     lastYieldAccrualAt?: Date | string | null
     isDust?: boolean
     affiliateId?: string | null
+    categoryId?: string | null
     createdAt?: Date | string
   }
 
@@ -41244,6 +52135,7 @@ export namespace Prisma {
     isDust?: BoolFieldUpdateOperationsInput | boolean
     affiliateId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    category?: PaymentCategoryUpdateOneWithoutStreamsNestedInput
   }
 
   export type StreamUncheckedUpdateInput = {
@@ -41270,6 +52162,7 @@ export namespace Prisma {
     lastYieldAccrualAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isDust?: BoolFieldUpdateOperationsInput | boolean
     affiliateId?: NullableStringFieldUpdateOperationsInput | string | null
+    categoryId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -41297,6 +52190,7 @@ export namespace Prisma {
     lastYieldAccrualAt?: Date | string | null
     isDust?: boolean
     affiliateId?: string | null
+    categoryId?: string | null
     createdAt?: Date | string
   }
 
@@ -41351,6 +52245,7 @@ export namespace Prisma {
     lastYieldAccrualAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isDust?: BoolFieldUpdateOperationsInput | boolean
     affiliateId?: NullableStringFieldUpdateOperationsInput | string | null
+    categoryId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -42250,6 +53145,83 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type EventCreateInput = {
+    id?: string
+    eventId: string
+    streamId: string
+    eventType: string
+    payload: JsonNullValueInput | InputJsonValue
+    timestamp?: Date | string
+    hash: string
+    previousHash?: string | null
+  }
+
+  export type EventUncheckedCreateInput = {
+    id?: string
+    eventId: string
+    streamId: string
+    eventType: string
+    payload: JsonNullValueInput | InputJsonValue
+    timestamp?: Date | string
+    hash: string
+    previousHash?: string | null
+  }
+
+  export type EventUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    eventId?: StringFieldUpdateOperationsInput | string
+    streamId?: StringFieldUpdateOperationsInput | string
+    eventType?: StringFieldUpdateOperationsInput | string
+    payload?: JsonNullValueInput | InputJsonValue
+    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+    hash?: StringFieldUpdateOperationsInput | string
+    previousHash?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type EventUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    eventId?: StringFieldUpdateOperationsInput | string
+    streamId?: StringFieldUpdateOperationsInput | string
+    eventType?: StringFieldUpdateOperationsInput | string
+    payload?: JsonNullValueInput | InputJsonValue
+    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+    hash?: StringFieldUpdateOperationsInput | string
+    previousHash?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type EventCreateManyInput = {
+    id?: string
+    eventId: string
+    streamId: string
+    eventType: string
+    payload: JsonNullValueInput | InputJsonValue
+    timestamp?: Date | string
+    hash: string
+    previousHash?: string | null
+  }
+
+  export type EventUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    eventId?: StringFieldUpdateOperationsInput | string
+    streamId?: StringFieldUpdateOperationsInput | string
+    eventType?: StringFieldUpdateOperationsInput | string
+    payload?: JsonNullValueInput | InputJsonValue
+    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+    hash?: StringFieldUpdateOperationsInput | string
+    previousHash?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type EventUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    eventId?: StringFieldUpdateOperationsInput | string
+    streamId?: StringFieldUpdateOperationsInput | string
+    eventType?: StringFieldUpdateOperationsInput | string
+    payload?: JsonNullValueInput | InputJsonValue
+    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+    hash?: StringFieldUpdateOperationsInput | string
+    previousHash?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
   export type OrganizationMemberCreateInput = {
     id?: string
     orgAddress: string
@@ -42451,6 +53423,118 @@ export namespace Prisma {
     sequence?: IntFieldUpdateOperationsInput | number
     hash?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SyncMetadataCreateInput = {
+    id: string
+    lastLedgerSequence: number
+  }
+
+  export type SyncMetadataUncheckedCreateInput = {
+    id: string
+    lastLedgerSequence: number
+  }
+
+  export type SyncMetadataUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    lastLedgerSequence?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type SyncMetadataUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    lastLedgerSequence?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type SyncMetadataCreateManyInput = {
+    id: string
+    lastLedgerSequence: number
+  }
+
+  export type SyncMetadataUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    lastLedgerSequence?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type SyncMetadataUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    lastLedgerSequence?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type ClawbackHistoryCreateInput = {
+    id?: string
+    streamId: string
+    amount: string
+    reason?: string
+    createdAt?: Date | string
+    executedAt?: Date | string
+    txHash?: string | null
+    status?: string
+  }
+
+  export type ClawbackHistoryUncheckedCreateInput = {
+    id?: string
+    streamId: string
+    amount: string
+    reason?: string
+    createdAt?: Date | string
+    executedAt?: Date | string
+    txHash?: string | null
+    status?: string
+  }
+
+  export type ClawbackHistoryUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    streamId?: StringFieldUpdateOperationsInput | string
+    amount?: StringFieldUpdateOperationsInput | string
+    reason?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    executedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    txHash?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type ClawbackHistoryUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    streamId?: StringFieldUpdateOperationsInput | string
+    amount?: StringFieldUpdateOperationsInput | string
+    reason?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    executedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    txHash?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type ClawbackHistoryCreateManyInput = {
+    id?: string
+    streamId: string
+    amount: string
+    reason?: string
+    createdAt?: Date | string
+    executedAt?: Date | string
+    txHash?: string | null
+    status?: string
+  }
+
+  export type ClawbackHistoryUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    streamId?: StringFieldUpdateOperationsInput | string
+    amount?: StringFieldUpdateOperationsInput | string
+    reason?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    executedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    txHash?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type ClawbackHistoryUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    streamId?: StringFieldUpdateOperationsInput | string
+    amount?: StringFieldUpdateOperationsInput | string
+    reason?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    executedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    txHash?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
   }
 
   export type NotificationSubscriptionCreateInput = {
@@ -42903,6 +53987,10 @@ export namespace Prisma {
     imageUrl?: string | null
     decimals?: number
     isVerified?: boolean
+    stellarExpertVerified?: boolean
+    tomlUrl?: string | null
+    orgVerified?: boolean
+    orgHomeDomain?: string | null
     lastFetchedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -42917,6 +54005,10 @@ export namespace Prisma {
     imageUrl?: string | null
     decimals?: number
     isVerified?: boolean
+    stellarExpertVerified?: boolean
+    tomlUrl?: string | null
+    orgVerified?: boolean
+    orgHomeDomain?: string | null
     lastFetchedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -42931,6 +54023,10 @@ export namespace Prisma {
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     decimals?: IntFieldUpdateOperationsInput | number
     isVerified?: BoolFieldUpdateOperationsInput | boolean
+    stellarExpertVerified?: BoolFieldUpdateOperationsInput | boolean
+    tomlUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    orgVerified?: BoolFieldUpdateOperationsInput | boolean
+    orgHomeDomain?: NullableStringFieldUpdateOperationsInput | string | null
     lastFetchedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -42945,6 +54041,10 @@ export namespace Prisma {
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     decimals?: IntFieldUpdateOperationsInput | number
     isVerified?: BoolFieldUpdateOperationsInput | boolean
+    stellarExpertVerified?: BoolFieldUpdateOperationsInput | boolean
+    tomlUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    orgVerified?: BoolFieldUpdateOperationsInput | boolean
+    orgHomeDomain?: NullableStringFieldUpdateOperationsInput | string | null
     lastFetchedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -42959,6 +54059,10 @@ export namespace Prisma {
     imageUrl?: string | null
     decimals?: number
     isVerified?: boolean
+    stellarExpertVerified?: boolean
+    tomlUrl?: string | null
+    orgVerified?: boolean
+    orgHomeDomain?: string | null
     lastFetchedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -42973,6 +54077,10 @@ export namespace Prisma {
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     decimals?: IntFieldUpdateOperationsInput | number
     isVerified?: BoolFieldUpdateOperationsInput | boolean
+    stellarExpertVerified?: BoolFieldUpdateOperationsInput | boolean
+    tomlUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    orgVerified?: BoolFieldUpdateOperationsInput | boolean
+    orgHomeDomain?: NullableStringFieldUpdateOperationsInput | string | null
     lastFetchedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -42987,6 +54095,10 @@ export namespace Prisma {
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     decimals?: IntFieldUpdateOperationsInput | number
     isVerified?: BoolFieldUpdateOperationsInput | boolean
+    stellarExpertVerified?: BoolFieldUpdateOperationsInput | boolean
+    tomlUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    orgVerified?: BoolFieldUpdateOperationsInput | boolean
+    orgHomeDomain?: NullableStringFieldUpdateOperationsInput | string | null
     lastFetchedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -43195,126 +54307,213 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type ArchivedDisbursementCreateInput = {
+    id?: string
+    streamId: string
+    txHash: string
+    sender: string
+    receiver: string
+    amount: bigint | number
+    tokenAddress: string
+    status: string
+    completedAt: Date | string
+    archivedAt?: Date | string
+    originalLedger: number
+  }
+
+  export type ArchivedDisbursementUncheckedCreateInput = {
+    id?: string
+    streamId: string
+    txHash: string
+    sender: string
+    receiver: string
+    amount: bigint | number
+    tokenAddress: string
+    status: string
+    completedAt: Date | string
+    archivedAt?: Date | string
+    originalLedger: number
+  }
+
+  export type ArchivedDisbursementUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    streamId?: StringFieldUpdateOperationsInput | string
+    txHash?: StringFieldUpdateOperationsInput | string
+    sender?: StringFieldUpdateOperationsInput | string
+    receiver?: StringFieldUpdateOperationsInput | string
+    amount?: BigIntFieldUpdateOperationsInput | bigint | number
+    tokenAddress?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    completedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    archivedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    originalLedger?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type ArchivedDisbursementUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    streamId?: StringFieldUpdateOperationsInput | string
+    txHash?: StringFieldUpdateOperationsInput | string
+    sender?: StringFieldUpdateOperationsInput | string
+    receiver?: StringFieldUpdateOperationsInput | string
+    amount?: BigIntFieldUpdateOperationsInput | bigint | number
+    tokenAddress?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    completedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    archivedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    originalLedger?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type ArchivedDisbursementCreateManyInput = {
+    id?: string
+    streamId: string
+    txHash: string
+    sender: string
+    receiver: string
+    amount: bigint | number
+    tokenAddress: string
+    status: string
+    completedAt: Date | string
+    archivedAt?: Date | string
+    originalLedger: number
+  }
+
+  export type ArchivedDisbursementUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    streamId?: StringFieldUpdateOperationsInput | string
+    txHash?: StringFieldUpdateOperationsInput | string
+    sender?: StringFieldUpdateOperationsInput | string
+    receiver?: StringFieldUpdateOperationsInput | string
+    amount?: BigIntFieldUpdateOperationsInput | bigint | number
+    tokenAddress?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    completedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    archivedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    originalLedger?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type ArchivedDisbursementUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    streamId?: StringFieldUpdateOperationsInput | string
+    txHash?: StringFieldUpdateOperationsInput | string
+    sender?: StringFieldUpdateOperationsInput | string
+    receiver?: StringFieldUpdateOperationsInput | string
+    amount?: BigIntFieldUpdateOperationsInput | bigint | number
+    tokenAddress?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    completedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    archivedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    originalLedger?: IntFieldUpdateOperationsInput | number
+  }
+
   export type DisbursementCreateInput = {
     id?: string
-    senderAddress: string
-    totalAmount: string
-    asset: string
+    streamId: string
     txHash: string
+    sender: string
+    receiver: string
+    amount: bigint | number
+    tokenAddress: string
+    status?: $Enums.DisbursementStatus
     createdAt?: Date | string
-    recipients?: SplitRecipientCreateNestedManyWithoutDisbursementInput
+    completedAt?: Date | string | null
+    ledger: number
+    batchId?: string | null
+    category?: PaymentCategoryCreateNestedOneWithoutDisbursementsInput
   }
 
   export type DisbursementUncheckedCreateInput = {
     id?: string
-    senderAddress: string
-    totalAmount: string
-    asset: string
+    streamId: string
     txHash: string
+    sender: string
+    receiver: string
+    amount: bigint | number
+    tokenAddress: string
+    status?: $Enums.DisbursementStatus
     createdAt?: Date | string
-    recipients?: SplitRecipientUncheckedCreateNestedManyWithoutDisbursementInput
+    completedAt?: Date | string | null
+    ledger: number
+    batchId?: string | null
+    categoryId?: string | null
   }
 
   export type DisbursementUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    senderAddress?: StringFieldUpdateOperationsInput | string
-    totalAmount?: StringFieldUpdateOperationsInput | string
-    asset?: StringFieldUpdateOperationsInput | string
+    streamId?: StringFieldUpdateOperationsInput | string
     txHash?: StringFieldUpdateOperationsInput | string
+    sender?: StringFieldUpdateOperationsInput | string
+    receiver?: StringFieldUpdateOperationsInput | string
+    amount?: BigIntFieldUpdateOperationsInput | bigint | number
+    tokenAddress?: StringFieldUpdateOperationsInput | string
+    status?: EnumDisbursementStatusFieldUpdateOperationsInput | $Enums.DisbursementStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    recipients?: SplitRecipientUpdateManyWithoutDisbursementNestedInput
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    ledger?: IntFieldUpdateOperationsInput | number
+    batchId?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: PaymentCategoryUpdateOneWithoutDisbursementsNestedInput
   }
 
   export type DisbursementUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    senderAddress?: StringFieldUpdateOperationsInput | string
-    totalAmount?: StringFieldUpdateOperationsInput | string
-    asset?: StringFieldUpdateOperationsInput | string
+    streamId?: StringFieldUpdateOperationsInput | string
     txHash?: StringFieldUpdateOperationsInput | string
+    sender?: StringFieldUpdateOperationsInput | string
+    receiver?: StringFieldUpdateOperationsInput | string
+    amount?: BigIntFieldUpdateOperationsInput | bigint | number
+    tokenAddress?: StringFieldUpdateOperationsInput | string
+    status?: EnumDisbursementStatusFieldUpdateOperationsInput | $Enums.DisbursementStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    recipients?: SplitRecipientUncheckedUpdateManyWithoutDisbursementNestedInput
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    ledger?: IntFieldUpdateOperationsInput | number
+    batchId?: NullableStringFieldUpdateOperationsInput | string | null
+    categoryId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type DisbursementCreateManyInput = {
     id?: string
-    senderAddress: string
-    totalAmount: string
-    asset: string
+    streamId: string
     txHash: string
+    sender: string
+    receiver: string
+    amount: bigint | number
+    tokenAddress: string
+    status?: $Enums.DisbursementStatus
     createdAt?: Date | string
+    completedAt?: Date | string | null
+    ledger: number
+    batchId?: string | null
+    categoryId?: string | null
   }
 
   export type DisbursementUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    senderAddress?: StringFieldUpdateOperationsInput | string
-    totalAmount?: StringFieldUpdateOperationsInput | string
-    asset?: StringFieldUpdateOperationsInput | string
+    streamId?: StringFieldUpdateOperationsInput | string
     txHash?: StringFieldUpdateOperationsInput | string
+    sender?: StringFieldUpdateOperationsInput | string
+    receiver?: StringFieldUpdateOperationsInput | string
+    amount?: BigIntFieldUpdateOperationsInput | bigint | number
+    tokenAddress?: StringFieldUpdateOperationsInput | string
+    status?: EnumDisbursementStatusFieldUpdateOperationsInput | $Enums.DisbursementStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    ledger?: IntFieldUpdateOperationsInput | number
+    batchId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type DisbursementUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    senderAddress?: StringFieldUpdateOperationsInput | string
-    totalAmount?: StringFieldUpdateOperationsInput | string
-    asset?: StringFieldUpdateOperationsInput | string
+    streamId?: StringFieldUpdateOperationsInput | string
     txHash?: StringFieldUpdateOperationsInput | string
+    sender?: StringFieldUpdateOperationsInput | string
+    receiver?: StringFieldUpdateOperationsInput | string
+    amount?: BigIntFieldUpdateOperationsInput | bigint | number
+    tokenAddress?: StringFieldUpdateOperationsInput | string
+    status?: EnumDisbursementStatusFieldUpdateOperationsInput | $Enums.DisbursementStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type SplitRecipientCreateInput = {
-    id?: string
-    recipientAddress: string
-    amount: string
-    status?: $Enums.PayoutStatus
-    disbursement: DisbursementCreateNestedOneWithoutRecipientsInput
-  }
-
-  export type SplitRecipientUncheckedCreateInput = {
-    id?: string
-    disbursementId: string
-    recipientAddress: string
-    amount: string
-    status?: $Enums.PayoutStatus
-  }
-
-  export type SplitRecipientUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    recipientAddress?: StringFieldUpdateOperationsInput | string
-    amount?: StringFieldUpdateOperationsInput | string
-    status?: EnumPayoutStatusFieldUpdateOperationsInput | $Enums.PayoutStatus
-    disbursement?: DisbursementUpdateOneRequiredWithoutRecipientsNestedInput
-  }
-
-  export type SplitRecipientUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    disbursementId?: StringFieldUpdateOperationsInput | string
-    recipientAddress?: StringFieldUpdateOperationsInput | string
-    amount?: StringFieldUpdateOperationsInput | string
-    status?: EnumPayoutStatusFieldUpdateOperationsInput | $Enums.PayoutStatus
-  }
-
-  export type SplitRecipientCreateManyInput = {
-    id?: string
-    disbursementId: string
-    recipientAddress: string
-    amount: string
-    status?: $Enums.PayoutStatus
-  }
-
-  export type SplitRecipientUpdateManyMutationInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    recipientAddress?: StringFieldUpdateOperationsInput | string
-    amount?: StringFieldUpdateOperationsInput | string
-    status?: EnumPayoutStatusFieldUpdateOperationsInput | $Enums.PayoutStatus
-  }
-
-  export type SplitRecipientUncheckedUpdateManyInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    disbursementId?: StringFieldUpdateOperationsInput | string
-    recipientAddress?: StringFieldUpdateOperationsInput | string
-    amount?: StringFieldUpdateOperationsInput | string
-    status?: EnumPayoutStatusFieldUpdateOperationsInput | $Enums.PayoutStatus
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    ledger?: IntFieldUpdateOperationsInput | number
+    batchId?: NullableStringFieldUpdateOperationsInput | string | null
+    categoryId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type AssetMappingCreateInput = {
@@ -44153,12 +55352,132 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type StreamTemplateCreateInput = {
+    id?: string
+    name: string
+    asset: string
+    recipientAddress: string
+    splitEnabled?: boolean
+    splitAddress?: string | null
+    splitPercent?: number
+    totalAmount: string
+    rateType: string
+    durationPreset: string
+    usageCount?: number
+    createdBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type StreamTemplateUncheckedCreateInput = {
+    id?: string
+    name: string
+    asset: string
+    recipientAddress: string
+    splitEnabled?: boolean
+    splitAddress?: string | null
+    splitPercent?: number
+    totalAmount: string
+    rateType: string
+    durationPreset: string
+    usageCount?: number
+    createdBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type StreamTemplateUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    asset?: StringFieldUpdateOperationsInput | string
+    recipientAddress?: StringFieldUpdateOperationsInput | string
+    splitEnabled?: BoolFieldUpdateOperationsInput | boolean
+    splitAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    splitPercent?: IntFieldUpdateOperationsInput | number
+    totalAmount?: StringFieldUpdateOperationsInput | string
+    rateType?: StringFieldUpdateOperationsInput | string
+    durationPreset?: StringFieldUpdateOperationsInput | string
+    usageCount?: IntFieldUpdateOperationsInput | number
+    createdBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type StreamTemplateUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    asset?: StringFieldUpdateOperationsInput | string
+    recipientAddress?: StringFieldUpdateOperationsInput | string
+    splitEnabled?: BoolFieldUpdateOperationsInput | boolean
+    splitAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    splitPercent?: IntFieldUpdateOperationsInput | number
+    totalAmount?: StringFieldUpdateOperationsInput | string
+    rateType?: StringFieldUpdateOperationsInput | string
+    durationPreset?: StringFieldUpdateOperationsInput | string
+    usageCount?: IntFieldUpdateOperationsInput | number
+    createdBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type StreamTemplateCreateManyInput = {
+    id?: string
+    name: string
+    asset: string
+    recipientAddress: string
+    splitEnabled?: boolean
+    splitAddress?: string | null
+    splitPercent?: number
+    totalAmount: string
+    rateType: string
+    durationPreset: string
+    usageCount?: number
+    createdBy: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type StreamTemplateUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    asset?: StringFieldUpdateOperationsInput | string
+    recipientAddress?: StringFieldUpdateOperationsInput | string
+    splitEnabled?: BoolFieldUpdateOperationsInput | boolean
+    splitAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    splitPercent?: IntFieldUpdateOperationsInput | number
+    totalAmount?: StringFieldUpdateOperationsInput | string
+    rateType?: StringFieldUpdateOperationsInput | string
+    durationPreset?: StringFieldUpdateOperationsInput | string
+    usageCount?: IntFieldUpdateOperationsInput | number
+    createdBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type StreamTemplateUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    asset?: StringFieldUpdateOperationsInput | string
+    recipientAddress?: StringFieldUpdateOperationsInput | string
+    splitEnabled?: BoolFieldUpdateOperationsInput | boolean
+    splitAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    splitPercent?: IntFieldUpdateOperationsInput | number
+    totalAmount?: StringFieldUpdateOperationsInput | string
+    rateType?: StringFieldUpdateOperationsInput | string
+    durationPreset?: StringFieldUpdateOperationsInput | string
+    usageCount?: IntFieldUpdateOperationsInput | number
+    createdBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type SplitLinkCreateInput = {
     id?: string
     slug: string
     fullUrl: string
     payloadHash: string
     creatorAddress: string
+    passwordHash?: string | null
     clickCount?: number
     lastClickedAt?: Date | string | null
     expiresAt?: Date | string | null
@@ -44171,6 +55490,7 @@ export namespace Prisma {
     fullUrl: string
     payloadHash: string
     creatorAddress: string
+    passwordHash?: string | null
     clickCount?: number
     lastClickedAt?: Date | string | null
     expiresAt?: Date | string | null
@@ -44183,6 +55503,7 @@ export namespace Prisma {
     fullUrl?: StringFieldUpdateOperationsInput | string
     payloadHash?: StringFieldUpdateOperationsInput | string
     creatorAddress?: StringFieldUpdateOperationsInput | string
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     clickCount?: IntFieldUpdateOperationsInput | number
     lastClickedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -44195,6 +55516,7 @@ export namespace Prisma {
     fullUrl?: StringFieldUpdateOperationsInput | string
     payloadHash?: StringFieldUpdateOperationsInput | string
     creatorAddress?: StringFieldUpdateOperationsInput | string
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     clickCount?: IntFieldUpdateOperationsInput | number
     lastClickedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -44207,6 +55529,7 @@ export namespace Prisma {
     fullUrl: string
     payloadHash: string
     creatorAddress: string
+    passwordHash?: string | null
     clickCount?: number
     lastClickedAt?: Date | string | null
     expiresAt?: Date | string | null
@@ -44219,6 +55542,7 @@ export namespace Prisma {
     fullUrl?: StringFieldUpdateOperationsInput | string
     payloadHash?: StringFieldUpdateOperationsInput | string
     creatorAddress?: StringFieldUpdateOperationsInput | string
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     clickCount?: IntFieldUpdateOperationsInput | number
     lastClickedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -44231,9 +55555,213 @@ export namespace Prisma {
     fullUrl?: StringFieldUpdateOperationsInput | string
     payloadHash?: StringFieldUpdateOperationsInput | string
     creatorAddress?: StringFieldUpdateOperationsInput | string
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
     clickCount?: IntFieldUpdateOperationsInput | number
     lastClickedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type OfacAuditLogCreateInput = {
+    id?: string
+    address: string
+    isSanctioned: boolean
+    checkedAt: Date | string
+    source: string
+    createdAt?: Date | string
+  }
+
+  export type OfacAuditLogUncheckedCreateInput = {
+    id?: string
+    address: string
+    isSanctioned: boolean
+    checkedAt: Date | string
+    source: string
+    createdAt?: Date | string
+  }
+
+  export type OfacAuditLogUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    address?: StringFieldUpdateOperationsInput | string
+    isSanctioned?: BoolFieldUpdateOperationsInput | boolean
+    checkedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    source?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type OfacAuditLogUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    address?: StringFieldUpdateOperationsInput | string
+    isSanctioned?: BoolFieldUpdateOperationsInput | boolean
+    checkedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    source?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type OfacAuditLogCreateManyInput = {
+    id?: string
+    address: string
+    isSanctioned: boolean
+    checkedAt: Date | string
+    source: string
+    createdAt?: Date | string
+  }
+
+  export type OfacAuditLogUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    address?: StringFieldUpdateOperationsInput | string
+    isSanctioned?: BoolFieldUpdateOperationsInput | boolean
+    checkedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    source?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type OfacAuditLogUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    address?: StringFieldUpdateOperationsInput | string
+    isSanctioned?: BoolFieldUpdateOperationsInput | boolean
+    checkedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    source?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AdminAuditLogCreateInput = {
+    id?: string
+    timestamp?: Date | string
+    userId?: string | null
+    userEmail?: string | null
+    method: string
+    path: string
+    statusCode: number
+    executionTimeMs: number
+    clientIp?: string | null
+    userAgent?: string | null
+    requestBody?: string | null
+    responseBody?: string | null
+    beforeSnapshot?: string | null
+    afterSnapshot?: string | null
+    error?: string | null
+    changesSummary?: string | null
+    createdAt?: Date | string
+  }
+
+  export type AdminAuditLogUncheckedCreateInput = {
+    id?: string
+    timestamp?: Date | string
+    userId?: string | null
+    userEmail?: string | null
+    method: string
+    path: string
+    statusCode: number
+    executionTimeMs: number
+    clientIp?: string | null
+    userAgent?: string | null
+    requestBody?: string | null
+    responseBody?: string | null
+    beforeSnapshot?: string | null
+    afterSnapshot?: string | null
+    error?: string | null
+    changesSummary?: string | null
+    createdAt?: Date | string
+  }
+
+  export type AdminAuditLogUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    userEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    method?: StringFieldUpdateOperationsInput | string
+    path?: StringFieldUpdateOperationsInput | string
+    statusCode?: IntFieldUpdateOperationsInput | number
+    executionTimeMs?: FloatFieldUpdateOperationsInput | number
+    clientIp?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    requestBody?: NullableStringFieldUpdateOperationsInput | string | null
+    responseBody?: NullableStringFieldUpdateOperationsInput | string | null
+    beforeSnapshot?: NullableStringFieldUpdateOperationsInput | string | null
+    afterSnapshot?: NullableStringFieldUpdateOperationsInput | string | null
+    error?: NullableStringFieldUpdateOperationsInput | string | null
+    changesSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AdminAuditLogUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    userEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    method?: StringFieldUpdateOperationsInput | string
+    path?: StringFieldUpdateOperationsInput | string
+    statusCode?: IntFieldUpdateOperationsInput | number
+    executionTimeMs?: FloatFieldUpdateOperationsInput | number
+    clientIp?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    requestBody?: NullableStringFieldUpdateOperationsInput | string | null
+    responseBody?: NullableStringFieldUpdateOperationsInput | string | null
+    beforeSnapshot?: NullableStringFieldUpdateOperationsInput | string | null
+    afterSnapshot?: NullableStringFieldUpdateOperationsInput | string | null
+    error?: NullableStringFieldUpdateOperationsInput | string | null
+    changesSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AdminAuditLogCreateManyInput = {
+    id?: string
+    timestamp?: Date | string
+    userId?: string | null
+    userEmail?: string | null
+    method: string
+    path: string
+    statusCode: number
+    executionTimeMs: number
+    clientIp?: string | null
+    userAgent?: string | null
+    requestBody?: string | null
+    responseBody?: string | null
+    beforeSnapshot?: string | null
+    afterSnapshot?: string | null
+    error?: string | null
+    changesSummary?: string | null
+    createdAt?: Date | string
+  }
+
+  export type AdminAuditLogUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    userEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    method?: StringFieldUpdateOperationsInput | string
+    path?: StringFieldUpdateOperationsInput | string
+    statusCode?: IntFieldUpdateOperationsInput | number
+    executionTimeMs?: FloatFieldUpdateOperationsInput | number
+    clientIp?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    requestBody?: NullableStringFieldUpdateOperationsInput | string | null
+    responseBody?: NullableStringFieldUpdateOperationsInput | string | null
+    beforeSnapshot?: NullableStringFieldUpdateOperationsInput | string | null
+    afterSnapshot?: NullableStringFieldUpdateOperationsInput | string | null
+    error?: NullableStringFieldUpdateOperationsInput | string | null
+    changesSummary?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AdminAuditLogUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    timestamp?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    userEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    method?: StringFieldUpdateOperationsInput | string
+    path?: StringFieldUpdateOperationsInput | string
+    statusCode?: IntFieldUpdateOperationsInput | number
+    executionTimeMs?: FloatFieldUpdateOperationsInput | number
+    clientIp?: NullableStringFieldUpdateOperationsInput | string | null
+    userAgent?: NullableStringFieldUpdateOperationsInput | string | null
+    requestBody?: NullableStringFieldUpdateOperationsInput | string | null
+    responseBody?: NullableStringFieldUpdateOperationsInput | string | null
+    beforeSnapshot?: NullableStringFieldUpdateOperationsInput | string | null
+    afterSnapshot?: NullableStringFieldUpdateOperationsInput | string | null
+    error?: NullableStringFieldUpdateOperationsInput | string | null
+    changesSummary?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -44267,49 +55795,9 @@ export namespace Prisma {
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
-  export type IntFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntFilter<$PrismaModel> | number
-  }
-
-  export type IntNullableFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableFilter<$PrismaModel> | number | null
-  }
-
-  export type EnumStreamStatusFilter<$PrismaModel = never> = {
-    equals?: $Enums.StreamStatus | EnumStreamStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.StreamStatus[] | ListEnumStreamStatusFieldRefInput<$PrismaModel>
-    notIn?: $Enums.StreamStatus[] | ListEnumStreamStatusFieldRefInput<$PrismaModel>
-    not?: NestedEnumStreamStatusFilter<$PrismaModel> | $Enums.StreamStatus
-  }
-
   export type BoolFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel>
     not?: NestedBoolFilter<$PrismaModel> | boolean
-  }
-
-  export type DateTimeNullableFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
   }
 
   export type DateTimeFilter<$PrismaModel = never> = {
@@ -44323,100 +55811,80 @@ export namespace Prisma {
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
   }
 
+  export type PaymentCategoryRuleListRelationFilter = {
+    every?: PaymentCategoryRuleWhereInput
+    some?: PaymentCategoryRuleWhereInput
+    none?: PaymentCategoryRuleWhereInput
+  }
+
+  export type StreamListRelationFilter = {
+    every?: StreamWhereInput
+    some?: StreamWhereInput
+    none?: StreamWhereInput
+  }
+
+  export type DisbursementListRelationFilter = {
+    every?: DisbursementWhereInput
+    some?: DisbursementWhereInput
+    none?: DisbursementWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
   }
 
-  export type StreamCountOrderByAggregateInput = {
+  export type PaymentCategoryRuleOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type StreamOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type DisbursementOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type PaymentCategoryOwnerAddressNameCompoundUniqueInput = {
+    ownerAddress: string
+    name: string
+  }
+
+  export type PaymentCategoryCountOrderByAggregateInput = {
     id?: SortOrder
-    streamId?: SortOrder
-    txHash?: SortOrder
-    version?: SortOrder
-    sender?: SortOrder
-    receiver?: SortOrder
-    contractId?: SortOrder
-    tokenAddress?: SortOrder
-    amount?: SortOrder
-    duration?: SortOrder
-    status?: SortOrder
-    withdrawn?: SortOrder
-    legacy?: SortOrder
-    migrated?: SortOrder
-    isPrivate?: SortOrder
-    yieldEnabled?: SortOrder
-    vaultContractId?: SortOrder
-    vaultShareBalance?: SortOrder
-    vaultRatioScale?: SortOrder
-    accruedInterest?: SortOrder
-    lastYieldAccrualAt?: SortOrder
-    isDust?: SortOrder
-    affiliateId?: SortOrder
+    name?: SortOrder
+    description?: SortOrder
+    color?: SortOrder
+    icon?: SortOrder
+    ownerAddress?: SortOrder
+    isDefault?: SortOrder
     createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
-  export type StreamAvgOrderByAggregateInput = {
-    version?: SortOrder
-    duration?: SortOrder
-  }
-
-  export type StreamMaxOrderByAggregateInput = {
+  export type PaymentCategoryMaxOrderByAggregateInput = {
     id?: SortOrder
-    streamId?: SortOrder
-    txHash?: SortOrder
-    version?: SortOrder
-    sender?: SortOrder
-    receiver?: SortOrder
-    contractId?: SortOrder
-    tokenAddress?: SortOrder
-    amount?: SortOrder
-    duration?: SortOrder
-    status?: SortOrder
-    withdrawn?: SortOrder
-    legacy?: SortOrder
-    migrated?: SortOrder
-    isPrivate?: SortOrder
-    yieldEnabled?: SortOrder
-    vaultContractId?: SortOrder
-    vaultShareBalance?: SortOrder
-    vaultRatioScale?: SortOrder
-    accruedInterest?: SortOrder
-    lastYieldAccrualAt?: SortOrder
-    isDust?: SortOrder
-    affiliateId?: SortOrder
+    name?: SortOrder
+    description?: SortOrder
+    color?: SortOrder
+    icon?: SortOrder
+    ownerAddress?: SortOrder
+    isDefault?: SortOrder
     createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
-  export type StreamMinOrderByAggregateInput = {
+  export type PaymentCategoryMinOrderByAggregateInput = {
     id?: SortOrder
-    streamId?: SortOrder
-    txHash?: SortOrder
-    version?: SortOrder
-    sender?: SortOrder
-    receiver?: SortOrder
-    contractId?: SortOrder
-    tokenAddress?: SortOrder
-    amount?: SortOrder
-    duration?: SortOrder
-    status?: SortOrder
-    withdrawn?: SortOrder
-    legacy?: SortOrder
-    migrated?: SortOrder
-    isPrivate?: SortOrder
-    yieldEnabled?: SortOrder
-    vaultContractId?: SortOrder
-    vaultShareBalance?: SortOrder
-    vaultRatioScale?: SortOrder
-    accruedInterest?: SortOrder
-    lastYieldAccrualAt?: SortOrder
-    isDust?: SortOrder
-    affiliateId?: SortOrder
+    name?: SortOrder
+    description?: SortOrder
+    color?: SortOrder
+    icon?: SortOrder
+    ownerAddress?: SortOrder
+    isDefault?: SortOrder
     createdAt?: SortOrder
-  }
-
-  export type StreamSumOrderByAggregateInput = {
-    version?: SortOrder
-    duration?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type StringWithAggregatesFilter<$PrismaModel = never> = {
@@ -44455,6 +55923,121 @@ export namespace Prisma {
     _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
+  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
+  }
+
+  export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedDateTimeFilter<$PrismaModel>
+    _max?: NestedDateTimeFilter<$PrismaModel>
+  }
+
+  export type PaymentMetadataEntityTypeEntityIdKeyCompoundUniqueInput = {
+    entityType: string
+    entityId: string
+    key: string
+  }
+
+  export type PaymentMetadataCountOrderByAggregateInput = {
+    id?: SortOrder
+    entityType?: SortOrder
+    entityId?: SortOrder
+    key?: SortOrder
+    value?: SortOrder
+    ownerAddress?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PaymentMetadataMaxOrderByAggregateInput = {
+    id?: SortOrder
+    entityType?: SortOrder
+    entityId?: SortOrder
+    key?: SortOrder
+    value?: SortOrder
+    ownerAddress?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PaymentMetadataMinOrderByAggregateInput = {
+    id?: SortOrder
+    entityType?: SortOrder
+    entityId?: SortOrder
+    key?: SortOrder
+    value?: SortOrder
+    ownerAddress?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type IntFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntFilter<$PrismaModel> | number
+  }
+
+  export type PaymentCategoryRelationFilter = {
+    is?: PaymentCategoryWhereInput
+    isNot?: PaymentCategoryWhereInput
+  }
+
+  export type PaymentCategoryRuleCountOrderByAggregateInput = {
+    id?: SortOrder
+    categoryId?: SortOrder
+    field?: SortOrder
+    operator?: SortOrder
+    value?: SortOrder
+    priority?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type PaymentCategoryRuleAvgOrderByAggregateInput = {
+    priority?: SortOrder
+  }
+
+  export type PaymentCategoryRuleMaxOrderByAggregateInput = {
+    id?: SortOrder
+    categoryId?: SortOrder
+    field?: SortOrder
+    operator?: SortOrder
+    value?: SortOrder
+    priority?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type PaymentCategoryRuleMinOrderByAggregateInput = {
+    id?: SortOrder
+    categoryId?: SortOrder
+    field?: SortOrder
+    operator?: SortOrder
+    value?: SortOrder
+    priority?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type PaymentCategoryRuleSumOrderByAggregateInput = {
+    priority?: SortOrder
+  }
+
   export type IntWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[] | ListIntFieldRefInput<$PrismaModel>
@@ -44469,6 +56052,134 @@ export namespace Prisma {
     _sum?: NestedIntFilter<$PrismaModel>
     _min?: NestedIntFilter<$PrismaModel>
     _max?: NestedIntFilter<$PrismaModel>
+  }
+
+  export type IntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type EnumStreamStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.StreamStatus | EnumStreamStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.StreamStatus[] | ListEnumStreamStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.StreamStatus[] | ListEnumStreamStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumStreamStatusFilter<$PrismaModel> | $Enums.StreamStatus
+  }
+
+  export type DateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
+  export type PaymentCategoryNullableRelationFilter = {
+    is?: PaymentCategoryWhereInput | null
+    isNot?: PaymentCategoryWhereInput | null
+  }
+
+  export type StreamCountOrderByAggregateInput = {
+    id?: SortOrder
+    streamId?: SortOrder
+    txHash?: SortOrder
+    version?: SortOrder
+    sender?: SortOrder
+    receiver?: SortOrder
+    contractId?: SortOrder
+    tokenAddress?: SortOrder
+    amount?: SortOrder
+    duration?: SortOrder
+    status?: SortOrder
+    withdrawn?: SortOrder
+    legacy?: SortOrder
+    migrated?: SortOrder
+    isPrivate?: SortOrder
+    yieldEnabled?: SortOrder
+    vaultContractId?: SortOrder
+    vaultShareBalance?: SortOrder
+    vaultRatioScale?: SortOrder
+    accruedInterest?: SortOrder
+    lastYieldAccrualAt?: SortOrder
+    isDust?: SortOrder
+    affiliateId?: SortOrder
+    categoryId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type StreamAvgOrderByAggregateInput = {
+    version?: SortOrder
+    duration?: SortOrder
+  }
+
+  export type StreamMaxOrderByAggregateInput = {
+    id?: SortOrder
+    streamId?: SortOrder
+    txHash?: SortOrder
+    version?: SortOrder
+    sender?: SortOrder
+    receiver?: SortOrder
+    contractId?: SortOrder
+    tokenAddress?: SortOrder
+    amount?: SortOrder
+    duration?: SortOrder
+    status?: SortOrder
+    withdrawn?: SortOrder
+    legacy?: SortOrder
+    migrated?: SortOrder
+    isPrivate?: SortOrder
+    yieldEnabled?: SortOrder
+    vaultContractId?: SortOrder
+    vaultShareBalance?: SortOrder
+    vaultRatioScale?: SortOrder
+    accruedInterest?: SortOrder
+    lastYieldAccrualAt?: SortOrder
+    isDust?: SortOrder
+    affiliateId?: SortOrder
+    categoryId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type StreamMinOrderByAggregateInput = {
+    id?: SortOrder
+    streamId?: SortOrder
+    txHash?: SortOrder
+    version?: SortOrder
+    sender?: SortOrder
+    receiver?: SortOrder
+    contractId?: SortOrder
+    tokenAddress?: SortOrder
+    amount?: SortOrder
+    duration?: SortOrder
+    status?: SortOrder
+    withdrawn?: SortOrder
+    legacy?: SortOrder
+    migrated?: SortOrder
+    isPrivate?: SortOrder
+    yieldEnabled?: SortOrder
+    vaultContractId?: SortOrder
+    vaultShareBalance?: SortOrder
+    vaultRatioScale?: SortOrder
+    accruedInterest?: SortOrder
+    lastYieldAccrualAt?: SortOrder
+    isDust?: SortOrder
+    affiliateId?: SortOrder
+    categoryId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type StreamSumOrderByAggregateInput = {
+    version?: SortOrder
+    duration?: SortOrder
   }
 
   export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -44497,14 +56208,6 @@ export namespace Prisma {
     _max?: NestedEnumStreamStatusFilter<$PrismaModel>
   }
 
-  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
-  }
-
   export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
@@ -44517,20 +56220,6 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedDateTimeNullableFilter<$PrismaModel>
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
-  }
-
-  export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedDateTimeFilter<$PrismaModel>
-    _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
   export type StringNullableListFilter<$PrismaModel = never> = {
@@ -45146,6 +56835,37 @@ export namespace Prisma {
     votesAgainst?: SortOrder
   }
 
+  export type EventCountOrderByAggregateInput = {
+    id?: SortOrder
+    eventId?: SortOrder
+    streamId?: SortOrder
+    eventType?: SortOrder
+    payload?: SortOrder
+    timestamp?: SortOrder
+    hash?: SortOrder
+    previousHash?: SortOrder
+  }
+
+  export type EventMaxOrderByAggregateInput = {
+    id?: SortOrder
+    eventId?: SortOrder
+    streamId?: SortOrder
+    eventType?: SortOrder
+    timestamp?: SortOrder
+    hash?: SortOrder
+    previousHash?: SortOrder
+  }
+
+  export type EventMinOrderByAggregateInput = {
+    id?: SortOrder
+    eventId?: SortOrder
+    streamId?: SortOrder
+    eventType?: SortOrder
+    timestamp?: SortOrder
+    hash?: SortOrder
+    previousHash?: SortOrder
+  }
+
   export type EnumOrgRoleFilter<$PrismaModel = never> = {
     equals?: $Enums.OrgRole | EnumOrgRoleFieldRefInput<$PrismaModel>
     in?: $Enums.OrgRole[] | ListEnumOrgRoleFieldRefInput<$PrismaModel>
@@ -45269,6 +56989,62 @@ export namespace Prisma {
 
   export type LedgerHashSumOrderByAggregateInput = {
     sequence?: SortOrder
+  }
+
+  export type SyncMetadataCountOrderByAggregateInput = {
+    id?: SortOrder
+    lastLedgerSequence?: SortOrder
+  }
+
+  export type SyncMetadataAvgOrderByAggregateInput = {
+    lastLedgerSequence?: SortOrder
+  }
+
+  export type SyncMetadataMaxOrderByAggregateInput = {
+    id?: SortOrder
+    lastLedgerSequence?: SortOrder
+  }
+
+  export type SyncMetadataMinOrderByAggregateInput = {
+    id?: SortOrder
+    lastLedgerSequence?: SortOrder
+  }
+
+  export type SyncMetadataSumOrderByAggregateInput = {
+    lastLedgerSequence?: SortOrder
+  }
+
+  export type ClawbackHistoryCountOrderByAggregateInput = {
+    id?: SortOrder
+    streamId?: SortOrder
+    amount?: SortOrder
+    reason?: SortOrder
+    createdAt?: SortOrder
+    executedAt?: SortOrder
+    txHash?: SortOrder
+    status?: SortOrder
+  }
+
+  export type ClawbackHistoryMaxOrderByAggregateInput = {
+    id?: SortOrder
+    streamId?: SortOrder
+    amount?: SortOrder
+    reason?: SortOrder
+    createdAt?: SortOrder
+    executedAt?: SortOrder
+    txHash?: SortOrder
+    status?: SortOrder
+  }
+
+  export type ClawbackHistoryMinOrderByAggregateInput = {
+    id?: SortOrder
+    streamId?: SortOrder
+    amount?: SortOrder
+    reason?: SortOrder
+    createdAt?: SortOrder
+    executedAt?: SortOrder
+    txHash?: SortOrder
+    status?: SortOrder
   }
 
   export type EnumNotificationPlatformFilter<$PrismaModel = never> = {
@@ -45519,6 +57295,10 @@ export namespace Prisma {
     imageUrl?: SortOrder
     decimals?: SortOrder
     isVerified?: SortOrder
+    stellarExpertVerified?: SortOrder
+    tomlUrl?: SortOrder
+    orgVerified?: SortOrder
+    orgHomeDomain?: SortOrder
     lastFetchedAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -45537,6 +57317,10 @@ export namespace Prisma {
     imageUrl?: SortOrder
     decimals?: SortOrder
     isVerified?: SortOrder
+    stellarExpertVerified?: SortOrder
+    tomlUrl?: SortOrder
+    orgVerified?: SortOrder
+    orgHomeDomain?: SortOrder
     lastFetchedAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -45551,6 +57335,10 @@ export namespace Prisma {
     imageUrl?: SortOrder
     decimals?: SortOrder
     isVerified?: SortOrder
+    stellarExpertVerified?: SortOrder
+    tomlUrl?: SortOrder
+    orgVerified?: SortOrder
+    orgHomeDomain?: SortOrder
     lastFetchedAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -45663,87 +57451,131 @@ export namespace Prisma {
     decimals?: SortOrder
   }
 
-  export type SplitRecipientListRelationFilter = {
-    every?: SplitRecipientWhereInput
-    some?: SplitRecipientWhereInput
-    none?: SplitRecipientWhereInput
+  export type ArchivedDisbursementCountOrderByAggregateInput = {
+    id?: SortOrder
+    streamId?: SortOrder
+    txHash?: SortOrder
+    sender?: SortOrder
+    receiver?: SortOrder
+    amount?: SortOrder
+    tokenAddress?: SortOrder
+    status?: SortOrder
+    completedAt?: SortOrder
+    archivedAt?: SortOrder
+    originalLedger?: SortOrder
   }
 
-  export type SplitRecipientOrderByRelationAggregateInput = {
-    _count?: SortOrder
+  export type ArchivedDisbursementAvgOrderByAggregateInput = {
+    amount?: SortOrder
+    originalLedger?: SortOrder
+  }
+
+  export type ArchivedDisbursementMaxOrderByAggregateInput = {
+    id?: SortOrder
+    streamId?: SortOrder
+    txHash?: SortOrder
+    sender?: SortOrder
+    receiver?: SortOrder
+    amount?: SortOrder
+    tokenAddress?: SortOrder
+    status?: SortOrder
+    completedAt?: SortOrder
+    archivedAt?: SortOrder
+    originalLedger?: SortOrder
+  }
+
+  export type ArchivedDisbursementMinOrderByAggregateInput = {
+    id?: SortOrder
+    streamId?: SortOrder
+    txHash?: SortOrder
+    sender?: SortOrder
+    receiver?: SortOrder
+    amount?: SortOrder
+    tokenAddress?: SortOrder
+    status?: SortOrder
+    completedAt?: SortOrder
+    archivedAt?: SortOrder
+    originalLedger?: SortOrder
+  }
+
+  export type ArchivedDisbursementSumOrderByAggregateInput = {
+    amount?: SortOrder
+    originalLedger?: SortOrder
+  }
+
+  export type EnumDisbursementStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.DisbursementStatus | EnumDisbursementStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.DisbursementStatus[] | ListEnumDisbursementStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.DisbursementStatus[] | ListEnumDisbursementStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumDisbursementStatusFilter<$PrismaModel> | $Enums.DisbursementStatus
   }
 
   export type DisbursementCountOrderByAggregateInput = {
     id?: SortOrder
-    senderAddress?: SortOrder
-    totalAmount?: SortOrder
-    asset?: SortOrder
+    streamId?: SortOrder
     txHash?: SortOrder
+    sender?: SortOrder
+    receiver?: SortOrder
+    amount?: SortOrder
+    tokenAddress?: SortOrder
+    status?: SortOrder
     createdAt?: SortOrder
+    completedAt?: SortOrder
+    ledger?: SortOrder
+    batchId?: SortOrder
+    categoryId?: SortOrder
+  }
+
+  export type DisbursementAvgOrderByAggregateInput = {
+    amount?: SortOrder
+    ledger?: SortOrder
   }
 
   export type DisbursementMaxOrderByAggregateInput = {
     id?: SortOrder
-    senderAddress?: SortOrder
-    totalAmount?: SortOrder
-    asset?: SortOrder
+    streamId?: SortOrder
     txHash?: SortOrder
+    sender?: SortOrder
+    receiver?: SortOrder
+    amount?: SortOrder
+    tokenAddress?: SortOrder
+    status?: SortOrder
     createdAt?: SortOrder
+    completedAt?: SortOrder
+    ledger?: SortOrder
+    batchId?: SortOrder
+    categoryId?: SortOrder
   }
 
   export type DisbursementMinOrderByAggregateInput = {
     id?: SortOrder
-    senderAddress?: SortOrder
-    totalAmount?: SortOrder
-    asset?: SortOrder
+    streamId?: SortOrder
     txHash?: SortOrder
+    sender?: SortOrder
+    receiver?: SortOrder
+    amount?: SortOrder
+    tokenAddress?: SortOrder
+    status?: SortOrder
     createdAt?: SortOrder
+    completedAt?: SortOrder
+    ledger?: SortOrder
+    batchId?: SortOrder
+    categoryId?: SortOrder
   }
 
-  export type EnumPayoutStatusFilter<$PrismaModel = never> = {
-    equals?: $Enums.PayoutStatus | EnumPayoutStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.PayoutStatus[] | ListEnumPayoutStatusFieldRefInput<$PrismaModel>
-    notIn?: $Enums.PayoutStatus[] | ListEnumPayoutStatusFieldRefInput<$PrismaModel>
-    not?: NestedEnumPayoutStatusFilter<$PrismaModel> | $Enums.PayoutStatus
-  }
-
-  export type DisbursementRelationFilter = {
-    is?: DisbursementWhereInput
-    isNot?: DisbursementWhereInput
-  }
-
-  export type SplitRecipientCountOrderByAggregateInput = {
-    id?: SortOrder
-    disbursementId?: SortOrder
-    recipientAddress?: SortOrder
+  export type DisbursementSumOrderByAggregateInput = {
     amount?: SortOrder
-    status?: SortOrder
+    ledger?: SortOrder
   }
 
-  export type SplitRecipientMaxOrderByAggregateInput = {
-    id?: SortOrder
-    disbursementId?: SortOrder
-    recipientAddress?: SortOrder
-    amount?: SortOrder
-    status?: SortOrder
-  }
-
-  export type SplitRecipientMinOrderByAggregateInput = {
-    id?: SortOrder
-    disbursementId?: SortOrder
-    recipientAddress?: SortOrder
-    amount?: SortOrder
-    status?: SortOrder
-  }
-
-  export type EnumPayoutStatusWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.PayoutStatus | EnumPayoutStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.PayoutStatus[] | ListEnumPayoutStatusFieldRefInput<$PrismaModel>
-    notIn?: $Enums.PayoutStatus[] | ListEnumPayoutStatusFieldRefInput<$PrismaModel>
-    not?: NestedEnumPayoutStatusWithAggregatesFilter<$PrismaModel> | $Enums.PayoutStatus
+  export type EnumDisbursementStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.DisbursementStatus | EnumDisbursementStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.DisbursementStatus[] | ListEnumDisbursementStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.DisbursementStatus[] | ListEnumDisbursementStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumDisbursementStatusWithAggregatesFilter<$PrismaModel> | $Enums.DisbursementStatus
     _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumPayoutStatusFilter<$PrismaModel>
-    _max?: NestedEnumPayoutStatusFilter<$PrismaModel>
+    _min?: NestedEnumDisbursementStatusFilter<$PrismaModel>
+    _max?: NestedEnumDisbursementStatusFilter<$PrismaModel>
   }
 
   export type AssetMappingCountOrderByAggregateInput = {
@@ -46231,12 +58063,74 @@ export namespace Prisma {
     decimals?: SortOrder
   }
 
+  export type StreamTemplateCountOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    asset?: SortOrder
+    recipientAddress?: SortOrder
+    splitEnabled?: SortOrder
+    splitAddress?: SortOrder
+    splitPercent?: SortOrder
+    totalAmount?: SortOrder
+    rateType?: SortOrder
+    durationPreset?: SortOrder
+    usageCount?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type StreamTemplateAvgOrderByAggregateInput = {
+    splitPercent?: SortOrder
+    usageCount?: SortOrder
+  }
+
+  export type StreamTemplateMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    asset?: SortOrder
+    recipientAddress?: SortOrder
+    splitEnabled?: SortOrder
+    splitAddress?: SortOrder
+    splitPercent?: SortOrder
+    totalAmount?: SortOrder
+    rateType?: SortOrder
+    durationPreset?: SortOrder
+    usageCount?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type StreamTemplateMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    asset?: SortOrder
+    recipientAddress?: SortOrder
+    splitEnabled?: SortOrder
+    splitAddress?: SortOrder
+    splitPercent?: SortOrder
+    totalAmount?: SortOrder
+    rateType?: SortOrder
+    durationPreset?: SortOrder
+    usageCount?: SortOrder
+    createdBy?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type StreamTemplateSumOrderByAggregateInput = {
+    splitPercent?: SortOrder
+    usageCount?: SortOrder
+  }
+
   export type SplitLinkCountOrderByAggregateInput = {
     id?: SortOrder
     slug?: SortOrder
     fullUrl?: SortOrder
     payloadHash?: SortOrder
     creatorAddress?: SortOrder
+    passwordHash?: SortOrder
     clickCount?: SortOrder
     lastClickedAt?: SortOrder
     expiresAt?: SortOrder
@@ -46253,6 +58147,7 @@ export namespace Prisma {
     fullUrl?: SortOrder
     payloadHash?: SortOrder
     creatorAddress?: SortOrder
+    passwordHash?: SortOrder
     clickCount?: SortOrder
     lastClickedAt?: SortOrder
     expiresAt?: SortOrder
@@ -46265,6 +58160,7 @@ export namespace Prisma {
     fullUrl?: SortOrder
     payloadHash?: SortOrder
     creatorAddress?: SortOrder
+    passwordHash?: SortOrder
     clickCount?: SortOrder
     lastClickedAt?: SortOrder
     expiresAt?: SortOrder
@@ -46275,6 +58171,145 @@ export namespace Prisma {
     clickCount?: SortOrder
   }
 
+  export type OfacAuditLogCountOrderByAggregateInput = {
+    id?: SortOrder
+    address?: SortOrder
+    isSanctioned?: SortOrder
+    checkedAt?: SortOrder
+    source?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type OfacAuditLogMaxOrderByAggregateInput = {
+    id?: SortOrder
+    address?: SortOrder
+    isSanctioned?: SortOrder
+    checkedAt?: SortOrder
+    source?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type OfacAuditLogMinOrderByAggregateInput = {
+    id?: SortOrder
+    address?: SortOrder
+    isSanctioned?: SortOrder
+    checkedAt?: SortOrder
+    source?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type AdminAuditLogCountOrderByAggregateInput = {
+    id?: SortOrder
+    timestamp?: SortOrder
+    userId?: SortOrder
+    userEmail?: SortOrder
+    method?: SortOrder
+    path?: SortOrder
+    statusCode?: SortOrder
+    executionTimeMs?: SortOrder
+    clientIp?: SortOrder
+    userAgent?: SortOrder
+    requestBody?: SortOrder
+    responseBody?: SortOrder
+    beforeSnapshot?: SortOrder
+    afterSnapshot?: SortOrder
+    error?: SortOrder
+    changesSummary?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type AdminAuditLogAvgOrderByAggregateInput = {
+    statusCode?: SortOrder
+    executionTimeMs?: SortOrder
+  }
+
+  export type AdminAuditLogMaxOrderByAggregateInput = {
+    id?: SortOrder
+    timestamp?: SortOrder
+    userId?: SortOrder
+    userEmail?: SortOrder
+    method?: SortOrder
+    path?: SortOrder
+    statusCode?: SortOrder
+    executionTimeMs?: SortOrder
+    clientIp?: SortOrder
+    userAgent?: SortOrder
+    requestBody?: SortOrder
+    responseBody?: SortOrder
+    beforeSnapshot?: SortOrder
+    afterSnapshot?: SortOrder
+    error?: SortOrder
+    changesSummary?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type AdminAuditLogMinOrderByAggregateInput = {
+    id?: SortOrder
+    timestamp?: SortOrder
+    userId?: SortOrder
+    userEmail?: SortOrder
+    method?: SortOrder
+    path?: SortOrder
+    statusCode?: SortOrder
+    executionTimeMs?: SortOrder
+    clientIp?: SortOrder
+    userAgent?: SortOrder
+    requestBody?: SortOrder
+    responseBody?: SortOrder
+    beforeSnapshot?: SortOrder
+    afterSnapshot?: SortOrder
+    error?: SortOrder
+    changesSummary?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type AdminAuditLogSumOrderByAggregateInput = {
+    statusCode?: SortOrder
+    executionTimeMs?: SortOrder
+  }
+
+  export type PaymentCategoryRuleCreateNestedManyWithoutCategoryInput = {
+    create?: XOR<PaymentCategoryRuleCreateWithoutCategoryInput, PaymentCategoryRuleUncheckedCreateWithoutCategoryInput> | PaymentCategoryRuleCreateWithoutCategoryInput[] | PaymentCategoryRuleUncheckedCreateWithoutCategoryInput[]
+    connectOrCreate?: PaymentCategoryRuleCreateOrConnectWithoutCategoryInput | PaymentCategoryRuleCreateOrConnectWithoutCategoryInput[]
+    createMany?: PaymentCategoryRuleCreateManyCategoryInputEnvelope
+    connect?: PaymentCategoryRuleWhereUniqueInput | PaymentCategoryRuleWhereUniqueInput[]
+  }
+
+  export type StreamCreateNestedManyWithoutCategoryInput = {
+    create?: XOR<StreamCreateWithoutCategoryInput, StreamUncheckedCreateWithoutCategoryInput> | StreamCreateWithoutCategoryInput[] | StreamUncheckedCreateWithoutCategoryInput[]
+    connectOrCreate?: StreamCreateOrConnectWithoutCategoryInput | StreamCreateOrConnectWithoutCategoryInput[]
+    createMany?: StreamCreateManyCategoryInputEnvelope
+    connect?: StreamWhereUniqueInput | StreamWhereUniqueInput[]
+  }
+
+  export type DisbursementCreateNestedManyWithoutCategoryInput = {
+    create?: XOR<DisbursementCreateWithoutCategoryInput, DisbursementUncheckedCreateWithoutCategoryInput> | DisbursementCreateWithoutCategoryInput[] | DisbursementUncheckedCreateWithoutCategoryInput[]
+    connectOrCreate?: DisbursementCreateOrConnectWithoutCategoryInput | DisbursementCreateOrConnectWithoutCategoryInput[]
+    createMany?: DisbursementCreateManyCategoryInputEnvelope
+    connect?: DisbursementWhereUniqueInput | DisbursementWhereUniqueInput[]
+  }
+
+  export type PaymentCategoryRuleUncheckedCreateNestedManyWithoutCategoryInput = {
+    create?: XOR<PaymentCategoryRuleCreateWithoutCategoryInput, PaymentCategoryRuleUncheckedCreateWithoutCategoryInput> | PaymentCategoryRuleCreateWithoutCategoryInput[] | PaymentCategoryRuleUncheckedCreateWithoutCategoryInput[]
+    connectOrCreate?: PaymentCategoryRuleCreateOrConnectWithoutCategoryInput | PaymentCategoryRuleCreateOrConnectWithoutCategoryInput[]
+    createMany?: PaymentCategoryRuleCreateManyCategoryInputEnvelope
+    connect?: PaymentCategoryRuleWhereUniqueInput | PaymentCategoryRuleWhereUniqueInput[]
+  }
+
+  export type StreamUncheckedCreateNestedManyWithoutCategoryInput = {
+    create?: XOR<StreamCreateWithoutCategoryInput, StreamUncheckedCreateWithoutCategoryInput> | StreamCreateWithoutCategoryInput[] | StreamUncheckedCreateWithoutCategoryInput[]
+    connectOrCreate?: StreamCreateOrConnectWithoutCategoryInput | StreamCreateOrConnectWithoutCategoryInput[]
+    createMany?: StreamCreateManyCategoryInputEnvelope
+    connect?: StreamWhereUniqueInput | StreamWhereUniqueInput[]
+  }
+
+  export type DisbursementUncheckedCreateNestedManyWithoutCategoryInput = {
+    create?: XOR<DisbursementCreateWithoutCategoryInput, DisbursementUncheckedCreateWithoutCategoryInput> | DisbursementCreateWithoutCategoryInput[] | DisbursementUncheckedCreateWithoutCategoryInput[]
+    connectOrCreate?: DisbursementCreateOrConnectWithoutCategoryInput | DisbursementCreateOrConnectWithoutCategoryInput[]
+    createMany?: DisbursementCreateManyCategoryInputEnvelope
+    connect?: DisbursementWhereUniqueInput | DisbursementWhereUniqueInput[]
+  }
+
   export type StringFieldUpdateOperationsInput = {
     set?: string
   }
@@ -46283,12 +58318,124 @@ export namespace Prisma {
     set?: string | null
   }
 
+  export type BoolFieldUpdateOperationsInput = {
+    set?: boolean
+  }
+
+  export type DateTimeFieldUpdateOperationsInput = {
+    set?: Date | string
+  }
+
+  export type PaymentCategoryRuleUpdateManyWithoutCategoryNestedInput = {
+    create?: XOR<PaymentCategoryRuleCreateWithoutCategoryInput, PaymentCategoryRuleUncheckedCreateWithoutCategoryInput> | PaymentCategoryRuleCreateWithoutCategoryInput[] | PaymentCategoryRuleUncheckedCreateWithoutCategoryInput[]
+    connectOrCreate?: PaymentCategoryRuleCreateOrConnectWithoutCategoryInput | PaymentCategoryRuleCreateOrConnectWithoutCategoryInput[]
+    upsert?: PaymentCategoryRuleUpsertWithWhereUniqueWithoutCategoryInput | PaymentCategoryRuleUpsertWithWhereUniqueWithoutCategoryInput[]
+    createMany?: PaymentCategoryRuleCreateManyCategoryInputEnvelope
+    set?: PaymentCategoryRuleWhereUniqueInput | PaymentCategoryRuleWhereUniqueInput[]
+    disconnect?: PaymentCategoryRuleWhereUniqueInput | PaymentCategoryRuleWhereUniqueInput[]
+    delete?: PaymentCategoryRuleWhereUniqueInput | PaymentCategoryRuleWhereUniqueInput[]
+    connect?: PaymentCategoryRuleWhereUniqueInput | PaymentCategoryRuleWhereUniqueInput[]
+    update?: PaymentCategoryRuleUpdateWithWhereUniqueWithoutCategoryInput | PaymentCategoryRuleUpdateWithWhereUniqueWithoutCategoryInput[]
+    updateMany?: PaymentCategoryRuleUpdateManyWithWhereWithoutCategoryInput | PaymentCategoryRuleUpdateManyWithWhereWithoutCategoryInput[]
+    deleteMany?: PaymentCategoryRuleScalarWhereInput | PaymentCategoryRuleScalarWhereInput[]
+  }
+
+  export type StreamUpdateManyWithoutCategoryNestedInput = {
+    create?: XOR<StreamCreateWithoutCategoryInput, StreamUncheckedCreateWithoutCategoryInput> | StreamCreateWithoutCategoryInput[] | StreamUncheckedCreateWithoutCategoryInput[]
+    connectOrCreate?: StreamCreateOrConnectWithoutCategoryInput | StreamCreateOrConnectWithoutCategoryInput[]
+    upsert?: StreamUpsertWithWhereUniqueWithoutCategoryInput | StreamUpsertWithWhereUniqueWithoutCategoryInput[]
+    createMany?: StreamCreateManyCategoryInputEnvelope
+    set?: StreamWhereUniqueInput | StreamWhereUniqueInput[]
+    disconnect?: StreamWhereUniqueInput | StreamWhereUniqueInput[]
+    delete?: StreamWhereUniqueInput | StreamWhereUniqueInput[]
+    connect?: StreamWhereUniqueInput | StreamWhereUniqueInput[]
+    update?: StreamUpdateWithWhereUniqueWithoutCategoryInput | StreamUpdateWithWhereUniqueWithoutCategoryInput[]
+    updateMany?: StreamUpdateManyWithWhereWithoutCategoryInput | StreamUpdateManyWithWhereWithoutCategoryInput[]
+    deleteMany?: StreamScalarWhereInput | StreamScalarWhereInput[]
+  }
+
+  export type DisbursementUpdateManyWithoutCategoryNestedInput = {
+    create?: XOR<DisbursementCreateWithoutCategoryInput, DisbursementUncheckedCreateWithoutCategoryInput> | DisbursementCreateWithoutCategoryInput[] | DisbursementUncheckedCreateWithoutCategoryInput[]
+    connectOrCreate?: DisbursementCreateOrConnectWithoutCategoryInput | DisbursementCreateOrConnectWithoutCategoryInput[]
+    upsert?: DisbursementUpsertWithWhereUniqueWithoutCategoryInput | DisbursementUpsertWithWhereUniqueWithoutCategoryInput[]
+    createMany?: DisbursementCreateManyCategoryInputEnvelope
+    set?: DisbursementWhereUniqueInput | DisbursementWhereUniqueInput[]
+    disconnect?: DisbursementWhereUniqueInput | DisbursementWhereUniqueInput[]
+    delete?: DisbursementWhereUniqueInput | DisbursementWhereUniqueInput[]
+    connect?: DisbursementWhereUniqueInput | DisbursementWhereUniqueInput[]
+    update?: DisbursementUpdateWithWhereUniqueWithoutCategoryInput | DisbursementUpdateWithWhereUniqueWithoutCategoryInput[]
+    updateMany?: DisbursementUpdateManyWithWhereWithoutCategoryInput | DisbursementUpdateManyWithWhereWithoutCategoryInput[]
+    deleteMany?: DisbursementScalarWhereInput | DisbursementScalarWhereInput[]
+  }
+
+  export type PaymentCategoryRuleUncheckedUpdateManyWithoutCategoryNestedInput = {
+    create?: XOR<PaymentCategoryRuleCreateWithoutCategoryInput, PaymentCategoryRuleUncheckedCreateWithoutCategoryInput> | PaymentCategoryRuleCreateWithoutCategoryInput[] | PaymentCategoryRuleUncheckedCreateWithoutCategoryInput[]
+    connectOrCreate?: PaymentCategoryRuleCreateOrConnectWithoutCategoryInput | PaymentCategoryRuleCreateOrConnectWithoutCategoryInput[]
+    upsert?: PaymentCategoryRuleUpsertWithWhereUniqueWithoutCategoryInput | PaymentCategoryRuleUpsertWithWhereUniqueWithoutCategoryInput[]
+    createMany?: PaymentCategoryRuleCreateManyCategoryInputEnvelope
+    set?: PaymentCategoryRuleWhereUniqueInput | PaymentCategoryRuleWhereUniqueInput[]
+    disconnect?: PaymentCategoryRuleWhereUniqueInput | PaymentCategoryRuleWhereUniqueInput[]
+    delete?: PaymentCategoryRuleWhereUniqueInput | PaymentCategoryRuleWhereUniqueInput[]
+    connect?: PaymentCategoryRuleWhereUniqueInput | PaymentCategoryRuleWhereUniqueInput[]
+    update?: PaymentCategoryRuleUpdateWithWhereUniqueWithoutCategoryInput | PaymentCategoryRuleUpdateWithWhereUniqueWithoutCategoryInput[]
+    updateMany?: PaymentCategoryRuleUpdateManyWithWhereWithoutCategoryInput | PaymentCategoryRuleUpdateManyWithWhereWithoutCategoryInput[]
+    deleteMany?: PaymentCategoryRuleScalarWhereInput | PaymentCategoryRuleScalarWhereInput[]
+  }
+
+  export type StreamUncheckedUpdateManyWithoutCategoryNestedInput = {
+    create?: XOR<StreamCreateWithoutCategoryInput, StreamUncheckedCreateWithoutCategoryInput> | StreamCreateWithoutCategoryInput[] | StreamUncheckedCreateWithoutCategoryInput[]
+    connectOrCreate?: StreamCreateOrConnectWithoutCategoryInput | StreamCreateOrConnectWithoutCategoryInput[]
+    upsert?: StreamUpsertWithWhereUniqueWithoutCategoryInput | StreamUpsertWithWhereUniqueWithoutCategoryInput[]
+    createMany?: StreamCreateManyCategoryInputEnvelope
+    set?: StreamWhereUniqueInput | StreamWhereUniqueInput[]
+    disconnect?: StreamWhereUniqueInput | StreamWhereUniqueInput[]
+    delete?: StreamWhereUniqueInput | StreamWhereUniqueInput[]
+    connect?: StreamWhereUniqueInput | StreamWhereUniqueInput[]
+    update?: StreamUpdateWithWhereUniqueWithoutCategoryInput | StreamUpdateWithWhereUniqueWithoutCategoryInput[]
+    updateMany?: StreamUpdateManyWithWhereWithoutCategoryInput | StreamUpdateManyWithWhereWithoutCategoryInput[]
+    deleteMany?: StreamScalarWhereInput | StreamScalarWhereInput[]
+  }
+
+  export type DisbursementUncheckedUpdateManyWithoutCategoryNestedInput = {
+    create?: XOR<DisbursementCreateWithoutCategoryInput, DisbursementUncheckedCreateWithoutCategoryInput> | DisbursementCreateWithoutCategoryInput[] | DisbursementUncheckedCreateWithoutCategoryInput[]
+    connectOrCreate?: DisbursementCreateOrConnectWithoutCategoryInput | DisbursementCreateOrConnectWithoutCategoryInput[]
+    upsert?: DisbursementUpsertWithWhereUniqueWithoutCategoryInput | DisbursementUpsertWithWhereUniqueWithoutCategoryInput[]
+    createMany?: DisbursementCreateManyCategoryInputEnvelope
+    set?: DisbursementWhereUniqueInput | DisbursementWhereUniqueInput[]
+    disconnect?: DisbursementWhereUniqueInput | DisbursementWhereUniqueInput[]
+    delete?: DisbursementWhereUniqueInput | DisbursementWhereUniqueInput[]
+    connect?: DisbursementWhereUniqueInput | DisbursementWhereUniqueInput[]
+    update?: DisbursementUpdateWithWhereUniqueWithoutCategoryInput | DisbursementUpdateWithWhereUniqueWithoutCategoryInput[]
+    updateMany?: DisbursementUpdateManyWithWhereWithoutCategoryInput | DisbursementUpdateManyWithWhereWithoutCategoryInput[]
+    deleteMany?: DisbursementScalarWhereInput | DisbursementScalarWhereInput[]
+  }
+
+  export type PaymentCategoryCreateNestedOneWithoutRulesInput = {
+    create?: XOR<PaymentCategoryCreateWithoutRulesInput, PaymentCategoryUncheckedCreateWithoutRulesInput>
+    connectOrCreate?: PaymentCategoryCreateOrConnectWithoutRulesInput
+    connect?: PaymentCategoryWhereUniqueInput
+  }
+
   export type IntFieldUpdateOperationsInput = {
     set?: number
     increment?: number
     decrement?: number
     multiply?: number
     divide?: number
+  }
+
+  export type PaymentCategoryUpdateOneRequiredWithoutRulesNestedInput = {
+    create?: XOR<PaymentCategoryCreateWithoutRulesInput, PaymentCategoryUncheckedCreateWithoutRulesInput>
+    connectOrCreate?: PaymentCategoryCreateOrConnectWithoutRulesInput
+    upsert?: PaymentCategoryUpsertWithoutRulesInput
+    connect?: PaymentCategoryWhereUniqueInput
+    update?: XOR<XOR<PaymentCategoryUpdateToOneWithWhereWithoutRulesInput, PaymentCategoryUpdateWithoutRulesInput>, PaymentCategoryUncheckedUpdateWithoutRulesInput>
+  }
+
+  export type PaymentCategoryCreateNestedOneWithoutStreamsInput = {
+    create?: XOR<PaymentCategoryCreateWithoutStreamsInput, PaymentCategoryUncheckedCreateWithoutStreamsInput>
+    connectOrCreate?: PaymentCategoryCreateOrConnectWithoutStreamsInput
+    connect?: PaymentCategoryWhereUniqueInput
   }
 
   export type NullableIntFieldUpdateOperationsInput = {
@@ -46303,16 +58450,18 @@ export namespace Prisma {
     set?: $Enums.StreamStatus
   }
 
-  export type BoolFieldUpdateOperationsInput = {
-    set?: boolean
-  }
-
   export type NullableDateTimeFieldUpdateOperationsInput = {
     set?: Date | string | null
   }
 
-  export type DateTimeFieldUpdateOperationsInput = {
-    set?: Date | string
+  export type PaymentCategoryUpdateOneWithoutStreamsNestedInput = {
+    create?: XOR<PaymentCategoryCreateWithoutStreamsInput, PaymentCategoryUncheckedCreateWithoutStreamsInput>
+    connectOrCreate?: PaymentCategoryCreateOrConnectWithoutStreamsInput
+    upsert?: PaymentCategoryUpsertWithoutStreamsInput
+    disconnect?: PaymentCategoryWhereInput | boolean
+    delete?: PaymentCategoryWhereInput | boolean
+    connect?: PaymentCategoryWhereUniqueInput
+    update?: XOR<XOR<PaymentCategoryUpdateToOneWithWhereWithoutStreamsInput, PaymentCategoryUpdateWithoutStreamsInput>, PaymentCategoryUncheckedUpdateWithoutStreamsInput>
   }
 
   export type ContractEventCreatetopicXdrInput = {
@@ -46356,64 +58505,24 @@ export namespace Prisma {
     set?: $Enums.NotificationPlatform
   }
 
-  export type SplitRecipientCreateNestedManyWithoutDisbursementInput = {
-    create?: XOR<SplitRecipientCreateWithoutDisbursementInput, SplitRecipientUncheckedCreateWithoutDisbursementInput> | SplitRecipientCreateWithoutDisbursementInput[] | SplitRecipientUncheckedCreateWithoutDisbursementInput[]
-    connectOrCreate?: SplitRecipientCreateOrConnectWithoutDisbursementInput | SplitRecipientCreateOrConnectWithoutDisbursementInput[]
-    createMany?: SplitRecipientCreateManyDisbursementInputEnvelope
-    connect?: SplitRecipientWhereUniqueInput | SplitRecipientWhereUniqueInput[]
+  export type PaymentCategoryCreateNestedOneWithoutDisbursementsInput = {
+    create?: XOR<PaymentCategoryCreateWithoutDisbursementsInput, PaymentCategoryUncheckedCreateWithoutDisbursementsInput>
+    connectOrCreate?: PaymentCategoryCreateOrConnectWithoutDisbursementsInput
+    connect?: PaymentCategoryWhereUniqueInput
   }
 
-  export type SplitRecipientUncheckedCreateNestedManyWithoutDisbursementInput = {
-    create?: XOR<SplitRecipientCreateWithoutDisbursementInput, SplitRecipientUncheckedCreateWithoutDisbursementInput> | SplitRecipientCreateWithoutDisbursementInput[] | SplitRecipientUncheckedCreateWithoutDisbursementInput[]
-    connectOrCreate?: SplitRecipientCreateOrConnectWithoutDisbursementInput | SplitRecipientCreateOrConnectWithoutDisbursementInput[]
-    createMany?: SplitRecipientCreateManyDisbursementInputEnvelope
-    connect?: SplitRecipientWhereUniqueInput | SplitRecipientWhereUniqueInput[]
+  export type EnumDisbursementStatusFieldUpdateOperationsInput = {
+    set?: $Enums.DisbursementStatus
   }
 
-  export type SplitRecipientUpdateManyWithoutDisbursementNestedInput = {
-    create?: XOR<SplitRecipientCreateWithoutDisbursementInput, SplitRecipientUncheckedCreateWithoutDisbursementInput> | SplitRecipientCreateWithoutDisbursementInput[] | SplitRecipientUncheckedCreateWithoutDisbursementInput[]
-    connectOrCreate?: SplitRecipientCreateOrConnectWithoutDisbursementInput | SplitRecipientCreateOrConnectWithoutDisbursementInput[]
-    upsert?: SplitRecipientUpsertWithWhereUniqueWithoutDisbursementInput | SplitRecipientUpsertWithWhereUniqueWithoutDisbursementInput[]
-    createMany?: SplitRecipientCreateManyDisbursementInputEnvelope
-    set?: SplitRecipientWhereUniqueInput | SplitRecipientWhereUniqueInput[]
-    disconnect?: SplitRecipientWhereUniqueInput | SplitRecipientWhereUniqueInput[]
-    delete?: SplitRecipientWhereUniqueInput | SplitRecipientWhereUniqueInput[]
-    connect?: SplitRecipientWhereUniqueInput | SplitRecipientWhereUniqueInput[]
-    update?: SplitRecipientUpdateWithWhereUniqueWithoutDisbursementInput | SplitRecipientUpdateWithWhereUniqueWithoutDisbursementInput[]
-    updateMany?: SplitRecipientUpdateManyWithWhereWithoutDisbursementInput | SplitRecipientUpdateManyWithWhereWithoutDisbursementInput[]
-    deleteMany?: SplitRecipientScalarWhereInput | SplitRecipientScalarWhereInput[]
-  }
-
-  export type SplitRecipientUncheckedUpdateManyWithoutDisbursementNestedInput = {
-    create?: XOR<SplitRecipientCreateWithoutDisbursementInput, SplitRecipientUncheckedCreateWithoutDisbursementInput> | SplitRecipientCreateWithoutDisbursementInput[] | SplitRecipientUncheckedCreateWithoutDisbursementInput[]
-    connectOrCreate?: SplitRecipientCreateOrConnectWithoutDisbursementInput | SplitRecipientCreateOrConnectWithoutDisbursementInput[]
-    upsert?: SplitRecipientUpsertWithWhereUniqueWithoutDisbursementInput | SplitRecipientUpsertWithWhereUniqueWithoutDisbursementInput[]
-    createMany?: SplitRecipientCreateManyDisbursementInputEnvelope
-    set?: SplitRecipientWhereUniqueInput | SplitRecipientWhereUniqueInput[]
-    disconnect?: SplitRecipientWhereUniqueInput | SplitRecipientWhereUniqueInput[]
-    delete?: SplitRecipientWhereUniqueInput | SplitRecipientWhereUniqueInput[]
-    connect?: SplitRecipientWhereUniqueInput | SplitRecipientWhereUniqueInput[]
-    update?: SplitRecipientUpdateWithWhereUniqueWithoutDisbursementInput | SplitRecipientUpdateWithWhereUniqueWithoutDisbursementInput[]
-    updateMany?: SplitRecipientUpdateManyWithWhereWithoutDisbursementInput | SplitRecipientUpdateManyWithWhereWithoutDisbursementInput[]
-    deleteMany?: SplitRecipientScalarWhereInput | SplitRecipientScalarWhereInput[]
-  }
-
-  export type DisbursementCreateNestedOneWithoutRecipientsInput = {
-    create?: XOR<DisbursementCreateWithoutRecipientsInput, DisbursementUncheckedCreateWithoutRecipientsInput>
-    connectOrCreate?: DisbursementCreateOrConnectWithoutRecipientsInput
-    connect?: DisbursementWhereUniqueInput
-  }
-
-  export type EnumPayoutStatusFieldUpdateOperationsInput = {
-    set?: $Enums.PayoutStatus
-  }
-
-  export type DisbursementUpdateOneRequiredWithoutRecipientsNestedInput = {
-    create?: XOR<DisbursementCreateWithoutRecipientsInput, DisbursementUncheckedCreateWithoutRecipientsInput>
-    connectOrCreate?: DisbursementCreateOrConnectWithoutRecipientsInput
-    upsert?: DisbursementUpsertWithoutRecipientsInput
-    connect?: DisbursementWhereUniqueInput
-    update?: XOR<XOR<DisbursementUpdateToOneWithWhereWithoutRecipientsInput, DisbursementUpdateWithoutRecipientsInput>, DisbursementUncheckedUpdateWithoutRecipientsInput>
+  export type PaymentCategoryUpdateOneWithoutDisbursementsNestedInput = {
+    create?: XOR<PaymentCategoryCreateWithoutDisbursementsInput, PaymentCategoryUncheckedCreateWithoutDisbursementsInput>
+    connectOrCreate?: PaymentCategoryCreateOrConnectWithoutDisbursementsInput
+    upsert?: PaymentCategoryUpsertWithoutDisbursementsInput
+    disconnect?: PaymentCategoryWhereInput | boolean
+    delete?: PaymentCategoryWhereInput | boolean
+    connect?: PaymentCategoryWhereUniqueInput
+    update?: XOR<XOR<PaymentCategoryUpdateToOneWithWhereWithoutDisbursementsInput, PaymentCategoryUpdateWithoutDisbursementsInput>, PaymentCategoryUncheckedUpdateWithoutDisbursementsInput>
   }
 
   export type NullableFloatFieldUpdateOperationsInput = {
@@ -46508,49 +58617,9 @@ export namespace Prisma {
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
-  export type NestedIntFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntFilter<$PrismaModel> | number
-  }
-
-  export type NestedIntNullableFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableFilter<$PrismaModel> | number | null
-  }
-
-  export type NestedEnumStreamStatusFilter<$PrismaModel = never> = {
-    equals?: $Enums.StreamStatus | EnumStreamStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.StreamStatus[] | ListEnumStreamStatusFieldRefInput<$PrismaModel>
-    notIn?: $Enums.StreamStatus[] | ListEnumStreamStatusFieldRefInput<$PrismaModel>
-    not?: NestedEnumStreamStatusFilter<$PrismaModel> | $Enums.StreamStatus
-  }
-
   export type NestedBoolFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel>
     not?: NestedBoolFilter<$PrismaModel> | boolean
-  }
-
-  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
   }
 
   export type NestedDateTimeFilter<$PrismaModel = never> = {
@@ -46581,6 +58650,17 @@ export namespace Prisma {
     _max?: NestedStringFilter<$PrismaModel>
   }
 
+  export type NestedIntFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntFilter<$PrismaModel> | number
+  }
+
   export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
     in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
@@ -46596,6 +58676,39 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedStringNullableFilter<$PrismaModel>
     _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+
+  export type NestedIntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
+  }
+
+  export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedDateTimeFilter<$PrismaModel>
+    _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
   export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
@@ -46623,6 +58736,24 @@ export namespace Prisma {
     gt?: number | FloatFieldRefInput<$PrismaModel>
     gte?: number | FloatFieldRefInput<$PrismaModel>
     not?: NestedFloatFilter<$PrismaModel> | number
+  }
+
+  export type NestedEnumStreamStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.StreamStatus | EnumStreamStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.StreamStatus[] | ListEnumStreamStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.StreamStatus[] | ListEnumStreamStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumStreamStatusFilter<$PrismaModel> | $Enums.StreamStatus
+  }
+
+  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
   }
 
   export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -46662,14 +58793,6 @@ export namespace Prisma {
     _max?: NestedEnumStreamStatusFilter<$PrismaModel>
   }
 
-  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
-  }
-
   export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
@@ -46682,20 +58805,6 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedDateTimeNullableFilter<$PrismaModel>
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
-  }
-
-  export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedDateTimeFilter<$PrismaModel>
-    _max?: NestedDateTimeFilter<$PrismaModel>
   }
   export type NestedJsonFilter<$PrismaModel = never> = 
     | PatchUndefined<
@@ -46824,21 +58933,21 @@ export namespace Prisma {
     _max?: NestedEnumNotificationPlatformFilter<$PrismaModel>
   }
 
-  export type NestedEnumPayoutStatusFilter<$PrismaModel = never> = {
-    equals?: $Enums.PayoutStatus | EnumPayoutStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.PayoutStatus[] | ListEnumPayoutStatusFieldRefInput<$PrismaModel>
-    notIn?: $Enums.PayoutStatus[] | ListEnumPayoutStatusFieldRefInput<$PrismaModel>
-    not?: NestedEnumPayoutStatusFilter<$PrismaModel> | $Enums.PayoutStatus
+  export type NestedEnumDisbursementStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.DisbursementStatus | EnumDisbursementStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.DisbursementStatus[] | ListEnumDisbursementStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.DisbursementStatus[] | ListEnumDisbursementStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumDisbursementStatusFilter<$PrismaModel> | $Enums.DisbursementStatus
   }
 
-  export type NestedEnumPayoutStatusWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.PayoutStatus | EnumPayoutStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.PayoutStatus[] | ListEnumPayoutStatusFieldRefInput<$PrismaModel>
-    notIn?: $Enums.PayoutStatus[] | ListEnumPayoutStatusFieldRefInput<$PrismaModel>
-    not?: NestedEnumPayoutStatusWithAggregatesFilter<$PrismaModel> | $Enums.PayoutStatus
+  export type NestedEnumDisbursementStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.DisbursementStatus | EnumDisbursementStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.DisbursementStatus[] | ListEnumDisbursementStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.DisbursementStatus[] | ListEnumDisbursementStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumDisbursementStatusWithAggregatesFilter<$PrismaModel> | $Enums.DisbursementStatus
     _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumPayoutStatusFilter<$PrismaModel>
-    _max?: NestedEnumPayoutStatusFilter<$PrismaModel>
+    _min?: NestedEnumDisbursementStatusFilter<$PrismaModel>
+    _max?: NestedEnumDisbursementStatusFilter<$PrismaModel>
   }
 
   export type NestedFloatNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -46857,107 +58966,463 @@ export namespace Prisma {
     _max?: NestedFloatNullableFilter<$PrismaModel>
   }
 
-  export type SplitRecipientCreateWithoutDisbursementInput = {
+  export type PaymentCategoryRuleCreateWithoutCategoryInput = {
     id?: string
-    recipientAddress: string
-    amount: string
-    status?: $Enums.PayoutStatus
+    field: string
+    operator: string
+    value: string
+    priority?: number
+    createdAt?: Date | string
   }
 
-  export type SplitRecipientUncheckedCreateWithoutDisbursementInput = {
+  export type PaymentCategoryRuleUncheckedCreateWithoutCategoryInput = {
     id?: string
-    recipientAddress: string
-    amount: string
-    status?: $Enums.PayoutStatus
+    field: string
+    operator: string
+    value: string
+    priority?: number
+    createdAt?: Date | string
   }
 
-  export type SplitRecipientCreateOrConnectWithoutDisbursementInput = {
-    where: SplitRecipientWhereUniqueInput
-    create: XOR<SplitRecipientCreateWithoutDisbursementInput, SplitRecipientUncheckedCreateWithoutDisbursementInput>
+  export type PaymentCategoryRuleCreateOrConnectWithoutCategoryInput = {
+    where: PaymentCategoryRuleWhereUniqueInput
+    create: XOR<PaymentCategoryRuleCreateWithoutCategoryInput, PaymentCategoryRuleUncheckedCreateWithoutCategoryInput>
   }
 
-  export type SplitRecipientCreateManyDisbursementInputEnvelope = {
-    data: SplitRecipientCreateManyDisbursementInput | SplitRecipientCreateManyDisbursementInput[]
+  export type PaymentCategoryRuleCreateManyCategoryInputEnvelope = {
+    data: PaymentCategoryRuleCreateManyCategoryInput | PaymentCategoryRuleCreateManyCategoryInput[]
     skipDuplicates?: boolean
   }
 
-  export type SplitRecipientUpsertWithWhereUniqueWithoutDisbursementInput = {
-    where: SplitRecipientWhereUniqueInput
-    update: XOR<SplitRecipientUpdateWithoutDisbursementInput, SplitRecipientUncheckedUpdateWithoutDisbursementInput>
-    create: XOR<SplitRecipientCreateWithoutDisbursementInput, SplitRecipientUncheckedCreateWithoutDisbursementInput>
-  }
-
-  export type SplitRecipientUpdateWithWhereUniqueWithoutDisbursementInput = {
-    where: SplitRecipientWhereUniqueInput
-    data: XOR<SplitRecipientUpdateWithoutDisbursementInput, SplitRecipientUncheckedUpdateWithoutDisbursementInput>
-  }
-
-  export type SplitRecipientUpdateManyWithWhereWithoutDisbursementInput = {
-    where: SplitRecipientScalarWhereInput
-    data: XOR<SplitRecipientUpdateManyMutationInput, SplitRecipientUncheckedUpdateManyWithoutDisbursementInput>
-  }
-
-  export type SplitRecipientScalarWhereInput = {
-    AND?: SplitRecipientScalarWhereInput | SplitRecipientScalarWhereInput[]
-    OR?: SplitRecipientScalarWhereInput[]
-    NOT?: SplitRecipientScalarWhereInput | SplitRecipientScalarWhereInput[]
-    id?: StringFilter<"SplitRecipient"> | string
-    disbursementId?: StringFilter<"SplitRecipient"> | string
-    recipientAddress?: StringFilter<"SplitRecipient"> | string
-    amount?: StringFilter<"SplitRecipient"> | string
-    status?: EnumPayoutStatusFilter<"SplitRecipient"> | $Enums.PayoutStatus
-  }
-
-  export type DisbursementCreateWithoutRecipientsInput = {
+  export type StreamCreateWithoutCategoryInput = {
     id?: string
-    senderAddress: string
-    totalAmount: string
-    asset: string
+    streamId?: string | null
     txHash: string
+    version?: number
+    sender: string
+    receiver: string
+    contractId?: string | null
+    tokenAddress?: string | null
+    amount: string
+    duration?: number | null
+    status?: $Enums.StreamStatus
+    withdrawn?: string | null
+    legacy?: boolean
+    migrated?: boolean
+    isPrivate?: boolean
+    yieldEnabled?: boolean
+    vaultContractId?: string | null
+    vaultShareBalance?: string | null
+    vaultRatioScale?: string | null
+    accruedInterest?: string
+    lastYieldAccrualAt?: Date | string | null
+    isDust?: boolean
+    affiliateId?: string | null
     createdAt?: Date | string
   }
 
-  export type DisbursementUncheckedCreateWithoutRecipientsInput = {
+  export type StreamUncheckedCreateWithoutCategoryInput = {
     id?: string
-    senderAddress: string
-    totalAmount: string
-    asset: string
+    streamId?: string | null
     txHash: string
+    version?: number
+    sender: string
+    receiver: string
+    contractId?: string | null
+    tokenAddress?: string | null
+    amount: string
+    duration?: number | null
+    status?: $Enums.StreamStatus
+    withdrawn?: string | null
+    legacy?: boolean
+    migrated?: boolean
+    isPrivate?: boolean
+    yieldEnabled?: boolean
+    vaultContractId?: string | null
+    vaultShareBalance?: string | null
+    vaultRatioScale?: string | null
+    accruedInterest?: string
+    lastYieldAccrualAt?: Date | string | null
+    isDust?: boolean
+    affiliateId?: string | null
     createdAt?: Date | string
   }
 
-  export type DisbursementCreateOrConnectWithoutRecipientsInput = {
+  export type StreamCreateOrConnectWithoutCategoryInput = {
+    where: StreamWhereUniqueInput
+    create: XOR<StreamCreateWithoutCategoryInput, StreamUncheckedCreateWithoutCategoryInput>
+  }
+
+  export type StreamCreateManyCategoryInputEnvelope = {
+    data: StreamCreateManyCategoryInput | StreamCreateManyCategoryInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type DisbursementCreateWithoutCategoryInput = {
+    id?: string
+    streamId: string
+    txHash: string
+    sender: string
+    receiver: string
+    amount: bigint | number
+    tokenAddress: string
+    status?: $Enums.DisbursementStatus
+    createdAt?: Date | string
+    completedAt?: Date | string | null
+    ledger: number
+    batchId?: string | null
+  }
+
+  export type DisbursementUncheckedCreateWithoutCategoryInput = {
+    id?: string
+    streamId: string
+    txHash: string
+    sender: string
+    receiver: string
+    amount: bigint | number
+    tokenAddress: string
+    status?: $Enums.DisbursementStatus
+    createdAt?: Date | string
+    completedAt?: Date | string | null
+    ledger: number
+    batchId?: string | null
+  }
+
+  export type DisbursementCreateOrConnectWithoutCategoryInput = {
     where: DisbursementWhereUniqueInput
-    create: XOR<DisbursementCreateWithoutRecipientsInput, DisbursementUncheckedCreateWithoutRecipientsInput>
+    create: XOR<DisbursementCreateWithoutCategoryInput, DisbursementUncheckedCreateWithoutCategoryInput>
   }
 
-  export type DisbursementUpsertWithoutRecipientsInput = {
-    update: XOR<DisbursementUpdateWithoutRecipientsInput, DisbursementUncheckedUpdateWithoutRecipientsInput>
-    create: XOR<DisbursementCreateWithoutRecipientsInput, DisbursementUncheckedCreateWithoutRecipientsInput>
-    where?: DisbursementWhereInput
+  export type DisbursementCreateManyCategoryInputEnvelope = {
+    data: DisbursementCreateManyCategoryInput | DisbursementCreateManyCategoryInput[]
+    skipDuplicates?: boolean
   }
 
-  export type DisbursementUpdateToOneWithWhereWithoutRecipientsInput = {
-    where?: DisbursementWhereInput
-    data: XOR<DisbursementUpdateWithoutRecipientsInput, DisbursementUncheckedUpdateWithoutRecipientsInput>
+  export type PaymentCategoryRuleUpsertWithWhereUniqueWithoutCategoryInput = {
+    where: PaymentCategoryRuleWhereUniqueInput
+    update: XOR<PaymentCategoryRuleUpdateWithoutCategoryInput, PaymentCategoryRuleUncheckedUpdateWithoutCategoryInput>
+    create: XOR<PaymentCategoryRuleCreateWithoutCategoryInput, PaymentCategoryRuleUncheckedCreateWithoutCategoryInput>
   }
 
-  export type DisbursementUpdateWithoutRecipientsInput = {
+  export type PaymentCategoryRuleUpdateWithWhereUniqueWithoutCategoryInput = {
+    where: PaymentCategoryRuleWhereUniqueInput
+    data: XOR<PaymentCategoryRuleUpdateWithoutCategoryInput, PaymentCategoryRuleUncheckedUpdateWithoutCategoryInput>
+  }
+
+  export type PaymentCategoryRuleUpdateManyWithWhereWithoutCategoryInput = {
+    where: PaymentCategoryRuleScalarWhereInput
+    data: XOR<PaymentCategoryRuleUpdateManyMutationInput, PaymentCategoryRuleUncheckedUpdateManyWithoutCategoryInput>
+  }
+
+  export type PaymentCategoryRuleScalarWhereInput = {
+    AND?: PaymentCategoryRuleScalarWhereInput | PaymentCategoryRuleScalarWhereInput[]
+    OR?: PaymentCategoryRuleScalarWhereInput[]
+    NOT?: PaymentCategoryRuleScalarWhereInput | PaymentCategoryRuleScalarWhereInput[]
+    id?: StringFilter<"PaymentCategoryRule"> | string
+    categoryId?: StringFilter<"PaymentCategoryRule"> | string
+    field?: StringFilter<"PaymentCategoryRule"> | string
+    operator?: StringFilter<"PaymentCategoryRule"> | string
+    value?: StringFilter<"PaymentCategoryRule"> | string
+    priority?: IntFilter<"PaymentCategoryRule"> | number
+    createdAt?: DateTimeFilter<"PaymentCategoryRule"> | Date | string
+  }
+
+  export type StreamUpsertWithWhereUniqueWithoutCategoryInput = {
+    where: StreamWhereUniqueInput
+    update: XOR<StreamUpdateWithoutCategoryInput, StreamUncheckedUpdateWithoutCategoryInput>
+    create: XOR<StreamCreateWithoutCategoryInput, StreamUncheckedCreateWithoutCategoryInput>
+  }
+
+  export type StreamUpdateWithWhereUniqueWithoutCategoryInput = {
+    where: StreamWhereUniqueInput
+    data: XOR<StreamUpdateWithoutCategoryInput, StreamUncheckedUpdateWithoutCategoryInput>
+  }
+
+  export type StreamUpdateManyWithWhereWithoutCategoryInput = {
+    where: StreamScalarWhereInput
+    data: XOR<StreamUpdateManyMutationInput, StreamUncheckedUpdateManyWithoutCategoryInput>
+  }
+
+  export type StreamScalarWhereInput = {
+    AND?: StreamScalarWhereInput | StreamScalarWhereInput[]
+    OR?: StreamScalarWhereInput[]
+    NOT?: StreamScalarWhereInput | StreamScalarWhereInput[]
+    id?: StringFilter<"Stream"> | string
+    streamId?: StringNullableFilter<"Stream"> | string | null
+    txHash?: StringFilter<"Stream"> | string
+    version?: IntFilter<"Stream"> | number
+    sender?: StringFilter<"Stream"> | string
+    receiver?: StringFilter<"Stream"> | string
+    contractId?: StringNullableFilter<"Stream"> | string | null
+    tokenAddress?: StringNullableFilter<"Stream"> | string | null
+    amount?: StringFilter<"Stream"> | string
+    duration?: IntNullableFilter<"Stream"> | number | null
+    status?: EnumStreamStatusFilter<"Stream"> | $Enums.StreamStatus
+    withdrawn?: StringNullableFilter<"Stream"> | string | null
+    legacy?: BoolFilter<"Stream"> | boolean
+    migrated?: BoolFilter<"Stream"> | boolean
+    isPrivate?: BoolFilter<"Stream"> | boolean
+    yieldEnabled?: BoolFilter<"Stream"> | boolean
+    vaultContractId?: StringNullableFilter<"Stream"> | string | null
+    vaultShareBalance?: StringNullableFilter<"Stream"> | string | null
+    vaultRatioScale?: StringNullableFilter<"Stream"> | string | null
+    accruedInterest?: StringFilter<"Stream"> | string
+    lastYieldAccrualAt?: DateTimeNullableFilter<"Stream"> | Date | string | null
+    isDust?: BoolFilter<"Stream"> | boolean
+    affiliateId?: StringNullableFilter<"Stream"> | string | null
+    categoryId?: StringNullableFilter<"Stream"> | string | null
+    createdAt?: DateTimeFilter<"Stream"> | Date | string
+  }
+
+  export type DisbursementUpsertWithWhereUniqueWithoutCategoryInput = {
+    where: DisbursementWhereUniqueInput
+    update: XOR<DisbursementUpdateWithoutCategoryInput, DisbursementUncheckedUpdateWithoutCategoryInput>
+    create: XOR<DisbursementCreateWithoutCategoryInput, DisbursementUncheckedCreateWithoutCategoryInput>
+  }
+
+  export type DisbursementUpdateWithWhereUniqueWithoutCategoryInput = {
+    where: DisbursementWhereUniqueInput
+    data: XOR<DisbursementUpdateWithoutCategoryInput, DisbursementUncheckedUpdateWithoutCategoryInput>
+  }
+
+  export type DisbursementUpdateManyWithWhereWithoutCategoryInput = {
+    where: DisbursementScalarWhereInput
+    data: XOR<DisbursementUpdateManyMutationInput, DisbursementUncheckedUpdateManyWithoutCategoryInput>
+  }
+
+  export type DisbursementScalarWhereInput = {
+    AND?: DisbursementScalarWhereInput | DisbursementScalarWhereInput[]
+    OR?: DisbursementScalarWhereInput[]
+    NOT?: DisbursementScalarWhereInput | DisbursementScalarWhereInput[]
+    id?: StringFilter<"Disbursement"> | string
+    streamId?: StringFilter<"Disbursement"> | string
+    txHash?: StringFilter<"Disbursement"> | string
+    sender?: StringFilter<"Disbursement"> | string
+    receiver?: StringFilter<"Disbursement"> | string
+    amount?: BigIntFilter<"Disbursement"> | bigint | number
+    tokenAddress?: StringFilter<"Disbursement"> | string
+    status?: EnumDisbursementStatusFilter<"Disbursement"> | $Enums.DisbursementStatus
+    createdAt?: DateTimeFilter<"Disbursement"> | Date | string
+    completedAt?: DateTimeNullableFilter<"Disbursement"> | Date | string | null
+    ledger?: IntFilter<"Disbursement"> | number
+    batchId?: StringNullableFilter<"Disbursement"> | string | null
+    categoryId?: StringNullableFilter<"Disbursement"> | string | null
+  }
+
+  export type PaymentCategoryCreateWithoutRulesInput = {
+    id?: string
+    name: string
+    description?: string | null
+    color?: string
+    icon?: string | null
+    ownerAddress: string
+    isDefault?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    streams?: StreamCreateNestedManyWithoutCategoryInput
+    disbursements?: DisbursementCreateNestedManyWithoutCategoryInput
+  }
+
+  export type PaymentCategoryUncheckedCreateWithoutRulesInput = {
+    id?: string
+    name: string
+    description?: string | null
+    color?: string
+    icon?: string | null
+    ownerAddress: string
+    isDefault?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    streams?: StreamUncheckedCreateNestedManyWithoutCategoryInput
+    disbursements?: DisbursementUncheckedCreateNestedManyWithoutCategoryInput
+  }
+
+  export type PaymentCategoryCreateOrConnectWithoutRulesInput = {
+    where: PaymentCategoryWhereUniqueInput
+    create: XOR<PaymentCategoryCreateWithoutRulesInput, PaymentCategoryUncheckedCreateWithoutRulesInput>
+  }
+
+  export type PaymentCategoryUpsertWithoutRulesInput = {
+    update: XOR<PaymentCategoryUpdateWithoutRulesInput, PaymentCategoryUncheckedUpdateWithoutRulesInput>
+    create: XOR<PaymentCategoryCreateWithoutRulesInput, PaymentCategoryUncheckedCreateWithoutRulesInput>
+    where?: PaymentCategoryWhereInput
+  }
+
+  export type PaymentCategoryUpdateToOneWithWhereWithoutRulesInput = {
+    where?: PaymentCategoryWhereInput
+    data: XOR<PaymentCategoryUpdateWithoutRulesInput, PaymentCategoryUncheckedUpdateWithoutRulesInput>
+  }
+
+  export type PaymentCategoryUpdateWithoutRulesInput = {
     id?: StringFieldUpdateOperationsInput | string
-    senderAddress?: StringFieldUpdateOperationsInput | string
-    totalAmount?: StringFieldUpdateOperationsInput | string
-    asset?: StringFieldUpdateOperationsInput | string
-    txHash?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    color?: StringFieldUpdateOperationsInput | string
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
+    ownerAddress?: StringFieldUpdateOperationsInput | string
+    isDefault?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    streams?: StreamUpdateManyWithoutCategoryNestedInput
+    disbursements?: DisbursementUpdateManyWithoutCategoryNestedInput
   }
 
-  export type DisbursementUncheckedUpdateWithoutRecipientsInput = {
+  export type PaymentCategoryUncheckedUpdateWithoutRulesInput = {
     id?: StringFieldUpdateOperationsInput | string
-    senderAddress?: StringFieldUpdateOperationsInput | string
-    totalAmount?: StringFieldUpdateOperationsInput | string
-    asset?: StringFieldUpdateOperationsInput | string
-    txHash?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    color?: StringFieldUpdateOperationsInput | string
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
+    ownerAddress?: StringFieldUpdateOperationsInput | string
+    isDefault?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    streams?: StreamUncheckedUpdateManyWithoutCategoryNestedInput
+    disbursements?: DisbursementUncheckedUpdateManyWithoutCategoryNestedInput
+  }
+
+  export type PaymentCategoryCreateWithoutStreamsInput = {
+    id?: string
+    name: string
+    description?: string | null
+    color?: string
+    icon?: string | null
+    ownerAddress: string
+    isDefault?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    rules?: PaymentCategoryRuleCreateNestedManyWithoutCategoryInput
+    disbursements?: DisbursementCreateNestedManyWithoutCategoryInput
+  }
+
+  export type PaymentCategoryUncheckedCreateWithoutStreamsInput = {
+    id?: string
+    name: string
+    description?: string | null
+    color?: string
+    icon?: string | null
+    ownerAddress: string
+    isDefault?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    rules?: PaymentCategoryRuleUncheckedCreateNestedManyWithoutCategoryInput
+    disbursements?: DisbursementUncheckedCreateNestedManyWithoutCategoryInput
+  }
+
+  export type PaymentCategoryCreateOrConnectWithoutStreamsInput = {
+    where: PaymentCategoryWhereUniqueInput
+    create: XOR<PaymentCategoryCreateWithoutStreamsInput, PaymentCategoryUncheckedCreateWithoutStreamsInput>
+  }
+
+  export type PaymentCategoryUpsertWithoutStreamsInput = {
+    update: XOR<PaymentCategoryUpdateWithoutStreamsInput, PaymentCategoryUncheckedUpdateWithoutStreamsInput>
+    create: XOR<PaymentCategoryCreateWithoutStreamsInput, PaymentCategoryUncheckedCreateWithoutStreamsInput>
+    where?: PaymentCategoryWhereInput
+  }
+
+  export type PaymentCategoryUpdateToOneWithWhereWithoutStreamsInput = {
+    where?: PaymentCategoryWhereInput
+    data: XOR<PaymentCategoryUpdateWithoutStreamsInput, PaymentCategoryUncheckedUpdateWithoutStreamsInput>
+  }
+
+  export type PaymentCategoryUpdateWithoutStreamsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    color?: StringFieldUpdateOperationsInput | string
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
+    ownerAddress?: StringFieldUpdateOperationsInput | string
+    isDefault?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    rules?: PaymentCategoryRuleUpdateManyWithoutCategoryNestedInput
+    disbursements?: DisbursementUpdateManyWithoutCategoryNestedInput
+  }
+
+  export type PaymentCategoryUncheckedUpdateWithoutStreamsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    color?: StringFieldUpdateOperationsInput | string
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
+    ownerAddress?: StringFieldUpdateOperationsInput | string
+    isDefault?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    rules?: PaymentCategoryRuleUncheckedUpdateManyWithoutCategoryNestedInput
+    disbursements?: DisbursementUncheckedUpdateManyWithoutCategoryNestedInput
+  }
+
+  export type PaymentCategoryCreateWithoutDisbursementsInput = {
+    id?: string
+    name: string
+    description?: string | null
+    color?: string
+    icon?: string | null
+    ownerAddress: string
+    isDefault?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    rules?: PaymentCategoryRuleCreateNestedManyWithoutCategoryInput
+    streams?: StreamCreateNestedManyWithoutCategoryInput
+  }
+
+  export type PaymentCategoryUncheckedCreateWithoutDisbursementsInput = {
+    id?: string
+    name: string
+    description?: string | null
+    color?: string
+    icon?: string | null
+    ownerAddress: string
+    isDefault?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    rules?: PaymentCategoryRuleUncheckedCreateNestedManyWithoutCategoryInput
+    streams?: StreamUncheckedCreateNestedManyWithoutCategoryInput
+  }
+
+  export type PaymentCategoryCreateOrConnectWithoutDisbursementsInput = {
+    where: PaymentCategoryWhereUniqueInput
+    create: XOR<PaymentCategoryCreateWithoutDisbursementsInput, PaymentCategoryUncheckedCreateWithoutDisbursementsInput>
+  }
+
+  export type PaymentCategoryUpsertWithoutDisbursementsInput = {
+    update: XOR<PaymentCategoryUpdateWithoutDisbursementsInput, PaymentCategoryUncheckedUpdateWithoutDisbursementsInput>
+    create: XOR<PaymentCategoryCreateWithoutDisbursementsInput, PaymentCategoryUncheckedCreateWithoutDisbursementsInput>
+    where?: PaymentCategoryWhereInput
+  }
+
+  export type PaymentCategoryUpdateToOneWithWhereWithoutDisbursementsInput = {
+    where?: PaymentCategoryWhereInput
+    data: XOR<PaymentCategoryUpdateWithoutDisbursementsInput, PaymentCategoryUncheckedUpdateWithoutDisbursementsInput>
+  }
+
+  export type PaymentCategoryUpdateWithoutDisbursementsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    color?: StringFieldUpdateOperationsInput | string
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
+    ownerAddress?: StringFieldUpdateOperationsInput | string
+    isDefault?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    rules?: PaymentCategoryRuleUpdateManyWithoutCategoryNestedInput
+    streams?: StreamUpdateManyWithoutCategoryNestedInput
+  }
+
+  export type PaymentCategoryUncheckedUpdateWithoutDisbursementsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    color?: StringFieldUpdateOperationsInput | string
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
+    ownerAddress?: StringFieldUpdateOperationsInput | string
+    isDefault?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    rules?: PaymentCategoryRuleUncheckedUpdateManyWithoutCategoryNestedInput
+    streams?: StreamUncheckedUpdateManyWithoutCategoryNestedInput
   }
 
   export type DisbursementDraftVersionCreateWithoutDraftInput = {
@@ -47080,32 +59545,208 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type SplitRecipientCreateManyDisbursementInput = {
+  export type PaymentCategoryRuleCreateManyCategoryInput = {
     id?: string
-    recipientAddress: string
+    field: string
+    operator: string
+    value: string
+    priority?: number
+    createdAt?: Date | string
+  }
+
+  export type StreamCreateManyCategoryInput = {
+    id?: string
+    streamId?: string | null
+    txHash: string
+    version?: number
+    sender: string
+    receiver: string
+    contractId?: string | null
+    tokenAddress?: string | null
     amount: string
-    status?: $Enums.PayoutStatus
+    duration?: number | null
+    status?: $Enums.StreamStatus
+    withdrawn?: string | null
+    legacy?: boolean
+    migrated?: boolean
+    isPrivate?: boolean
+    yieldEnabled?: boolean
+    vaultContractId?: string | null
+    vaultShareBalance?: string | null
+    vaultRatioScale?: string | null
+    accruedInterest?: string
+    lastYieldAccrualAt?: Date | string | null
+    isDust?: boolean
+    affiliateId?: string | null
+    createdAt?: Date | string
   }
 
-  export type SplitRecipientUpdateWithoutDisbursementInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    recipientAddress?: StringFieldUpdateOperationsInput | string
-    amount?: StringFieldUpdateOperationsInput | string
-    status?: EnumPayoutStatusFieldUpdateOperationsInput | $Enums.PayoutStatus
+  export type DisbursementCreateManyCategoryInput = {
+    id?: string
+    streamId: string
+    txHash: string
+    sender: string
+    receiver: string
+    amount: bigint | number
+    tokenAddress: string
+    status?: $Enums.DisbursementStatus
+    createdAt?: Date | string
+    completedAt?: Date | string | null
+    ledger: number
+    batchId?: string | null
   }
 
-  export type SplitRecipientUncheckedUpdateWithoutDisbursementInput = {
+  export type PaymentCategoryRuleUpdateWithoutCategoryInput = {
     id?: StringFieldUpdateOperationsInput | string
-    recipientAddress?: StringFieldUpdateOperationsInput | string
-    amount?: StringFieldUpdateOperationsInput | string
-    status?: EnumPayoutStatusFieldUpdateOperationsInput | $Enums.PayoutStatus
+    field?: StringFieldUpdateOperationsInput | string
+    operator?: StringFieldUpdateOperationsInput | string
+    value?: StringFieldUpdateOperationsInput | string
+    priority?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type SplitRecipientUncheckedUpdateManyWithoutDisbursementInput = {
+  export type PaymentCategoryRuleUncheckedUpdateWithoutCategoryInput = {
     id?: StringFieldUpdateOperationsInput | string
-    recipientAddress?: StringFieldUpdateOperationsInput | string
+    field?: StringFieldUpdateOperationsInput | string
+    operator?: StringFieldUpdateOperationsInput | string
+    value?: StringFieldUpdateOperationsInput | string
+    priority?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PaymentCategoryRuleUncheckedUpdateManyWithoutCategoryInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    field?: StringFieldUpdateOperationsInput | string
+    operator?: StringFieldUpdateOperationsInput | string
+    value?: StringFieldUpdateOperationsInput | string
+    priority?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type StreamUpdateWithoutCategoryInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    streamId?: NullableStringFieldUpdateOperationsInput | string | null
+    txHash?: StringFieldUpdateOperationsInput | string
+    version?: IntFieldUpdateOperationsInput | number
+    sender?: StringFieldUpdateOperationsInput | string
+    receiver?: StringFieldUpdateOperationsInput | string
+    contractId?: NullableStringFieldUpdateOperationsInput | string | null
+    tokenAddress?: NullableStringFieldUpdateOperationsInput | string | null
     amount?: StringFieldUpdateOperationsInput | string
-    status?: EnumPayoutStatusFieldUpdateOperationsInput | $Enums.PayoutStatus
+    duration?: NullableIntFieldUpdateOperationsInput | number | null
+    status?: EnumStreamStatusFieldUpdateOperationsInput | $Enums.StreamStatus
+    withdrawn?: NullableStringFieldUpdateOperationsInput | string | null
+    legacy?: BoolFieldUpdateOperationsInput | boolean
+    migrated?: BoolFieldUpdateOperationsInput | boolean
+    isPrivate?: BoolFieldUpdateOperationsInput | boolean
+    yieldEnabled?: BoolFieldUpdateOperationsInput | boolean
+    vaultContractId?: NullableStringFieldUpdateOperationsInput | string | null
+    vaultShareBalance?: NullableStringFieldUpdateOperationsInput | string | null
+    vaultRatioScale?: NullableStringFieldUpdateOperationsInput | string | null
+    accruedInterest?: StringFieldUpdateOperationsInput | string
+    lastYieldAccrualAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isDust?: BoolFieldUpdateOperationsInput | boolean
+    affiliateId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type StreamUncheckedUpdateWithoutCategoryInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    streamId?: NullableStringFieldUpdateOperationsInput | string | null
+    txHash?: StringFieldUpdateOperationsInput | string
+    version?: IntFieldUpdateOperationsInput | number
+    sender?: StringFieldUpdateOperationsInput | string
+    receiver?: StringFieldUpdateOperationsInput | string
+    contractId?: NullableStringFieldUpdateOperationsInput | string | null
+    tokenAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    amount?: StringFieldUpdateOperationsInput | string
+    duration?: NullableIntFieldUpdateOperationsInput | number | null
+    status?: EnumStreamStatusFieldUpdateOperationsInput | $Enums.StreamStatus
+    withdrawn?: NullableStringFieldUpdateOperationsInput | string | null
+    legacy?: BoolFieldUpdateOperationsInput | boolean
+    migrated?: BoolFieldUpdateOperationsInput | boolean
+    isPrivate?: BoolFieldUpdateOperationsInput | boolean
+    yieldEnabled?: BoolFieldUpdateOperationsInput | boolean
+    vaultContractId?: NullableStringFieldUpdateOperationsInput | string | null
+    vaultShareBalance?: NullableStringFieldUpdateOperationsInput | string | null
+    vaultRatioScale?: NullableStringFieldUpdateOperationsInput | string | null
+    accruedInterest?: StringFieldUpdateOperationsInput | string
+    lastYieldAccrualAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isDust?: BoolFieldUpdateOperationsInput | boolean
+    affiliateId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type StreamUncheckedUpdateManyWithoutCategoryInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    streamId?: NullableStringFieldUpdateOperationsInput | string | null
+    txHash?: StringFieldUpdateOperationsInput | string
+    version?: IntFieldUpdateOperationsInput | number
+    sender?: StringFieldUpdateOperationsInput | string
+    receiver?: StringFieldUpdateOperationsInput | string
+    contractId?: NullableStringFieldUpdateOperationsInput | string | null
+    tokenAddress?: NullableStringFieldUpdateOperationsInput | string | null
+    amount?: StringFieldUpdateOperationsInput | string
+    duration?: NullableIntFieldUpdateOperationsInput | number | null
+    status?: EnumStreamStatusFieldUpdateOperationsInput | $Enums.StreamStatus
+    withdrawn?: NullableStringFieldUpdateOperationsInput | string | null
+    legacy?: BoolFieldUpdateOperationsInput | boolean
+    migrated?: BoolFieldUpdateOperationsInput | boolean
+    isPrivate?: BoolFieldUpdateOperationsInput | boolean
+    yieldEnabled?: BoolFieldUpdateOperationsInput | boolean
+    vaultContractId?: NullableStringFieldUpdateOperationsInput | string | null
+    vaultShareBalance?: NullableStringFieldUpdateOperationsInput | string | null
+    vaultRatioScale?: NullableStringFieldUpdateOperationsInput | string | null
+    accruedInterest?: StringFieldUpdateOperationsInput | string
+    lastYieldAccrualAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isDust?: BoolFieldUpdateOperationsInput | boolean
+    affiliateId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DisbursementUpdateWithoutCategoryInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    streamId?: StringFieldUpdateOperationsInput | string
+    txHash?: StringFieldUpdateOperationsInput | string
+    sender?: StringFieldUpdateOperationsInput | string
+    receiver?: StringFieldUpdateOperationsInput | string
+    amount?: BigIntFieldUpdateOperationsInput | bigint | number
+    tokenAddress?: StringFieldUpdateOperationsInput | string
+    status?: EnumDisbursementStatusFieldUpdateOperationsInput | $Enums.DisbursementStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    ledger?: IntFieldUpdateOperationsInput | number
+    batchId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type DisbursementUncheckedUpdateWithoutCategoryInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    streamId?: StringFieldUpdateOperationsInput | string
+    txHash?: StringFieldUpdateOperationsInput | string
+    sender?: StringFieldUpdateOperationsInput | string
+    receiver?: StringFieldUpdateOperationsInput | string
+    amount?: BigIntFieldUpdateOperationsInput | bigint | number
+    tokenAddress?: StringFieldUpdateOperationsInput | string
+    status?: EnumDisbursementStatusFieldUpdateOperationsInput | $Enums.DisbursementStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    ledger?: IntFieldUpdateOperationsInput | number
+    batchId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type DisbursementUncheckedUpdateManyWithoutCategoryInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    streamId?: StringFieldUpdateOperationsInput | string
+    txHash?: StringFieldUpdateOperationsInput | string
+    sender?: StringFieldUpdateOperationsInput | string
+    receiver?: StringFieldUpdateOperationsInput | string
+    amount?: BigIntFieldUpdateOperationsInput | bigint | number
+    tokenAddress?: StringFieldUpdateOperationsInput | string
+    status?: EnumDisbursementStatusFieldUpdateOperationsInput | $Enums.DisbursementStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    ledger?: IntFieldUpdateOperationsInput | number
+    batchId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type DisbursementDraftVersionCreateManyDraftInput = {
@@ -47154,13 +59795,25 @@ export namespace Prisma {
    * Aliases for legacy arg types
    */
     /**
-     * @deprecated Use DisbursementCountOutputTypeDefaultArgs instead
+     * @deprecated Use PaymentCategoryCountOutputTypeDefaultArgs instead
      */
-    export type DisbursementCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = DisbursementCountOutputTypeDefaultArgs<ExtArgs>
+    export type PaymentCategoryCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = PaymentCategoryCountOutputTypeDefaultArgs<ExtArgs>
     /**
      * @deprecated Use DisbursementDraftCountOutputTypeDefaultArgs instead
      */
     export type DisbursementDraftCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = DisbursementDraftCountOutputTypeDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use PaymentCategoryDefaultArgs instead
+     */
+    export type PaymentCategoryArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = PaymentCategoryDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use PaymentMetadataDefaultArgs instead
+     */
+    export type PaymentMetadataArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = PaymentMetadataDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use PaymentCategoryRuleDefaultArgs instead
+     */
+    export type PaymentCategoryRuleArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = PaymentCategoryRuleDefaultArgs<ExtArgs>
     /**
      * @deprecated Use StreamDefaultArgs instead
      */
@@ -47206,6 +59859,10 @@ export namespace Prisma {
      */
     export type ProposalArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = ProposalDefaultArgs<ExtArgs>
     /**
+     * @deprecated Use EventDefaultArgs instead
+     */
+    export type EventArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = EventDefaultArgs<ExtArgs>
+    /**
      * @deprecated Use OrganizationMemberDefaultArgs instead
      */
     export type OrganizationMemberArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = OrganizationMemberDefaultArgs<ExtArgs>
@@ -47217,6 +59874,14 @@ export namespace Prisma {
      * @deprecated Use LedgerHashDefaultArgs instead
      */
     export type LedgerHashArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = LedgerHashDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use SyncMetadataDefaultArgs instead
+     */
+    export type SyncMetadataArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = SyncMetadataDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use ClawbackHistoryDefaultArgs instead
+     */
+    export type ClawbackHistoryArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = ClawbackHistoryDefaultArgs<ExtArgs>
     /**
      * @deprecated Use NotificationSubscriptionDefaultArgs instead
      */
@@ -47254,13 +59919,13 @@ export namespace Prisma {
      */
     export type AssetConfigArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = AssetConfigDefaultArgs<ExtArgs>
     /**
+     * @deprecated Use ArchivedDisbursementDefaultArgs instead
+     */
+    export type ArchivedDisbursementArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = ArchivedDisbursementDefaultArgs<ExtArgs>
+    /**
      * @deprecated Use DisbursementDefaultArgs instead
      */
     export type DisbursementArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = DisbursementDefaultArgs<ExtArgs>
-    /**
-     * @deprecated Use SplitRecipientDefaultArgs instead
-     */
-    export type SplitRecipientArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = SplitRecipientDefaultArgs<ExtArgs>
     /**
      * @deprecated Use AssetMappingDefaultArgs instead
      */
@@ -47298,9 +59963,21 @@ export namespace Prisma {
      */
     export type CachedAssetArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = CachedAssetDefaultArgs<ExtArgs>
     /**
+     * @deprecated Use StreamTemplateDefaultArgs instead
+     */
+    export type StreamTemplateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = StreamTemplateDefaultArgs<ExtArgs>
+    /**
      * @deprecated Use SplitLinkDefaultArgs instead
      */
     export type SplitLinkArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = SplitLinkDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use OfacAuditLogDefaultArgs instead
+     */
+    export type OfacAuditLogArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = OfacAuditLogDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use AdminAuditLogDefaultArgs instead
+     */
+    export type AdminAuditLogArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = AdminAuditLogDefaultArgs<ExtArgs>
 
   /**
    * Batch Payload for updateMany & deleteMany & createMany

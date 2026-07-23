@@ -1,5 +1,7 @@
 import { PrismaClient } from "../generated/client/index.js";
 import { logger } from "../logger.js";
+import { WebhookDispatcherService } from "./webhook-dispatcher.service.js";
+import { randomBytes } from "crypto";
 
 const prisma = new PrismaClient();
 
@@ -19,7 +21,7 @@ export class WebhookService {
    */
   async trigger(payload: WebhookPayload): Promise<void> {
     try {
-      const activeWebhooks = await (prisma as unknown as { webhook: { findMany: (arg: { where: { isActive: boolean } }) => Promise<{ url: string }[]> } }).webhook.findMany({
+      const activeWebhooks = await (prisma as unknown as { webhook: { findMany: (arg: { where: { isActive: boolean } }) => Promise<{ id: string; url: string; secretKey: string }[]> } }).webhook.findMany({
         where: { isActive: true },
       });
 
@@ -30,15 +32,30 @@ export class WebhookService {
 
       logger.info(`Triggering ${activeWebhooks.length} webhooks for stream ${payload.streamId || payload.txHash}`);
 
-      const requests = activeWebhooks.map(async (webhook: { url: string }) => {
+      const body = JSON.stringify(payload);
+
+      const requests = activeWebhooks.map(async (webhook: { id: string; url: string; secretKey: string }) => {
         try {
+          const timestamp = new Date().toISOString();
+          const nonce = randomBytes(16).toString("hex");
+          const signature = WebhookDispatcherService.signPayload(
+            body,
+            webhook.secretKey,
+            timestamp,
+            nonce
+          );
+
           const response = await fetch(webhook.url, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
+              "X-StellarStream-Signature": signature,
+              "X-StellarStream-Timestamp": timestamp,
+              "X-StellarStream-Nonce": nonce,
+              "X-Webhook-ID": webhook.id,
               "User-Agent": "StellarStream-Webhook-Service/1.0",
             },
-            body: JSON.stringify(payload),
+            body,
           });
 
           if (!response.ok) {

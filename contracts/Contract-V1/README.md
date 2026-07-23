@@ -103,9 +103,15 @@ Stream {
 }
 ```
 
-### 5. Pause/Unpause Mechanism
-Senders can pause streams; paused time doesn't count toward vesting:
+### 5. Pause/Resume Mechanism
+Senders can pause and resume streams using the `StreamState` enum (`Active`, `Paused`, `Closed`):
 ```rust
+// Pause a stream - stops vesting
+pub fn pause_stream(env: Env, stream_id: u64, caller: Address) -> Result<(), Error>
+
+// Resume a paused stream - restores vesting with adjusted duration
+pub fn resume_stream(env: Env, stream_id: u64, caller: Address) -> Result<(), Error>
+
 // Paused duration is subtracted from calculations
 effective_elapsed = current_time - start_time - total_paused_duration;
 ```
@@ -126,7 +132,7 @@ pub struct Stream {
     pub start_time: u64,           // When streaming begins
     pub end_time: u64,             // When streaming ends
     pub withdrawn_amount: i128,    // Already withdrawn tokens
-    pub cancelled: bool,           // Stream cancellation status
+    pub state: StreamState,        // Active, Paused, or Closed
     pub curve_type: CurveType,     // Linear or Exponential
     pub is_soulbound: bool,        // Transfer restriction
     // ... additional fields for advanced features
@@ -138,6 +144,12 @@ pub struct Stream {
 pub enum CurveType {
     Linear = 0,      // Proportional unlocking
     Exponential = 1, // Quadratic acceleration
+}
+
+pub enum StreamState {
+    Active = 0,      // Tokens are vesting normally
+    Paused = 1,      // Vesting is suspended
+    Closed = 2,      // Stream is cancelled/ended
 }
 
 pub enum Role {
@@ -192,7 +204,8 @@ src/
 ├── soulbound_test.rs # Soulbound stream tests (8+ tests)
 ├── migration_test.rs # Schema migration tests (15+ tests)
 ├── upgrade_test.rs   # Contract upgrade tests (5+ tests)
-└── bench_test.rs     # Performance benchmarks (9+ tests)
+├── pause_resume_test.rs # Pause/resume tests (8+ tests)
+├── bench_test.rs     # Performance benchmarks (9+ tests)
 ```
 
 ### Deploying to Testnet
@@ -248,6 +261,20 @@ pub fn cancel_stream(
     env: Env,
     stream_id: u64,
     sender: Address,
+) -> Result<(), Error>
+
+// Pause a stream (stops vesting, only sender)
+pub fn pause_stream(
+    env: Env,
+    stream_id: u64,
+    caller: Address,
+) -> Result<(), Error>
+
+// Resume a paused stream (restores vesting)
+pub fn resume_stream(
+    env: Env,
+    stream_id: u64,
+    caller: Address,
 ) -> Result<(), Error>
 ```
 
@@ -473,10 +500,11 @@ pub enum Error {
     Unauthorized = 5,            // Missing permissions
     AlreadyCancelled = 6,        // Stream already cancelled
     InsufficientBalance = 7,     // Not enough tokens
-    StreamPaused = 14,           // Operations blocked
+    StreamPaused = 14,           // Cannot withdraw while paused
     StreamIsSoulbound = 21,      // Transfer not allowed
     AddressRestricted = 22,      // OFAC compliance violation
-    // ... 22 total error types
+    StreamNotPaused = 26,        // Cannot resume an active stream
+    // ... 26 total error types
 }
 ```
 

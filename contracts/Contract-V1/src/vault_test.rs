@@ -105,6 +105,7 @@ fn test_create_stream_with_vault() {
         &token_address,
         &1000,
         &100,
+        &100,
         &200,
         &milestones,
         &crate::types::CurveType::Linear,
@@ -151,6 +152,7 @@ fn test_create_stream_with_unapproved_vault() {
         &token_address,
         &1000,
         &100,
+        &100,
         &200,
         &milestones,
         &crate::types::CurveType::Linear,
@@ -185,6 +187,7 @@ fn test_withdraw_from_vault_stream() {
         &receiver,
         &token_address,
         &1000,
+        &100,
         &100,
         &200,
         &milestones,
@@ -240,6 +243,7 @@ fn test_cancel_stream_with_vault() {
         &token_address,
         &1000,
         &100,
+        &100,
         &200,
         &milestones,
         &crate::types::CurveType::Linear,
@@ -268,5 +272,5 @@ fn test_cancel_stream_with_vault() {
 
     // Verify stream is cancelled
     let stream = client.get_stream(&stream_id);
-    assert!(stream.cancelled);
+    assert_eq!(stream.state, crate::types::StreamState::Closed);
 }

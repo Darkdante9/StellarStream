@@ -20,11 +20,15 @@ import assetPriceRouter from "./asset-price.routes.js";
 import backfillRouter from "./backfill.routes.js";
 import validateSplitRouter from "./validate-split.routes.js";
 import proofOfPaymentRouter from "./proof-of-payment.routes.js";
+import paymentProofRouter from "./payment-proof.routes.js";
 import orgGasStatusRouter from "./org-gas-status.routes.js";
 import notificationChannelsRouter from "./notification-channels.routes.js";
 import assetMapperRouter from "./asset-mapper.routes.js";
 import templateRouter from "./template.routes.js";
+import escrowRouter from "./escrow.routes.js";
 import analyticsRouter from "../analytics.routes.js";
+import paymentCategoryRouter from "./payment-category.routes.js";
+import paymentMetadataRouter from "./payment-metadata.routes.js";
 import { getNonce } from "../auth.js";
 
 
@@ -32,6 +36,7 @@ const router = Router();
 
 router.use(responseWrapper);
 router.use(publicVerifyPaymentRouter);
+router.use(paymentProofRouter);
 router.get("/auth/nonce", getNonce);
 // All V3 endpoints require a valid API key.
 router.use(requireAuth);
@@ -65,5 +70,8 @@ router.use(notificationChannelsRouter);
 router.use("/assets", assetMapperRouter);
 router.use("/analytics", analyticsRouter);
 router.use(templateRouter);
+router.use(paymentCategoryRouter);
+router.use(paymentMetadataRouter);
+router.use(escrowRouter);
 
 export default router;

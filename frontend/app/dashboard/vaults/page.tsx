@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { TrendingUp, TrendingDown, DollarSign, PieChart } from "lucide-react";
 
 // ─── Types ────────────────────────────────────────────────────────────────────

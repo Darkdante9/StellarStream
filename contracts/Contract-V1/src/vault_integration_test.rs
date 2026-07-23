@@ -110,7 +110,7 @@ fn test_stream_survives_vault_pause() {
         &receiver,
         &token_address,
         &10000,
-        &100,
+        &100, &100,
         &300,
         &CurveType::Linear,
         &false,
@@ -124,7 +124,7 @@ fn test_stream_survives_vault_pause() {
 
     // Stream should still be queryable and functional
     let stream = stream_client.get_stream(&stream_id);
-    assert!(!stream.cancelled);
+    assert_ne!(stream.state, crate::types::StreamState::Closed);
     assert_eq!(stream.total_amount, 10000);
 
     // The stream contract should handle vault failures gracefully

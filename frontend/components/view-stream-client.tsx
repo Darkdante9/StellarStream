@@ -2,16 +2,23 @@
 
 /**
  * Client-only interactive parts of the public stream preview page.
- * Kept separate so the parent page.tsx can be a Server Component with ISR.
+ * Complete redesign with moon theme, enhanced data visualization, and action buttons.
  */
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { motion } from "framer-motion";
-import { TrendingUp, ShieldCheck } from "lucide-react";
-import { VerifiedNebulaBadge } from "@/components/VerifiedNebulaBadge";
-import { OrganizationAvatar } from "@/components/organization-avatar";
+import { TrendingUp } from "lucide-react";
+import io, { type Socket } from "socket.io-client";
+import { StreamHeader } from "@/components/stream/stream-header";
+import { FlowRateGauge } from "@/components/stream/flow-rate-gauge";
+import { ProgressBar } from "@/components/stream/progress-bar";
+import { BalanceProjectionChart } from "@/components/stream/balance-projection-chart";
+import { TransactionHistory } from "@/components/stream/transaction-history";
+import { ActionButtons } from "@/components/stream/action-buttons";
+import { StreamSkeleton } from "@/components/stream/stream-skeleton";
+import { StreamError } from "@/components/stream/stream-error";
 
-// ─── Types (duplicated here to avoid importing from the server page) ──────────
+// ─── Types ─────────────────────────────────────────────────────────────────
 
 export interface StreamData {
   id: string;
@@ -33,7 +40,9 @@ export interface StreamData {
   };
 }
 
-// ─── Live counter ─────────────────────────────────────────────────────────────
+const WS_URL = process.env.NEXT_PUBLIC_WS_URL || "ws://localhost:3001";
+
+// ─── Live counter ─────────────────────────────────────────────────────────
 
 function LiveCounter({ base, rate }: { base: number; rate: number }) {
   const [val, setVal] = useState(base);
@@ -54,141 +63,168 @@ function LiveCounter({ base, rate }: { base: number; rate: number }) {
   );
 }
 
-// ─── Main client shell ────────────────────────────────────────────────────────
+// ─── Main client shell ─────────────────────────────────────────────────────
 
 export function ViewStreamClient({ stream }: { stream: StreamData }) {
-  const isActive = stream.status === "active";
-  const percentComplete = (stream.streamed / stream.totalAmount) * 100;
-  const endTime = new Date(stream.endTime);
-  const daysLeft = Math.ceil((endTime.getTime() - Date.now()) / (1000 * 60 * 60 * 24));
+  const [liveStream, setLiveStream] = useState<StreamData>(stream);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const socketRef = useRef<Socket | null>(null);
+
+  const isActive = liveStream.status === "active";
+
+  // ─── WebSocket connection for real-time updates ─────────────────────────
+  useEffect(() => {
+    // Connect to WebSocket for real-time stream updates
+    try {
+      const socket = io(WS_URL, {
+        transports: ["websocket", "polling"],
+        reconnection: true,
+        reconnectionAttempts: 5,
+        reconnectionDelay: 1000,
+      });
+
+      socket.on("connect", () => {
+        console.log("[WS] Connected to stream updates");
+        socket.emit("subscribe:stream", liveStream.id);
+      });
+
+      socket.on("stream:update", (data: Partial<StreamData>) => {
+        setLiveStream((prev) => ({
+          ...prev,
+          ...data,
+        }));
+      });
+
+      socket.on("stream:status", (status: StreamData["status"]) => {
+        setLiveStream((prev) => ({ ...prev, status }));
+      });
+
+      socket.on("disconnect", () => {
+        console.log("[WS] Disconnected from stream updates");
+      });
+
+      socket.on("connect_error", (err) => {
+        console.warn("[WS] Connection error (non-critical):", err.message);
+      });
+
+      socketRef.current = socket;
+
+      return () => {
+        socket.emit("unsubscribe:stream", liveStream.id);
+        socket.disconnect();
+        socketRef.current = null;
+      };
+    } catch (err) {
+      // WebSocket is optional — fall back to polling if unavailable
+      console.warn("[WS] Failed to connect (using fallback):", err);
+    }
+  }, [liveStream.id]);
+
+  // ─── Retry handler ──────────────────────────────────────────────────────
+  const handleRetry = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const res = await fetch(`/api/stream/${liveStream.id}`);
+      if (!res.ok) throw new Error("Failed to fetch");
+      const data = await res.json();
+      setLiveStream((prev) => ({ ...prev, ...data }));
+    } catch (err) {
+      setError(
+        err instanceof Error ? err.message : "Failed to load stream data",
+      );
+    } finally {
+      setLoading(false);
+    }
+  }, [liveStream.id]);
+
+  // ─── Loading state ──────────────────────────────────────────────────────
+  if (loading) {
+    return <StreamSkeleton />;
+  }
+
+  // ─── Error state ────────────────────────────────────────────────────────
+  if (error) {
+    return <StreamError message={error} onRetry={handleRetry} />;
+  }
+
+  const percentComplete = (liveStream.streamed / liveStream.totalAmount) * 100;
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
-      className="glass-card max-w-lg w-full mx-auto p-8 space-y-6"
-    >
-      {/* Verified Badge Header */}
-      <div className="flex flex-col items-center justify-center -mt-12 mb-8 gap-3">
-        {stream.organization && (
-          <OrganizationAvatar
-            logoUrl={stream.organization.logo_url}
-            stellarAddress={stream.organization.id}
-            size={56}
-            className="rounded-2xl border border-white/20 shadow-[0_0_24px_rgba(0,245,255,0.2)]"
-            altText={`${stream.organization.name} logo`}
-          />
-        )}
-        <VerifiedNebulaBadge />
-      </div>
+    <div className="mx-auto w-full max-w-4xl">
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.4 }}
+        className="flex flex-col gap-5"
+      >
+        {/* ────────── Header Card ────────── */}
+        <StreamHeader stream={liveStream} />
 
-      {/* Internal Header */}
-      <div className="flex items-center justify-between">
-        <span className="font-ticker text-[10px] uppercase tracking-widest text-[#00f5ff]/40">
-          TX_REF: {stream.id.slice(0, 16)}...
-        </span>
-        <span
-          className={`inline-flex items-center gap-2 rounded-full border px-3 py-1 text-[11px] font-black uppercase tracking-wider ${
-            isActive
-              ? "border-cyan-400/50 bg-cyan-400/10 text-cyan-400 shadow-[0_0_10px_rgba(34,211,238,0.2)]"
-              : stream.status === "paused"
-              ? "border-orange-400/30 bg-orange-400/10 text-orange-400"
-              : "border-white/15 bg-white/5 text-white/40"
-          }`}
+        {/* ────────── Live Counter ────────── */}
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.05 }}
+          className="flex flex-col items-center justify-center rounded-2xl border border-white/10 bg-white/[0.03] p-6 backdrop-blur-xl"
+          role="status"
+          aria-live="polite"
+          aria-label={`Total streamed: ${liveStream.streamed.toFixed(2)} ${liveStream.token}`}
         >
+          <p className="font-body text-[10px] uppercase tracking-widest text-white/35">
+            Total Streamed
+          </p>
+          <div className="mt-2 flex items-baseline gap-2">
+            <span className="font-ticker text-5xl font-bold text-[#00f5ff]">
+              <LiveCounter
+                base={liveStream.streamed}
+                rate={isActive ? liveStream.ratePerSecond : 0}
+              />
+            </span>
+            <span className="font-body text-lg text-[#00f5ff]/60">
+              {liveStream.token}
+            </span>
+          </div>
           {isActive && (
-            <span className="h-1.5 w-2 bg-current animate-pulse rounded-sm" />
+            <div className="mt-1 flex items-center gap-1.5 text-sm text-white/50">
+              <TrendingUp className="h-4 w-4" aria-hidden="true" />
+              <span aria-label={`${liveStream.ratePerSecond.toFixed(5)} ${liveStream.token} per second`}>
+                +{liveStream.ratePerSecond.toFixed(5)} {liveStream.token}/sec
+              </span>
+            </div>
           )}
-          {stream.status}
-        </span>
-      </div>
+        </motion.div>
 
-      {/* Title */}
-      <h1 className="font-heading text-2xl font-bold text-white">{stream.name}</h1>
+        {/* ────────── Data Visualizations Row ────────── */}
+        <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
+          <ProgressBar stream={liveStream} />
+          <FlowRateGauge stream={liveStream} />
+        </div>
 
-      {/* Live flow counter */}
-      <div className="text-center space-y-2">
-        <p className="font-body text-[10px] uppercase tracking-widest text-white/35">
-          Total Streamed
+        {/* ────────── Balance Projection Chart ────────── */}
+        <BalanceProjectionChart stream={liveStream} />
+
+        {/* ────────── Action Buttons ────────── */}
+        <ActionButtons stream={liveStream} />
+
+        {/* ────────── Transaction History ────────── */}
+        <TransactionHistory
+          streamId={liveStream.id}
+          token={liveStream.token}
+        />
+
+        {/* ────────── Powered by Footer ────────── */}
+        <p className="py-6 text-center font-body text-xs text-white/20">
+          Powered by{" "}
+          <a
+            href="https://stellarstream.app"
+            className="text-[#00f5ff]/60 transition-colors hover:text-[#00f5ff]"
+          >
+            StellarStream
+          </a>
         </p>
-        <div className="flex items-baseline justify-center gap-2">
-          <span className="font-ticker text-5xl font-bold text-[#00f5ff]">
-            <LiveCounter
-              base={stream.streamed}
-              rate={isActive ? stream.ratePerSecond : 0}
-            />
-          </span>
-          <span className="font-body text-lg text-[#00f5ff]/60">{stream.token}</span>
-        </div>
-        {isActive && (
-          <div className="flex items-center justify-center gap-1.5 text-sm text-white/50">
-            <TrendingUp className="h-4 w-4" />
-            +{stream.ratePerSecond.toFixed(5)} {stream.token}/sec
-          </div>
-        )}
-      </div>
-
-      {/* Progress bar */}
-      <div className="space-y-2">
-        <div className="flex justify-between text-xs text-white/40">
-          <span>{percentComplete.toFixed(1)}% complete</span>
-          <span>
-            {stream.totalAmount.toLocaleString()} {stream.token}
-          </span>
-        </div>
-        <div className="h-2 w-full overflow-hidden rounded-full bg-white/8">
-          <motion.div
-            initial={{ width: 0 }}
-            animate={{ width: `${percentComplete}%` }}
-            transition={{ duration: 1, ease: "easeOut" }}
-            className="h-full rounded-full"
-            style={{
-              background: "linear-gradient(90deg, #00f5ff, #8a00ff)",
-            }}
-          />
-        </div>
-      </div>
-
-      {/* Details grid */}
-      <div className="grid grid-cols-2 gap-4 border-t border-white/8 pt-5">
-        {[
-          { label: "Sender", value: stream.sender, mono: true },
-          { label: "Receiver", value: stream.receiver, mono: true },
-          {
-            label: "Time Remaining",
-            value: daysLeft > 0 ? `${daysLeft} days` : "Ended",
-          },
-          {
-            label: "Rate",
-            value: `${(stream.ratePerSecond * 86400).toFixed(2)} ${stream.token}/day`,
-          },
-        ].map(({ label, value, mono }) => (
-          <div key={label} className="space-y-1">
-            <p className="font-body text-[10px] uppercase tracking-wider text-white/30">
-              {label}
-            </p>
-            <p
-              className={`text-sm font-semibold text-white ${
-                mono ? "font-ticker" : "font-body"
-              }`}
-            >
-              {value}
-            </p>
-          </div>
-        ))}
-      </div>
-
-      {/* Brand footer */}
-      <p className="text-center font-body text-xs text-white/20">
-        Powered by{" "}
-        <a
-          href="https://stellarstream.app"
-          className="text-[#00f5ff]/60 hover:text-[#00f5ff] transition-colors"
-        >
-          StellarStream
-        </a>
-      </p>
-    </motion.div>
+      </motion.div>
+    </div>
   );
 }

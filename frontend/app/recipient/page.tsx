@@ -12,7 +12,7 @@
 
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Wallet, Shield, FileText, AlertTriangle, CheckCircle, Clock, DollarSign } from "lucide-react";
+import { Wallet, Shield, FileText, AlertTriangle, CheckCircle, Clock, _DollarSign } from "lucide-react";
 import { useWallet } from "@/lib/wallet-context";
 import { signTransaction } from "@stellar/freighter-api";
 

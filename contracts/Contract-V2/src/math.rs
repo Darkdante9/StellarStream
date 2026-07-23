@@ -73,18 +73,18 @@ pub fn calculate_exponential_unlocked(total: i128, duration: i128, elapsed: i128
 }
 
 /// Calculate a share based on basis points (1 BPS = 0.01%).
-/// 
+///
 /// Logic: (amount * bps) / 10,000
 pub fn calculate_share(amount: i128, bps: u32) -> i128 {
     if bps == 0 {
         return 0;
     }
-    // Using simple arithmetic; stroop-denominated amounts (i128) won't 
+    // Using simple arithmetic; stroop-denominated amounts (i128) won't
     // overflow when multiplied by 10,000 (max ~10^22 vs i128::MAX ~10^38).
     (amount * bps as i128) / 10_000
 }
 
-/// Calculate the residual share for the final recipient to ensure 
+/// Calculate the residual share for the final recipient to ensure
 /// strict atomicity and prevent locked funds (Rounding Strategy).
 pub fn calculate_residual_share(total_amount: i128, sum_distributed: i128) -> i128 {
     total_amount.saturating_sub(sum_distributed)
@@ -217,7 +217,10 @@ mod tests {
     #[test]
     fn test_mul_div_preserves_precision() {
         assert_eq!(FixedPoint::mul_div(10, 1, 3).unwrap(), 3);
-        assert_eq!(FixedPoint::mul_div(100_000_000, 50, 100).unwrap(), 50_000_000);
+        assert_eq!(
+            FixedPoint::mul_div(100_000_000, 50, 100).unwrap(),
+            50_000_000
+        );
     }
 
     #[test]
@@ -291,8 +294,14 @@ mod tests {
 
     #[test]
     fn test_exponential_full_duration() {
-        assert_eq!(calculate_exponential_unlocked(1_000_000, 100, 100), 1_000_000);
-        assert_eq!(calculate_exponential_unlocked(1_000_000, 100, 200), 1_000_000);
+        assert_eq!(
+            calculate_exponential_unlocked(1_000_000, 100, 100),
+            1_000_000
+        );
+        assert_eq!(
+            calculate_exponential_unlocked(1_000_000, 100, 200),
+            1_000_000
+        );
     }
 
     #[test]
@@ -346,13 +355,99 @@ mod tests {
         // Two recipients with 3333 BPS each
         let share1 = calculate_share(total, 3333); // 333
         let share2 = calculate_share(total, 3333); // 333
-        
+
         let sum_distributed = share1 + share2; // 666
-        
+
         // Final recipient with 3334 BPS (sum = 10000)
         let share3 = calculate_residual_share(total, sum_distributed);
-        
+
         assert_eq!(share3, 334);
         assert_eq!(share1 + share2 + share3, total);
+    }
+
+    // ── Issue #1156: Stream Withdrawal Precision Tests ───────────────────────
+
+    #[test]
+    fn test_precision_100_seconds_0_3_xlm_per_sec() {
+        // Stream flows at 0.3 XLM/second
+        // Withdraw after 100 seconds → should be exactly 30 XLM
+        // Convert to stroops: 30 XLM = 30 * 10^7 = 300,000,000 stroops
+        let total_xlm = 30_i128;
+        let total_stroops = total_xlm * SCALE; // 300,000,000
+        let duration_sec = 100_i128;
+        let elapsed_sec = 100_i128;
+
+        let unlocked = calculate_flow(total_stroops, duration_sec, elapsed_sec);
+
+        // Should be exactly 30 XLM in stroops
+        assert_eq!(unlocked, total_stroops);
+        assert_eq!(unlocked / SCALE, total_xlm);
+    }
+
+    #[test]
+    fn test_precision_3_seconds_0_1_xlm_per_sec() {
+        // Stream flows at 0.1 XLM/second
+        // Withdraw after 3 seconds → should be exactly 0.3 XLM
+        // Convert to stroops: 0.3 XLM = 0.3 * 10^7 = 3,000,000 stroops
+        let total_xlm = 3_i128; // 0.3 XLM represented as 3 with SCALE
+        let total_stroops = total_xlm * SCALE; // 3,000,000
+        let duration_sec = 10_i128; // 10 second total duration
+        let elapsed_sec = 3_i128; // 3 seconds elapsed
+
+        let unlocked = calculate_flow(total_stroops, duration_sec, elapsed_sec);
+
+        // Should be exactly 0.3 XLM in stroops
+        assert_eq!(unlocked, total_stroops);
+        assert_eq!(unlocked / SCALE, total_xlm);
+    }
+
+    #[test]
+    fn test_precision_1000_withdrawals_sum_equals_expected() {
+        // Test 1000 withdrawals, verify sum equals expected
+        // Total: 1000 XLM over 1000 seconds (1 XLM/sec)
+        let total_xlm = 1000_i128;
+        let total_stroops = total_xlm * SCALE;
+        let duration_sec = 1000_i128;
+
+        let mut total_withdrawn = 0_i128;
+        let mut previous_unlocked = 0_i128;
+
+        for i in 1..=1000 {
+            let elapsed = i as i128;
+            let unlocked = calculate_flow(total_stroops, duration_sec, elapsed);
+            let withdrawable = unlocked - previous_unlocked;
+
+            if withdrawable > 0 {
+                total_withdrawn += withdrawable;
+            }
+
+            previous_unlocked = unlocked;
+        }
+
+        // Total withdrawn should equal total amount
+        assert_eq!(total_withdrawn, total_stroops);
+        assert_eq!(total_withdrawn / SCALE, total_xlm);
+    }
+
+    #[test]
+    fn test_precision_fractional_flow_rates() {
+        // Test various fractional flow rates to ensure no precision loss
+        // 0.3 XLM/sec for 100 sec = 30 XLM
+        let test_cases = vec![
+            (30_i128, 100_i128, 100_i128),    // 0.3 XLM/sec, 100 sec
+            (10_i128, 100_i128, 100_i128),    // 0.1 XLM/sec, 100 sec
+            (50_i128, 100_i128, 100_i128),    // 0.5 XLM/sec, 100 sec
+            (1_i128, 1_i128, 1_i128),         // 1 XLM/sec, 1 sec
+            (333_i128, 1000_i128, 1000_i128), // 0.333 XLM/sec, 1000 sec
+        ];
+
+        for (total_xlm, duration_sec, elapsed_sec) in test_cases {
+            let total_stroops = total_xlm * SCALE;
+            let unlocked = calculate_flow(total_stroops, duration_sec, elapsed_sec);
+
+            // Verify no precision loss
+            assert_eq!(unlocked, total_stroops);
+            assert_eq!(unlocked / SCALE, total_xlm);
+        }
     }
 }

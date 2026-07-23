@@ -34,6 +34,7 @@ fn test_remaining_time_counts_down() {
         &token_id,
         &1000,
         &100,
+        &100,
         &600,
         &CurveType::Linear,
         &false,

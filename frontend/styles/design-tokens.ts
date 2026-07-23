@@ -9,6 +9,22 @@ export const DESIGN_TOKENS = {
   // Colors
   // ─────────────────────────────────────────────────────────────
   colors: {
+    // Moon Dark Design System Colors
+    moon: {
+      background: '#0f1419',
+      card: '#1a1f27',
+      border: '#7c3aed',
+      textPrimary: '#f5f3ff',
+      textSecondary: '#a8adc1',
+      accent: '#00d4ff',
+    },
+    // Gas Tank specific tokens
+    gasTank: {
+      background: '#232a34', // dark gray background for gauge
+      fill: '#00d4ff', // electric blue fill
+      glow: '#7c3aed', // nebula purple glow
+      low: '#f59e0b', // amber for low gas
+    },
     // Primary - main brand color
     primary: {
       50: '#f0f9ff',

@@ -16,6 +16,8 @@ export { default as StatsCard } from './widgets/StatsCard';
 export { default as StreamCard } from './widgets/StreamCard';
 export { default as ActivityCard } from './widgets/ActivityCard';
 export { default as ProgressCard } from './widgets/ProgressCard';
+export { HeroStats } from './hero-stats';
+export { StreamingBalances } from './streaming-balances';
 
 // Charts
 export { default as StreamChart } from './charts/StreamChart';

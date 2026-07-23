@@ -28,6 +28,8 @@ import { usePageVisibility } from "@/lib/hooks/use-page-visibility";
 import { fetchAccountBalances, HORIZON_MAINNET_URL, HORIZON_TESTNET_URL } from "@/lib/horizon";
 import { normalizeNetworkName } from "@/lib/network";
 import { GasTankAdvisor } from "./dashboard/GasTankAdvisor";
+import { useGasBuffer } from "@/lib/use-gas-buffer";
+import { GasTankRefillWizard } from "./gas-tank-refill-wizard";
 
 // Refill links for different exchanges
 const REFILL_LINKS = {
@@ -44,7 +46,8 @@ interface GasTankProps {
 
 export default function GasTank({
   maxDisplay = 20,
-  warningThreshold = 5,
+  // low gas color threshold per acceptance criteria
+  warningThreshold = 0.5,
   position = "sidebar",
 }: GasTankProps) {
   const { address, isConnected, network } = useWallet();
@@ -55,6 +58,8 @@ export default function GasTank({
   const [showRefillModal, setShowRefillModal] = useState(false);
   const [showAdvisor, setShowAdvisor] = useState(false);
   const [isPulsing, setIsPulsing] = useState(false);
+  const { status: bufferStatus, pendingOp: bufferPending } = useGasBuffer();
+  const [secondsRemaining, setSecondsRemaining] = useState<number | null>(null);
   
   // Page visibility for pausing polling
   const isPageVisible = usePageVisibility();
@@ -107,6 +112,35 @@ export default function GasTank({
 
   const isLowBalance = balance < warningThreshold;
   const fillPercent = Math.min((balance / maxDisplay) * 100, 100);
+
+  // derive seconds remaining from gas buffer status (if available)
+  useEffect(() => {
+    if (bufferStatus && typeof bufferStatus.daysRemaining === "number" && bufferStatus.daysRemaining !== null) {
+      setSecondsRemaining(Math.max(0, Math.floor(bufferStatus.daysRemaining * 24 * 3600)));
+    } else {
+      setSecondsRemaining(null);
+    }
+  }, [bufferStatus]);
+
+  // countdown tick for real-time update
+  useEffect(() => {
+    if (secondsRemaining === null) return;
+    const id = setInterval(() => {
+      setSecondsRemaining((s) => (s && s > 0 ? s - 1 : 0));
+    }, 1000);
+    return () => clearInterval(id);
+  }, [secondsRemaining]);
+
+  const formatCountdown = (secs: number | null) => {
+    if (secs === null) return "--";
+    if (secs <= 0) return "0s";
+    const d = Math.floor(secs / 86400);
+    const h = Math.floor((secs % 86400) / 3600);
+    const m = Math.floor((secs % 3600) / 60);
+    if (d > 0) return `${d}d ${h}h`;
+    if (h > 0) return `${h}h ${m}m`;
+    return `${m}m`;
+  };
 
   return (
     <>
@@ -166,66 +200,53 @@ export default function GasTank({
           color: rgba(255, 255, 255, 0.5);
         }
 
-        /* Gauge */
-        .gauge-container {
+        /* Circular Gauge */
+        .circular-gauge {
           position: relative;
-          width: 32px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 120px;
           height: 120px;
+          cursor: pointer;
         }
 
-        .gauge-tube {
-          position: relative;
-          width: 32px;
-          height: 120px;
-          background: rgba(255, 255, 255, 0.03);
-          border: 1px solid rgba(255, 255, 255, 0.1);
-          border-radius: 16px 16px 12px 12px;
-          overflow: hidden;
-          box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.5);
+        .gauge-svg {
+          width: 100%;
+          height: auto;
+          display: block;
         }
 
-        .gauge-liquid {
+        .gauge-center {
           position: absolute;
-          bottom: 0;
-          left: 0;
-          right: 0;
-          transition: height 1s cubic-bezier(0.34, 1.56, 0.64, 1);
-          border-radius: 0 0 11px 11px;
-        }
-
-        .gauge-liquid.normal {
-          background: linear-gradient(to top, rgba(0, 160, 200, 0.9), rgba(0, 229, 255, 0.7));
-        }
-
-        .gauge-liquid.low {
-          background: linear-gradient(to top, rgba(200, 60, 10, 0.9), rgba(255, 107, 43, 0.7));
-        }
-
-        .gauge-liquid::after {
-          content: '';
-          position: absolute;
-          top: -6px;
-          left: 0;
-          right: 0;
-          height: 12px;
-          background: linear-gradient(to bottom, rgba(255,255,255,0.3), transparent);
-          border-radius: 50%;
-        }
-
-        .gauge-glow {
-          position: absolute;
-          inset: -4px;
-          border-radius: 20px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 4px;
           pointer-events: none;
-          transition: box-shadow 0.6s ease;
         }
 
-        .gauge-glow.normal {
-          box-shadow: 0 0 15px rgba(0, 229, 255, 0.2);
+        .countdown {
+          font-size: 11px;
+          color: rgba(255,255,255,0.5);
         }
 
-        .gauge-glow.low {
-          box-shadow: 0 0 20px rgba(255, 107, 43, 0.3);
+        .gauge-loading {
+          position: absolute;
+          inset: 0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: rgba(0,0,0,0.45);
+          color: white;
+          font-size: 12px;
+          border-radius: 12px;
+        }
+
+        /* Responsive: scale down for mobile */
+        @media (max-width: 480px) {
+          .circular-gauge { width: 88px; height: 88px; }
+          .gauge-center .balance-value { font-size: 16px; }
         }
 
         /* Balance Display */
@@ -482,17 +503,53 @@ export default function GasTank({
           </button>
         </div>
 
-        {/* Gauge */}
-        <div className="gauge-container">
-          <div className={`gauge-glow ${isLowBalance ? "low" : "normal"}`} />
-          <div className="gauge-tube">
-            <motion.div
-              className={`gauge-liquid ${isLowBalance ? "low" : "normal"}`}
-              initial={{ height: 0 }}
-              animate={{ height: `${fillPercent}%` }}
-              transition={{ duration: 1, ease: "easeOut" }}
+        {/* Circular Gauge */}
+        <div
+          className="circular-gauge"
+          role="img"
+          aria-label={`Gas tank: ${isLoading ? 'loading' : balance.toFixed(2)} XLM`}
+          title="Gas Tank: shows XLM available for Soroban fees. Click to refill."
+        >
+          <svg viewBox="0 0 120 120" width="120" height="120" className="gauge-svg" aria-hidden="true">
+            <defs>
+              <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+                <feGaussianBlur stdDeviation="6" result="coloredBlur" />
+                <feMerge>
+                  <feMergeNode in="coloredBlur" />
+                  <feMergeNode in="SourceGraphic" />
+                </feMerge>
+              </filter>
+            </defs>
+            <circle cx="60" cy="60" r="48" strokeWidth="12" stroke={"#232a34"} fill="none" />
+            <motion.circle
+              cx="60"
+              cy="60"
+              r={48}
+              strokeWidth={12}
+              strokeLinecap="round"
+              stroke={isLowBalance ? "#f59e0b" : "#00d4ff"}
+              fill="none"
+              style={{ filter: "url(#glow)" }}
+              initial={{ strokeDashoffset: 2 * Math.PI * 48 }}
+              animate={{
+                strokeDashoffset: 2 * Math.PI * 48 * (1 - fillPercent / 100),
+              }}
+              transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
+              strokeDasharray={2 * Math.PI * 48}
             />
+          </svg>
+          <div className="gauge-center">
+            <div className={`balance-value ${isLowBalance ? "low" : "normal"} ${isPulsing ? "pulse" : ""}`}>
+              {isLoading ? "..." : balance.toFixed(2)}
+            </div>
+            <div className="balance-unit">XLM</div>
+            <div className="countdown">{formatCountdown(secondsRemaining)} remaining</div>
+            <div className="countdown">{bufferStatus ? `${bufferStatus.burnRatePerDayXlm.toFixed(3)} XLM/day` : "--"}</div>
           </div>
+          {bufferPending === "deposit" && (
+            <div className="gauge-loading">Processing transaction...</div>
+          )}
+          <span aria-live="polite" style={{position: 'absolute', left: -9999, top: 'auto', width: 1, height: 1, overflow: 'hidden'}}>Balance {isLoading ? 'loading' : `${balance.toFixed(2)} XLM`}</span>
         </div>
 
         {/* Balance Display */}
@@ -537,94 +594,8 @@ export default function GasTank({
         </AnimatePresence>
       </div>
 
-      {/* Refill Modal */}
-      <AnimatePresence>
-        {showRefillModal && (
-          <motion.div
-            className="refill-modal-overlay"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={() => setShowRefillModal(false)}
-          >
-            <motion.div
-              className="refill-modal"
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
-              onClick={(e) => e.stopPropagation()}
-            >
-              <div className="modal-header">
-                <h3 className="modal-title">Refill XLM</h3>
-                <button
-                  className="modal-close"
-                  onClick={() => setShowRefillModal(false)}
-                  aria-label="Close"
-                >
-                  <X className="w-4 h-4" />
-                </button>
-              </div>
-
-              <div className="modal-body">
-                <a
-                  href={REFILL_LINKS.lobstr}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="refill-option"
-                >
-                  <div className="refill-icon">
-                    <Wallet className="w-5 h-5 text-[#ff6b2b]" />
-                  </div>
-                  <div className="refill-info">
-                    <div className="refill-name">LOBSTR Wallet</div>
-                    <div className="refill-desc">Buy XLM directly</div>
-                  </div>
-                  <ExternalLink className="refill-arrow w-4 h-4" />
-                </a>
-
-                <a
-                  href={REFILL_LINKS.binance}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="refill-option"
-                >
-                  <div className="refill-icon">
-                    <Wallet className="w-5 h-5 text-[#ff6b2b]" />
-                  </div>
-                  <div className="refill-info">
-                    <div className="refill-name">Binance</div>
-                    <div className="refill-desc">Trade XLM/USDT</div>
-                  </div>
-                  <ExternalLink className="refill-arrow w-4 h-4" />
-                </a>
-
-                <a
-                  href={REFILL_LINKS.stellarX}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="refill-option"
-                >
-                  <div className="refill-icon">
-                    <Wallet className="w-5 h-5 text-[#ff6b2b]" />
-                  </div>
-                  <div className="refill-info">
-                    <div className="refill-name">StellarSwap</div>
-                    <div className="refill-desc">Decentralized swap</div>
-                  </div>
-                  <ExternalLink className="refill-arrow w-4 h-4" />
-                </a>
-
-                <div className="modal-warning">
-                  <AlertTriangle className="modal-warning-icon w-4 h-4" />
-                  <p className="modal-warning-text">
-                    You need at least 5 XLM for Soroban storage rent and transaction fees.
-                  </p>
-                </div>
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {/* Refill wizard component (separate file) */}
+      <GasTankRefillWizard isOpen={showRefillModal} onClose={() => setShowRefillModal(false)} />
 
       <GasTankAdvisor 
         isOpen={showAdvisor}

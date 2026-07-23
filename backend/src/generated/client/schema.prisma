@@ -2,8 +2,9 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
-  output   = "../src/generated/client"
+  provider   = "prisma-client-js"
+  output     = "../src/generated/client"
+  engineType = "binary"
 }
 
 datasource db {
@@ -11,32 +12,88 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// User-defined payment categories for organizing streams and disbursements
+model PaymentCategory {
+  id           String   @id @default(cuid())
+  name         String
+  description  String?
+  color        String   @default("#6366f1") // hex color for UI
+  icon         String? // optional icon identifier
+  ownerAddress String // Stellar address of the creator
+  isDefault    Boolean  @default(false) // system-level default categories
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  rules         PaymentCategoryRule[]
+  streams       Stream[]
+  disbursements Disbursement[]
+
+  @@unique([ownerAddress, name])
+  @@index([ownerAddress])
+}
+
+// Flexible key-value metadata for streams, disbursements, and categories (#1385)
+model PaymentMetadata {
+  id           String   @id @default(cuid())
+  entityType   String // 'stream' | 'disbursement' | 'category'
+  entityId     String
+  key          String
+  value        String
+  ownerAddress String // Stellar address of the creator (for scoping + search)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@unique([entityType, entityId, key]) // one value per key per entity
+  @@index([ownerAddress])
+  @@index([entityType, entityId])
+  @@index([key])
+  @@index([ownerAddress, key, value]) // supports search-by-metadata
+}
+
+// Auto-categorization rules attached to a PaymentCategory
+model PaymentCategoryRule {
+  id         String          @id @default(cuid())
+  categoryId String
+  category   PaymentCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  // field: 'sender' | 'receiver' | 'tokenAddress' | 'amountMin' | 'amountMax'
+  field      String
+  // operator: 'equals' | 'contains' | 'startsWith' | 'gte' | 'lte'
+  operator   String
+  value      String
+  priority   Int             @default(0)
+  createdAt  DateTime        @default(now())
+
+  @@index([categoryId])
+}
+
 // Mirrors the Stream state from the Soroban smart contract
 model Stream {
-  id                 String       @id @default(cuid())
-  streamId           String?      @unique // Contract-level Stream ID
-  txHash             String       @unique
-  version            Int          @default(1)
+  id                 String           @id @default(cuid())
+  streamId           String?          @unique // Contract-level Stream ID
+  txHash             String           @unique
+  version            Int              @default(1)
   sender             String
   receiver           String
-  contractId         String?      @map("contract_id")
+  contractId         String?          @map("contract_id")
   tokenAddress       String?
   amount             String // Store as string to handle large numbers safely
   duration           Int?
-  status             StreamStatus @default(ACTIVE)
-  withdrawn          String?      @default("0")
-  legacy             Boolean      @default(false) // true = originated from V1 contract
-  migrated           Boolean      @default(false) // true = V1 stream superseded by V2
-  isPrivate          Boolean      @default(false)
-  yieldEnabled       Boolean      @default(false) @map("yield_enabled")
+  status             StreamStatus     @default(ACTIVE)
+  withdrawn          String?          @default("0")
+  legacy             Boolean          @default(false) // true = originated from V1 contract
+  migrated           Boolean          @default(false) // true = V1 stream superseded by V2
+  isPrivate          Boolean          @default(false)
+  yieldEnabled       Boolean          @default(false) @map("yield_enabled")
   vaultContractId    String?
   vaultShareBalance  String?
   vaultRatioScale    String?
-  accruedInterest    String       @default("0")
+  accruedInterest    String           @default("0")
   lastYieldAccrualAt DateTime?
-  isDust             Boolean      @default(false) // true = below MIN_VALUE_USD threshold
+  isDust             Boolean          @default(false) // true = below MIN_VALUE_USD threshold
   affiliateId        String? // Affiliate who referred this stream (0.5% commission)
-  createdAt          DateTime     @default(now())
+  categoryId         String? // Optional payment category
+  category           PaymentCategory? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  createdAt          DateTime         @default(now())
 
   @@index([sender])
   @@index([receiver])
@@ -47,6 +104,9 @@ model Stream {
   @@index([yieldEnabled, status])
   @@index([isDust])
   @@index([affiliateId])
+  @@index([categoryId])
+  // #1148 — owner dashboard: latest streams for a user filtered by status
+  @@index([sender, status, createdAt(sort: Desc)])
 }
 
 model ContractEvent {
@@ -64,7 +124,8 @@ model ContractEvent {
   createdAt      DateTime @default(now()) @map("created_at")
 
   @@unique([txHash, eventIndex])
-  @@index([contractId, ledgerSequence])
+  // #1148 — newest-first event scans per contract (ledger DESC)
+  @@index([contractId, ledgerSequence(sort: Desc)])
   @@index([eventType])
   @@index([txHash])
 }
@@ -140,6 +201,8 @@ model EventLog {
   @@index([eventType])
   @@index([createdAt])
   @@index([ledger])
+  // #1148 — audit trail for a stream, newest entries first
+  @@index([streamId, createdAt(sort: Desc)])
 }
 
 // Monthly snapshots of stream states
@@ -220,6 +283,22 @@ model Proposal {
   @@index([createdAt])
 }
 
+// Event sourcing table for immutable audit trail
+model Event {
+  id           String   @id @default(cuid())
+  eventId      String   @unique // Global unique event identifier
+  streamId     String // Reference to the stream this event relates to
+  eventType    String // CREATE, WITHDRAW, CANCEL, PAUSE, RESUME
+  payload      Json // Complete event data as JSON
+  timestamp    DateTime @default(now())
+  hash         String // SHA-256 hash of this event
+  previousHash String? // Hash of the previous event in the chain
+
+  @@index([streamId])
+  @@index([eventType])
+  @@index([timestamp])
+}
+
 enum StreamStatus {
   ACTIVE
   PAUSED
@@ -276,6 +355,22 @@ model LedgerHash {
   sequence  Int      @id
   hash      String
   createdAt DateTime @default(now())
+}
+
+model SyncMetadata {
+  id                 String @id
+  lastLedgerSequence Int
+}
+
+model ClawbackHistory {
+  id         String   @id @default(uuid())
+  streamId   String
+  amount     String // clawback amount as string for high precision
+  reason     String   @default("")
+  createdAt  DateTime @default(now())
+  executedAt DateTime @default(now())
+  txHash     String? // optional tx hash if executed on-chain
+  status     String   @default("executed") // executed | pending | failed
 }
 
 // Notification subscriptions — maps a Stellar address to a Discord/Telegram endpoint
@@ -369,19 +464,25 @@ model TvlSnapshot {
 
 // Asset metadata from stellar.toml
 model Asset {
-  id            String    @id @default(cuid())
-  tokenAddress  String    @unique
-  homeDomain    String?
-  name          String?
-  symbol        String?
-  imageUrl      String?
-  decimals      Int       @default(7)
-  isVerified    Boolean   @default(false)
-  lastFetchedAt DateTime?
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
+  id                    String    @id @default(cuid())
+  tokenAddress          String    @unique
+  homeDomain            String?
+  name                  String?
+  symbol                String?
+  imageUrl              String?
+  decimals              Int       @default(7)
+  isVerified            Boolean   @default(false)
+  stellarExpertVerified Boolean   @default(false) @map("stellar_expert_verified")
+  tomlUrl               String?
+  orgVerified           Boolean   @default(false) @map("org_verified")
+  orgHomeDomain         String?   @map("org_home_domain")
+  lastFetchedAt         DateTime?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
 
   @@index([tokenAddress])
+  @@index([stellarExpertVerified])
+  @@index([orgVerified])
 }
 
 // Autopilot periodic split schedules
@@ -422,36 +523,63 @@ model AssetConfig {
   @@index([isVisible])
 }
 
-// ── V3 Fund-Split Tables ──────────────────────────────────────────────────────
+// Cold storage for disbursements older than 18 months
+model ArchivedDisbursement {
+  id             String   @id @default(cuid())
+  streamId       String
+  txHash         String
+  sender         String
+  receiver       String
+  amount         BigInt
+  tokenAddress   String
+  status         String
+  completedAt    DateTime
+  archivedAt     DateTime @default(now())
+  originalLedger Int
 
-// Header record for a single fund-split disbursement
+  @@index([streamId])
+  @@index([completedAt])
+  @@index([archivedAt])
+  @@index([sender])
+  @@index([receiver])
+}
+
+// Active disbursements table (keeps primary table lean)
 model Disbursement {
-  id            String   @id @default(cuid())
-  senderAddress String   @map("sender_address")
-  totalAmount   String   @map("total_amount")
-  asset         String
-  txHash        String   @unique @map("tx_hash")
-  createdAt     DateTime @default(now()) @map("created_at")
+  id           String             @id @default(cuid())
+  streamId     String
+  txHash       String             @unique
+  sender       String
+  receiver     String
+  amount       BigInt
+  tokenAddress String
+  status       DisbursementStatus @default(PENDING)
+  createdAt    DateTime           @default(now())
+  completedAt  DateTime?
+  ledger       Int
+  batchId      String?            @map("batch_id") // #1148 — groups disbursements processed in one batch (#1202)
+  categoryId   String? // Optional payment category
+  category     PaymentCategory?   @relation(fields: [categoryId], references: [id], onDelete: SetNull)
 
-  recipients SplitRecipient[]
-
-  @@index([senderAddress])
-  @@index([txHash])
+  @@index([streamId])
+  @@index([sender])
+  @@index([receiver])
+  @@index([status])
+  @@index([createdAt])
+  // #1148 — batch progress/status lookups for the batch processing engine
+  @@index([batchId, status])
+  @@index([categoryId])
 }
 
-// Individual payout row linked to a parent Disbursement
-model SplitRecipient {
-  id               String       @id @default(cuid())
-  disbursementId   String       @map("disbursement_id")
-  recipientAddress String       @map("recipient_address")
-  amount           String
-  status           PayoutStatus @default(PENDING)
-
-  disbursement Disbursement @relation(fields: [disbursementId], references: [id])
-
-  @@index([disbursementId])
-  @@index([recipientAddress])
+enum DisbursementStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  FAILED
+  CANCELLED
 }
+
+// ── V3 Fund-Split Tables ──────────────────────────────────────────────────────
 
 enum PayoutStatus {
   PENDING
@@ -628,6 +756,28 @@ model CachedAsset {
   @@map("CachedAsset")
 }
 
+// StreamTemplate for reusable stream configurations (#1185)
+model StreamTemplate {
+  id               String   @id @default(cuid())
+  name             String
+  asset            String
+  recipientAddress String   @map("recipient_address")
+  splitEnabled     Boolean  @default(false) @map("split_enabled")
+  splitAddress     String?  @map("split_address")
+  splitPercent     Int      @default(0) @map("split_percent")
+  totalAmount      String   @map("total_amount")
+  rateType         String   @map("rate_type")
+  durationPreset   String   @map("duration_preset")
+  usageCount       Int      @default(0) @map("usage_count")
+  createdBy        String   @map("created_by")
+  createdAt        DateTime @default(now()) @map("created_at")
+  updatedAt        DateTime @updatedAt @map("updated_at")
+
+  @@index([createdBy])
+  @@index([usageCount])
+  @@map("stream_templates")
+}
+
 // Split-link shortened URLs (#957)
 model SplitLink {
   id             String    @id @default(cuid())
@@ -635,6 +785,7 @@ model SplitLink {
   fullUrl        String    @map("full_url")
   payloadHash    String    @unique @map("payload_hash")
   creatorAddress String    @map("creator_address")
+  passwordHash   String?   @map("password_hash") // SHA-256 of the password; null = no protection
   clickCount     Int       @default(0) @map("click_count")
   lastClickedAt  DateTime? @map("last_clicked_at")
   expiresAt      DateTime? @map("expires_at")
@@ -644,4 +795,49 @@ model SplitLink {
   @@index([creatorAddress])
   @@index([createdAt])
   @@map("SplitLink")
+}
+
+// OFAC compliance audit log (#1186)
+model OfacAuditLog {
+  id           String   @id @default(cuid())
+  address      String
+  isSanctioned Boolean  @map("is_sanctioned")
+  checkedAt    DateTime @map("checked_at")
+  source       String
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  @@index([address])
+  @@index([isSanctioned])
+  @@index([checkedAt])
+  @@map("OfacAuditLog")
+}
+
+// Admin audit log for comprehensive compliance tracking (#HIGH_COMPLIANCE)
+model AdminAuditLog {
+  id              String   @id @default(cuid())
+  timestamp       DateTime @default(now())
+  userId          String?
+  userEmail       String?
+  method          String // GET, POST, PUT, DELETE, PATCH
+  path            String
+  statusCode      Int
+  executionTimeMs Float
+  clientIp        String?
+  userAgent       String?
+  requestBody     String? // JSON string of request body (sanitized)
+  responseBody    String? // JSON string of response (truncated for large responses)
+  beforeSnapshot  String? // JSON snapshot of data before change
+  afterSnapshot   String? // JSON snapshot of data after change
+  error           String? // Error message if operation failed
+  changesSummary  String? // Human-readable summary of changes made
+  createdAt       DateTime @default(now())
+
+  @@index([timestamp(sort: Desc)])
+  @@index([userId])
+  @@index([method])
+  @@index([path])
+  @@index([statusCode])
+  @@index([userId, timestamp(sort: Desc)])
+  @@index([path, timestamp(sort: Desc)])
+  @@map("admin_audit_log")
 }

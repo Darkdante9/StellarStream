@@ -263,6 +263,8 @@ export class FeeBumpRelayerService {
           return data.successful ? "SUCCESS" : "FAILED";
         }
       } catch {
+        // Ignore transient fetch/parse errors here — the polling loop will retry
+        // on the next interval until the timeout deadline is reached.
       }
 
       await this.sleepFn(this.pollIntervalMs);

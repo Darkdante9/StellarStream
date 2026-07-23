@@ -1,6 +1,8 @@
 #![no_std]
 
-use soroban_sdk::{contract, contractimpl, contractclient, symbol_short, Address, BytesN, Env, Vec};
+use soroban_sdk::{
+    contract, contractclient, contractimpl, symbol_short, Address, BytesN, Env, Vec,
+};
 
 mod types;
 pub use types::{SplitterDeployedEvent, SplitterInitArgs};
@@ -39,8 +41,12 @@ impl SplitterFactory {
             panic!("already initialized");
         }
         admin.require_auth();
-        env.storage().instance().set(&symbol_short!("Admin"), &admin);
-        env.storage().instance().set(&symbol_short!("WasmHash"), &wasm_hash);
+        env.storage()
+            .instance()
+            .set(&symbol_short!("Admin"), &admin);
+        env.storage()
+            .instance()
+            .set(&symbol_short!("WasmHash"), &wasm_hash);
     }
 
     // ── Admin: upgrade wasm hash ──────────────────────────────────────────────
@@ -54,7 +60,9 @@ impl SplitterFactory {
             .get(&symbol_short!("Admin"))
             .expect("not initialized");
         admin.require_auth();
-        env.storage().instance().set(&symbol_short!("WasmHash"), &new_hash);
+        env.storage()
+            .instance()
+            .set(&symbol_short!("WasmHash"), &new_hash);
     }
 
     // ── Core factory function ─────────────────────────────────────────────────

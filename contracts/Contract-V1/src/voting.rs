@@ -4,7 +4,7 @@ use soroban_sdk::{Address, Env};
 /// Returns the unlocked balance that can be used for voting
 #[allow(dead_code)]
 pub fn get_voting_power(_env: &Env, stream: &crate::types::Stream, current_time: u64) -> i128 {
-    if stream.cancelled {
+    if stream.state == crate::types::StreamState::Closed {
         return 0;
     }
 
@@ -26,7 +26,7 @@ pub fn get_voting_power(_env: &Env, stream: &crate::types::Stream, current_time:
 /// Get total stream balance (locked + unlocked)
 #[allow(dead_code)]
 pub fn get_total_balance(stream: &crate::types::Stream) -> i128 {
-    if stream.cancelled {
+    if stream.state == crate::types::StreamState::Closed {
         return 0;
     }
     stream.total_amount - stream.withdrawn_amount

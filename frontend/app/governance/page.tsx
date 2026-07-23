@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { useWallet } from "@/lib/wallet-context";
+import { motion } from "framer-motion";
 import {
   type GovernanceProposal,
   type VoteChoice,
@@ -11,10 +12,8 @@ import {
   voteOnProposal,
 } from "@/lib/governance-client";
 
-function shortAddress(address: string): string {
-  if (address.length < 10) return address;
-  return `${address.slice(0, 6)}...${address.slice(-4)}`;
-}
+import { ProposalCard } from "@/components/governance/proposal-card";
+import { TreasuryStats } from "@/components/governance/treasury-stats";
 
 function fmtNumber(value: number): string {
   return value.toLocaleString("en-US");
@@ -25,25 +24,18 @@ function fmtBigintString(value: string): string {
   return asBigInt.toLocaleString("en-US");
 }
 
-function getSupportRatio(proposal: GovernanceProposal): number {
-  const total = proposal.votesFor + proposal.votesAgainst;
-  if (total <= 0) return 0;
-  return (proposal.votesFor / total) * 100;
-}
-
 export default function GovernancePage() {
   const { isConnected, address } = useWallet();
 
   const [proposals, setProposals] = useState<GovernanceProposal[]>([]);
-  const [votingPower, setVotingPower] = useState<VotingPowerSnapshot | null>(
-    null,
-  );
+  const [votingPower, setVotingPower] = useState<VotingPowerSnapshot | null>(null);
   const [loadingProposals, setLoadingProposals] = useState(true);
   const [loadingPower, setLoadingPower] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [pendingProposalId, setPendingProposalId] = useState<string | null>(
-    null,
-  );
+  const [pendingProposalId, setPendingProposalId] = useState<string | null>(null);
+  
+  // Track user votes to display in UI instantly
+  const [userVotes, setUserVotes] = useState<Record<string, VoteChoice>>({});
 
   useEffect(() => {
     let cancelled = false;
@@ -133,6 +125,8 @@ export default function GovernancePage() {
     try {
       await voteOnProposal(proposalId, address, vote);
 
+      setUserVotes(prev => ({ ...prev, [proposalId]: vote }));
+      
       setProposals((current) =>
         current.map((proposal) => {
           if (proposal.id !== proposalId) return proposal;
@@ -156,192 +150,134 @@ export default function GovernancePage() {
     }
   };
 
+  const powerDisplay = loadingPower
+    ? "…"
+    : votingPower
+      ? fmtBigintString(votingPower.votingPower)
+      : "0";
+
   return (
-    <div className="min-h-screen p-4 md:p-6 space-y-4">
-      <section className="rounded-3xl border border-white/10 bg-white/4 backdrop-blur-xl p-6 md:p-8">
-        <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
+    <div className="min-h-screen p-4 md:p-6 lg:p-8 max-w-7xl mx-auto space-y-8">
+      {/* Header Section */}
+      <motion.section 
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="rounded-3xl border border-white/10 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-[#8a00ff]/20 via-black to-black p-8 md:p-10 relative overflow-hidden"
+      >
+        <div className="absolute top-0 right-0 w-96 h-96 bg-[#8a00ff]/10 blur-[100px] rounded-full pointer-events-none" />
+        
+        <div className="relative z-10 flex flex-col md:flex-row md:items-end md:justify-between gap-6">
           <div>
-            <p className="font-body text-xs tracking-[0.12em] text-white/60 uppercase">
-              Nebula DAO
-            </p>
-            <h1 className="font-heading mt-2 text-3xl md:text-5xl liquid-chrome">
-              Voting Portal
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-white/10 bg-white/5 mb-4">
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+              <span className="font-ticker text-[10px] tracking-widest text-white/70 uppercase">
+                Nebula DAO Live
+              </span>
+            </div>
+            <h1 className="font-heading text-4xl md:text-6xl text-white tracking-tight">
+              Governance
             </h1>
-            <p className="font-body mt-3 text-white/60 max-w-xl text-sm leading-relaxed">
-              Review active proposals from AccessControl governance state and
-              cast your Yes/No vote.
+            <p className="font-body mt-4 text-white/50 max-w-xl text-sm md:text-base leading-relaxed">
+              Shape the future of StellarStream. Use your streaming volume as voting power to direct treasury funds and protocol upgrades.
             </p>
           </div>
-          <div className="flex gap-2 shrink-0 pt-1">
-            <div className="rounded-xl border border-[#8a00ff]/30 bg-[#8a00ff]/10 px-4 py-2 flex items-center gap-2">
-              <span className="relative flex h-1.5 w-1.5">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#b84dff] opacity-75" />
-                <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-[#b84dff]" />
-              </span>
-              <span className="font-ticker text-[10px] tracking-widest text-[#b84dff] uppercase">
-                {activeCount} Active
-              </span>
+          
+          <div className="grid grid-cols-2 gap-4 shrink-0">
+            <div className="rounded-2xl border border-white/10 bg-black/40 backdrop-blur-md p-4">
+              <p className="text-[10px] uppercase tracking-widest text-white/40 mb-1">Your Power</p>
+              <p className="font-heading text-2xl text-white">{powerDisplay}</p>
+            </div>
+            <div className="rounded-2xl border border-white/10 bg-black/40 backdrop-blur-md p-4">
+              <p className="text-[10px] uppercase tracking-widest text-white/40 mb-1">Active</p>
+              <p className="font-heading text-2xl text-[#b84dff]">{activeCount} <span className="text-white/30 text-sm">Props</span></p>
             </div>
           </div>
         </div>
-      </section>
+      </motion.section>
 
-      <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
-        <div className="rounded-2xl border border-white/10 bg-white/3 p-4">
-          <p className="font-ticker text-[10px] uppercase tracking-wider text-white/40">
-            Active Proposals
-          </p>
-          <p className="mt-2 font-heading text-2xl text-white">{activeCount}</p>
-        </div>
-        <div className="rounded-2xl border border-white/10 bg-white/3 p-4">
-          <p className="font-ticker text-[10px] uppercase tracking-wider text-white/40">
-            Total Votes
-          </p>
-          <p className="mt-2 font-heading text-2xl text-white">
-            {fmtNumber(totalVotes)}
-          </p>
-        </div>
-        <div className="rounded-2xl border border-white/10 bg-white/3 p-4">
-          <p className="font-ticker text-[10px] uppercase tracking-wider text-white/40">
-            Voting Power
-          </p>
-          <p className="mt-2 font-heading text-2xl text-white">
-            {loadingPower
-              ? "…"
-              : votingPower
-                ? fmtBigintString(votingPower.votingPower)
-                : "-"}
-          </p>
-        </div>
-        <div className="rounded-2xl border border-white/10 bg-white/3 p-4">
-          <p className="font-ticker text-[10px] uppercase tracking-wider text-white/40">
-            Active Stream Volume
-          </p>
-          <p className="mt-2 font-heading text-2xl text-white">
-            {loadingPower
-              ? "…"
-              : votingPower
-                ? fmtBigintString(votingPower.activeStreamingVolume)
-                : "-"}
-          </p>
-        </div>
-      </section>
-
-      {error && (
-        <div className="rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-200">
-          {error}
-        </div>
-      )}
-
-      {!isConnected && (
-        <div className="rounded-xl border border-amber-400/30 bg-amber-400/10 px-4 py-3 text-sm text-amber-200">
-          Connect your wallet to calculate personal voting power and submit
-          votes.
-        </div>
-      )}
-
-      <section className="space-y-3">
-        {loadingProposals && (
-          <div className="rounded-2xl border border-white/10 bg-white/3 p-5 text-white/60 text-sm">
-            Loading proposals...
+      {/* Main Content Grid */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        
+        {/* Left Column: Proposals List */}
+        <div className="lg:col-span-2 space-y-6">
+          <div className="flex items-center justify-between px-2">
+            <h2 className="font-heading text-2xl text-white">Active Proposals</h2>
+            <div className="text-sm text-white/40">{fmtNumber(totalVotes)} total votes cast</div>
           </div>
-        )}
 
-        {!loadingProposals && proposals.length === 0 && (
-          <div className="rounded-2xl border border-white/10 bg-white/3 p-5 text-white/60 text-sm">
-            No active proposals found.
-          </div>
-        )}
+          {error && (
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="rounded-2xl border border-red-500/30 bg-red-500/10 p-4 text-sm text-red-200">
+              {error}
+            </motion.div>
+          )}
 
-        {proposals.map((proposal) => {
-          const supportRatio = getSupportRatio(proposal);
-          const total = proposal.votesFor + proposal.votesAgainst;
-          const isSubmitting = pendingProposalId === proposal.id;
+          {!isConnected && !error && (
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="rounded-2xl border border-amber-400/30 bg-amber-400/10 p-4 text-sm text-amber-200 flex items-center gap-3">
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+              Connect your wallet to calculate your voting power and participate.
+            </motion.div>
+          )}
 
-          return (
-            <article
-              key={proposal.id}
-              className="rounded-2xl border border-white/10 bg-white/3 backdrop-blur-xl p-5"
-            >
-              <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
-                <div>
-                  <p className="font-ticker text-[10px] uppercase tracking-[0.2em] text-white/35">
-                    Proposal {proposal.id}
-                  </p>
-                  <h2 className="font-heading text-xl text-white mt-1">
-                    {proposal.description || "Untitled proposal"}
-                  </h2>
-                  <p className="mt-2 text-xs text-white/45 font-body">
-                    Creator: {shortAddress(proposal.creator)}
-                  </p>
-                </div>
-                <div className="rounded-lg border border-white/10 bg-black/20 px-3 py-1.5">
-                  <span className="font-ticker text-[10px] tracking-wider uppercase text-emerald-300">
-                    Active
+          {loadingProposals ? (
+            <div className="space-y-4">
+              {[1, 2, 3].map(i => (
+                <div key={i} className="h-[140px] rounded-3xl bg-white/5 animate-pulse border border-white/5" />
+              ))}
+            </div>
+          ) : proposals.length === 0 ? (
+            <div className="rounded-3xl border border-white/5 bg-white/5 p-12 text-center">
+              <p className="text-white/40 text-lg">No active proposals right now.</p>
+              <p className="text-white/20 text-sm mt-2">Check back later or start a discussion in the forum.</p>
+            </div>
+          ) : (
+            <motion.div layout className="flex flex-col gap-4">
+              {proposals.map((proposal) => (
+                <ProposalCard
+                  key={proposal.id}
+                  proposal={proposal}
+                  isConnected={isConnected}
+                  isSubmitting={pendingProposalId === proposal.id}
+                  votingPower={powerDisplay}
+                  userVote={userVotes[proposal.id] || null}
+                  onVote={handleVote}
+                />
+              ))}
+            </motion.div>
+          )}
+        </div>
+
+        {/* Right Column: Treasury & Stats */}
+        <div className="space-y-6">
+          <TreasuryStats />
+          
+          <div className="rounded-3xl border border-white/10 bg-white/5 backdrop-blur-xl p-6">
+            <h3 className="font-heading text-lg text-white mb-4">Protocol Health</h3>
+            <div className="space-y-4">
+              <div>
+                <div className="flex justify-between text-xs mb-1.5">
+                  <span className="text-white/50">Total Streamed</span>
+                  <span className="text-white">
+                    {loadingPower ? "…" : votingPower ? fmtBigintString(votingPower.activeStreamingVolume) : "-"}
                   </span>
                 </div>
+                <div className="h-1 rounded-full bg-white/10 overflow-hidden">
+                  <div className="h-full bg-blue-400 w-3/4" />
+                </div>
               </div>
+              <div>
+                <div className="flex justify-between text-xs mb-1.5">
+                  <span className="text-white/50">Voter Participation</span>
+                  <span className="text-white">42.5%</span>
+                </div>
+                <div className="h-1 rounded-full bg-white/10 overflow-hidden">
+                  <div className="h-full bg-[#8a00ff] w-[42.5%]" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
 
-              <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-3 text-sm">
-                <div className="rounded-xl border border-white/10 bg-white/2 px-3 py-2">
-                  <p className="text-white/40 text-[11px] uppercase tracking-wide">
-                    Votes For
-                  </p>
-                  <p className="text-emerald-300 font-medium mt-1">
-                    {fmtNumber(proposal.votesFor)}
-                  </p>
-                </div>
-                <div className="rounded-xl border border-white/10 bg-white/2 px-3 py-2">
-                  <p className="text-white/40 text-[11px] uppercase tracking-wide">
-                    Votes Against
-                  </p>
-                  <p className="text-red-300 font-medium mt-1">
-                    {fmtNumber(proposal.votesAgainst)}
-                  </p>
-                </div>
-                <div className="rounded-xl border border-white/10 bg-white/2 px-3 py-2">
-                  <p className="text-white/40 text-[11px] uppercase tracking-wide">
-                    Quorum
-                  </p>
-                  <p className="text-white font-medium mt-1">
-                    {fmtNumber(proposal.quorum)}
-                  </p>
-                </div>
-              </div>
-
-              <div className="mt-4">
-                <div className="h-2 rounded-full bg-white/10 overflow-hidden">
-                  <div
-                    className="h-full rounded-full bg-linear-to-r from-emerald-400 to-cyan-300"
-                    style={{ width: `${Math.min(100, supportRatio)}%` }}
-                  />
-                </div>
-                <p className="mt-2 text-xs text-white/45">
-                  {supportRatio.toFixed(1)}% support • {fmtNumber(total)} votes
-                  cast
-                </p>
-              </div>
-
-              <div className="mt-4 flex flex-col sm:flex-row gap-2">
-                <button
-                  disabled={!isConnected || isSubmitting}
-                  onClick={() => handleVote(proposal.id, "yes")}
-                  className="flex-1 rounded-xl border border-emerald-400/40 bg-emerald-400/10 px-4 py-2.5 text-sm font-medium text-emerald-200 disabled:opacity-50"
-                >
-                  {isSubmitting ? "Submitting..." : "Vote Yes"}
-                </button>
-                <button
-                  disabled={!isConnected || isSubmitting}
-                  onClick={() => handleVote(proposal.id, "no")}
-                  className="flex-1 rounded-xl border border-red-400/40 bg-red-400/10 px-4 py-2.5 text-sm font-medium text-red-200 disabled:opacity-50"
-                >
-                  {isSubmitting ? "Submitting..." : "Vote No"}
-                </button>
-              </div>
-            </article>
-          );
-        })}
-      </section>
+      </div>
     </div>
   );
 }

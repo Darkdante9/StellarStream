@@ -49,7 +49,7 @@ router.post(
     const proposalId = `prop-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
 
     // Store proposal in database
-    const proposal = await prisma.$queryRaw`
+    await prisma.$queryRaw`
       INSERT INTO "Proposal" ("id", "creator", "description", "quorum", "votesFor", "votesAgainst", "txHash", "createdAt", "updatedAt")
       VALUES (${proposalId}, ${creator}, ${description}, ${requiredSignatures}, 0, 0, ${txData}, NOW(), NOW())
       ON CONFLICT ("id") DO NOTHING

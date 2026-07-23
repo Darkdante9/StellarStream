@@ -2,6 +2,7 @@ import { Router, Request, Response } from "express";
 import { z } from "zod";
 import asyncHandler from "../../utils/asyncHandler.js";
 import { WebhookDispatcherService } from "../../services/webhook-dispatcher.service.js";
+import { requireAdmin } from "../../middleware/requireAdmin.js";
 
 const router = Router();
 const webhookService = new WebhookDispatcherService();
@@ -27,6 +28,23 @@ router.post(
         eventType,
       },
       message: "Webhook registered successfully. Store the secretKey securely.",
+    });
+  })
+);
+
+router.post(
+  "/admin/webhooks/:webhookId/rotate-secret",
+  requireAdmin,
+  asyncHandler(async (req: Request, res: Response) => {
+    const webhook = await webhookService.rotateWebhookSecret(req.params.webhookId);
+
+    res.json({
+      success: true,
+      data: {
+        webhookId: webhook.id,
+        secretKey: webhook.secretKey,
+      },
+      message: "Webhook secret rotated successfully. Store the new secretKey securely.",
     });
   })
 );

@@ -98,3 +98,13 @@ temp/
 
 # Stores VSCode versions used for testing VSCode extensions
 .vscode-test
+
+# Rust build artifacts
+target/
+**/target/
+Cargo.lock
+
+# Prisma query engine binaries
+**/.prisma/
+**/node_modules/.prisma/
+**/node_modules/@prisma/

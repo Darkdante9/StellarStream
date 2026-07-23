@@ -49,6 +49,7 @@ fn test_create_soulbound_stream() {
         &token_id,
         &PRINCIPAL,
         &0,
+        &0,
         &DURATION,
         &CurveType::Linear,
         &true, // is_soulbound
@@ -98,6 +99,7 @@ fn test_create_normal_stream_not_soulbound() {
         &token_id,
         &PRINCIPAL,
         &0,
+        &0,
         &DURATION,
         &CurveType::Linear,
         &false, // is_soulbound
@@ -145,6 +147,7 @@ fn test_transfer_receiver_blocked_on_soulbound() {
         &receiver,
         &token_id,
         &PRINCIPAL,
+        &0,
         &0,
         &DURATION,
         &CurveType::Linear,
@@ -198,6 +201,7 @@ fn test_transfer_receiver_allowed_on_normal_stream() {
         &token_id,
         &PRINCIPAL,
         &0,
+        &0,
         &DURATION,
         &CurveType::Linear,
         &false, // is_soulbound
@@ -242,6 +246,7 @@ fn test_soulbound_flag_immutable_after_creation() {
         &receiver,
         &token_id,
         &PRINCIPAL,
+        &0,
         &0,
         &DURATION,
         &CurveType::Linear,
@@ -295,6 +300,7 @@ fn test_soulbound_stream_still_withdrawable() {
         &receiver,
         &token_id,
         &PRINCIPAL,
+        &0,
         &0,
         &DURATION,
         &CurveType::Linear,
@@ -352,6 +358,7 @@ fn test_soulbound_stream_cancellable_by_sender() {
         &token_id,
         &PRINCIPAL,
         &0,
+        &0,
         &DURATION,
         &CurveType::Linear,
         &true, // is_soulbound
@@ -367,7 +374,11 @@ fn test_soulbound_stream_cancellable_by_sender() {
 
     // Verify cancellation succeeded
     let stream = client.get_stream(&stream_id);
-    assert!(stream.cancelled, "Stream should be cancelled");
+    assert_eq!(
+        stream.state,
+        crate::types::StreamState::Closed,
+        "Stream should be cancelled"
+    );
 
     // Verify sender received unvested tokens back
     let sender_balance_after = token_client.balance(&sender);
@@ -411,6 +422,7 @@ fn test_get_soulbound_streams_index() {
         &token_id,
         &PRINCIPAL,
         &0,
+        &0,
         &DURATION,
         &CurveType::Linear,
         &true, // is_soulbound
@@ -421,6 +433,7 @@ fn test_get_soulbound_streams_index() {
         &receiver2,
         &token_id,
         &PRINCIPAL,
+        &0,
         &0,
         &DURATION,
         &CurveType::Linear,
@@ -433,6 +446,7 @@ fn test_get_soulbound_streams_index() {
         &receiver3,
         &token_id,
         &PRINCIPAL,
+        &0,
         &0,
         &DURATION,
         &CurveType::Linear,

@@ -17,6 +17,7 @@ import {
   sensitiveRateLimitMiddleware,
 } from "./middleware/rateLimit.js";
 import { requireWalletAuth } from "./middleware/requireWalletAuth.js";
+import { auditLogMiddleware } from "./middleware/audit-log.middleware.js";
 import { getStats, getSearch } from "./api/public.js";
 import { getNonce, getMe } from "./api/auth.js";
 import { ensureRedis, closeRedis } from "./lib/redis.js";
@@ -30,13 +31,16 @@ import { DataIntegrityWorker } from "./data-integrity.worker.js";
 import { YieldAccrualWorker } from "./yield-accrual.worker.js";
 import { startWebhookWorker } from "./webhook-dispatcher.worker.js";
 import { XlmBufferMonitorWorker } from "./xlm-buffer-monitor.worker.js";
-import { V3SplitIngestor } from "./ingestor/v3-split-ingestor.js";
+import { EventWatcherClient } from "./services/event-watcher-client.service.js";
 import { bigintSerializer } from "./middleware/bigintSerializer.js";
 import { swaggerSpec } from "./swagger.js";
 import { swaggerV3Spec } from "./api/v3/swagger.js";
 import { initializeSchedulers } from "./schedulers.js";
 import { createSplitWorker } from "./workers/splitWorker.js";
 import { enqueueSplit, getSplitJobStatus } from "./lib/splitQueue.js";
+import { requestId as requestIdMiddleware } from "./middleware/requestId.js";
+import { errorHandler } from "./middleware/errorHandler.js";
+import { v1DeprecationWarning } from "./middleware/deprecationWarning.js";
 
 Sentry.init({
   dsn: process.env.SENTRY_DSN,
@@ -62,7 +66,7 @@ const cleanupWorker = new StaleStreamCleanupWorker();
 const dataIntegrityWorker = new DataIntegrityWorker();
 const yieldAccrualWorker = new YieldAccrualWorker();
 const xlmBufferMonitor = new XlmBufferMonitorWorker();
-const v3SplitIngestor = new V3SplitIngestor();
+const eventWatcherClient = new EventWatcherClient();
 
 // ── Security middleware ────────────────────────────────────────────────────────
 app.use(
@@ -93,18 +97,35 @@ app.use(
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization", "X-Api-Key"],
+    exposedHeaders: [
+      "Deprecation",
+      "Sunset",
+      "Link",
+      "Warning",
+      "X-StellarStream-API-Deprecation",
+    ],
   }),
 );
 
 app.use(bigintSerializer);
 app.use(compression());
 app.use(express.json());
+
+// ── Admin Audit Logging Middleware (IMPORTANT: after body parser, before routes) ────
+app.use(auditLogMiddleware);
+
 app.use(authMiddleware);
+// Attach a per-request correlation id BEFORE any handler can throw so every
+// error log / response carries it. See middleware/requestId.ts.
+app.use(requestIdMiddleware);
 
 // ── Root redirect → Swagger docs ──────────────────────────────────────────────
 app.get("/", (_req: Request, res: Response) => {
   res.redirect("/api/v1/docs");
 });
+
+// ── V1 deprecation notice ────────────────────────────────────────────────────
+app.use("/api/v1", v1DeprecationWarning);
 
 // ── Swagger UI ────────────────────────────────────────────────────────────────
 app.use("/api/v1/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
@@ -161,6 +182,38 @@ app.use("/api/v3", apiV3Router);
 // ── Batch metadata + stream graph ─────────────────────────────────────────────
 app.use("/api/v1", batchRoutes);
 
+// Health check (DB-aware)
+app.get("/health", async (req: Request, res: Response) => {
+  try {
+    const correlationId = req.id;
+    const ok = await (await import("./lib/database-health.js")).checkDbConnection(correlationId);
+    const state = (await import("./lib/database-health.js")).getDbHealthState().state;
+
+    if (ok) {
+      res.status(200).json({
+        status: "healthy",
+        database: "connected",
+        circuit: state,
+      });
+      return;
+    }
+
+    res.status(503).json({
+      status: "degraded",
+      database: "disconnected",
+      mode: "read-only",
+      circuit: state,
+    });
+  } catch {
+    res.status(503).json({
+      status: "degraded",
+      database: "disconnected",
+      mode: "read-only",
+    });
+  }
+});
+
+
 // ── Health / sync status ──────────────────────────────────────────────────────
 app.use("/api/v1", healthRoutes);
 
@@ -179,12 +232,53 @@ app.get("/ws-status", (_req: Request, res: Response) => {
   });
 });
 
+// ── Event Watcher status ──────────────────────────────────────────────────────
+app.get("/event-watcher-status", async (_req: Request, res: Response) => {
+  try {
+    const isHealthy = await eventWatcherClient.isEventWatcherHealthy();
+    const latestStatus = eventWatcherClient.getLatestStatus();
+    const processingLatency = await eventWatcherClient.getProcessingLatency();
+
+    res.json({
+      healthy: isHealthy,
+      latestStatus,
+      processingLatency,
+      timestamp: new Date().toISOString(),
+    });
+  } catch (error) {
+    res.status(503).json({
+      healthy: false,
+      error: error instanceof Error ? error.message : "Unknown error",
+      timestamp: new Date().toISOString(),
+    });
+  }
+});
+
+// ── Centralised error handler (issue #1150) ───────────────────────────────────
+// Convert any thrown AppError / bare Error into the standard
+// `{success, error, code, details, requestId}` response, sanitize stack
+// traces in production, and forward non-operational errors to Sentry.
+// MUST be registered AFTER all routes but BEFORE Sentry's safety-net handler
+// so that our handler runs first and Sentry still gets the original error.
+app.use(errorHandler);
+
 // ── Sentry error handler ──────────────────────────────────────────────────────
 Sentry.setupExpressErrorHandler(app);
 
 // ── Bootstrap ─────────────────────────────────────────────────────────────────
 async function start(): Promise<void> {
   await ensureRedis();
+
+  // Do not hard-crash the app on transient DB failures.
+  // Attempt DB connect with exponential backoff; if it fails,
+  // server will still start in degraded mode.
+  try {
+    const { initDatabaseWithRetry } = await import("./lib/database-health.js");
+    await initDatabaseWithRetry(undefined);
+  } catch (err) {
+    console.error("[db] Failed to initialize DB (starting degraded):", err);
+  }
+
   scheduleSnapshotMaintenance();
   initializeSchedulers();
   createSplitWorker();
@@ -197,15 +291,18 @@ async function start(): Promise<void> {
   // Start background services
   bridgeObserver.start();
   ttlMonitor.start();
-  v3SplitIngestor.start();
+  
+  // Start event watcher client to monitor separate service
+  await eventWatcherClient.startListening();
 
   server.listen(PORT, () => {
+
     console.log(`🚀 Server running on port ${PORT}`);
     console.log(`📖 API docs: http://localhost:${PORT}/api/v1/docs`);
     console.log(`🔌 WebSocket ready`);
     console.log(`🌉 Bridge observer active`);
     console.log(`⏱️  TTL monitor active`);
-    console.log(`📡 V3 Split ingestor active`);
+    console.log(`📡 Event watcher client connected`);
   });
 }
 
@@ -217,7 +314,7 @@ function shutdown(signal: string): void {
   xlmBufferMonitor.stop();
   bridgeObserver.stop();
   ttlMonitor.stop();
-  v3SplitIngestor.stop();
+  eventWatcherClient.stopListening();
   closeRedis()
     .then(() => prisma.$disconnect())
     .then(() => {

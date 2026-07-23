@@ -29,22 +29,39 @@ mod mock_splitter {
             treasury: Address,
             _extra_admins: Vec<Address>,
         ) {
-            env.storage().instance().set(&symbol_short!("owner"), &owner);
-            env.storage().instance().set(&symbol_short!("token"), &token);
-            env.storage().instance().set(&symbol_short!("feebps"), &fee_bps);
-            env.storage().instance().set(&symbol_short!("treasury"), &treasury);
+            env.storage()
+                .instance()
+                .set(&symbol_short!("owner"), &owner);
+            env.storage()
+                .instance()
+                .set(&symbol_short!("token"), &token);
+            env.storage()
+                .instance()
+                .set(&symbol_short!("feebps"), &fee_bps);
+            env.storage()
+                .instance()
+                .set(&symbol_short!("treasury"), &treasury);
         }
 
         pub fn owner(env: Env) -> Address {
-            env.storage().instance().get(&symbol_short!("owner")).unwrap()
+            env.storage()
+                .instance()
+                .get(&symbol_short!("owner"))
+                .unwrap()
         }
 
         pub fn fee_bps(env: Env) -> u32 {
-            env.storage().instance().get(&symbol_short!("feebps")).unwrap()
+            env.storage()
+                .instance()
+                .get(&symbol_short!("feebps"))
+                .unwrap()
         }
 
         pub fn treasury(env: Env) -> Address {
-            env.storage().instance().get(&symbol_short!("treasury")).unwrap()
+            env.storage()
+                .instance()
+                .get(&symbol_short!("treasury"))
+                .unwrap()
         }
     }
 }

@@ -261,7 +261,6 @@ export default function TransactionHistory() {
     @keyframes pill-pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
     @keyframes row-in { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:none} }
     @keyframes fade-in { from{opacity:0} to{opacity:1} }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
     ::-webkit-scrollbar { height: 4px; width: 4px; }
     ::-webkit-scrollbar-track { background: transparent; }
     ::-webkit-scrollbar-thumb { background: rgba(0,245,255,0.2); border-radius: 99px; }
@@ -293,12 +292,12 @@ export default function TransactionHistory() {
             <p style={{ fontSize: 10, letterSpacing: 3, color: "rgba(255,255,255,0.3)", textTransform: "uppercase", marginBottom: 8 }}>
               StellarStream
             </p>
-            <h1 style={{
+            <h2 style={{
               fontFamily: "'Lato', sans-serif", fontSize: 32, fontWeight: 800,
               color: "#fff", letterSpacing: -1, lineHeight: 1,
             }}>
               Transaction History
-            </h1>
+            </h2>
             <p style={{ fontSize: 11, color: "rgba(255,255,255,0.3)", marginTop: 8, lineHeight: 1.6 }}>
               Every stream update, withdrawal, and deposit — sortable and searchable.
             </p>
@@ -429,9 +428,8 @@ export default function TransactionHistory() {
                         animation: `row-in .25s ${i * 30}ms ease both`,
                       }}
                     >
-                      {/* Date */}
                       <td style={{ padding: "14px 16px", whiteSpace: "nowrap" }}>
-                        <span style={{ fontSize: 11, color: "rgba(255,255,255,0.45)" }}>
+                        <span style={{ fontSize: 11, color: "rgba(255,255,255,0.45)" }} suppressHydrationWarning>
                           {fmtDate(tx.date)}
                         </span>
                       </td>

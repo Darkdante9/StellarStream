@@ -19,6 +19,12 @@ mod remaining_time_test;
 mod stream_active_test;
 
 #[cfg(test)]
+mod pause_resume_test;
+
+#[cfg(test)]
+mod cliff_test;
+
+#[cfg(test)]
 #[cfg(all(test, feature = "allowlist_tests"))]
 mod allowlist_test;
 #[cfg(all(test, feature = "clawback_tests"))]
@@ -47,14 +53,13 @@ mod voting_test;
 mod ttl_stress_test;
 
 use errors::Error;
-use soroban_sdk::{
-    contract, contractimpl, panic_with_error, symbol_short, token, Address, Env, Vec,
-};
+use soroban_sdk::{contract, contractimpl, symbol_short, token, Address, Env, Vec};
 use storage::{PROPOSAL_COUNT, RECEIPT, RESTRICTED_ADDRESSES, STREAM_COUNT};
 use types::{
     ContributorRequest, CurveType, DataKey, Milestone, ProposalApprovedEvent, ProposalCreatedEvent,
     ReceiptMetadata, RequestCreatedEvent, RequestExecutedEvent, RequestKey, RequestStatus, Role,
-    Stream, StreamCancelledEvent, StreamCreatedEvent, StreamProposal, StreamReceipt, StreamRequest,
+    Stream, StreamCreatedEvent, StreamProposal, StreamReceipt, StreamRequest, StreamResumedEvent,
+    StreamState,
 };
 
 #[contract]
@@ -201,6 +206,7 @@ impl StellarStreamContract {
             token: proposal.token.clone(),
             total_amount: proposal.total_amount,
             start_time: proposal.start_time,
+            cliff_time: proposal.start_time,
             end_time: proposal.end_time,
             withdrawn_amount: 0,
             interest_strategy: 0,
@@ -208,9 +214,7 @@ impl StellarStreamContract {
             deposited_principal: proposal.total_amount,
             metadata: None,
             withdrawn: 0,
-            cancelled: false,
             receipt_owner: proposal.receiver.clone(),
-            is_paused: false,
             paused_time: 0,
             total_paused_duration: 0,
             milestones: Vec::new(env),
@@ -225,6 +229,7 @@ impl StellarStreamContract {
             clawback_enabled: false, // Check at runtime if needed
             arbiter: None,
             is_frozen: false,
+            state: StreamState::Active,
         };
 
         env.storage()
@@ -263,6 +268,7 @@ impl StellarStreamContract {
         token: Address,
         total_amount: i128,
         start_time: u64,
+        cliff_time: u64,
         end_time: u64,
         curve_type: CurveType,
         is_soulbound: bool,
@@ -275,6 +281,7 @@ impl StellarStreamContract {
             token,
             total_amount,
             start_time,
+            cliff_time,
             end_time,
             milestones,
             curve_type,
@@ -295,6 +302,7 @@ impl StellarStreamContract {
         token: Address,
         total_amount: i128,
         start_time: u64,
+        cliff_time: u64,
         end_time: u64,
         milestones: Vec<Milestone>,
         curve_type: CurveType,
@@ -312,6 +320,11 @@ impl StellarStreamContract {
         }
         if Self::is_address_restricted(env.clone(), receiver.clone()) {
             soroban_sdk::panic_with_error!(&env, Error::AddressRestricted);
+        }
+
+        // Validate cliff period
+        if cliff_time < start_time || cliff_time > end_time {
+            panic!("Cliff time must be between start and end time");
         }
 
         // Validate vault if provided
@@ -339,6 +352,7 @@ impl StellarStreamContract {
             token: token.clone(),
             total_amount,
             start_time,
+            cliff_time,
             end_time,
             withdrawn_amount: 0,
             interest_strategy: 0,
@@ -346,9 +360,7 @@ impl StellarStreamContract {
             deposited_principal: total_amount,
             metadata: None,
             withdrawn: 0,
-            cancelled: false,
             receipt_owner: receiver.clone(),
-            is_paused: false,
             paused_time: 0,
             total_paused_duration: 0,
             milestones,
@@ -363,6 +375,7 @@ impl StellarStreamContract {
             clawback_enabled: false, // TODO: Check token flags
             arbiter: None,
             is_frozen: false,
+            state: StreamState::Active,
         };
 
         let stream_key = (STREAM_COUNT, stream_id);
@@ -448,6 +461,7 @@ impl StellarStreamContract {
                 token.clone(),
                 req.amount,
                 req.start_time,
+                req.cliff_time,
                 req.end_time,
                 milestones,
                 CurveType::Linear,
@@ -683,7 +697,7 @@ impl StellarStreamContract {
             None => false,
             Some(s) => {
                 let current_time = env.ledger().timestamp();
-                !s.cancelled && !s.is_frozen && !s.is_paused && current_time < s.end_time
+                s.state == StreamState::Active && !s.is_frozen && current_time < s.end_time
             }
         }
     }
@@ -720,7 +734,7 @@ impl StellarStreamContract {
             return Err(Error::Unauthorized);
         }
 
-        if stream.cancelled {
+        if stream.state == StreamState::Closed {
             return Err(Error::AlreadyCancelled);
         }
 
@@ -755,7 +769,7 @@ impl StellarStreamContract {
             return Err(Error::Unauthorized);
         }
 
-        if stream.cancelled {
+        if stream.state == StreamState::Closed {
             return Err(Error::AlreadyCancelled);
         }
 
@@ -808,21 +822,38 @@ impl StellarStreamContract {
         if stream.sender != caller {
             return Err(Error::Unauthorized);
         }
-        if stream.cancelled {
+        if stream.state == StreamState::Closed {
             return Err(Error::AlreadyCancelled);
         }
-        if stream.is_paused {
+        if stream.state == StreamState::Paused {
             return Ok(());
         }
 
-        stream.is_paused = true;
+        stream.state = StreamState::Paused;
         stream.paused_time = env.ledger().timestamp();
         env.storage().instance().set(&key, &stream);
+
+        env.events().publish(
+            (symbol_short!("pause"), stream_id),
+            types::StreamPausedEvent {
+                stream_id,
+                pauser: caller,
+                timestamp: env.ledger().timestamp(),
+            },
+        );
 
         Ok(())
     }
 
+    /// Resume a paused stream (alias for backward compatibility).
+    /// Equivalent to `resume_stream`.
     pub fn unpause_stream(env: Env, stream_id: u64, caller: Address) -> Result<(), Error> {
+        Self::resume_stream(env, stream_id, caller)
+    }
+
+    /// Resume a paused stream, restoring time-based vesting.
+    /// Only the sender can resume a stream.
+    pub fn resume_stream(env: Env, stream_id: u64, caller: Address) -> Result<(), Error> {
         caller.require_auth();
 
         let key = (STREAM_COUNT, stream_id);
@@ -835,20 +866,30 @@ impl StellarStreamContract {
         if stream.sender != caller {
             return Err(Error::Unauthorized);
         }
-        if stream.cancelled {
+        if stream.state == StreamState::Closed {
             return Err(Error::AlreadyCancelled);
         }
-        if !stream.is_paused {
-            return Ok(());
+        if stream.state != StreamState::Paused {
+            return Err(Error::StreamNotPaused);
         }
 
         let current_time = env.ledger().timestamp();
         let pause_duration = current_time - stream.paused_time;
         stream.total_paused_duration += pause_duration;
-        stream.is_paused = false;
+        stream.state = StreamState::Active;
         stream.paused_time = 0;
 
         env.storage().instance().set(&key, &stream);
+
+        env.events().publish(
+            (symbol_short!("resume"), stream_id),
+            StreamResumedEvent {
+                stream_id,
+                resumer: caller,
+                paused_duration: pause_duration,
+                timestamp: current_time,
+            },
+        );
 
         Ok(())
     }
@@ -867,10 +908,10 @@ impl StellarStreamContract {
             return Err(Error::Unauthorized);
         }
 
-        if stream.cancelled {
+        if stream.state == StreamState::Closed {
             return Err(Error::AlreadyCancelled);
         }
-        if stream.is_paused {
+        if stream.state == StreamState::Paused {
             return Err(Error::StreamPaused);
         }
 
@@ -908,7 +949,7 @@ impl StellarStreamContract {
         if stream.sender != caller && stream.receiver != caller {
             return Err(Error::Unauthorized);
         }
-        if stream.cancelled {
+        if stream.state == StreamState::Closed {
             return Err(Error::AlreadyCancelled);
         }
 
@@ -917,7 +958,7 @@ impl StellarStreamContract {
         let to_receiver = unlocked - stream.withdrawn_amount;
         let to_sender = stream.total_amount - unlocked;
 
-        stream.cancelled = true;
+        stream.state = StreamState::Closed;
         stream.withdrawn_amount = unlocked;
         env.storage().instance().set(&key, &stream);
 
@@ -951,13 +992,13 @@ impl StellarStreamContract {
         if stream.receiver != caller {
             return Err(Error::Unauthorized);
         }
-        if stream.cancelled {
+        if stream.state == StreamState::Closed {
             return Err(Error::AlreadyCancelled);
         }
 
         let remaining = stream.total_amount - stream.withdrawn_amount;
 
-        stream.cancelled = true;
+        stream.state = StreamState::Closed;
         stream.withdrawn_amount = stream.total_amount;
         env.storage().instance().set(&key, &stream);
 
@@ -979,8 +1020,13 @@ impl StellarStreamContract {
         }
 
         let mut effective_time = current_time;
-        if stream.is_paused {
+        if stream.state == StreamState::Paused {
             effective_time = stream.paused_time;
+        }
+
+        let adjusted_cliff = stream.cliff_time + stream.total_paused_duration;
+        if effective_time < adjusted_cliff {
+            return 0;
         }
 
         let adjusted_end = stream.end_time + stream.total_paused_duration;
@@ -1398,6 +1444,7 @@ mod test {
             &token_id,
             &1000,
             &100,
+            &100,
             &200,
             &CurveType::Linear,
             &false,
@@ -1408,7 +1455,7 @@ mod test {
         let stream = client.get_stream(&stream_id);
         assert_eq!(stream.total_amount, 1000);
         assert_eq!(stream.withdrawn_amount, 0);
-        assert!(!stream.cancelled);
+        assert_eq!(stream.state, StreamState::Active);
         assert_eq!(stream.receipt_owner, receiver);
 
         let receipt = client.get_receipt(&stream_id).unwrap();
@@ -1438,6 +1485,7 @@ mod test {
             &receiver,
             &token_id,
             &1000,
+            &100,
             &100,
             &200,
             &CurveType::Linear,
@@ -1477,6 +1525,7 @@ mod test {
             &token_id,
             &1000,
             &100,
+            &100,
             &200,
             &CurveType::Linear,
             &false,
@@ -1514,6 +1563,7 @@ mod test {
             &receiver,
             &token_id,
             &1000,
+            &100,
             &100,
             &200,
             &CurveType::Linear,
@@ -1618,6 +1668,7 @@ mod test {
             &token_id,
             &1000,
             &100,
+            &100,
             &300,
             &CurveType::Linear,
             &false,
@@ -1627,15 +1678,15 @@ mod test {
         client.pause_stream(&stream_id, &sender);
 
         let stream = client.get_stream(&stream_id);
-        assert!(stream.is_paused);
+        assert_eq!(stream.state, StreamState::Paused);
         assert_eq!(stream.paused_time, 150);
 
         env.ledger().with_mut(|li| li.timestamp = 200);
         client.unpause_stream(&stream_id, &sender);
 
         let stream = client.get_stream(&stream_id);
-        assert!(!stream.is_paused);
-        assert_eq!(stream.total_paused_duration, 50);
+        assert_eq!(stream.state, StreamState::Active);
+        assert_eq!(stream.total_                paused_duration: pause_duration, 50);
     }
 
     #[test]
@@ -1661,6 +1712,7 @@ mod test {
             &receiver,
             &token_id,
             &1000,
+            &100,
             &100,
             &300,
             &CurveType::Linear,
@@ -1695,6 +1747,7 @@ mod test {
             &receiver,
             &token_id,
             &1000,
+            &100,
             &100,
             &300,
             &CurveType::Linear,
@@ -1860,6 +1913,7 @@ mod test {
             &token_id,
             &1000,
             &100,
+            &100,
             &200,
             &CurveType::Linear,
             &false,
@@ -1891,6 +1945,7 @@ mod test {
             &receiver,
             &token_id,
             &1000,
+            &100,
             &100,
             &200,
             &CurveType::Linear,
@@ -1926,6 +1981,7 @@ mod test {
             &token_id,
             &1000,
             &100,
+            &100,
             &200,
             &CurveType::Linear,
             &false,
@@ -1958,6 +2014,7 @@ mod test {
             &receiver,
             &token_id,
             &1000,
+            &100,
             &100,
             &200,
             &CurveType::Linear,
@@ -1993,6 +2050,7 @@ mod test {
             &token_id,
             &1000,
             &100,
+            &100,
             &300,
             &CurveType::Linear,
             &false,
@@ -2025,6 +2083,7 @@ mod test {
             &receiver,
             &token_id,
             &1000,
+            &100,
             &100,
             &300,
             &CurveType::Linear,
@@ -2095,6 +2154,7 @@ mod test {
             &receiver,
             &token_id,
             &1000,
+            &0,
             &0,
             &100,
             &CurveType::Exponential,
@@ -2224,6 +2284,7 @@ mod test {
             &token_id,
             &1000,
             &100,
+            &100,
             &200,
             &CurveType::Linear,
             &false,
@@ -2301,6 +2362,7 @@ mod test {
             &receiver,
             &token_id,
             &1000,
+            &100,
             &100,
             &200,
             &CurveType::Linear,
@@ -2408,6 +2470,7 @@ mod test {
             &receiver,
             &token_id,
             &1000,
+            &100,
             &100,
             &200,
             &CurveType::Linear,

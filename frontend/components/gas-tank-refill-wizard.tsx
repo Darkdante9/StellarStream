@@ -55,6 +55,12 @@ export function GasTankRefillWizard({ isOpen, onClose }: GasTankRefillWizardProp
         }
     };
 
+    const quickAmounts = [0.5, 1, 2, 5];
+
+    const applyQuickAmount = (amt: number) => {
+        setXlmAmount(amt.toString());
+    };
+
     const formatNumber = (num: number) => {
         return new Intl.NumberFormat('en-US', {
             minimumFractionDigits: 0,
@@ -151,6 +157,20 @@ export function GasTankRefillWizard({ isOpen, onClose }: GasTankRefillWizardProp
                                         XLM
                                     </span>
                                 </div>
+                            </div>
+
+                            {/* Quick refill amounts */}
+                            <div className="mb-4 flex gap-2">
+                                {quickAmounts.map((amt) => (
+                                    <button
+                                        key={amt}
+                                        onClick={() => applyQuickAmount(amt)}
+                                        disabled={isDepositing}
+                                        className="rounded-md border border-white/10 px-3 py-2 text-sm text-white/80 bg-white/[0.02] hover:bg-white/[0.04]"
+                                    >
+                                        {amt} XLM
+                                    </button>
+                                ))}
                             </div>
 
                             {/* Estimated Coverage */}

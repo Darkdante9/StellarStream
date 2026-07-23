@@ -285,14 +285,6 @@
                             },
                             {
                               "key": {
-                                "symbol": "cancelled"
-                              },
-                              "val": {
-                                "bool": false
-                              }
-                            },
-                            {
-                              "key": {
                                 "symbol": "clawback_enabled"
                               },
                               "val": {
@@ -337,14 +329,6 @@
                             {
                               "key": {
                                 "symbol": "is_frozen"
-                              },
-                              "val": {
-                                "bool": false
-                              }
-                            },
-                            {
-                              "key": {
-                                "symbol": "is_paused"
                               },
                               "val": {
                                 "bool": false
@@ -456,6 +440,14 @@
                               },
                               "val": {
                                 "u64": 100
+                              }
+                            },
+                            {
+                              "key": {
+                                "symbol": "state"
+                              },
+                              "val": {
+                                "u32": 0
                               }
                             },
                             {

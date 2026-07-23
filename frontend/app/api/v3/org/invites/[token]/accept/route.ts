@@ -59,7 +59,7 @@ export async function POST(
       );
     }
 
-    const verifyData = await verifyResponse.json();
+    const _verifyData = await verifyResponse.json();
 
     // Step 2: Fetch invite details to validate
     // TODO: Query database for actual invite record

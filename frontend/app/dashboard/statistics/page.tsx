@@ -1,7 +1,7 @@
 import { ProtocolPulseCard } from "@/components/dashboard/ProtocolPulseCard";
 import { HealthCard } from "@/components/dashboard/HealthCard";
 import GlobalSearch from "@/components/globalsearch";
-import { TreasuryHealthDashboard } from "@/components/dashboard/TreasuryHealthDashboard";
+import { _TreasuryHealthDashboard } from "@/components/dashboard/TreasuryHealthDashboard";
 import { BurnRateForecast } from "@/components/dashboard/BurnRateForecast";
 import { DisbursementHeatmap } from "@/components/dashboard/DisbursementHeatmap";
 

@@ -1,9 +1,10 @@
 "use client";
 
-import { useState, useEffect, Suspense } from "react";
+import { useState, Suspense } from "react";
 import TransactionHistory from "@/components/dashboard/TransactionHistory";
 import { SanctionsFlagBanner, type SanctionsFlag } from "@/components/compliance/SanctionsFlagBanner";
 import RoadmapTeaser from "@/components/dashboard/RoadmapTeaser";
+import { HeroStats } from "@/components/dashboard";
 
 // ─── Mock Data ────────────────────────────────────────────────────────────────
 const MOCK_FLAGS: SanctionsFlag[] = [
@@ -34,8 +35,8 @@ const STREAM: Stream = {
   name: "DAO Treasury → Dev Fund",
   token: "USDC",
   status: "active",
-  startTime: new Date(Date.now() - 1000 * 60 * 60 * 24 * 12),
-  endTime: new Date(Date.now() + 1000 * 60 * 60 * 24 * 48),
+startTime: new Date("2026-06-06T10:01:00"),
+endTime: new Date("2026-08-05T10:01:00"),
   totalAmount: 120_000,
   streamed: 37_500,
   yieldEarned: 842.17,
@@ -55,13 +56,8 @@ const fmtTime = (d: Date) =>
   d.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" });
 
 // ─── Live Counter ──────────────────────────────────────────────────────────────
-function LiveCounter({ base, rate }: { base: number; rate: number }) {
-  const [val, setVal] = useState(base);
-  useEffect(() => {
-    const id = setInterval(() => setVal((v) => v + rate * 0.1), 100);
-    return () => clearInterval(id);
-  }, [rate]);
-  return <span className="tabular-nums">{fmt(val)}</span>;
+function _LiveCounter({ base, _rate }: { base: number; rate: number }) {
+  return <span className="tabular-nums">{fmt(base)}</span>;
 }
 
 // ─── Radial Progress ──────────────────────────────────────────────────────────
@@ -104,7 +100,7 @@ function MiniChart({ stream }: { stream: Stream }) {
   const iH = H - PAD.t - PAD.b;
 
   const t0 = stream.startTime.getTime();
-  const t1 = Date.now();
+const t1 = stream.startTime.getTime() + 1000 * 60 * 60 * 24 * 12;
   const STEPS = 60;
 
   const points = Array.from({ length: STEPS + 1 }, (_, i) => {
@@ -139,17 +135,13 @@ function MiniChart({ stream }: { stream: Stream }) {
 
 // ─── Dashboard Page ───────────────────────────────────────────────────────────
 export default function StreamDetailPage() {
-  const [streamed, setStreamed] = useState(STREAM.streamed);
-  const [flags, setFlags] = useState<SanctionsFlag[]>(MOCK_FLAGS);
-
-  useEffect(() => {
-    const id = setInterval(() => setStreamed((v) => v + STREAM.ratePerSecond * 0.5), 500);
-    return () => clearInterval(id);
-  }, []);
+const streamed = STREAM.streamed;
+const [flags, setFlags] = useState<SanctionsFlag[]>(MOCK_FLAGS);
 
   const pct = (streamed / STREAM.totalAmount) * 100;
   const remaining = STREAM.totalAmount - streamed;
-  const daysLeft = Math.ceil((STREAM.endTime.getTime() - Date.now()) / 86_400_000);
+const stableNow = STREAM.startTime.getTime() + 1000 * 60 * 60 * 24 * 12;
+const daysLeft = Math.ceil((STREAM.endTime.getTime() - stableNow) / 86_400_000);
 
   return (
     <div className="min-h-screen bg-linear-to-br from-slate-950 via-slate-900 to-slate-950 text-white">
@@ -195,38 +187,7 @@ export default function StreamDetailPage() {
           </div>
 
           {/* ════ STATS OVERVIEW (4-Column Grid) ════ */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            
-            {/* Card: Streamed */}
-            <div className="group rounded-2xl border border-white/8 bg-linear-to-br from-white/6 to-white/3 p-6 backdrop-blur-xl hover:border-cyan-500/30 hover:from-cyan-500/5 transition-all">
-              <p className="text-xs font-mono tracking-widest text-cyan-400/50 uppercase mb-3">Total Streamed</p>
-              <p className="text-3xl font-black text-cyan-400 mb-1 tabular-nums">
-                <LiveCounter base={STREAM.streamed} rate={STREAM.ratePerSecond} />
-              </p>
-              <p className="text-xs text-white/40">{STREAM.token}</p>
-            </div>
-
-            {/* Card: Remaining */}
-            <div className="group rounded-2xl border border-white/8 bg-linear-to-br from-white/6 to-white/3 p-6 backdrop-blur-xl hover:border-emerald-500/30 hover:from-emerald-500/5 transition-all">
-              <p className="text-xs font-mono tracking-widest text-emerald-400/50 uppercase mb-3">Remaining</p>
-              <p className="text-3xl font-black text-emerald-400 mb-1 tabular-nums">{fmt(remaining, 0)}</p>
-              <p className="text-xs text-white/40">{STREAM.token}</p>
-            </div>
-
-            {/* Card: Time Left */}
-            <div className="group rounded-2xl border border-white/8 bg-linear-to-br from-white/6 to-white/3 p-6 backdrop-blur-xl hover:border-violet-500/30 hover:from-violet-500/5 transition-all">
-              <p className="text-xs font-mono tracking-widest text-violet-400/50 uppercase mb-3">Time Left</p>
-              <p className="text-3xl font-black text-violet-400 mb-1">{daysLeft}</p>
-              <p className="text-xs text-white/40">days</p>
-            </div>
-
-            {/* Card: Yield */}
-            <div className="group rounded-2xl border border-white/8 bg-linear-to-br from-white/6 to-white/3 p-6 backdrop-blur-xl hover:border-amber-500/30 hover:from-amber-500/5 transition-all">
-              <p className="text-xs font-mono tracking-widest text-amber-400/50 uppercase mb-3">Yield Earned</p>
-              <p className="text-3xl font-black text-amber-400 mb-1 tabular-nums">{fmt(STREAM.yieldEarned)}</p>
-              <p className="text-xs text-white/40">8.2% APY</p>
-            </div>
-          </div>
+          <HeroStats />
 
           {/* ════ MAIN CONTENT (2-Column Layout) ════ */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -287,8 +248,8 @@ export default function StreamDetailPage() {
                         </div>
                         <div>
                           <p className="text-xs text-white/40 mb-1">{item.label}</p>
-                          <p className="text-sm font-semibold text-white">{fmtDate(item.date)}</p>
-                          <p className="text-xs text-white/50 mt-0.5">{fmtTime(item.date)}</p>
+                          <p className="text-sm font-semibold text-white" suppressHydrationWarning>{fmtDate(item.date)}</p>
+                          <p className="text-xs text-white/50 mt-0.5" suppressHydrationWarning>{fmtTime(item.date)}</p>
                         </div>
                       </div>
                     ))}
@@ -327,7 +288,7 @@ export default function StreamDetailPage() {
                 <div className="mt-6 text-center">
                   <p className="text-xs text-white/40 mb-2">Completion</p>
                   <p className="text-4xl font-black text-white mb-2">{pct.toFixed(1)}%</p>
-                  <p className="text-xs text-white/50">{daysLeft} days remaining</p>
+                  <p className="text-xs text-white/50" suppressHydrationWarning>{daysLeft} days remaining</p>
                 </div>
               </div>
 

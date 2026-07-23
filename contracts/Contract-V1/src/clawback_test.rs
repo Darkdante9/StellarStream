@@ -52,6 +52,7 @@ fn test_governance_clawback() {
         &token_address,
         &1000,
         &100,
+        &100,
         &200,
         &crate::types::CurveType::Linear,
         &false,
@@ -74,7 +75,7 @@ fn test_governance_clawback() {
 
     // Verify stream is cancelled
     let stream = client.get_stream(&stream_id);
-    assert!(stream.cancelled);
+    assert_eq!(stream.state, crate::types::StreamState::Closed);
 
     // Verify issuer received the funds
     let token_client = TokenClient::new(&env, &token_address);
@@ -107,6 +108,7 @@ fn test_clawback_requires_compliance_officer_role() {
         &receiver,
         &token_address,
         &1000,
+        &100,
         &100,
         &200,
         &crate::types::CurveType::Linear,
@@ -143,6 +145,7 @@ fn test_clawback_after_partial_withdrawal() {
         &receiver,
         &token_address,
         &1000,
+        &100,
         &100,
         &200,
         &crate::types::CurveType::Linear,

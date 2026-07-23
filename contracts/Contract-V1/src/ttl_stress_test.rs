@@ -92,6 +92,7 @@ fn test_four_year_stream_ttl_survival() {
         &ctx.token_id,
         &amount,
         &start_time,
+        &start_time,
         &end_time,
         &CurveType::Linear,
         &false, // Not soulbound
@@ -102,14 +103,15 @@ fn test_four_year_stream_ttl_survival() {
     assert_eq!(initial_stream.total_amount, amount);
     assert_eq!(initial_stream.start_time, start_time);
     assert_eq!(initial_stream.end_time, end_time);
-    assert!(!initial_stream.cancelled);
+    assert_eq!(initial_stream.state, StreamState::Active);
 
     // Test 1: Jump forward 1 year and verify stream is still live
     advance_time_and_extend_ttl(&ctx.env, SECONDS_PER_YEAR, start_time);
 
     let stream_after_1_year = ctx.client.get_stream(&stream_id);
-    assert!(
-        !stream_after_1_year.cancelled,
+    assert_eq!(
+        stream_after_1_year.state,
+        StreamState::Active,
         "Stream should still be live after 1 year"
     );
     assert_eq!(
@@ -134,8 +136,9 @@ fn test_four_year_stream_ttl_survival() {
     advance_time_and_extend_ttl(&ctx.env, SECONDS_PER_YEAR, start_time + SECONDS_PER_YEAR);
 
     let stream_after_2_years = ctx.client.get_stream(&stream_id);
-    assert!(
-        !stream_after_2_years.cancelled,
+    assert_eq!(
+        stream_after_2_years.state,
+        StreamState::Active,
         "Stream should still be live after 2 years"
     );
     assert_eq!(
@@ -161,8 +164,9 @@ fn test_four_year_stream_ttl_survival() {
     );
 
     let stream_after_4_years = ctx.client.get_stream(&stream_id);
-    assert!(
-        !stream_after_4_years.cancelled,
+    assert_eq!(
+        stream_after_4_years.state,
+        StreamState::Active,
         "Stream should still be live after 4 years"
     );
     assert_eq!(
@@ -223,6 +227,7 @@ fn test_multiple_streams_ttl_survival() {
         &ctx.token_id,
         &amount_per_stream,
         &start_time,
+        &start_time,
         &end_time,
         &CurveType::Linear,
         &false,
@@ -235,6 +240,7 @@ fn test_multiple_streams_ttl_survival() {
         &receiver2,
         &ctx.token_id,
         &amount_per_stream,
+        &(start_time + SECONDS_PER_YEAR / 2),
         &(start_time + SECONDS_PER_YEAR / 2),
         &(end_time + SECONDS_PER_YEAR / 2),
         &CurveType::Linear,
@@ -253,6 +259,7 @@ fn test_multiple_streams_ttl_survival() {
         &ctx.token_id,
         &amount_per_stream,
         &(start_time + SECONDS_PER_YEAR),
+        &(start_time + SECONDS_PER_YEAR),
         &(end_time + SECONDS_PER_YEAR),
         &CurveType::Linear,
         &false,
@@ -266,12 +273,21 @@ fn test_multiple_streams_ttl_survival() {
     let stream_2 = ctx.client.get_stream(&stream_id_2);
     let stream_3 = ctx.client.get_stream(&stream_id_3);
 
-    assert!(!stream_1.cancelled, "Stream 1 should be live after 2 years");
-    assert!(
-        !stream_2.cancelled,
-        "Stream 2 should be live after 1.5 years"
+    assert_eq!(
+        stream_1.state,
+        StreamState::Active,
+        "Stream 1 should be live after 2 years"
     );
-    assert!(!stream_3.cancelled, "Stream 3 should be live after 1 year");
+    assert_eq!(
+        stream_2.state,
+        StreamState::Active,
+        "Stream 2 should be live after 3 years"
+    );
+    assert_eq!(
+        stream_3.state,
+        StreamState::Active,
+        "Stream 3 should be live after 1 year"
+    );
 
     // Test withdrawals work for all streams
     let withdrawn_1 = ctx.client.withdraw(&stream_id_1, &receiver1);
@@ -333,6 +349,7 @@ fn test_paused_stream_ttl_survival() {
         &ctx.token_id,
         &amount,
         &start_time,
+        &start_time,
         &end_time,
         &CurveType::Linear,
         &false,
@@ -343,7 +360,11 @@ fn test_paused_stream_ttl_survival() {
     ctx.client.pause_stream(&stream_id, &sender);
 
     let paused_stream = ctx.client.get_stream(&stream_id);
-    assert!(paused_stream.is_paused, "Stream should be paused");
+    assert_eq!(
+        paused_stream.state,
+        StreamState::Paused,
+        "Stream should be paused"
+    );
 
     // Jump forward 2 years while paused
     advance_time_and_extend_ttl(
@@ -354,19 +375,25 @@ fn test_paused_stream_ttl_survival() {
 
     // Verify stream is still live despite being paused for 2 years
     let stream_after_pause = ctx.client.get_stream(&stream_id);
-    assert!(
-        !stream_after_pause.cancelled,
+    assert_ne!(
+        stream_after_pause.state,
+        StreamState::Closed,
         "Paused stream should still be live after 2 years"
     );
-    assert!(
-        stream_after_pause.is_paused,
+    assert_eq!(
+        stream_after_pause.state,
+        StreamState::Paused,
         "Stream should still be paused"
     );
 
     // Unpause and verify functionality
     ctx.client.unpause_stream(&stream_id, &sender);
     let unpaused_stream = ctx.client.get_stream(&stream_id);
-    assert!(!unpaused_stream.is_paused, "Stream should be unpaused");
+    assert_eq!(
+        unpaused_stream.state,
+        StreamState::Active,
+        "Stream should be unpaused"
+    );
 
     // Verify withdrawal works after unpausing
     let withdrawn = ctx.client.withdraw(&stream_id, &receiver);
@@ -410,6 +437,7 @@ fn test_cancelled_stream_ttl_and_recreation() {
         &ctx.token_id,
         &amount,
         &start_time,
+        &start_time,
         &end_time,
         &CurveType::Linear,
         &false,
@@ -426,15 +454,20 @@ fn test_cancelled_stream_ttl_and_recreation() {
     // Cancel the stream
     ctx.client.cancel(&stream_id_1, &sender);
     let cancelled_stream = ctx.client.get_stream(&stream_id_1);
-    assert!(cancelled_stream.cancelled, "Stream should be cancelled");
+    assert_eq!(
+        cancelled_stream.state,
+        StreamState::Closed,
+        "Stream should be cancelled"
+    );
 
     // Jump forward another year
     advance_time_and_extend_ttl(&ctx.env, SECONDS_PER_YEAR, start_time + SECONDS_PER_YEAR);
 
     // Verify cancelled stream data is still accessible (TTL survived)
     let stream_after_ttl = ctx.client.get_stream(&stream_id_1);
-    assert!(
-        stream_after_ttl.cancelled,
+    assert_eq!(
+        stream_after_ttl.state,
+        StreamState::Closed,
         "Cancelled stream data should still be accessible"
     );
     assert_eq!(
@@ -452,6 +485,7 @@ fn test_cancelled_stream_ttl_and_recreation() {
         &ctx.token_id,
         &amount,
         &new_start_time,
+        &new_start_time,
         &new_end_time,
         &CurveType::Linear,
         &false,
@@ -466,9 +500,13 @@ fn test_cancelled_stream_ttl_and_recreation() {
     let old_stream = ctx.client.get_stream(&stream_id_1);
     let new_stream = ctx.client.get_stream(&stream_id_2);
 
-    assert!(old_stream.cancelled, "Old stream should remain cancelled");
+    assert_eq!(
+        old_stream.state,
+        StreamState::Closed,
+        "Old stream should remain cancelled"
+    );
     assert!(
-        !new_stream.cancelled,
+        new_stream.state != StreamState::Closed,
         "New stream should be completed, not cancelled"
     );
 }

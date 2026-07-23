@@ -1,4 +1,4 @@
-/* eslint-env serviceworker */
+/* global self, caches, fetch, URL */
 // public/sw.js
 // Service worker for StellarStream PWA — Issue #1018
 // Caches the /dashboard/v3/splitter route and its static assets for offline use.
@@ -40,7 +40,8 @@ self.addEventListener("fetch", (event) => {
     event.respondWith(
       caches.match(request).then((cached) => {
         const network = fetch(request).then((res) => {
-          caches.open(CACHE).then((c) => c.put(request, res.clone()));
+          const resClone = res.clone();
+          caches.open(CACHE).then((c) => c.put(request, resClone));
           return res;
         });
         return cached || network;

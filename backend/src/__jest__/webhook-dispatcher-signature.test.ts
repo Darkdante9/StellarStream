@@ -3,7 +3,7 @@ describe("WebhookDispatcherService signatures", () => {
     jest.resetModules();
   });
 
-  it("sends the Nebula signature header on webhook deliveries", async () => {
+  it("sends StellarStream signature, timestamp, and nonce headers on webhook deliveries", async () => {
     const updateMock = jest.fn(async () => undefined);
 
     jest.doMock("../generated/client/index.js", () => ({
@@ -52,10 +52,23 @@ describe("WebhookDispatcherService signatures", () => {
       { headers: Record<string, string> }
     ];
     const options = firstCall[1];
-    if (!options?.headers?.["X-Nebula-Signature"]) {
-      throw new Error("Missing X-Nebula-Signature header");
+    const headers = options?.headers;
+    if (!headers?.["X-StellarStream-Signature"]) {
+      throw new Error("Missing X-StellarStream-Signature header");
     }
-    if (options.headers["X-Nebula-Signature"] !== options.headers["X-Webhook-Signature"]) {
+    if (!headers["X-StellarStream-Timestamp"]) {
+      throw new Error("Missing X-StellarStream-Timestamp header");
+    }
+    if (!headers["X-StellarStream-Nonce"]) {
+      throw new Error("Missing X-StellarStream-Nonce header");
+    }
+    if (!headers["X-StellarStream-Signature"].startsWith("sha256=")) {
+      throw new Error("StellarStream signature is missing sha256 prefix");
+    }
+    if (headers["X-Nebula-Signature"] !== headers["X-StellarStream-Signature"]) {
+      throw new Error("Nebula compatibility header does not match StellarStream signature");
+    }
+    if (headers["X-Webhook-Signature"] !== headers["X-StellarStream-Signature"]) {
       throw new Error("Nebula signature header does not match legacy webhook signature");
     }
     if (updateMock.mock.calls.length !== 1) {
@@ -65,5 +78,40 @@ describe("WebhookDispatcherService signatures", () => {
       where: { id: "delivery_1" },
       data: { status: "success", attempts: 1 },
     });
+  });
+
+  it("verifies fresh signatures and rejects stale replay attempts", async () => {
+    jest.doMock("../generated/client/index.js", () => ({
+      PrismaClient: jest.fn().mockImplementation(() => ({})),
+    }));
+
+    const { WebhookDispatcherService } = await import("../services/webhook-dispatcher.service");
+    const payload = JSON.stringify({ eventType: "split.completed", splitId: "42" });
+    const secret = "super-secret";
+    const timestamp = "2026-06-25T12:00:00.000Z";
+    const nonce = "nonce-123";
+    const signature = WebhookDispatcherService.signPayload(payload, secret, timestamp, nonce);
+
+    expect(
+      WebhookDispatcherService.verifySignature(
+        payload,
+        signature,
+        secret,
+        timestamp,
+        nonce,
+        new Date("2026-06-25T12:04:59.000Z")
+      )
+    ).toBe(true);
+
+    expect(
+      WebhookDispatcherService.verifySignature(
+        payload,
+        signature,
+        secret,
+        timestamp,
+        nonce,
+        new Date("2026-06-25T12:05:01.000Z")
+      )
+    ).toBe(false);
   });
 });

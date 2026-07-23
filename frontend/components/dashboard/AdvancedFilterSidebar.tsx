@@ -171,6 +171,7 @@ export default function AdvancedFilterSidebar({
           </div>
           <button
             onClick={onToggle}
+            aria-label="Close filters"
             className="p-2 rounded-lg hover:bg-white/10 transition-colors"
           >
             <X size={20} className="text-gray-400" />

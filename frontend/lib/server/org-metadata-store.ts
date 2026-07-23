@@ -17,7 +17,7 @@ export interface OrganizationMetadata {
 type OrgMetadataStore = Map<string, OrganizationMetadata>;
 
 declare global {
-  // eslint-disable-next-line no-var
+   
   var __orgMetadataStore: OrgMetadataStore | undefined;
 }
 

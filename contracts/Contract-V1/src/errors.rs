@@ -32,4 +32,6 @@ pub enum Error {
     StreamEnded = 24,
     /// Batch request exceeds the maximum allowed recipients per call
     BatchSizeExceeded = 25,
+    /// Stream is not paused (cannot resume)
+    StreamNotPaused = 26,
 }
