@@ -4,6 +4,7 @@ import GlobalSearch from "@/components/globalsearch";
 import { _TreasuryHealthDashboard } from "@/components/dashboard/TreasuryHealthDashboard";
 import { BurnRateForecast } from "@/components/dashboard/BurnRateForecast";
 import { DisbursementHeatmap } from "@/components/dashboard/DisbursementHeatmap";
+import { PaymentAggregationDashboard } from "@/components/dashboard/PaymentAggregationDashboard";
 
 export default function StatisticsPage() {
   return (
@@ -23,6 +24,12 @@ export default function StatisticsPage() {
       <ProtocolPulseCard />
 
       <DisbursementHeatmap />
+
+      <section className="rounded-3xl border border-white/10 bg-white/[0.04] p-6 backdrop-blur-xl md:p-8">
+        <p className="font-body text-xs tracking-[0.12em] text-white/60 uppercase mb-1">Payments</p>
+        <h2 className="font-heading text-2xl md:text-3xl mb-5">Payment Aggregation Views</h2>
+        <PaymentAggregationDashboard />
+      </section>
 
       <section className="rounded-3xl border border-white/10 bg-white/[0.04] p-6 backdrop-blur-xl md:p-8">
         <p className="font-body text-xs tracking-[0.12em] text-white/60 uppercase mb-1">Forecasting</p>
