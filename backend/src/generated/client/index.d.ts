@@ -99,6 +99,16 @@ export type Proposal = $Result.DefaultSelection<Prisma.$ProposalPayload>
  */
 export type Event = $Result.DefaultSelection<Prisma.$EventPayload>
 /**
+ * Model ReplayCheckpoint
+ * 
+ */
+export type ReplayCheckpoint = $Result.DefaultSelection<Prisma.$ReplayCheckpointPayload>
+/**
+ * Model ReplayRun
+ * 
+ */
+export type ReplayRun = $Result.DefaultSelection<Prisma.$ReplayRunPayload>
+/**
  * Model OrganizationMember
  * 
  */
@@ -632,6 +642,26 @@ export class PrismaClient<
     * ```
     */
   get event(): Prisma.EventDelegate<ExtArgs>;
+
+  /**
+   * `prisma.replayCheckpoint`: Exposes CRUD operations for the **ReplayCheckpoint** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ReplayCheckpoints
+    * const replayCheckpoints = await prisma.replayCheckpoint.findMany()
+    * ```
+    */
+  get replayCheckpoint(): Prisma.ReplayCheckpointDelegate<ExtArgs>;
+
+  /**
+   * `prisma.replayRun`: Exposes CRUD operations for the **ReplayRun** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ReplayRuns
+    * const replayRuns = await prisma.replayRun.findMany()
+    * ```
+    */
+  get replayRun(): Prisma.ReplayRunDelegate<ExtArgs>;
 
   /**
    * `prisma.organizationMember`: Exposes CRUD operations for the **OrganizationMember** model.
@@ -1390,6 +1420,8 @@ export namespace Prisma {
     BridgeLog: 'BridgeLog',
     Proposal: 'Proposal',
     Event: 'Event',
+    ReplayCheckpoint: 'ReplayCheckpoint',
+    ReplayRun: 'ReplayRun',
     OrganizationMember: 'OrganizationMember',
     ApiKey: 'ApiKey',
     LedgerHash: 'LedgerHash',
@@ -1435,7 +1467,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, ClientOptions = {}> = {
     meta: {
-      modelProps: "paymentCategory" | "paymentMetadata" | "paymentAuthorization" | "paymentCapture" | "paymentCategoryRule" | "stream" | "contractEvent" | "tokenPrice" | "webhook" | "webhookDelivery" | "syncState" | "eventLog" | "streamSnapshot" | "streamArchive" | "bridgeLog" | "proposal" | "event" | "organizationMember" | "apiKey" | "ledgerHash" | "syncMetadata" | "clawbackHistory" | "notificationSubscription" | "invoiceLink" | "affiliate" | "globalStats" | "globalStats_V3" | "tvlSnapshot" | "asset" | "autopilotSchedule" | "assetConfig" | "archivedDisbursement" | "disbursement" | "paymentStatusEvent" | "assetMapping" | "priceHistory" | "protocolInefficiencyReport" | "splitLog" | "monitoredTransaction" | "disbursementDraft" | "disbursementDraftVersion" | "multisigProposal" | "cachedAsset" | "streamTemplate" | "splitLink" | "ofacAuditLog" | "adminAuditLog"
+      modelProps: "paymentCategory" | "paymentMetadata" | "paymentAuthorization" | "paymentCapture" | "paymentCategoryRule" | "stream" | "contractEvent" | "tokenPrice" | "webhook" | "webhookDelivery" | "syncState" | "eventLog" | "streamSnapshot" | "streamArchive" | "bridgeLog" | "proposal" | "event" | "replayCheckpoint" | "replayRun" | "organizationMember" | "apiKey" | "ledgerHash" | "syncMetadata" | "clawbackHistory" | "notificationSubscription" | "invoiceLink" | "affiliate" | "globalStats" | "globalStats_V3" | "tvlSnapshot" | "asset" | "autopilotSchedule" | "assetConfig" | "archivedDisbursement" | "disbursement" | "paymentStatusEvent" | "assetMapping" | "priceHistory" | "protocolInefficiencyReport" | "splitLog" | "monitoredTransaction" | "disbursementDraft" | "disbursementDraftVersion" | "multisigProposal" | "cachedAsset" | "streamTemplate" | "splitLink" | "ofacAuditLog" | "adminAuditLog"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -2626,6 +2658,146 @@ export namespace Prisma {
           count: {
             args: Prisma.EventCountArgs<ExtArgs>
             result: $Utils.Optional<EventCountAggregateOutputType> | number
+          }
+        }
+      }
+      ReplayCheckpoint: {
+        payload: Prisma.$ReplayCheckpointPayload<ExtArgs>
+        fields: Prisma.ReplayCheckpointFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ReplayCheckpointFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReplayCheckpointPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ReplayCheckpointFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReplayCheckpointPayload>
+          }
+          findFirst: {
+            args: Prisma.ReplayCheckpointFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReplayCheckpointPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ReplayCheckpointFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReplayCheckpointPayload>
+          }
+          findMany: {
+            args: Prisma.ReplayCheckpointFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReplayCheckpointPayload>[]
+          }
+          create: {
+            args: Prisma.ReplayCheckpointCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReplayCheckpointPayload>
+          }
+          createMany: {
+            args: Prisma.ReplayCheckpointCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ReplayCheckpointCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReplayCheckpointPayload>[]
+          }
+          delete: {
+            args: Prisma.ReplayCheckpointDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReplayCheckpointPayload>
+          }
+          update: {
+            args: Prisma.ReplayCheckpointUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReplayCheckpointPayload>
+          }
+          deleteMany: {
+            args: Prisma.ReplayCheckpointDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ReplayCheckpointUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.ReplayCheckpointUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReplayCheckpointPayload>
+          }
+          aggregate: {
+            args: Prisma.ReplayCheckpointAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateReplayCheckpoint>
+          }
+          groupBy: {
+            args: Prisma.ReplayCheckpointGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ReplayCheckpointGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ReplayCheckpointCountArgs<ExtArgs>
+            result: $Utils.Optional<ReplayCheckpointCountAggregateOutputType> | number
+          }
+        }
+      }
+      ReplayRun: {
+        payload: Prisma.$ReplayRunPayload<ExtArgs>
+        fields: Prisma.ReplayRunFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ReplayRunFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReplayRunPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ReplayRunFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReplayRunPayload>
+          }
+          findFirst: {
+            args: Prisma.ReplayRunFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReplayRunPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ReplayRunFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReplayRunPayload>
+          }
+          findMany: {
+            args: Prisma.ReplayRunFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReplayRunPayload>[]
+          }
+          create: {
+            args: Prisma.ReplayRunCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReplayRunPayload>
+          }
+          createMany: {
+            args: Prisma.ReplayRunCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ReplayRunCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReplayRunPayload>[]
+          }
+          delete: {
+            args: Prisma.ReplayRunDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReplayRunPayload>
+          }
+          update: {
+            args: Prisma.ReplayRunUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReplayRunPayload>
+          }
+          deleteMany: {
+            args: Prisma.ReplayRunDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ReplayRunUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.ReplayRunUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReplayRunPayload>
+          }
+          aggregate: {
+            args: Prisma.ReplayRunAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateReplayRun>
+          }
+          groupBy: {
+            args: Prisma.ReplayRunGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ReplayRunGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ReplayRunCountArgs<ExtArgs>
+            result: $Utils.Optional<ReplayRunCountAggregateOutputType> | number
           }
         }
       }
@@ -21822,6 +21994,1868 @@ export namespace Prisma {
      * Select specific fields to fetch from the Event
      */
     select?: EventSelect<ExtArgs> | null
+  }
+
+
+  /**
+   * Model ReplayCheckpoint
+   */
+
+  export type AggregateReplayCheckpoint = {
+    _count: ReplayCheckpointCountAggregateOutputType | null
+    _min: ReplayCheckpointMinAggregateOutputType | null
+    _max: ReplayCheckpointMaxAggregateOutputType | null
+  }
+
+  export type ReplayCheckpointMinAggregateOutputType = {
+    id: string | null
+    streamId: string | null
+    eventId: string | null
+    label: string | null
+    createdAt: Date | null
+  }
+
+  export type ReplayCheckpointMaxAggregateOutputType = {
+    id: string | null
+    streamId: string | null
+    eventId: string | null
+    label: string | null
+    createdAt: Date | null
+  }
+
+  export type ReplayCheckpointCountAggregateOutputType = {
+    id: number
+    streamId: number
+    eventId: number
+    label: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type ReplayCheckpointMinAggregateInputType = {
+    id?: true
+    streamId?: true
+    eventId?: true
+    label?: true
+    createdAt?: true
+  }
+
+  export type ReplayCheckpointMaxAggregateInputType = {
+    id?: true
+    streamId?: true
+    eventId?: true
+    label?: true
+    createdAt?: true
+  }
+
+  export type ReplayCheckpointCountAggregateInputType = {
+    id?: true
+    streamId?: true
+    eventId?: true
+    label?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type ReplayCheckpointAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ReplayCheckpoint to aggregate.
+     */
+    where?: ReplayCheckpointWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ReplayCheckpoints to fetch.
+     */
+    orderBy?: ReplayCheckpointOrderByWithRelationInput | ReplayCheckpointOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ReplayCheckpointWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ReplayCheckpoints from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ReplayCheckpoints.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ReplayCheckpoints
+    **/
+    _count?: true | ReplayCheckpointCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ReplayCheckpointMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ReplayCheckpointMaxAggregateInputType
+  }
+
+  export type GetReplayCheckpointAggregateType<T extends ReplayCheckpointAggregateArgs> = {
+        [P in keyof T & keyof AggregateReplayCheckpoint]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateReplayCheckpoint[P]>
+      : GetScalarType<T[P], AggregateReplayCheckpoint[P]>
+  }
+
+
+
+
+  export type ReplayCheckpointGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ReplayCheckpointWhereInput
+    orderBy?: ReplayCheckpointOrderByWithAggregationInput | ReplayCheckpointOrderByWithAggregationInput[]
+    by: ReplayCheckpointScalarFieldEnum[] | ReplayCheckpointScalarFieldEnum
+    having?: ReplayCheckpointScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ReplayCheckpointCountAggregateInputType | true
+    _min?: ReplayCheckpointMinAggregateInputType
+    _max?: ReplayCheckpointMaxAggregateInputType
+  }
+
+  export type ReplayCheckpointGroupByOutputType = {
+    id: string
+    streamId: string
+    eventId: string
+    label: string | null
+    createdAt: Date
+    _count: ReplayCheckpointCountAggregateOutputType | null
+    _min: ReplayCheckpointMinAggregateOutputType | null
+    _max: ReplayCheckpointMaxAggregateOutputType | null
+  }
+
+  type GetReplayCheckpointGroupByPayload<T extends ReplayCheckpointGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ReplayCheckpointGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ReplayCheckpointGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ReplayCheckpointGroupByOutputType[P]>
+            : GetScalarType<T[P], ReplayCheckpointGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ReplayCheckpointSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    streamId?: boolean
+    eventId?: boolean
+    label?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["replayCheckpoint"]>
+
+  export type ReplayCheckpointSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    streamId?: boolean
+    eventId?: boolean
+    label?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["replayCheckpoint"]>
+
+  export type ReplayCheckpointSelectScalar = {
+    id?: boolean
+    streamId?: boolean
+    eventId?: boolean
+    label?: boolean
+    createdAt?: boolean
+  }
+
+
+  export type $ReplayCheckpointPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ReplayCheckpoint"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      streamId: string
+      eventId: string
+      label: string | null
+      createdAt: Date
+    }, ExtArgs["result"]["replayCheckpoint"]>
+    composites: {}
+  }
+
+  type ReplayCheckpointGetPayload<S extends boolean | null | undefined | ReplayCheckpointDefaultArgs> = $Result.GetResult<Prisma.$ReplayCheckpointPayload, S>
+
+  type ReplayCheckpointCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<ReplayCheckpointFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: ReplayCheckpointCountAggregateInputType | true
+    }
+
+  export interface ReplayCheckpointDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ReplayCheckpoint'], meta: { name: 'ReplayCheckpoint' } }
+    /**
+     * Find zero or one ReplayCheckpoint that matches the filter.
+     * @param {ReplayCheckpointFindUniqueArgs} args - Arguments to find a ReplayCheckpoint
+     * @example
+     * // Get one ReplayCheckpoint
+     * const replayCheckpoint = await prisma.replayCheckpoint.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ReplayCheckpointFindUniqueArgs>(args: SelectSubset<T, ReplayCheckpointFindUniqueArgs<ExtArgs>>): Prisma__ReplayCheckpointClient<$Result.GetResult<Prisma.$ReplayCheckpointPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one ReplayCheckpoint that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {ReplayCheckpointFindUniqueOrThrowArgs} args - Arguments to find a ReplayCheckpoint
+     * @example
+     * // Get one ReplayCheckpoint
+     * const replayCheckpoint = await prisma.replayCheckpoint.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ReplayCheckpointFindUniqueOrThrowArgs>(args: SelectSubset<T, ReplayCheckpointFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ReplayCheckpointClient<$Result.GetResult<Prisma.$ReplayCheckpointPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first ReplayCheckpoint that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReplayCheckpointFindFirstArgs} args - Arguments to find a ReplayCheckpoint
+     * @example
+     * // Get one ReplayCheckpoint
+     * const replayCheckpoint = await prisma.replayCheckpoint.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ReplayCheckpointFindFirstArgs>(args?: SelectSubset<T, ReplayCheckpointFindFirstArgs<ExtArgs>>): Prisma__ReplayCheckpointClient<$Result.GetResult<Prisma.$ReplayCheckpointPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first ReplayCheckpoint that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReplayCheckpointFindFirstOrThrowArgs} args - Arguments to find a ReplayCheckpoint
+     * @example
+     * // Get one ReplayCheckpoint
+     * const replayCheckpoint = await prisma.replayCheckpoint.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ReplayCheckpointFindFirstOrThrowArgs>(args?: SelectSubset<T, ReplayCheckpointFindFirstOrThrowArgs<ExtArgs>>): Prisma__ReplayCheckpointClient<$Result.GetResult<Prisma.$ReplayCheckpointPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more ReplayCheckpoints that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReplayCheckpointFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ReplayCheckpoints
+     * const replayCheckpoints = await prisma.replayCheckpoint.findMany()
+     * 
+     * // Get first 10 ReplayCheckpoints
+     * const replayCheckpoints = await prisma.replayCheckpoint.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const replayCheckpointWithIdOnly = await prisma.replayCheckpoint.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ReplayCheckpointFindManyArgs>(args?: SelectSubset<T, ReplayCheckpointFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReplayCheckpointPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a ReplayCheckpoint.
+     * @param {ReplayCheckpointCreateArgs} args - Arguments to create a ReplayCheckpoint.
+     * @example
+     * // Create one ReplayCheckpoint
+     * const ReplayCheckpoint = await prisma.replayCheckpoint.create({
+     *   data: {
+     *     // ... data to create a ReplayCheckpoint
+     *   }
+     * })
+     * 
+     */
+    create<T extends ReplayCheckpointCreateArgs>(args: SelectSubset<T, ReplayCheckpointCreateArgs<ExtArgs>>): Prisma__ReplayCheckpointClient<$Result.GetResult<Prisma.$ReplayCheckpointPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many ReplayCheckpoints.
+     * @param {ReplayCheckpointCreateManyArgs} args - Arguments to create many ReplayCheckpoints.
+     * @example
+     * // Create many ReplayCheckpoints
+     * const replayCheckpoint = await prisma.replayCheckpoint.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ReplayCheckpointCreateManyArgs>(args?: SelectSubset<T, ReplayCheckpointCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ReplayCheckpoints and returns the data saved in the database.
+     * @param {ReplayCheckpointCreateManyAndReturnArgs} args - Arguments to create many ReplayCheckpoints.
+     * @example
+     * // Create many ReplayCheckpoints
+     * const replayCheckpoint = await prisma.replayCheckpoint.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ReplayCheckpoints and only return the `id`
+     * const replayCheckpointWithIdOnly = await prisma.replayCheckpoint.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ReplayCheckpointCreateManyAndReturnArgs>(args?: SelectSubset<T, ReplayCheckpointCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReplayCheckpointPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a ReplayCheckpoint.
+     * @param {ReplayCheckpointDeleteArgs} args - Arguments to delete one ReplayCheckpoint.
+     * @example
+     * // Delete one ReplayCheckpoint
+     * const ReplayCheckpoint = await prisma.replayCheckpoint.delete({
+     *   where: {
+     *     // ... filter to delete one ReplayCheckpoint
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ReplayCheckpointDeleteArgs>(args: SelectSubset<T, ReplayCheckpointDeleteArgs<ExtArgs>>): Prisma__ReplayCheckpointClient<$Result.GetResult<Prisma.$ReplayCheckpointPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one ReplayCheckpoint.
+     * @param {ReplayCheckpointUpdateArgs} args - Arguments to update one ReplayCheckpoint.
+     * @example
+     * // Update one ReplayCheckpoint
+     * const replayCheckpoint = await prisma.replayCheckpoint.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ReplayCheckpointUpdateArgs>(args: SelectSubset<T, ReplayCheckpointUpdateArgs<ExtArgs>>): Prisma__ReplayCheckpointClient<$Result.GetResult<Prisma.$ReplayCheckpointPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more ReplayCheckpoints.
+     * @param {ReplayCheckpointDeleteManyArgs} args - Arguments to filter ReplayCheckpoints to delete.
+     * @example
+     * // Delete a few ReplayCheckpoints
+     * const { count } = await prisma.replayCheckpoint.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ReplayCheckpointDeleteManyArgs>(args?: SelectSubset<T, ReplayCheckpointDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ReplayCheckpoints.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReplayCheckpointUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ReplayCheckpoints
+     * const replayCheckpoint = await prisma.replayCheckpoint.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ReplayCheckpointUpdateManyArgs>(args: SelectSubset<T, ReplayCheckpointUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one ReplayCheckpoint.
+     * @param {ReplayCheckpointUpsertArgs} args - Arguments to update or create a ReplayCheckpoint.
+     * @example
+     * // Update or create a ReplayCheckpoint
+     * const replayCheckpoint = await prisma.replayCheckpoint.upsert({
+     *   create: {
+     *     // ... data to create a ReplayCheckpoint
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ReplayCheckpoint we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ReplayCheckpointUpsertArgs>(args: SelectSubset<T, ReplayCheckpointUpsertArgs<ExtArgs>>): Prisma__ReplayCheckpointClient<$Result.GetResult<Prisma.$ReplayCheckpointPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of ReplayCheckpoints.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReplayCheckpointCountArgs} args - Arguments to filter ReplayCheckpoints to count.
+     * @example
+     * // Count the number of ReplayCheckpoints
+     * const count = await prisma.replayCheckpoint.count({
+     *   where: {
+     *     // ... the filter for the ReplayCheckpoints we want to count
+     *   }
+     * })
+    **/
+    count<T extends ReplayCheckpointCountArgs>(
+      args?: Subset<T, ReplayCheckpointCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ReplayCheckpointCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ReplayCheckpoint.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReplayCheckpointAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ReplayCheckpointAggregateArgs>(args: Subset<T, ReplayCheckpointAggregateArgs>): Prisma.PrismaPromise<GetReplayCheckpointAggregateType<T>>
+
+    /**
+     * Group by ReplayCheckpoint.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReplayCheckpointGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ReplayCheckpointGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ReplayCheckpointGroupByArgs['orderBy'] }
+        : { orderBy?: ReplayCheckpointGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ReplayCheckpointGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetReplayCheckpointGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ReplayCheckpoint model
+   */
+  readonly fields: ReplayCheckpointFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ReplayCheckpoint.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ReplayCheckpointClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ReplayCheckpoint model
+   */ 
+  interface ReplayCheckpointFieldRefs {
+    readonly id: FieldRef<"ReplayCheckpoint", 'String'>
+    readonly streamId: FieldRef<"ReplayCheckpoint", 'String'>
+    readonly eventId: FieldRef<"ReplayCheckpoint", 'String'>
+    readonly label: FieldRef<"ReplayCheckpoint", 'String'>
+    readonly createdAt: FieldRef<"ReplayCheckpoint", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ReplayCheckpoint findUnique
+   */
+  export type ReplayCheckpointFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReplayCheckpoint
+     */
+    select?: ReplayCheckpointSelect<ExtArgs> | null
+    /**
+     * Filter, which ReplayCheckpoint to fetch.
+     */
+    where: ReplayCheckpointWhereUniqueInput
+  }
+
+  /**
+   * ReplayCheckpoint findUniqueOrThrow
+   */
+  export type ReplayCheckpointFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReplayCheckpoint
+     */
+    select?: ReplayCheckpointSelect<ExtArgs> | null
+    /**
+     * Filter, which ReplayCheckpoint to fetch.
+     */
+    where: ReplayCheckpointWhereUniqueInput
+  }
+
+  /**
+   * ReplayCheckpoint findFirst
+   */
+  export type ReplayCheckpointFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReplayCheckpoint
+     */
+    select?: ReplayCheckpointSelect<ExtArgs> | null
+    /**
+     * Filter, which ReplayCheckpoint to fetch.
+     */
+    where?: ReplayCheckpointWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ReplayCheckpoints to fetch.
+     */
+    orderBy?: ReplayCheckpointOrderByWithRelationInput | ReplayCheckpointOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ReplayCheckpoints.
+     */
+    cursor?: ReplayCheckpointWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ReplayCheckpoints from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ReplayCheckpoints.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ReplayCheckpoints.
+     */
+    distinct?: ReplayCheckpointScalarFieldEnum | ReplayCheckpointScalarFieldEnum[]
+  }
+
+  /**
+   * ReplayCheckpoint findFirstOrThrow
+   */
+  export type ReplayCheckpointFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReplayCheckpoint
+     */
+    select?: ReplayCheckpointSelect<ExtArgs> | null
+    /**
+     * Filter, which ReplayCheckpoint to fetch.
+     */
+    where?: ReplayCheckpointWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ReplayCheckpoints to fetch.
+     */
+    orderBy?: ReplayCheckpointOrderByWithRelationInput | ReplayCheckpointOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ReplayCheckpoints.
+     */
+    cursor?: ReplayCheckpointWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ReplayCheckpoints from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ReplayCheckpoints.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ReplayCheckpoints.
+     */
+    distinct?: ReplayCheckpointScalarFieldEnum | ReplayCheckpointScalarFieldEnum[]
+  }
+
+  /**
+   * ReplayCheckpoint findMany
+   */
+  export type ReplayCheckpointFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReplayCheckpoint
+     */
+    select?: ReplayCheckpointSelect<ExtArgs> | null
+    /**
+     * Filter, which ReplayCheckpoints to fetch.
+     */
+    where?: ReplayCheckpointWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ReplayCheckpoints to fetch.
+     */
+    orderBy?: ReplayCheckpointOrderByWithRelationInput | ReplayCheckpointOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ReplayCheckpoints.
+     */
+    cursor?: ReplayCheckpointWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ReplayCheckpoints from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ReplayCheckpoints.
+     */
+    skip?: number
+    distinct?: ReplayCheckpointScalarFieldEnum | ReplayCheckpointScalarFieldEnum[]
+  }
+
+  /**
+   * ReplayCheckpoint create
+   */
+  export type ReplayCheckpointCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReplayCheckpoint
+     */
+    select?: ReplayCheckpointSelect<ExtArgs> | null
+    /**
+     * The data needed to create a ReplayCheckpoint.
+     */
+    data: XOR<ReplayCheckpointCreateInput, ReplayCheckpointUncheckedCreateInput>
+  }
+
+  /**
+   * ReplayCheckpoint createMany
+   */
+  export type ReplayCheckpointCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ReplayCheckpoints.
+     */
+    data: ReplayCheckpointCreateManyInput | ReplayCheckpointCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ReplayCheckpoint createManyAndReturn
+   */
+  export type ReplayCheckpointCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReplayCheckpoint
+     */
+    select?: ReplayCheckpointSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many ReplayCheckpoints.
+     */
+    data: ReplayCheckpointCreateManyInput | ReplayCheckpointCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ReplayCheckpoint update
+   */
+  export type ReplayCheckpointUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReplayCheckpoint
+     */
+    select?: ReplayCheckpointSelect<ExtArgs> | null
+    /**
+     * The data needed to update a ReplayCheckpoint.
+     */
+    data: XOR<ReplayCheckpointUpdateInput, ReplayCheckpointUncheckedUpdateInput>
+    /**
+     * Choose, which ReplayCheckpoint to update.
+     */
+    where: ReplayCheckpointWhereUniqueInput
+  }
+
+  /**
+   * ReplayCheckpoint updateMany
+   */
+  export type ReplayCheckpointUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ReplayCheckpoints.
+     */
+    data: XOR<ReplayCheckpointUpdateManyMutationInput, ReplayCheckpointUncheckedUpdateManyInput>
+    /**
+     * Filter which ReplayCheckpoints to update
+     */
+    where?: ReplayCheckpointWhereInput
+  }
+
+  /**
+   * ReplayCheckpoint upsert
+   */
+  export type ReplayCheckpointUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReplayCheckpoint
+     */
+    select?: ReplayCheckpointSelect<ExtArgs> | null
+    /**
+     * The filter to search for the ReplayCheckpoint to update in case it exists.
+     */
+    where: ReplayCheckpointWhereUniqueInput
+    /**
+     * In case the ReplayCheckpoint found by the `where` argument doesn't exist, create a new ReplayCheckpoint with this data.
+     */
+    create: XOR<ReplayCheckpointCreateInput, ReplayCheckpointUncheckedCreateInput>
+    /**
+     * In case the ReplayCheckpoint was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ReplayCheckpointUpdateInput, ReplayCheckpointUncheckedUpdateInput>
+  }
+
+  /**
+   * ReplayCheckpoint delete
+   */
+  export type ReplayCheckpointDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReplayCheckpoint
+     */
+    select?: ReplayCheckpointSelect<ExtArgs> | null
+    /**
+     * Filter which ReplayCheckpoint to delete.
+     */
+    where: ReplayCheckpointWhereUniqueInput
+  }
+
+  /**
+   * ReplayCheckpoint deleteMany
+   */
+  export type ReplayCheckpointDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ReplayCheckpoints to delete
+     */
+    where?: ReplayCheckpointWhereInput
+  }
+
+  /**
+   * ReplayCheckpoint without action
+   */
+  export type ReplayCheckpointDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReplayCheckpoint
+     */
+    select?: ReplayCheckpointSelect<ExtArgs> | null
+  }
+
+
+  /**
+   * Model ReplayRun
+   */
+
+  export type AggregateReplayRun = {
+    _count: ReplayRunCountAggregateOutputType | null
+    _avg: ReplayRunAvgAggregateOutputType | null
+    _sum: ReplayRunSumAggregateOutputType | null
+    _min: ReplayRunMinAggregateOutputType | null
+    _max: ReplayRunMaxAggregateOutputType | null
+  }
+
+  export type ReplayRunAvgAggregateOutputType = {
+    eventCount: number | null
+    durationMs: number | null
+  }
+
+  export type ReplayRunSumAggregateOutputType = {
+    eventCount: number | null
+    durationMs: number | null
+  }
+
+  export type ReplayRunMinAggregateOutputType = {
+    id: string | null
+    streamId: string | null
+    fromEventId: string | null
+    toEventId: string | null
+    eventCount: number | null
+    reconstructedStatus: string | null
+    reconstructedWithdrawn: string | null
+    matchesLive: boolean | null
+    durationMs: number | null
+    createdAt: Date | null
+  }
+
+  export type ReplayRunMaxAggregateOutputType = {
+    id: string | null
+    streamId: string | null
+    fromEventId: string | null
+    toEventId: string | null
+    eventCount: number | null
+    reconstructedStatus: string | null
+    reconstructedWithdrawn: string | null
+    matchesLive: boolean | null
+    durationMs: number | null
+    createdAt: Date | null
+  }
+
+  export type ReplayRunCountAggregateOutputType = {
+    id: number
+    streamId: number
+    fromEventId: number
+    toEventId: number
+    eventCount: number
+    reconstructedStatus: number
+    reconstructedWithdrawn: number
+    matchesLive: number
+    differences: number
+    durationMs: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type ReplayRunAvgAggregateInputType = {
+    eventCount?: true
+    durationMs?: true
+  }
+
+  export type ReplayRunSumAggregateInputType = {
+    eventCount?: true
+    durationMs?: true
+  }
+
+  export type ReplayRunMinAggregateInputType = {
+    id?: true
+    streamId?: true
+    fromEventId?: true
+    toEventId?: true
+    eventCount?: true
+    reconstructedStatus?: true
+    reconstructedWithdrawn?: true
+    matchesLive?: true
+    durationMs?: true
+    createdAt?: true
+  }
+
+  export type ReplayRunMaxAggregateInputType = {
+    id?: true
+    streamId?: true
+    fromEventId?: true
+    toEventId?: true
+    eventCount?: true
+    reconstructedStatus?: true
+    reconstructedWithdrawn?: true
+    matchesLive?: true
+    durationMs?: true
+    createdAt?: true
+  }
+
+  export type ReplayRunCountAggregateInputType = {
+    id?: true
+    streamId?: true
+    fromEventId?: true
+    toEventId?: true
+    eventCount?: true
+    reconstructedStatus?: true
+    reconstructedWithdrawn?: true
+    matchesLive?: true
+    differences?: true
+    durationMs?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type ReplayRunAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ReplayRun to aggregate.
+     */
+    where?: ReplayRunWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ReplayRuns to fetch.
+     */
+    orderBy?: ReplayRunOrderByWithRelationInput | ReplayRunOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ReplayRunWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ReplayRuns from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ReplayRuns.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ReplayRuns
+    **/
+    _count?: true | ReplayRunCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: ReplayRunAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ReplayRunSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ReplayRunMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ReplayRunMaxAggregateInputType
+  }
+
+  export type GetReplayRunAggregateType<T extends ReplayRunAggregateArgs> = {
+        [P in keyof T & keyof AggregateReplayRun]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateReplayRun[P]>
+      : GetScalarType<T[P], AggregateReplayRun[P]>
+  }
+
+
+
+
+  export type ReplayRunGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ReplayRunWhereInput
+    orderBy?: ReplayRunOrderByWithAggregationInput | ReplayRunOrderByWithAggregationInput[]
+    by: ReplayRunScalarFieldEnum[] | ReplayRunScalarFieldEnum
+    having?: ReplayRunScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ReplayRunCountAggregateInputType | true
+    _avg?: ReplayRunAvgAggregateInputType
+    _sum?: ReplayRunSumAggregateInputType
+    _min?: ReplayRunMinAggregateInputType
+    _max?: ReplayRunMaxAggregateInputType
+  }
+
+  export type ReplayRunGroupByOutputType = {
+    id: string
+    streamId: string
+    fromEventId: string | null
+    toEventId: string | null
+    eventCount: number
+    reconstructedStatus: string | null
+    reconstructedWithdrawn: string | null
+    matchesLive: boolean | null
+    differences: JsonValue | null
+    durationMs: number
+    createdAt: Date
+    _count: ReplayRunCountAggregateOutputType | null
+    _avg: ReplayRunAvgAggregateOutputType | null
+    _sum: ReplayRunSumAggregateOutputType | null
+    _min: ReplayRunMinAggregateOutputType | null
+    _max: ReplayRunMaxAggregateOutputType | null
+  }
+
+  type GetReplayRunGroupByPayload<T extends ReplayRunGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ReplayRunGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ReplayRunGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ReplayRunGroupByOutputType[P]>
+            : GetScalarType<T[P], ReplayRunGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ReplayRunSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    streamId?: boolean
+    fromEventId?: boolean
+    toEventId?: boolean
+    eventCount?: boolean
+    reconstructedStatus?: boolean
+    reconstructedWithdrawn?: boolean
+    matchesLive?: boolean
+    differences?: boolean
+    durationMs?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["replayRun"]>
+
+  export type ReplayRunSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    streamId?: boolean
+    fromEventId?: boolean
+    toEventId?: boolean
+    eventCount?: boolean
+    reconstructedStatus?: boolean
+    reconstructedWithdrawn?: boolean
+    matchesLive?: boolean
+    differences?: boolean
+    durationMs?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["replayRun"]>
+
+  export type ReplayRunSelectScalar = {
+    id?: boolean
+    streamId?: boolean
+    fromEventId?: boolean
+    toEventId?: boolean
+    eventCount?: boolean
+    reconstructedStatus?: boolean
+    reconstructedWithdrawn?: boolean
+    matchesLive?: boolean
+    differences?: boolean
+    durationMs?: boolean
+    createdAt?: boolean
+  }
+
+
+  export type $ReplayRunPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ReplayRun"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      streamId: string
+      fromEventId: string | null
+      toEventId: string | null
+      eventCount: number
+      reconstructedStatus: string | null
+      reconstructedWithdrawn: string | null
+      matchesLive: boolean | null
+      differences: Prisma.JsonValue | null
+      durationMs: number
+      createdAt: Date
+    }, ExtArgs["result"]["replayRun"]>
+    composites: {}
+  }
+
+  type ReplayRunGetPayload<S extends boolean | null | undefined | ReplayRunDefaultArgs> = $Result.GetResult<Prisma.$ReplayRunPayload, S>
+
+  type ReplayRunCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<ReplayRunFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: ReplayRunCountAggregateInputType | true
+    }
+
+  export interface ReplayRunDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ReplayRun'], meta: { name: 'ReplayRun' } }
+    /**
+     * Find zero or one ReplayRun that matches the filter.
+     * @param {ReplayRunFindUniqueArgs} args - Arguments to find a ReplayRun
+     * @example
+     * // Get one ReplayRun
+     * const replayRun = await prisma.replayRun.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ReplayRunFindUniqueArgs>(args: SelectSubset<T, ReplayRunFindUniqueArgs<ExtArgs>>): Prisma__ReplayRunClient<$Result.GetResult<Prisma.$ReplayRunPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one ReplayRun that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {ReplayRunFindUniqueOrThrowArgs} args - Arguments to find a ReplayRun
+     * @example
+     * // Get one ReplayRun
+     * const replayRun = await prisma.replayRun.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ReplayRunFindUniqueOrThrowArgs>(args: SelectSubset<T, ReplayRunFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ReplayRunClient<$Result.GetResult<Prisma.$ReplayRunPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first ReplayRun that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReplayRunFindFirstArgs} args - Arguments to find a ReplayRun
+     * @example
+     * // Get one ReplayRun
+     * const replayRun = await prisma.replayRun.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ReplayRunFindFirstArgs>(args?: SelectSubset<T, ReplayRunFindFirstArgs<ExtArgs>>): Prisma__ReplayRunClient<$Result.GetResult<Prisma.$ReplayRunPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first ReplayRun that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReplayRunFindFirstOrThrowArgs} args - Arguments to find a ReplayRun
+     * @example
+     * // Get one ReplayRun
+     * const replayRun = await prisma.replayRun.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ReplayRunFindFirstOrThrowArgs>(args?: SelectSubset<T, ReplayRunFindFirstOrThrowArgs<ExtArgs>>): Prisma__ReplayRunClient<$Result.GetResult<Prisma.$ReplayRunPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more ReplayRuns that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReplayRunFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ReplayRuns
+     * const replayRuns = await prisma.replayRun.findMany()
+     * 
+     * // Get first 10 ReplayRuns
+     * const replayRuns = await prisma.replayRun.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const replayRunWithIdOnly = await prisma.replayRun.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ReplayRunFindManyArgs>(args?: SelectSubset<T, ReplayRunFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReplayRunPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a ReplayRun.
+     * @param {ReplayRunCreateArgs} args - Arguments to create a ReplayRun.
+     * @example
+     * // Create one ReplayRun
+     * const ReplayRun = await prisma.replayRun.create({
+     *   data: {
+     *     // ... data to create a ReplayRun
+     *   }
+     * })
+     * 
+     */
+    create<T extends ReplayRunCreateArgs>(args: SelectSubset<T, ReplayRunCreateArgs<ExtArgs>>): Prisma__ReplayRunClient<$Result.GetResult<Prisma.$ReplayRunPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many ReplayRuns.
+     * @param {ReplayRunCreateManyArgs} args - Arguments to create many ReplayRuns.
+     * @example
+     * // Create many ReplayRuns
+     * const replayRun = await prisma.replayRun.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ReplayRunCreateManyArgs>(args?: SelectSubset<T, ReplayRunCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ReplayRuns and returns the data saved in the database.
+     * @param {ReplayRunCreateManyAndReturnArgs} args - Arguments to create many ReplayRuns.
+     * @example
+     * // Create many ReplayRuns
+     * const replayRun = await prisma.replayRun.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ReplayRuns and only return the `id`
+     * const replayRunWithIdOnly = await prisma.replayRun.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ReplayRunCreateManyAndReturnArgs>(args?: SelectSubset<T, ReplayRunCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReplayRunPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a ReplayRun.
+     * @param {ReplayRunDeleteArgs} args - Arguments to delete one ReplayRun.
+     * @example
+     * // Delete one ReplayRun
+     * const ReplayRun = await prisma.replayRun.delete({
+     *   where: {
+     *     // ... filter to delete one ReplayRun
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ReplayRunDeleteArgs>(args: SelectSubset<T, ReplayRunDeleteArgs<ExtArgs>>): Prisma__ReplayRunClient<$Result.GetResult<Prisma.$ReplayRunPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one ReplayRun.
+     * @param {ReplayRunUpdateArgs} args - Arguments to update one ReplayRun.
+     * @example
+     * // Update one ReplayRun
+     * const replayRun = await prisma.replayRun.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ReplayRunUpdateArgs>(args: SelectSubset<T, ReplayRunUpdateArgs<ExtArgs>>): Prisma__ReplayRunClient<$Result.GetResult<Prisma.$ReplayRunPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more ReplayRuns.
+     * @param {ReplayRunDeleteManyArgs} args - Arguments to filter ReplayRuns to delete.
+     * @example
+     * // Delete a few ReplayRuns
+     * const { count } = await prisma.replayRun.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ReplayRunDeleteManyArgs>(args?: SelectSubset<T, ReplayRunDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ReplayRuns.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReplayRunUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ReplayRuns
+     * const replayRun = await prisma.replayRun.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ReplayRunUpdateManyArgs>(args: SelectSubset<T, ReplayRunUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one ReplayRun.
+     * @param {ReplayRunUpsertArgs} args - Arguments to update or create a ReplayRun.
+     * @example
+     * // Update or create a ReplayRun
+     * const replayRun = await prisma.replayRun.upsert({
+     *   create: {
+     *     // ... data to create a ReplayRun
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ReplayRun we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ReplayRunUpsertArgs>(args: SelectSubset<T, ReplayRunUpsertArgs<ExtArgs>>): Prisma__ReplayRunClient<$Result.GetResult<Prisma.$ReplayRunPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of ReplayRuns.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReplayRunCountArgs} args - Arguments to filter ReplayRuns to count.
+     * @example
+     * // Count the number of ReplayRuns
+     * const count = await prisma.replayRun.count({
+     *   where: {
+     *     // ... the filter for the ReplayRuns we want to count
+     *   }
+     * })
+    **/
+    count<T extends ReplayRunCountArgs>(
+      args?: Subset<T, ReplayRunCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ReplayRunCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ReplayRun.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReplayRunAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ReplayRunAggregateArgs>(args: Subset<T, ReplayRunAggregateArgs>): Prisma.PrismaPromise<GetReplayRunAggregateType<T>>
+
+    /**
+     * Group by ReplayRun.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReplayRunGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ReplayRunGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ReplayRunGroupByArgs['orderBy'] }
+        : { orderBy?: ReplayRunGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ReplayRunGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetReplayRunGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ReplayRun model
+   */
+  readonly fields: ReplayRunFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ReplayRun.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ReplayRunClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ReplayRun model
+   */ 
+  interface ReplayRunFieldRefs {
+    readonly id: FieldRef<"ReplayRun", 'String'>
+    readonly streamId: FieldRef<"ReplayRun", 'String'>
+    readonly fromEventId: FieldRef<"ReplayRun", 'String'>
+    readonly toEventId: FieldRef<"ReplayRun", 'String'>
+    readonly eventCount: FieldRef<"ReplayRun", 'Int'>
+    readonly reconstructedStatus: FieldRef<"ReplayRun", 'String'>
+    readonly reconstructedWithdrawn: FieldRef<"ReplayRun", 'String'>
+    readonly matchesLive: FieldRef<"ReplayRun", 'Boolean'>
+    readonly differences: FieldRef<"ReplayRun", 'Json'>
+    readonly durationMs: FieldRef<"ReplayRun", 'Int'>
+    readonly createdAt: FieldRef<"ReplayRun", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ReplayRun findUnique
+   */
+  export type ReplayRunFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReplayRun
+     */
+    select?: ReplayRunSelect<ExtArgs> | null
+    /**
+     * Filter, which ReplayRun to fetch.
+     */
+    where: ReplayRunWhereUniqueInput
+  }
+
+  /**
+   * ReplayRun findUniqueOrThrow
+   */
+  export type ReplayRunFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReplayRun
+     */
+    select?: ReplayRunSelect<ExtArgs> | null
+    /**
+     * Filter, which ReplayRun to fetch.
+     */
+    where: ReplayRunWhereUniqueInput
+  }
+
+  /**
+   * ReplayRun findFirst
+   */
+  export type ReplayRunFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReplayRun
+     */
+    select?: ReplayRunSelect<ExtArgs> | null
+    /**
+     * Filter, which ReplayRun to fetch.
+     */
+    where?: ReplayRunWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ReplayRuns to fetch.
+     */
+    orderBy?: ReplayRunOrderByWithRelationInput | ReplayRunOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ReplayRuns.
+     */
+    cursor?: ReplayRunWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ReplayRuns from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ReplayRuns.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ReplayRuns.
+     */
+    distinct?: ReplayRunScalarFieldEnum | ReplayRunScalarFieldEnum[]
+  }
+
+  /**
+   * ReplayRun findFirstOrThrow
+   */
+  export type ReplayRunFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReplayRun
+     */
+    select?: ReplayRunSelect<ExtArgs> | null
+    /**
+     * Filter, which ReplayRun to fetch.
+     */
+    where?: ReplayRunWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ReplayRuns to fetch.
+     */
+    orderBy?: ReplayRunOrderByWithRelationInput | ReplayRunOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ReplayRuns.
+     */
+    cursor?: ReplayRunWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ReplayRuns from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ReplayRuns.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ReplayRuns.
+     */
+    distinct?: ReplayRunScalarFieldEnum | ReplayRunScalarFieldEnum[]
+  }
+
+  /**
+   * ReplayRun findMany
+   */
+  export type ReplayRunFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReplayRun
+     */
+    select?: ReplayRunSelect<ExtArgs> | null
+    /**
+     * Filter, which ReplayRuns to fetch.
+     */
+    where?: ReplayRunWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ReplayRuns to fetch.
+     */
+    orderBy?: ReplayRunOrderByWithRelationInput | ReplayRunOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ReplayRuns.
+     */
+    cursor?: ReplayRunWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ReplayRuns from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ReplayRuns.
+     */
+    skip?: number
+    distinct?: ReplayRunScalarFieldEnum | ReplayRunScalarFieldEnum[]
+  }
+
+  /**
+   * ReplayRun create
+   */
+  export type ReplayRunCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReplayRun
+     */
+    select?: ReplayRunSelect<ExtArgs> | null
+    /**
+     * The data needed to create a ReplayRun.
+     */
+    data: XOR<ReplayRunCreateInput, ReplayRunUncheckedCreateInput>
+  }
+
+  /**
+   * ReplayRun createMany
+   */
+  export type ReplayRunCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ReplayRuns.
+     */
+    data: ReplayRunCreateManyInput | ReplayRunCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ReplayRun createManyAndReturn
+   */
+  export type ReplayRunCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReplayRun
+     */
+    select?: ReplayRunSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many ReplayRuns.
+     */
+    data: ReplayRunCreateManyInput | ReplayRunCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ReplayRun update
+   */
+  export type ReplayRunUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReplayRun
+     */
+    select?: ReplayRunSelect<ExtArgs> | null
+    /**
+     * The data needed to update a ReplayRun.
+     */
+    data: XOR<ReplayRunUpdateInput, ReplayRunUncheckedUpdateInput>
+    /**
+     * Choose, which ReplayRun to update.
+     */
+    where: ReplayRunWhereUniqueInput
+  }
+
+  /**
+   * ReplayRun updateMany
+   */
+  export type ReplayRunUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ReplayRuns.
+     */
+    data: XOR<ReplayRunUpdateManyMutationInput, ReplayRunUncheckedUpdateManyInput>
+    /**
+     * Filter which ReplayRuns to update
+     */
+    where?: ReplayRunWhereInput
+  }
+
+  /**
+   * ReplayRun upsert
+   */
+  export type ReplayRunUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReplayRun
+     */
+    select?: ReplayRunSelect<ExtArgs> | null
+    /**
+     * The filter to search for the ReplayRun to update in case it exists.
+     */
+    where: ReplayRunWhereUniqueInput
+    /**
+     * In case the ReplayRun found by the `where` argument doesn't exist, create a new ReplayRun with this data.
+     */
+    create: XOR<ReplayRunCreateInput, ReplayRunUncheckedCreateInput>
+    /**
+     * In case the ReplayRun was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ReplayRunUpdateInput, ReplayRunUncheckedUpdateInput>
+  }
+
+  /**
+   * ReplayRun delete
+   */
+  export type ReplayRunDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReplayRun
+     */
+    select?: ReplayRunSelect<ExtArgs> | null
+    /**
+     * Filter which ReplayRun to delete.
+     */
+    where: ReplayRunWhereUniqueInput
+  }
+
+  /**
+   * ReplayRun deleteMany
+   */
+  export type ReplayRunDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ReplayRuns to delete
+     */
+    where?: ReplayRunWhereInput
+  }
+
+  /**
+   * ReplayRun without action
+   */
+  export type ReplayRunDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ReplayRun
+     */
+    select?: ReplayRunSelect<ExtArgs> | null
   }
 
 
@@ -51137,6 +53171,34 @@ export namespace Prisma {
   export type EventScalarFieldEnum = (typeof EventScalarFieldEnum)[keyof typeof EventScalarFieldEnum]
 
 
+  export const ReplayCheckpointScalarFieldEnum: {
+    id: 'id',
+    streamId: 'streamId',
+    eventId: 'eventId',
+    label: 'label',
+    createdAt: 'createdAt'
+  };
+
+  export type ReplayCheckpointScalarFieldEnum = (typeof ReplayCheckpointScalarFieldEnum)[keyof typeof ReplayCheckpointScalarFieldEnum]
+
+
+  export const ReplayRunScalarFieldEnum: {
+    id: 'id',
+    streamId: 'streamId',
+    fromEventId: 'fromEventId',
+    toEventId: 'toEventId',
+    eventCount: 'eventCount',
+    reconstructedStatus: 'reconstructedStatus',
+    reconstructedWithdrawn: 'reconstructedWithdrawn',
+    matchesLive: 'matchesLive',
+    differences: 'differences',
+    durationMs: 'durationMs',
+    createdAt: 'createdAt'
+  };
+
+  export type ReplayRunScalarFieldEnum = (typeof ReplayRunScalarFieldEnum)[keyof typeof ReplayRunScalarFieldEnum]
+
+
   export const OrganizationMemberScalarFieldEnum: {
     id: 'id',
     orgAddress: 'orgAddress',
@@ -51612,6 +53674,14 @@ export namespace Prisma {
   };
 
   export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
+
+
+  export const NullableJsonNullValueInput: {
+    DbNull: typeof DbNull,
+    JsonNull: typeof JsonNull
+  };
+
+  export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
 
 
   export const QueryMode: {
@@ -53187,6 +55257,143 @@ export namespace Prisma {
     timestamp?: DateTimeWithAggregatesFilter<"Event"> | Date | string
     hash?: StringWithAggregatesFilter<"Event"> | string
     previousHash?: StringNullableWithAggregatesFilter<"Event"> | string | null
+  }
+
+  export type ReplayCheckpointWhereInput = {
+    AND?: ReplayCheckpointWhereInput | ReplayCheckpointWhereInput[]
+    OR?: ReplayCheckpointWhereInput[]
+    NOT?: ReplayCheckpointWhereInput | ReplayCheckpointWhereInput[]
+    id?: StringFilter<"ReplayCheckpoint"> | string
+    streamId?: StringFilter<"ReplayCheckpoint"> | string
+    eventId?: StringFilter<"ReplayCheckpoint"> | string
+    label?: StringNullableFilter<"ReplayCheckpoint"> | string | null
+    createdAt?: DateTimeFilter<"ReplayCheckpoint"> | Date | string
+  }
+
+  export type ReplayCheckpointOrderByWithRelationInput = {
+    id?: SortOrder
+    streamId?: SortOrder
+    eventId?: SortOrder
+    label?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ReplayCheckpointWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    streamId_eventId?: ReplayCheckpointStreamIdEventIdCompoundUniqueInput
+    AND?: ReplayCheckpointWhereInput | ReplayCheckpointWhereInput[]
+    OR?: ReplayCheckpointWhereInput[]
+    NOT?: ReplayCheckpointWhereInput | ReplayCheckpointWhereInput[]
+    streamId?: StringFilter<"ReplayCheckpoint"> | string
+    eventId?: StringFilter<"ReplayCheckpoint"> | string
+    label?: StringNullableFilter<"ReplayCheckpoint"> | string | null
+    createdAt?: DateTimeFilter<"ReplayCheckpoint"> | Date | string
+  }, "id" | "streamId_eventId">
+
+  export type ReplayCheckpointOrderByWithAggregationInput = {
+    id?: SortOrder
+    streamId?: SortOrder
+    eventId?: SortOrder
+    label?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: ReplayCheckpointCountOrderByAggregateInput
+    _max?: ReplayCheckpointMaxOrderByAggregateInput
+    _min?: ReplayCheckpointMinOrderByAggregateInput
+  }
+
+  export type ReplayCheckpointScalarWhereWithAggregatesInput = {
+    AND?: ReplayCheckpointScalarWhereWithAggregatesInput | ReplayCheckpointScalarWhereWithAggregatesInput[]
+    OR?: ReplayCheckpointScalarWhereWithAggregatesInput[]
+    NOT?: ReplayCheckpointScalarWhereWithAggregatesInput | ReplayCheckpointScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ReplayCheckpoint"> | string
+    streamId?: StringWithAggregatesFilter<"ReplayCheckpoint"> | string
+    eventId?: StringWithAggregatesFilter<"ReplayCheckpoint"> | string
+    label?: StringNullableWithAggregatesFilter<"ReplayCheckpoint"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"ReplayCheckpoint"> | Date | string
+  }
+
+  export type ReplayRunWhereInput = {
+    AND?: ReplayRunWhereInput | ReplayRunWhereInput[]
+    OR?: ReplayRunWhereInput[]
+    NOT?: ReplayRunWhereInput | ReplayRunWhereInput[]
+    id?: StringFilter<"ReplayRun"> | string
+    streamId?: StringFilter<"ReplayRun"> | string
+    fromEventId?: StringNullableFilter<"ReplayRun"> | string | null
+    toEventId?: StringNullableFilter<"ReplayRun"> | string | null
+    eventCount?: IntFilter<"ReplayRun"> | number
+    reconstructedStatus?: StringNullableFilter<"ReplayRun"> | string | null
+    reconstructedWithdrawn?: StringNullableFilter<"ReplayRun"> | string | null
+    matchesLive?: BoolNullableFilter<"ReplayRun"> | boolean | null
+    differences?: JsonNullableFilter<"ReplayRun">
+    durationMs?: IntFilter<"ReplayRun"> | number
+    createdAt?: DateTimeFilter<"ReplayRun"> | Date | string
+  }
+
+  export type ReplayRunOrderByWithRelationInput = {
+    id?: SortOrder
+    streamId?: SortOrder
+    fromEventId?: SortOrderInput | SortOrder
+    toEventId?: SortOrderInput | SortOrder
+    eventCount?: SortOrder
+    reconstructedStatus?: SortOrderInput | SortOrder
+    reconstructedWithdrawn?: SortOrderInput | SortOrder
+    matchesLive?: SortOrderInput | SortOrder
+    differences?: SortOrderInput | SortOrder
+    durationMs?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ReplayRunWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: ReplayRunWhereInput | ReplayRunWhereInput[]
+    OR?: ReplayRunWhereInput[]
+    NOT?: ReplayRunWhereInput | ReplayRunWhereInput[]
+    streamId?: StringFilter<"ReplayRun"> | string
+    fromEventId?: StringNullableFilter<"ReplayRun"> | string | null
+    toEventId?: StringNullableFilter<"ReplayRun"> | string | null
+    eventCount?: IntFilter<"ReplayRun"> | number
+    reconstructedStatus?: StringNullableFilter<"ReplayRun"> | string | null
+    reconstructedWithdrawn?: StringNullableFilter<"ReplayRun"> | string | null
+    matchesLive?: BoolNullableFilter<"ReplayRun"> | boolean | null
+    differences?: JsonNullableFilter<"ReplayRun">
+    durationMs?: IntFilter<"ReplayRun"> | number
+    createdAt?: DateTimeFilter<"ReplayRun"> | Date | string
+  }, "id">
+
+  export type ReplayRunOrderByWithAggregationInput = {
+    id?: SortOrder
+    streamId?: SortOrder
+    fromEventId?: SortOrderInput | SortOrder
+    toEventId?: SortOrderInput | SortOrder
+    eventCount?: SortOrder
+    reconstructedStatus?: SortOrderInput | SortOrder
+    reconstructedWithdrawn?: SortOrderInput | SortOrder
+    matchesLive?: SortOrderInput | SortOrder
+    differences?: SortOrderInput | SortOrder
+    durationMs?: SortOrder
+    createdAt?: SortOrder
+    _count?: ReplayRunCountOrderByAggregateInput
+    _avg?: ReplayRunAvgOrderByAggregateInput
+    _max?: ReplayRunMaxOrderByAggregateInput
+    _min?: ReplayRunMinOrderByAggregateInput
+    _sum?: ReplayRunSumOrderByAggregateInput
+  }
+
+  export type ReplayRunScalarWhereWithAggregatesInput = {
+    AND?: ReplayRunScalarWhereWithAggregatesInput | ReplayRunScalarWhereWithAggregatesInput[]
+    OR?: ReplayRunScalarWhereWithAggregatesInput[]
+    NOT?: ReplayRunScalarWhereWithAggregatesInput | ReplayRunScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ReplayRun"> | string
+    streamId?: StringWithAggregatesFilter<"ReplayRun"> | string
+    fromEventId?: StringNullableWithAggregatesFilter<"ReplayRun"> | string | null
+    toEventId?: StringNullableWithAggregatesFilter<"ReplayRun"> | string | null
+    eventCount?: IntWithAggregatesFilter<"ReplayRun"> | number
+    reconstructedStatus?: StringNullableWithAggregatesFilter<"ReplayRun"> | string | null
+    reconstructedWithdrawn?: StringNullableWithAggregatesFilter<"ReplayRun"> | string | null
+    matchesLive?: BoolNullableWithAggregatesFilter<"ReplayRun"> | boolean | null
+    differences?: JsonNullableWithAggregatesFilter<"ReplayRun">
+    durationMs?: IntWithAggregatesFilter<"ReplayRun"> | number
+    createdAt?: DateTimeWithAggregatesFilter<"ReplayRun"> | Date | string
   }
 
   export type OrganizationMemberWhereInput = {
@@ -57055,6 +59262,160 @@ export namespace Prisma {
     previousHash?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
+  export type ReplayCheckpointCreateInput = {
+    id?: string
+    streamId: string
+    eventId: string
+    label?: string | null
+    createdAt?: Date | string
+  }
+
+  export type ReplayCheckpointUncheckedCreateInput = {
+    id?: string
+    streamId: string
+    eventId: string
+    label?: string | null
+    createdAt?: Date | string
+  }
+
+  export type ReplayCheckpointUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    streamId?: StringFieldUpdateOperationsInput | string
+    eventId?: StringFieldUpdateOperationsInput | string
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ReplayCheckpointUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    streamId?: StringFieldUpdateOperationsInput | string
+    eventId?: StringFieldUpdateOperationsInput | string
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ReplayCheckpointCreateManyInput = {
+    id?: string
+    streamId: string
+    eventId: string
+    label?: string | null
+    createdAt?: Date | string
+  }
+
+  export type ReplayCheckpointUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    streamId?: StringFieldUpdateOperationsInput | string
+    eventId?: StringFieldUpdateOperationsInput | string
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ReplayCheckpointUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    streamId?: StringFieldUpdateOperationsInput | string
+    eventId?: StringFieldUpdateOperationsInput | string
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ReplayRunCreateInput = {
+    id?: string
+    streamId: string
+    fromEventId?: string | null
+    toEventId?: string | null
+    eventCount: number
+    reconstructedStatus?: string | null
+    reconstructedWithdrawn?: string | null
+    matchesLive?: boolean | null
+    differences?: NullableJsonNullValueInput | InputJsonValue
+    durationMs: number
+    createdAt?: Date | string
+  }
+
+  export type ReplayRunUncheckedCreateInput = {
+    id?: string
+    streamId: string
+    fromEventId?: string | null
+    toEventId?: string | null
+    eventCount: number
+    reconstructedStatus?: string | null
+    reconstructedWithdrawn?: string | null
+    matchesLive?: boolean | null
+    differences?: NullableJsonNullValueInput | InputJsonValue
+    durationMs: number
+    createdAt?: Date | string
+  }
+
+  export type ReplayRunUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    streamId?: StringFieldUpdateOperationsInput | string
+    fromEventId?: NullableStringFieldUpdateOperationsInput | string | null
+    toEventId?: NullableStringFieldUpdateOperationsInput | string | null
+    eventCount?: IntFieldUpdateOperationsInput | number
+    reconstructedStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    reconstructedWithdrawn?: NullableStringFieldUpdateOperationsInput | string | null
+    matchesLive?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    differences?: NullableJsonNullValueInput | InputJsonValue
+    durationMs?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ReplayRunUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    streamId?: StringFieldUpdateOperationsInput | string
+    fromEventId?: NullableStringFieldUpdateOperationsInput | string | null
+    toEventId?: NullableStringFieldUpdateOperationsInput | string | null
+    eventCount?: IntFieldUpdateOperationsInput | number
+    reconstructedStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    reconstructedWithdrawn?: NullableStringFieldUpdateOperationsInput | string | null
+    matchesLive?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    differences?: NullableJsonNullValueInput | InputJsonValue
+    durationMs?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ReplayRunCreateManyInput = {
+    id?: string
+    streamId: string
+    fromEventId?: string | null
+    toEventId?: string | null
+    eventCount: number
+    reconstructedStatus?: string | null
+    reconstructedWithdrawn?: string | null
+    matchesLive?: boolean | null
+    differences?: NullableJsonNullValueInput | InputJsonValue
+    durationMs: number
+    createdAt?: Date | string
+  }
+
+  export type ReplayRunUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    streamId?: StringFieldUpdateOperationsInput | string
+    fromEventId?: NullableStringFieldUpdateOperationsInput | string | null
+    toEventId?: NullableStringFieldUpdateOperationsInput | string | null
+    eventCount?: IntFieldUpdateOperationsInput | number
+    reconstructedStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    reconstructedWithdrawn?: NullableStringFieldUpdateOperationsInput | string | null
+    matchesLive?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    differences?: NullableJsonNullValueInput | InputJsonValue
+    durationMs?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ReplayRunUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    streamId?: StringFieldUpdateOperationsInput | string
+    fromEventId?: NullableStringFieldUpdateOperationsInput | string | null
+    toEventId?: NullableStringFieldUpdateOperationsInput | string | null
+    eventCount?: IntFieldUpdateOperationsInput | number
+    reconstructedStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    reconstructedWithdrawn?: NullableStringFieldUpdateOperationsInput | string | null
+    matchesLive?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    differences?: NullableJsonNullValueInput | InputJsonValue
+    durationMs?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type OrganizationMemberCreateInput = {
     id?: string
     orgAddress: string
@@ -60889,6 +63250,145 @@ export namespace Prisma {
     previousHash?: SortOrder
   }
 
+  export type ReplayCheckpointStreamIdEventIdCompoundUniqueInput = {
+    streamId: string
+    eventId: string
+  }
+
+  export type ReplayCheckpointCountOrderByAggregateInput = {
+    id?: SortOrder
+    streamId?: SortOrder
+    eventId?: SortOrder
+    label?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ReplayCheckpointMaxOrderByAggregateInput = {
+    id?: SortOrder
+    streamId?: SortOrder
+    eventId?: SortOrder
+    label?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ReplayCheckpointMinOrderByAggregateInput = {
+    id?: SortOrder
+    streamId?: SortOrder
+    eventId?: SortOrder
+    label?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type BoolNullableFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
+    not?: NestedBoolNullableFilter<$PrismaModel> | boolean | null
+  }
+  export type JsonNullableFilter<$PrismaModel = never> = 
+    | PatchUndefined<
+        Either<Required<JsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonNullableFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
+
+  export type ReplayRunCountOrderByAggregateInput = {
+    id?: SortOrder
+    streamId?: SortOrder
+    fromEventId?: SortOrder
+    toEventId?: SortOrder
+    eventCount?: SortOrder
+    reconstructedStatus?: SortOrder
+    reconstructedWithdrawn?: SortOrder
+    matchesLive?: SortOrder
+    differences?: SortOrder
+    durationMs?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ReplayRunAvgOrderByAggregateInput = {
+    eventCount?: SortOrder
+    durationMs?: SortOrder
+  }
+
+  export type ReplayRunMaxOrderByAggregateInput = {
+    id?: SortOrder
+    streamId?: SortOrder
+    fromEventId?: SortOrder
+    toEventId?: SortOrder
+    eventCount?: SortOrder
+    reconstructedStatus?: SortOrder
+    reconstructedWithdrawn?: SortOrder
+    matchesLive?: SortOrder
+    durationMs?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ReplayRunMinOrderByAggregateInput = {
+    id?: SortOrder
+    streamId?: SortOrder
+    fromEventId?: SortOrder
+    toEventId?: SortOrder
+    eventCount?: SortOrder
+    reconstructedStatus?: SortOrder
+    reconstructedWithdrawn?: SortOrder
+    matchesLive?: SortOrder
+    durationMs?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ReplayRunSumOrderByAggregateInput = {
+    eventCount?: SortOrder
+    durationMs?: SortOrder
+  }
+
+  export type BoolNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
+    not?: NestedBoolNullableWithAggregatesFilter<$PrismaModel> | boolean | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedBoolNullableFilter<$PrismaModel>
+    _max?: NestedBoolNullableFilter<$PrismaModel>
+  }
+  export type JsonNullableWithAggregatesFilter<$PrismaModel = never> = 
+    | PatchUndefined<
+        Either<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonNullableWithAggregatesFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedJsonNullableFilter<$PrismaModel>
+    _max?: NestedJsonNullableFilter<$PrismaModel>
+  }
+
   export type EnumOrgRoleFilter<$PrismaModel = never> = {
     equals?: $Enums.OrgRole | EnumOrgRoleFieldRefInput<$PrismaModel>
     in?: $Enums.OrgRole[] | ListEnumOrgRoleFieldRefInput<$PrismaModel>
@@ -62656,6 +65156,10 @@ export namespace Prisma {
     divide?: bigint | number
   }
 
+  export type NullableBoolFieldUpdateOperationsInput = {
+    set?: boolean | null
+  }
+
   export type EnumOrgRoleFieldUpdateOperationsInput = {
     set?: $Enums.OrgRole
   }
@@ -63137,6 +65641,41 @@ export namespace Prisma {
     _sum?: NestedBigIntNullableFilter<$PrismaModel>
     _min?: NestedBigIntNullableFilter<$PrismaModel>
     _max?: NestedBigIntNullableFilter<$PrismaModel>
+  }
+
+  export type NestedBoolNullableFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
+    not?: NestedBoolNullableFilter<$PrismaModel> | boolean | null
+  }
+
+  export type NestedBoolNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel> | null
+    not?: NestedBoolNullableWithAggregatesFilter<$PrismaModel> | boolean | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedBoolNullableFilter<$PrismaModel>
+    _max?: NestedBoolNullableFilter<$PrismaModel>
+  }
+  export type NestedJsonNullableFilter<$PrismaModel = never> = 
+    | PatchUndefined<
+        Either<Required<NestedJsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>,
+        Required<NestedJsonNullableFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>
+
+  export type NestedJsonNullableFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
   }
 
   export type NestedEnumOrgRoleFilter<$PrismaModel = never> = {
@@ -64481,6 +67020,14 @@ export namespace Prisma {
      * @deprecated Use EventDefaultArgs instead
      */
     export type EventArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = EventDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use ReplayCheckpointDefaultArgs instead
+     */
+    export type ReplayCheckpointArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = ReplayCheckpointDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use ReplayRunDefaultArgs instead
+     */
+    export type ReplayRunArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = ReplayRunDefaultArgs<ExtArgs>
     /**
      * @deprecated Use OrganizationMemberDefaultArgs instead
      */

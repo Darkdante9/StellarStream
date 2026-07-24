@@ -346,6 +346,28 @@ exports.Prisma.EventScalarFieldEnum = {
   previousHash: 'previousHash'
 };
 
+exports.Prisma.ReplayCheckpointScalarFieldEnum = {
+  id: 'id',
+  streamId: 'streamId',
+  eventId: 'eventId',
+  label: 'label',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.ReplayRunScalarFieldEnum = {
+  id: 'id',
+  streamId: 'streamId',
+  fromEventId: 'fromEventId',
+  toEventId: 'toEventId',
+  eventCount: 'eventCount',
+  reconstructedStatus: 'reconstructedStatus',
+  reconstructedWithdrawn: 'reconstructedWithdrawn',
+  matchesLive: 'matchesLive',
+  differences: 'differences',
+  durationMs: 'durationMs',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.OrganizationMemberScalarFieldEnum = {
   id: 'id',
   orgAddress: 'orgAddress',
@@ -727,6 +749,11 @@ exports.Prisma.JsonNullValueInput = {
   JsonNull: Prisma.JsonNull
 };
 
+exports.Prisma.NullableJsonNullValueInput = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull
+};
+
 exports.Prisma.QueryMode = {
   default: 'default',
   insensitive: 'insensitive'
@@ -804,6 +831,8 @@ exports.Prisma.ModelName = {
   BridgeLog: 'BridgeLog',
   Proposal: 'Proposal',
   Event: 'Event',
+  ReplayCheckpoint: 'ReplayCheckpoint',
+  ReplayRun: 'ReplayRun',
   OrganizationMember: 'OrganizationMember',
   ApiKey: 'ApiKey',
   LedgerHash: 'LedgerHash',
