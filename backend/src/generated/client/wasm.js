@@ -145,6 +145,30 @@ exports.Prisma.PaymentMetadataScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.PaymentAuthorizationScalarFieldEnum = {
+  id: 'id',
+  payerAddress: 'payerAddress',
+  payeeAddress: 'payeeAddress',
+  tokenAddress: 'tokenAddress',
+  amount: 'amount',
+  capturedAmount: 'capturedAmount',
+  status: 'status',
+  holdPeriodSecs: 'holdPeriodSecs',
+  authorizedAt: 'authorizedAt',
+  expiresAt: 'expiresAt',
+  releasedAt: 'releasedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.PaymentCaptureScalarFieldEnum = {
+  id: 'id',
+  authorizationId: 'authorizationId',
+  amount: 'amount',
+  txHash: 'txHash',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.PaymentCategoryRuleScalarFieldEnum = {
   id: 'id',
   categoryId: 'categoryId',
@@ -718,6 +742,14 @@ exports.Prisma.JsonNullValueFilter = {
   JsonNull: Prisma.JsonNull,
   AnyNull: Prisma.AnyNull
 };
+exports.AuthorizationStatus = exports.$Enums.AuthorizationStatus = {
+  AUTHORIZED: 'AUTHORIZED',
+  PARTIALLY_CAPTURED: 'PARTIALLY_CAPTURED',
+  CAPTURED: 'CAPTURED',
+  RELEASED: 'RELEASED',
+  EXPIRED: 'EXPIRED'
+};
+
 exports.StreamStatus = exports.$Enums.StreamStatus = {
   ACTIVE: 'ACTIVE',
   PAUSED: 'PAUSED',
@@ -757,6 +789,8 @@ exports.PaymentTrackingStatus = exports.$Enums.PaymentTrackingStatus = {
 exports.Prisma.ModelName = {
   PaymentCategory: 'PaymentCategory',
   PaymentMetadata: 'PaymentMetadata',
+  PaymentAuthorization: 'PaymentAuthorization',
+  PaymentCapture: 'PaymentCapture',
   PaymentCategoryRule: 'PaymentCategoryRule',
   Stream: 'Stream',
   ContractEvent: 'ContractEvent',
