@@ -105,9 +105,9 @@ export default function EscrowPage() {
     .reduce((sum, e) => sum + BigInt(e.amount || "0"), BigInt(0))
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 animate-fade-in">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="mb-8">
+        <div className="mb-8 animate-fade-in-up">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">
             Escrow Management
           </h1>
@@ -118,28 +118,44 @@ export default function EscrowPage() {
 
         {/* Summary Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
-          <div className="bg-white rounded-lg border border-gray-200 p-4">
+          <div className="bg-white rounded-lg border border-gray-200 p-4 animate-fade-in-up">
             <div className="text-sm text-gray-500 mb-1">Total Escrows</div>
-            <div className="text-2xl font-bold text-gray-900">{escrows.length}</div>
+            <div className="text-2xl font-bold text-gray-900">
+              {loading ? (
+                <span className="inline-block h-8 w-16 bg-gray-200 rounded animate-skeleton-pulse" />
+              ) : (
+                escrows.length
+              )}
+            </div>
           </div>
-          <div className="bg-white rounded-lg border border-gray-200 p-4">
+          <div className="bg-white rounded-lg border border-gray-200 p-4 animate-fade-in-up" style={{ animationDelay: '100ms' }}>
             <div className="text-sm text-gray-500 mb-1">Active Escrows</div>
-            <div className="text-2xl font-bold text-blue-600">{activeEscrows.length}</div>
+            <div className="text-2xl font-bold text-blue-600">
+              {loading ? (
+                <span className="inline-block h-8 w-16 bg-gray-200 rounded animate-skeleton-pulse" />
+              ) : (
+                activeEscrows.length
+              )}
+            </div>
           </div>
-          <div className="bg-white rounded-lg border border-gray-200 p-4">
+          <div className="bg-white rounded-lg border border-gray-200 p-4 animate-fade-in-up" style={{ animationDelay: '200ms' }}>
             <div className="text-sm text-gray-500 mb-1">In Dispute</div>
             <div className="text-2xl font-bold text-red-600">
-              {escrows.filter(e => e.state === "DISPUTED").length}
+              {loading ? (
+                <span className="inline-block h-8 w-16 bg-gray-200 rounded animate-skeleton-pulse" />
+              ) : (
+                escrows.filter(e => e.state === "DISPUTED").length
+              )}
             </div>
           </div>
         </div>
 
         {/* Action Bar */}
-        <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
+        <div className="mb-6 flex flex-wrap items-center justify-between gap-4 animate-fade-in-up">
           <div className="flex items-center gap-2">
             <button
               onClick={() => setShowCreateModal(true)}
-              className="flex items-center gap-2 px-4 py-2 bg-primary-500 text-white rounded-md hover:bg-primary-600 transition-colors"
+              className="flex items-center gap-2 px-4 py-2 bg-primary-500 text-white rounded-md hover:bg-primary-600 active:scale-95 transition-all duration-150"
               aria-label="Create new escrow"
             >
               <Plus className="h-4 w-4" />
@@ -147,10 +163,10 @@ export default function EscrowPage() {
             </button>
             <button
               onClick={fetchEscrows}
-              className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-50 transition-colors"
+              className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-50 active:scale-95 transition-all duration-150"
               aria-label="Refresh escrows"
             >
-              <RefreshCw className="h-4 w-4" />
+              <RefreshCw className={`h-4 w-4 ${loading ? 'animate-spin-slow' : ''}`} />
               Refresh
             </button>
           </div>
@@ -163,7 +179,7 @@ export default function EscrowPage() {
               id="state-filter"
               value={filterState}
               onChange={(e) => setFilterState(e.target.value)}
-              className="px-3 py-1.5 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
+              className="px-3 py-1.5 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 transition-shadow duration-150"
             >
               <option value="all">All States</option>
               <option value="PENDING_FUNDING">Pending Funding</option>
@@ -178,26 +194,49 @@ export default function EscrowPage() {
 
         {/* Error */}
         {error && (
-          <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg flex items-center gap-2 text-red-800">
+          <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg flex items-center gap-2 text-red-800 animate-shake">
             <AlertTriangle className="h-5 w-5" />
             <span>{error}</span>
           </div>
         )}
 
-        {/* Loading */}
+        {/* Loading Skeleton */}
         {loading && (
-          <div className="text-center py-12 text-gray-500">
-            Loading escrows...
+          <div className="space-y-4">
+            {[1, 2, 3].map((i) => (
+              <div key={i} className="bg-white rounded-lg border border-gray-200 p-4 animate-pulse-subtle">
+                <div className="flex items-start justify-between mb-3">
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2 mb-2">
+                      <span className="inline-block h-5 w-24 bg-gray-200 rounded-full" />
+                      <span className="inline-block h-5 w-16 bg-gray-200 rounded-full" />
+                    </div>
+                    <div className="inline-block h-6 w-48 bg-gray-200 rounded" />
+                  </div>
+                  <div className="text-right">
+                    <div className="inline-block h-7 w-24 bg-gray-200 rounded" />
+                  </div>
+                </div>
+                <div className="flex gap-2 mb-3">
+                  <span className="inline-block h-5 w-32 bg-gray-200 rounded" />
+                  <span className="inline-block h-5 w-32 bg-gray-200 rounded" />
+                </div>
+                <div className="flex gap-2">
+                  <span className="inline-block h-8 w-24 bg-gray-200 rounded-md" />
+                  <span className="inline-block h-8 w-20 bg-gray-200 rounded-md" />
+                </div>
+              </div>
+            ))}
           </div>
         )}
 
         {/* Empty State */}
         {!loading && escrows.length === 0 && (
-          <div className="text-center py-12 bg-white rounded-lg border border-gray-200">
+          <div className="text-center py-12 bg-white rounded-lg border border-gray-200 animate-fade-in-up">
             <div className="text-gray-500 mb-4">No escrows found</div>
             <button
               onClick={() => setShowCreateModal(true)}
-              className="px-4 py-2 bg-primary-500 text-white rounded-md hover:bg-primary-600 transition-colors"
+              className="px-4 py-2 bg-primary-500 text-white rounded-md hover:bg-primary-600 active:scale-95 transition-all duration-150"
             >
               Create Your First Escrow
             </button>
@@ -207,12 +246,13 @@ export default function EscrowPage() {
         {/* Escrow List */}
         {!loading && escrows.length > 0 && (
           <div className="space-y-4">
-            {escrows.map((escrow) => (
-              <EscrowCard
-                key={escrow.id}
-                escrow={escrow}
-                onUpdate={handleEscrowUpdated}
-              />
+            {escrows.map((escrow, idx) => (
+              <div key={escrow.id} className="animate-fade-in-up" style={{ animationDelay: `${idx * 50}ms` }}>
+                <EscrowCard
+                  escrow={escrow}
+                  onUpdate={handleEscrowUpdated}
+                />
+              </div>
             ))}
           </div>
         )}
