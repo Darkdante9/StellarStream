@@ -9,6 +9,7 @@ import { MultisigNotifierService } from "./services/multisig-notifier.service.js
 import { archiveOldDisbursements } from "./services/disbursement-archive.service.js";
 import { LedgerConsistencyChecker } from "./services/ledger-consistency.service.js";
 import { V3VolumeAggregatorService } from "./services/v3-volume-aggregator.service.js";
+import { complianceReportService } from "./services/compliance-report.service.js";
 import { logger } from "./logger.js";
 
 const priceService = new PriceService();
@@ -135,6 +136,7 @@ export function initializeSchedulers() {
   scheduleDisbursementArchive();
   scheduleLedgerConsistencyCheck();
   scheduleV3VolumeAggregation();
+  scheduleComplianceReportGeneration();
 }
 
 /**
@@ -229,4 +231,43 @@ export function scheduleV3VolumeAggregation() {
   });
 
   logger.info("V3 volume aggregator scheduler started (daily at 00:05 UTC)");
+}
+
+/**
+ * Compliance Reports (#1359): automatically generate the previous calendar
+ * month's regulatory filing bundle and audit trail report.
+ * Runs on the 1st of every month at 04:00 UTC — after disbursement archival
+ * (03:00) so the period's data is settled.
+ */
+export function scheduleComplianceReportGeneration() {
+  cron.schedule("0 4 1 * *", async () => {
+    try {
+      logger.info("[ComplianceReport] Starting monthly automated report generation");
+
+      const periodEnd = new Date();
+      periodEnd.setUTCDate(1);
+      periodEnd.setUTCHours(0, 0, 0, 0);
+      const periodStart = new Date(periodEnd);
+      periodStart.setUTCMonth(periodStart.getUTCMonth() - 1);
+
+      for (const reportType of ["REGULATORY_FILING", "AUDIT_TRAIL"] as const) {
+        await complianceReportService.generateReport({
+          reportType,
+          format: "pdf",
+          periodStart,
+          periodEnd,
+          generatedBy: "system-scheduler",
+        });
+      }
+
+      logger.info("[ComplianceReport] Monthly automated report generation completed", {
+        periodStart: periodStart.toISOString(),
+        periodEnd: periodEnd.toISOString(),
+      });
+    } catch (error) {
+      logger.error("[ComplianceReport] Monthly automated report generation failed", error);
+    }
+  });
+
+  logger.info("Compliance report scheduler started (monthly on 1st at 04:00 UTC)");
 }
