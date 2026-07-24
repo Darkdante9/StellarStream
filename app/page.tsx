@@ -17,7 +17,7 @@ export default function Home() {
       selected: false
     },
     {
-      id: "2", 
+      id: "2",
       address: "GBCDEFGHIJKLMNOPQRSTUVWXYZ123456",
       amount: 25.00,
       asset: "USDC",
@@ -26,7 +26,7 @@ export default function Home() {
     },
     {
       id: "3",
-      address: "GABCDEFGHIJKLMNOPQRSTUVWXYZ123", 
+      address: "GABCDEFGHIJKLMNOPQRSTUVWXYZ123",
       amount: 5.75,
       asset: "XLM",
       memo: "Refund",
@@ -35,8 +35,8 @@ export default function Home() {
   ])
 
   // Memoize selected recipients for performance
-  const selectedRecipients = useMemo(() => 
-    recipients.filter(r => r.selected), 
+  const selectedRecipients = useMemo(() =>
+    recipients.filter(r => r.selected),
     [recipients]
   )
 
@@ -44,9 +44,9 @@ export default function Home() {
 
   // Handle individual recipient updates with proper error handling
   const handleUpdateRecipient = useCallback((id: string, updates: Partial<Recipient>) => {
-    setRecipients(prev => 
-      prev.map(recipient => 
-        recipient.id === id 
+    setRecipients(prev =>
+      prev.map(recipient =>
+        recipient.id === id
           ? { ...recipient, ...updates }
           : recipient
       )
@@ -66,7 +66,7 @@ export default function Home() {
 
   // Clear all selections
   const handleClearSelection = useCallback(() => {
-    setRecipients(prev => 
+    setRecipients(prev =>
       prev.map(recipient => ({ ...recipient, selected: false }))
     )
   }, [])
@@ -99,14 +99,14 @@ export default function Home() {
       if (!r.asset || r.asset.length === 0) return false
       return true
     }).length
-    
+
     return { total: totalRecipients, valid: validRecipients, invalid: totalRecipients - validRecipients }
   }, [recipients])
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 animate-fade-in">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="mb-8">
+        <div className="mb-8 animate-fade-in-up">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">
             StellarStream - Bulk Payment Processing
           </h1>
@@ -117,7 +117,7 @@ export default function Home() {
 
         {/* Validation Summary */}
         {recipients.length > 0 && validationSummary.invalid > 0 && (
-          <div className="mb-6 p-4 bg-amber-50 border border-amber-200 rounded-lg">
+          <div className="mb-6 p-4 bg-amber-50 border border-amber-200 rounded-lg animate-fade-in-down">
             <div className="flex items-center gap-2 text-amber-800">
               <AlertTriangle className="h-5 w-5" />
               <span className="font-medium">
@@ -131,27 +131,27 @@ export default function Home() {
         )}
 
         {/* Action Bar */}
-        <div className="mb-6 flex flex-wrap gap-4">
+        <div className="mb-6 flex flex-wrap gap-4 animate-fade-in-up">
           <button
             onClick={handleAddRecipient}
-            className="flex items-center gap-2 px-4 py-2 bg-primary-500 text-white rounded-md hover:bg-primary-600 transition-colors"
+            className="flex items-center gap-2 px-4 py-2 bg-primary-500 text-white rounded-md hover:bg-primary-600 active:scale-95 transition-all duration-150"
             aria-label="Add new recipient"
           >
             <Plus className="h-4 w-4" />
             Add Recipient
           </button>
-          
-          <button 
-            className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-50 transition-colors"
+
+          <button
+            className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-50 active:scale-95 transition-all duration-150"
             aria-label="Import recipients from CSV"
             disabled
           >
             <Upload className="h-4 w-4" />
             Import CSV
           </button>
-          
-          <button 
-            className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-50 transition-colors"
+
+          <button
+            className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-50 active:scale-95 transition-all duration-150"
             aria-label="Export recipients to CSV"
             disabled
           >
@@ -161,7 +161,7 @@ export default function Home() {
         </div>
 
         {/* Grid Header */}
-        <div className="mb-4">
+        <div className="mb-4 animate-fade-in-up">
           <div className="flex items-center justify-between">
             <h2 className="text-lg font-semibold text-gray-900">
               Recipient Grid
@@ -171,7 +171,7 @@ export default function Home() {
                 {recipients.length} total recipients
               </div>
               {selectedCount > 0 && (
-                <div className="text-sm font-medium text-primary-600">
+                <div className="text-sm font-medium text-primary-600 animate-fade-in">
                   {selectedCount} selected
                 </div>
               )}
@@ -195,13 +195,13 @@ export default function Home() {
 
         {/* Footer Info */}
         {recipients.length > 0 && (
-          <div className="mt-8 p-4 bg-gray-100 rounded-lg">
+          <div className="mt-8 p-4 bg-gray-100 rounded-lg animate-fade-in-up">
             <h3 className="text-sm font-medium text-gray-700 mb-2">Quick Tips:</h3>
             <ul className="text-sm text-gray-600 space-y-1">
-              <li>• Select 2 or more recipients to enable bulk editing</li>
-              <li>• Use the bulk edit bar to apply the same amount, asset, or memo to multiple recipients</li>
-              <li>• Stellar addresses should start with 'G' and be 56 characters long</li>
-              <li>• Common assets: USDC (2 decimals), XLM (7 decimals), EURT (2 decimals)</li>
+              <li className="animate-fade-in-left" style={{ animationDelay: '50ms' }}>• Select 2 or more recipients to enable bulk editing</li>
+              <li className="animate-fade-in-left" style={{ animationDelay: '100ms' }}>• Use the bulk edit bar to apply the same amount, asset, or memo to multiple recipients</li>
+              <li className="animate-fade-in-left" style={{ animationDelay: '150ms' }}>• Stellar addresses should start with 'G' and be 56 characters long</li>
+              <li className="animate-fade-in-left" style={{ animationDelay: '200ms' }}>• Common assets: USDC (2 decimals), XLM (7 decimals), EURT (2 decimals)</li>
             </ul>
           </div>
         )}

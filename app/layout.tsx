@@ -15,7 +15,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <nav className="bg-white border-b border-gray-200">
+        <nav className="bg-white border-b border-gray-200 animate-fade-in-down">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex items-center justify-between h-14">
               <div className="flex items-center gap-6">
@@ -38,7 +38,9 @@ export default function RootLayout({
             </div>
           </div>
         </nav>
-        {children}
+        <main className="animate-fade-in">
+          {children}
+        </main>
       </body>
     </html>
   )

@@ -11,10 +11,10 @@ interface BulkEditBarProps {
   onClearSelection: () => void
 }
 
-export const BulkEditBar = React.memo(function BulkEditBar({ 
-  selectedRecipients, 
-  onUpdateRecipients, 
-  onClearSelection 
+export const BulkEditBar = React.memo(function BulkEditBar({
+  selectedRecipients,
+  onUpdateRecipients,
+  onClearSelection
 }: BulkEditBarProps) {
   const [activeAction, setActiveAction] = useState<BulkEditAction | null>(null)
   const [inputValue, setInputValue] = useState("")
@@ -45,14 +45,14 @@ export const BulkEditBar = React.memo(function BulkEditBar({
 
   const handleApplyToAll = useCallback((action: BulkEditAction, value: string) => {
     const validation = validateInput(action, value)
-    
+
     if (!validation.isValid) {
       setValidationError(validation.errorMessage || 'Invalid input')
       return
     }
 
     setValidationError(null)
-    
+
     const updates = selectedRecipients.map(recipient => {
       switch (action) {
         case 'amount':
@@ -65,7 +65,7 @@ export const BulkEditBar = React.memo(function BulkEditBar({
           return recipient
       }
     })
-    
+
     onUpdateRecipients(updates)
     setActiveAction(null)
     setInputValue("")
@@ -74,7 +74,7 @@ export const BulkEditBar = React.memo(function BulkEditBar({
   const handleInputChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value
     setInputValue(value)
-    
+
     // Clear validation error when user starts typing
     if (validationError) {
       setValidationError(null)
@@ -122,9 +122,8 @@ export const BulkEditBar = React.memo(function BulkEditBar({
             placeholder={placeholders[activeAction]}
             value={inputValue}
             onChange={handleInputChange}
-            className={`flex-1 px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 ${
-              validationError ? 'border-red-300 focus:ring-red-500' : 'border-gray-300'
-            }`}
+            className={`flex-1 px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 ${validationError ? 'border-red-300 focus:ring-red-500' : 'border-gray-300'
+              }`}
             autoFocus
             aria-label={`Enter ${activeAction} for bulk edit`}
             aria-invalid={!!validationError}
@@ -147,9 +146,9 @@ export const BulkEditBar = React.memo(function BulkEditBar({
             <X className="h-4 w-4" />
           </button>
         </div>
-        
+
         {validationError && (
-          <div 
+          <div
             id="validation-error"
             className="flex items-center gap-2 text-sm text-red-600"
             role="alert"
@@ -165,71 +164,68 @@ export const BulkEditBar = React.memo(function BulkEditBar({
   if (selectedCount < 2) return null
 
   return (
-    <div 
-      className="fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-white rounded-lg shadow-lg border border-gray-200 z-50 max-w-2xl"
+    <div
+      className="fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-white rounded-lg shadow-lg border border-gray-200 z-50 max-w-2xl animate-slide-up"
       role="toolbar"
       aria-label="Bulk edit actions"
     >
       <div className="flex items-center gap-2 p-3">
-        <span className="text-sm font-medium text-gray-700" aria-live="polite">
+        <span className="text-sm font-medium text-gray-700 animate-fade-in" aria-live="polite">
           {selectedCount} selected
         </span>
-        
+
         <div className="w-px h-4 bg-gray-300" aria-hidden="true" />
-        
+
         <button
           onClick={() => handleActionClick('amount')}
-          className={`flex items-center gap-2 px-3 py-1.5 rounded-md text-sm transition-colors ${
-            activeAction === 'amount' 
-              ? 'bg-primary-100 text-primary-700' 
+          className={`flex items-center gap-2 px-3 py-1.5 rounded-md text-sm transition-all duration-150 active:scale-95 ${activeAction === 'amount'
+              ? 'bg-primary-100 text-primary-700'
               : 'hover:bg-gray-100 text-gray-700'
-          }`}
+            }`}
           aria-pressed={activeAction === 'amount'}
           aria-label="Add amount to selected recipients"
         >
           <Plus className="h-4 w-4" />
           Add Amount
         </button>
-        
+
         <button
           onClick={() => handleActionClick('asset')}
-          className={`flex items-center gap-2 px-3 py-1.5 rounded-md text-sm transition-colors ${
-            activeAction === 'asset' 
-              ? 'bg-primary-100 text-primary-700' 
+          className={`flex items-center gap-2 px-3 py-1.5 rounded-md text-sm transition-all duration-150 active:scale-95 ${activeAction === 'asset'
+              ? 'bg-primary-100 text-primary-700'
               : 'hover:bg-gray-100 text-gray-700'
-          }`}
+            }`}
           aria-pressed={activeAction === 'asset'}
           aria-label="Set asset for selected recipients"
         >
           <Settings className="h-4 w-4" />
           Set Asset
         </button>
-        
+
         <button
           onClick={() => handleActionClick('memo')}
-          className={`flex items-center gap-2 px-3 py-1.5 rounded-md text-sm transition-colors ${
-            activeAction === 'memo' 
-              ? 'bg-primary-100 text-primary-700' 
+          className={`flex items-center gap-2 px-3 py-1.5 rounded-md text-sm transition-all duration-150 active:scale-95 ${activeAction === 'memo'
+              ? 'bg-primary-100 text-primary-700'
               : 'hover:bg-gray-100 text-gray-700'
-          }`}
+            }`}
           aria-pressed={activeAction === 'memo'}
           aria-label="Set memo for selected recipients"
         >
           <FileText className="h-4 w-4" />
           Set Memo
         </button>
-        
+
         <div className="w-px h-4 bg-gray-300" aria-hidden="true" />
-        
+
         <button
           onClick={onClearSelection}
-          className="text-sm text-gray-500 hover:text-gray-700 transition-colors"
+          className="text-sm text-gray-500 hover:text-gray-700 active:scale-95 transition-all duration-150"
           aria-label="Clear all selections"
         >
           Clear selection
         </button>
       </div>
-      
+
       {renderActionInput()}
     </div>
   )

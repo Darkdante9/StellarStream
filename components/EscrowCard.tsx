@@ -135,7 +135,7 @@ export const EscrowCard = React.memo(function EscrowCard({ escrow, onUpdate }: E
   }
 
   return (
-    <div className="bg-white rounded-lg border border-gray-200 overflow-hidden hover:shadow-sm transition-shadow">
+    <div className="bg-white rounded-lg border border-gray-200 overflow-hidden hover:shadow-md hover:-translate-y-0.5 transition-all duration-200">
       <div className="p-4">
         <div className="flex items-start justify-between mb-3">
           <div className="flex-1">
@@ -143,6 +143,9 @@ export const EscrowCard = React.memo(function EscrowCard({ escrow, onUpdate }: E
               <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${STATE_STYLES[escrow.state]}`}>
                 {escrow.state.replace("_", " ")}
               </span>
+              {actionLoading && (
+                <span className="inline-block h-3 w-3 rounded-full border-2 border-primary-500 border-t-transparent animate-spin-slow" />
+              )}
               <span className="px-2 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-600">
                 {CONDITION_LABELS[escrow.releaseConditionType]}
               </span>
@@ -184,7 +187,7 @@ export const EscrowCard = React.memo(function EscrowCard({ escrow, onUpdate }: E
               <button
                 onClick={() => handleAction("fund", { txHash: "pending", contractId: "pending" })}
                 disabled={actionLoading === "fund"}
-                className="flex items-center gap-1 px-3 py-1.5 bg-primary-500 text-white text-sm rounded-md hover:bg-primary-600 disabled:opacity-50 transition-colors"
+                className="flex items-center gap-1 px-3 py-1.5 bg-primary-500 text-white text-sm rounded-md hover:bg-primary-600 active:scale-95 disabled:opacity-50 transition-all duration-150"
               >
                 <Shield className="h-3.5 w-3.5" />
                 Fund Escrow
@@ -192,7 +195,7 @@ export const EscrowCard = React.memo(function EscrowCard({ escrow, onUpdate }: E
               <button
                 onClick={() => handleAction("cancel")}
                 disabled={actionLoading === "cancel"}
-                className="flex items-center gap-1 px-3 py-1.5 border border-gray-300 text-gray-700 text-sm rounded-md hover:bg-gray-50 disabled:opacity-50 transition-colors"
+                className="flex items-center gap-1 px-3 py-1.5 border border-gray-300 text-gray-700 text-sm rounded-md hover:bg-gray-50 active:scale-95 disabled:opacity-50 transition-all duration-150"
               >
                 <XCircle className="h-3.5 w-3.5" />
                 Cancel
@@ -205,7 +208,7 @@ export const EscrowCard = React.memo(function EscrowCard({ escrow, onUpdate }: E
               <button
                 onClick={() => handleAction("release")}
                 disabled={actionLoading === "release"}
-                className="flex items-center gap-1 px-3 py-1.5 bg-green-600 text-white text-sm rounded-md hover:bg-green-700 disabled:opacity-50 transition-colors"
+                className="flex items-center gap-1 px-3 py-1.5 bg-green-600 text-white text-sm rounded-md hover:bg-green-700 active:scale-95 disabled:opacity-50 transition-all duration-150"
               >
                 <CheckCircle className="h-3.5 w-3.5" />
                 Release
@@ -213,7 +216,7 @@ export const EscrowCard = React.memo(function EscrowCard({ escrow, onUpdate }: E
               <button
                 onClick={() => handleAction("refund")}
                 disabled={actionLoading === "refund"}
-                className="flex items-center gap-1 px-3 py-1.5 border border-gray-300 text-gray-700 text-sm rounded-md hover:bg-gray-50 disabled:opacity-50 transition-colors"
+                className="flex items-center gap-1 px-3 py-1.5 border border-gray-300 text-gray-700 text-sm rounded-md hover:bg-gray-50 active:scale-95 disabled:opacity-50 transition-all duration-150"
               >
                 <RotateCcw className="h-3.5 w-3.5" />
                 Refund
@@ -221,7 +224,7 @@ export const EscrowCard = React.memo(function EscrowCard({ escrow, onUpdate }: E
               <button
                 onClick={() => setShowDisputeForm(!showDisputeForm)}
                 disabled={actionLoading === "dispute"}
-                className="flex items-center gap-1 px-3 py-1.5 border border-red-300 text-red-700 text-sm rounded-md hover:bg-red-50 disabled:opacity-50 transition-colors"
+                className="flex items-center gap-1 px-3 py-1.5 border border-red-300 text-red-700 text-sm rounded-md hover:bg-red-50 active:scale-95 disabled:opacity-50 transition-all duration-150"
               >
                 <AlertTriangle className="h-3.5 w-3.5" />
                 Dispute
@@ -234,7 +237,7 @@ export const EscrowCard = React.memo(function EscrowCard({ escrow, onUpdate }: E
               <button
                 onClick={() => handleAction("release")}
                 disabled={actionLoading === "release"}
-                className="flex items-center gap-1 px-3 py-1.5 bg-green-600 text-white text-sm rounded-md hover:bg-green-700 disabled:opacity-50 transition-colors"
+                className="flex items-center gap-1 px-3 py-1.5 bg-green-600 text-white text-sm rounded-md hover:bg-green-700 active:scale-95 disabled:opacity-50 transition-all duration-150"
               >
                 <CheckCircle className="h-3.5 w-3.5" />
                 Resolve: Release
@@ -242,7 +245,7 @@ export const EscrowCard = React.memo(function EscrowCard({ escrow, onUpdate }: E
               <button
                 onClick={() => handleAction("refund")}
                 disabled={actionLoading === "refund"}
-                className="flex items-center gap-1 px-3 py-1.5 bg-purple-600 text-white text-sm rounded-md hover:bg-purple-700 disabled:opacity-50 transition-colors"
+                className="flex items-center gap-1 px-3 py-1.5 bg-purple-600 text-white text-sm rounded-md hover:bg-purple-700 active:scale-95 disabled:opacity-50 transition-all duration-150"
               >
                 <RotateCcw className="h-3.5 w-3.5" />
                 Resolve: Refund
@@ -254,21 +257,21 @@ export const EscrowCard = React.memo(function EscrowCard({ escrow, onUpdate }: E
             onClick={() => setExpanded(!expanded)}
             className="flex items-center gap-1 px-3 py-1.5 text-gray-500 text-sm hover:text-gray-700 transition-colors"
           >
-            <ArrowRight className={`h-3.5 w-3.5 transition-transform ${expanded ? "rotate-90" : ""}`} />
+            <ArrowRight className={`h-3.5 w-3.5 transition-transform duration-200 ${expanded ? "rotate-90" : ""}`} />
             Details
           </button>
         </div>
 
         {/* Dispute Form */}
         {showDisputeForm && (
-          <div className="mt-3 p-3 bg-red-50 border border-red-200 rounded-md">
+          <div className="mt-3 p-3 bg-red-50 border border-red-200 rounded-md animate-fade-in-up">
             <label className="block text-sm font-medium text-red-800 mb-1">
               Dispute Reason
             </label>
             <textarea
               value={disputeReason}
               onChange={(e) => setDisputeReason(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-red-500"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-red-500 transition-shadow duration-150"
               rows={3}
               placeholder="Describe the reason for the dispute..."
             />
@@ -276,13 +279,13 @@ export const EscrowCard = React.memo(function EscrowCard({ escrow, onUpdate }: E
               <button
                 onClick={handleRaiseDispute}
                 disabled={!disputeReason.trim() || actionLoading === "dispute"}
-                className="px-3 py-1.5 bg-red-600 text-white text-sm rounded-md hover:bg-red-700 disabled:opacity-50 transition-colors"
+                className="px-3 py-1.5 bg-red-600 text-white text-sm rounded-md hover:bg-red-700 active:scale-95 disabled:opacity-50 transition-all duration-150"
               >
-                Submit Dispute
+                {actionLoading === "dispute" ? "Submitting..." : "Submit Dispute"}
               </button>
               <button
                 onClick={() => { setShowDisputeForm(false); setDisputeReason("") }}
-                className="px-3 py-1.5 border border-gray-300 text-gray-700 text-sm rounded-md hover:bg-gray-50 transition-colors"
+                className="px-3 py-1.5 border border-gray-300 text-gray-700 text-sm rounded-md hover:bg-gray-50 active:scale-95 transition-all duration-150"
               >
                 Cancel
               </button>
@@ -293,7 +296,7 @@ export const EscrowCard = React.memo(function EscrowCard({ escrow, onUpdate }: E
 
       {/* Expanded Details */}
       {expanded && (
-        <div className="border-t border-gray-200 p-4 bg-gray-50">
+        <div className="border-t border-gray-200 p-4 bg-gray-50 animate-fade-in-up">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
             <div>
               <div className="text-gray-500 mb-1">Escrow ID</div>
@@ -331,8 +334,12 @@ export const EscrowCard = React.memo(function EscrowCard({ escrow, onUpdate }: E
           <div className="mt-4">
             <div className="text-sm font-medium text-gray-700 mb-2">All Parties</div>
             <div className="space-y-1">
-              {escrow.parties.map((party) => (
-                <div key={party.id} className="flex items-center justify-between text-sm px-3 py-1.5 bg-white rounded border border-gray-200">
+              {escrow.parties.map((party, idx) => (
+                <div
+                  key={party.id}
+                  className="flex items-center justify-between text-sm px-3 py-1.5 bg-white rounded border border-gray-200 animate-fade-in-up"
+                  style={{ animationDelay: `${idx * 50}ms` }}
+                >
                   <div className="flex items-center gap-2">
                     <span className={`px-1.5 py-0.5 rounded text-xs font-medium ${ROLE_STYLES[party.role]}`}>
                       {ROLE_LABELS[party.role]}
@@ -358,7 +365,7 @@ export const EscrowCard = React.memo(function EscrowCard({ escrow, onUpdate }: E
               <div className="text-sm font-medium text-gray-700 mb-2">Disputes</div>
               <div className="space-y-2">
                 {escrow.disputes.map((dispute) => (
-                  <div key={dispute.id} className="p-3 bg-white rounded border border-red-200">
+                  <div key={dispute.id} className="p-3 bg-white rounded border border-red-200 animate-fade-in">
                     <div className="flex items-center justify-between mb-1">
                       <div className="text-sm font-medium text-red-700">
                         Raised by {truncateAddress(dispute.raisedBy)}
