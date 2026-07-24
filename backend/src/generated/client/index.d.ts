@@ -258,6 +258,16 @@ export type OfacAuditLog = $Result.DefaultSelection<Prisma.$OfacAuditLogPayload>
  * 
  */
 export type AdminAuditLog = $Result.DefaultSelection<Prisma.$AdminAuditLogPayload>
+/**
+ * Model PaymentRoutingRule
+ * 
+ */
+export type PaymentRoutingRule = $Result.DefaultSelection<Prisma.$PaymentRoutingRulePayload>
+/**
+ * Model PaymentRoutingCondition
+ * 
+ */
+export type PaymentRoutingCondition = $Result.DefaultSelection<Prisma.$PaymentRoutingConditionPayload>
 
 /**
  * Enums
@@ -962,6 +972,26 @@ export class PrismaClient<
     * ```
     */
   get adminAuditLog(): Prisma.AdminAuditLogDelegate<ExtArgs>;
+
+  /**
+   * `prisma.paymentRoutingRule`: Exposes CRUD operations for the **PaymentRoutingRule** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more PaymentRoutingRules
+    * const paymentRoutingRules = await prisma.paymentRoutingRule.findMany()
+    * ```
+    */
+  get paymentRoutingRule(): Prisma.PaymentRoutingRuleDelegate<ExtArgs>;
+
+  /**
+   * `prisma.paymentRoutingCondition`: Exposes CRUD operations for the **PaymentRoutingCondition** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more PaymentRoutingConditions
+    * const paymentRoutingConditions = await prisma.paymentRoutingCondition.findMany()
+    * ```
+    */
+  get paymentRoutingCondition(): Prisma.PaymentRoutingConditionDelegate<ExtArgs>;
 }
 
 export namespace Prisma {
@@ -1451,7 +1481,9 @@ export namespace Prisma {
     StreamTemplate: 'StreamTemplate',
     SplitLink: 'SplitLink',
     OfacAuditLog: 'OfacAuditLog',
-    AdminAuditLog: 'AdminAuditLog'
+    AdminAuditLog: 'AdminAuditLog',
+    PaymentRoutingRule: 'PaymentRoutingRule',
+    PaymentRoutingCondition: 'PaymentRoutingCondition'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1467,7 +1499,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, ClientOptions = {}> = {
     meta: {
-      modelProps: "paymentCategory" | "paymentMetadata" | "paymentAuthorization" | "paymentCapture" | "paymentCategoryRule" | "stream" | "contractEvent" | "tokenPrice" | "webhook" | "webhookDelivery" | "syncState" | "eventLog" | "streamSnapshot" | "streamArchive" | "bridgeLog" | "proposal" | "event" | "replayCheckpoint" | "replayRun" | "organizationMember" | "apiKey" | "ledgerHash" | "syncMetadata" | "clawbackHistory" | "notificationSubscription" | "invoiceLink" | "affiliate" | "globalStats" | "globalStats_V3" | "tvlSnapshot" | "asset" | "autopilotSchedule" | "assetConfig" | "archivedDisbursement" | "disbursement" | "paymentStatusEvent" | "assetMapping" | "priceHistory" | "protocolInefficiencyReport" | "splitLog" | "monitoredTransaction" | "disbursementDraft" | "disbursementDraftVersion" | "multisigProposal" | "cachedAsset" | "streamTemplate" | "splitLink" | "ofacAuditLog" | "adminAuditLog"
+      modelProps: "paymentCategory" | "paymentMetadata" | "paymentAuthorization" | "paymentCapture" | "paymentCategoryRule" | "stream" | "contractEvent" | "tokenPrice" | "webhook" | "webhookDelivery" | "syncState" | "eventLog" | "streamSnapshot" | "streamArchive" | "bridgeLog" | "proposal" | "event" | "replayCheckpoint" | "replayRun" | "organizationMember" | "apiKey" | "ledgerHash" | "syncMetadata" | "clawbackHistory" | "notificationSubscription" | "invoiceLink" | "affiliate" | "globalStats" | "globalStats_V3" | "tvlSnapshot" | "asset" | "autopilotSchedule" | "assetConfig" | "archivedDisbursement" | "disbursement" | "paymentStatusEvent" | "assetMapping" | "priceHistory" | "protocolInefficiencyReport" | "splitLog" | "monitoredTransaction" | "disbursementDraft" | "disbursementDraftVersion" | "multisigProposal" | "cachedAsset" | "streamTemplate" | "splitLink" | "ofacAuditLog" | "adminAuditLog" | "paymentRoutingRule" | "paymentRoutingCondition"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -4901,6 +4933,146 @@ export namespace Prisma {
           }
         }
       }
+      PaymentRoutingRule: {
+        payload: Prisma.$PaymentRoutingRulePayload<ExtArgs>
+        fields: Prisma.PaymentRoutingRuleFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.PaymentRoutingRuleFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentRoutingRulePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.PaymentRoutingRuleFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentRoutingRulePayload>
+          }
+          findFirst: {
+            args: Prisma.PaymentRoutingRuleFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentRoutingRulePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.PaymentRoutingRuleFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentRoutingRulePayload>
+          }
+          findMany: {
+            args: Prisma.PaymentRoutingRuleFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentRoutingRulePayload>[]
+          }
+          create: {
+            args: Prisma.PaymentRoutingRuleCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentRoutingRulePayload>
+          }
+          createMany: {
+            args: Prisma.PaymentRoutingRuleCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.PaymentRoutingRuleCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentRoutingRulePayload>[]
+          }
+          delete: {
+            args: Prisma.PaymentRoutingRuleDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentRoutingRulePayload>
+          }
+          update: {
+            args: Prisma.PaymentRoutingRuleUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentRoutingRulePayload>
+          }
+          deleteMany: {
+            args: Prisma.PaymentRoutingRuleDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.PaymentRoutingRuleUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.PaymentRoutingRuleUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentRoutingRulePayload>
+          }
+          aggregate: {
+            args: Prisma.PaymentRoutingRuleAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregatePaymentRoutingRule>
+          }
+          groupBy: {
+            args: Prisma.PaymentRoutingRuleGroupByArgs<ExtArgs>
+            result: $Utils.Optional<PaymentRoutingRuleGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.PaymentRoutingRuleCountArgs<ExtArgs>
+            result: $Utils.Optional<PaymentRoutingRuleCountAggregateOutputType> | number
+          }
+        }
+      }
+      PaymentRoutingCondition: {
+        payload: Prisma.$PaymentRoutingConditionPayload<ExtArgs>
+        fields: Prisma.PaymentRoutingConditionFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.PaymentRoutingConditionFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentRoutingConditionPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.PaymentRoutingConditionFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentRoutingConditionPayload>
+          }
+          findFirst: {
+            args: Prisma.PaymentRoutingConditionFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentRoutingConditionPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.PaymentRoutingConditionFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentRoutingConditionPayload>
+          }
+          findMany: {
+            args: Prisma.PaymentRoutingConditionFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentRoutingConditionPayload>[]
+          }
+          create: {
+            args: Prisma.PaymentRoutingConditionCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentRoutingConditionPayload>
+          }
+          createMany: {
+            args: Prisma.PaymentRoutingConditionCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.PaymentRoutingConditionCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentRoutingConditionPayload>[]
+          }
+          delete: {
+            args: Prisma.PaymentRoutingConditionDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentRoutingConditionPayload>
+          }
+          update: {
+            args: Prisma.PaymentRoutingConditionUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentRoutingConditionPayload>
+          }
+          deleteMany: {
+            args: Prisma.PaymentRoutingConditionDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.PaymentRoutingConditionUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.PaymentRoutingConditionUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentRoutingConditionPayload>
+          }
+          aggregate: {
+            args: Prisma.PaymentRoutingConditionAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregatePaymentRoutingCondition>
+          }
+          groupBy: {
+            args: Prisma.PaymentRoutingConditionGroupByArgs<ExtArgs>
+            result: $Utils.Optional<PaymentRoutingConditionGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.PaymentRoutingConditionCountArgs<ExtArgs>
+            result: $Utils.Optional<PaymentRoutingConditionCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -5196,6 +5368,37 @@ export namespace Prisma {
    */
   export type DisbursementDraftCountOutputTypeCountVersionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: DisbursementDraftVersionWhereInput
+  }
+
+
+  /**
+   * Count Type PaymentRoutingRuleCountOutputType
+   */
+
+  export type PaymentRoutingRuleCountOutputType = {
+    conditions: number
+  }
+
+  export type PaymentRoutingRuleCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    conditions?: boolean | PaymentRoutingRuleCountOutputTypeCountConditionsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * PaymentRoutingRuleCountOutputType without action
+   */
+  export type PaymentRoutingRuleCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentRoutingRuleCountOutputType
+     */
+    select?: PaymentRoutingRuleCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * PaymentRoutingRuleCountOutputType without action
+   */
+  export type PaymentRoutingRuleCountOutputTypeCountConditionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PaymentRoutingConditionWhereInput
   }
 
 
@@ -52883,6 +53086,1981 @@ export namespace Prisma {
 
 
   /**
+   * Model PaymentRoutingRule
+   */
+
+  export type AggregatePaymentRoutingRule = {
+    _count: PaymentRoutingRuleCountAggregateOutputType | null
+    _avg: PaymentRoutingRuleAvgAggregateOutputType | null
+    _sum: PaymentRoutingRuleSumAggregateOutputType | null
+    _min: PaymentRoutingRuleMinAggregateOutputType | null
+    _max: PaymentRoutingRuleMaxAggregateOutputType | null
+  }
+
+  export type PaymentRoutingRuleAvgAggregateOutputType = {
+    priority: number | null
+  }
+
+  export type PaymentRoutingRuleSumAggregateOutputType = {
+    priority: number | null
+  }
+
+  export type PaymentRoutingRuleMinAggregateOutputType = {
+    id: string | null
+    ownerAddress: string | null
+    name: string | null
+    description: string | null
+    route: string | null
+    priority: number | null
+    isActive: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type PaymentRoutingRuleMaxAggregateOutputType = {
+    id: string | null
+    ownerAddress: string | null
+    name: string | null
+    description: string | null
+    route: string | null
+    priority: number | null
+    isActive: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type PaymentRoutingRuleCountAggregateOutputType = {
+    id: number
+    ownerAddress: number
+    name: number
+    description: number
+    route: number
+    priority: number
+    isActive: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type PaymentRoutingRuleAvgAggregateInputType = {
+    priority?: true
+  }
+
+  export type PaymentRoutingRuleSumAggregateInputType = {
+    priority?: true
+  }
+
+  export type PaymentRoutingRuleMinAggregateInputType = {
+    id?: true
+    ownerAddress?: true
+    name?: true
+    description?: true
+    route?: true
+    priority?: true
+    isActive?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type PaymentRoutingRuleMaxAggregateInputType = {
+    id?: true
+    ownerAddress?: true
+    name?: true
+    description?: true
+    route?: true
+    priority?: true
+    isActive?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type PaymentRoutingRuleCountAggregateInputType = {
+    id?: true
+    ownerAddress?: true
+    name?: true
+    description?: true
+    route?: true
+    priority?: true
+    isActive?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type PaymentRoutingRuleAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PaymentRoutingRule to aggregate.
+     */
+    where?: PaymentRoutingRuleWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PaymentRoutingRules to fetch.
+     */
+    orderBy?: PaymentRoutingRuleOrderByWithRelationInput | PaymentRoutingRuleOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: PaymentRoutingRuleWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PaymentRoutingRules from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PaymentRoutingRules.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned PaymentRoutingRules
+    **/
+    _count?: true | PaymentRoutingRuleCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: PaymentRoutingRuleAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: PaymentRoutingRuleSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: PaymentRoutingRuleMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: PaymentRoutingRuleMaxAggregateInputType
+  }
+
+  export type GetPaymentRoutingRuleAggregateType<T extends PaymentRoutingRuleAggregateArgs> = {
+        [P in keyof T & keyof AggregatePaymentRoutingRule]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregatePaymentRoutingRule[P]>
+      : GetScalarType<T[P], AggregatePaymentRoutingRule[P]>
+  }
+
+
+
+
+  export type PaymentRoutingRuleGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PaymentRoutingRuleWhereInput
+    orderBy?: PaymentRoutingRuleOrderByWithAggregationInput | PaymentRoutingRuleOrderByWithAggregationInput[]
+    by: PaymentRoutingRuleScalarFieldEnum[] | PaymentRoutingRuleScalarFieldEnum
+    having?: PaymentRoutingRuleScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: PaymentRoutingRuleCountAggregateInputType | true
+    _avg?: PaymentRoutingRuleAvgAggregateInputType
+    _sum?: PaymentRoutingRuleSumAggregateInputType
+    _min?: PaymentRoutingRuleMinAggregateInputType
+    _max?: PaymentRoutingRuleMaxAggregateInputType
+  }
+
+  export type PaymentRoutingRuleGroupByOutputType = {
+    id: string
+    ownerAddress: string
+    name: string
+    description: string | null
+    route: string
+    priority: number
+    isActive: boolean
+    createdAt: Date
+    updatedAt: Date
+    _count: PaymentRoutingRuleCountAggregateOutputType | null
+    _avg: PaymentRoutingRuleAvgAggregateOutputType | null
+    _sum: PaymentRoutingRuleSumAggregateOutputType | null
+    _min: PaymentRoutingRuleMinAggregateOutputType | null
+    _max: PaymentRoutingRuleMaxAggregateOutputType | null
+  }
+
+  type GetPaymentRoutingRuleGroupByPayload<T extends PaymentRoutingRuleGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<PaymentRoutingRuleGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof PaymentRoutingRuleGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], PaymentRoutingRuleGroupByOutputType[P]>
+            : GetScalarType<T[P], PaymentRoutingRuleGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type PaymentRoutingRuleSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    ownerAddress?: boolean
+    name?: boolean
+    description?: boolean
+    route?: boolean
+    priority?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    conditions?: boolean | PaymentRoutingRule$conditionsArgs<ExtArgs>
+    _count?: boolean | PaymentRoutingRuleCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["paymentRoutingRule"]>
+
+  export type PaymentRoutingRuleSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    ownerAddress?: boolean
+    name?: boolean
+    description?: boolean
+    route?: boolean
+    priority?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["paymentRoutingRule"]>
+
+  export type PaymentRoutingRuleSelectScalar = {
+    id?: boolean
+    ownerAddress?: boolean
+    name?: boolean
+    description?: boolean
+    route?: boolean
+    priority?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type PaymentRoutingRuleInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    conditions?: boolean | PaymentRoutingRule$conditionsArgs<ExtArgs>
+    _count?: boolean | PaymentRoutingRuleCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type PaymentRoutingRuleIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+
+  export type $PaymentRoutingRulePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "PaymentRoutingRule"
+    objects: {
+      conditions: Prisma.$PaymentRoutingConditionPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      ownerAddress: string
+      name: string
+      description: string | null
+      route: string
+      priority: number
+      isActive: boolean
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["paymentRoutingRule"]>
+    composites: {}
+  }
+
+  type PaymentRoutingRuleGetPayload<S extends boolean | null | undefined | PaymentRoutingRuleDefaultArgs> = $Result.GetResult<Prisma.$PaymentRoutingRulePayload, S>
+
+  type PaymentRoutingRuleCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<PaymentRoutingRuleFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: PaymentRoutingRuleCountAggregateInputType | true
+    }
+
+  export interface PaymentRoutingRuleDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['PaymentRoutingRule'], meta: { name: 'PaymentRoutingRule' } }
+    /**
+     * Find zero or one PaymentRoutingRule that matches the filter.
+     * @param {PaymentRoutingRuleFindUniqueArgs} args - Arguments to find a PaymentRoutingRule
+     * @example
+     * // Get one PaymentRoutingRule
+     * const paymentRoutingRule = await prisma.paymentRoutingRule.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends PaymentRoutingRuleFindUniqueArgs>(args: SelectSubset<T, PaymentRoutingRuleFindUniqueArgs<ExtArgs>>): Prisma__PaymentRoutingRuleClient<$Result.GetResult<Prisma.$PaymentRoutingRulePayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one PaymentRoutingRule that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {PaymentRoutingRuleFindUniqueOrThrowArgs} args - Arguments to find a PaymentRoutingRule
+     * @example
+     * // Get one PaymentRoutingRule
+     * const paymentRoutingRule = await prisma.paymentRoutingRule.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends PaymentRoutingRuleFindUniqueOrThrowArgs>(args: SelectSubset<T, PaymentRoutingRuleFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PaymentRoutingRuleClient<$Result.GetResult<Prisma.$PaymentRoutingRulePayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first PaymentRoutingRule that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PaymentRoutingRuleFindFirstArgs} args - Arguments to find a PaymentRoutingRule
+     * @example
+     * // Get one PaymentRoutingRule
+     * const paymentRoutingRule = await prisma.paymentRoutingRule.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends PaymentRoutingRuleFindFirstArgs>(args?: SelectSubset<T, PaymentRoutingRuleFindFirstArgs<ExtArgs>>): Prisma__PaymentRoutingRuleClient<$Result.GetResult<Prisma.$PaymentRoutingRulePayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first PaymentRoutingRule that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PaymentRoutingRuleFindFirstOrThrowArgs} args - Arguments to find a PaymentRoutingRule
+     * @example
+     * // Get one PaymentRoutingRule
+     * const paymentRoutingRule = await prisma.paymentRoutingRule.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends PaymentRoutingRuleFindFirstOrThrowArgs>(args?: SelectSubset<T, PaymentRoutingRuleFindFirstOrThrowArgs<ExtArgs>>): Prisma__PaymentRoutingRuleClient<$Result.GetResult<Prisma.$PaymentRoutingRulePayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more PaymentRoutingRules that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PaymentRoutingRuleFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all PaymentRoutingRules
+     * const paymentRoutingRules = await prisma.paymentRoutingRule.findMany()
+     * 
+     * // Get first 10 PaymentRoutingRules
+     * const paymentRoutingRules = await prisma.paymentRoutingRule.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const paymentRoutingRuleWithIdOnly = await prisma.paymentRoutingRule.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends PaymentRoutingRuleFindManyArgs>(args?: SelectSubset<T, PaymentRoutingRuleFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PaymentRoutingRulePayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a PaymentRoutingRule.
+     * @param {PaymentRoutingRuleCreateArgs} args - Arguments to create a PaymentRoutingRule.
+     * @example
+     * // Create one PaymentRoutingRule
+     * const PaymentRoutingRule = await prisma.paymentRoutingRule.create({
+     *   data: {
+     *     // ... data to create a PaymentRoutingRule
+     *   }
+     * })
+     * 
+     */
+    create<T extends PaymentRoutingRuleCreateArgs>(args: SelectSubset<T, PaymentRoutingRuleCreateArgs<ExtArgs>>): Prisma__PaymentRoutingRuleClient<$Result.GetResult<Prisma.$PaymentRoutingRulePayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many PaymentRoutingRules.
+     * @param {PaymentRoutingRuleCreateManyArgs} args - Arguments to create many PaymentRoutingRules.
+     * @example
+     * // Create many PaymentRoutingRules
+     * const paymentRoutingRule = await prisma.paymentRoutingRule.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends PaymentRoutingRuleCreateManyArgs>(args?: SelectSubset<T, PaymentRoutingRuleCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many PaymentRoutingRules and returns the data saved in the database.
+     * @param {PaymentRoutingRuleCreateManyAndReturnArgs} args - Arguments to create many PaymentRoutingRules.
+     * @example
+     * // Create many PaymentRoutingRules
+     * const paymentRoutingRule = await prisma.paymentRoutingRule.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many PaymentRoutingRules and only return the `id`
+     * const paymentRoutingRuleWithIdOnly = await prisma.paymentRoutingRule.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends PaymentRoutingRuleCreateManyAndReturnArgs>(args?: SelectSubset<T, PaymentRoutingRuleCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PaymentRoutingRulePayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a PaymentRoutingRule.
+     * @param {PaymentRoutingRuleDeleteArgs} args - Arguments to delete one PaymentRoutingRule.
+     * @example
+     * // Delete one PaymentRoutingRule
+     * const PaymentRoutingRule = await prisma.paymentRoutingRule.delete({
+     *   where: {
+     *     // ... filter to delete one PaymentRoutingRule
+     *   }
+     * })
+     * 
+     */
+    delete<T extends PaymentRoutingRuleDeleteArgs>(args: SelectSubset<T, PaymentRoutingRuleDeleteArgs<ExtArgs>>): Prisma__PaymentRoutingRuleClient<$Result.GetResult<Prisma.$PaymentRoutingRulePayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one PaymentRoutingRule.
+     * @param {PaymentRoutingRuleUpdateArgs} args - Arguments to update one PaymentRoutingRule.
+     * @example
+     * // Update one PaymentRoutingRule
+     * const paymentRoutingRule = await prisma.paymentRoutingRule.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends PaymentRoutingRuleUpdateArgs>(args: SelectSubset<T, PaymentRoutingRuleUpdateArgs<ExtArgs>>): Prisma__PaymentRoutingRuleClient<$Result.GetResult<Prisma.$PaymentRoutingRulePayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more PaymentRoutingRules.
+     * @param {PaymentRoutingRuleDeleteManyArgs} args - Arguments to filter PaymentRoutingRules to delete.
+     * @example
+     * // Delete a few PaymentRoutingRules
+     * const { count } = await prisma.paymentRoutingRule.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends PaymentRoutingRuleDeleteManyArgs>(args?: SelectSubset<T, PaymentRoutingRuleDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PaymentRoutingRules.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PaymentRoutingRuleUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many PaymentRoutingRules
+     * const paymentRoutingRule = await prisma.paymentRoutingRule.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends PaymentRoutingRuleUpdateManyArgs>(args: SelectSubset<T, PaymentRoutingRuleUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one PaymentRoutingRule.
+     * @param {PaymentRoutingRuleUpsertArgs} args - Arguments to update or create a PaymentRoutingRule.
+     * @example
+     * // Update or create a PaymentRoutingRule
+     * const paymentRoutingRule = await prisma.paymentRoutingRule.upsert({
+     *   create: {
+     *     // ... data to create a PaymentRoutingRule
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the PaymentRoutingRule we want to update
+     *   }
+     * })
+     */
+    upsert<T extends PaymentRoutingRuleUpsertArgs>(args: SelectSubset<T, PaymentRoutingRuleUpsertArgs<ExtArgs>>): Prisma__PaymentRoutingRuleClient<$Result.GetResult<Prisma.$PaymentRoutingRulePayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of PaymentRoutingRules.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PaymentRoutingRuleCountArgs} args - Arguments to filter PaymentRoutingRules to count.
+     * @example
+     * // Count the number of PaymentRoutingRules
+     * const count = await prisma.paymentRoutingRule.count({
+     *   where: {
+     *     // ... the filter for the PaymentRoutingRules we want to count
+     *   }
+     * })
+    **/
+    count<T extends PaymentRoutingRuleCountArgs>(
+      args?: Subset<T, PaymentRoutingRuleCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], PaymentRoutingRuleCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a PaymentRoutingRule.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PaymentRoutingRuleAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends PaymentRoutingRuleAggregateArgs>(args: Subset<T, PaymentRoutingRuleAggregateArgs>): Prisma.PrismaPromise<GetPaymentRoutingRuleAggregateType<T>>
+
+    /**
+     * Group by PaymentRoutingRule.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PaymentRoutingRuleGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends PaymentRoutingRuleGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: PaymentRoutingRuleGroupByArgs['orderBy'] }
+        : { orderBy?: PaymentRoutingRuleGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, PaymentRoutingRuleGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPaymentRoutingRuleGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the PaymentRoutingRule model
+   */
+  readonly fields: PaymentRoutingRuleFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for PaymentRoutingRule.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__PaymentRoutingRuleClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    conditions<T extends PaymentRoutingRule$conditionsArgs<ExtArgs> = {}>(args?: Subset<T, PaymentRoutingRule$conditionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PaymentRoutingConditionPayload<ExtArgs>, T, "findMany"> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the PaymentRoutingRule model
+   */ 
+  interface PaymentRoutingRuleFieldRefs {
+    readonly id: FieldRef<"PaymentRoutingRule", 'String'>
+    readonly ownerAddress: FieldRef<"PaymentRoutingRule", 'String'>
+    readonly name: FieldRef<"PaymentRoutingRule", 'String'>
+    readonly description: FieldRef<"PaymentRoutingRule", 'String'>
+    readonly route: FieldRef<"PaymentRoutingRule", 'String'>
+    readonly priority: FieldRef<"PaymentRoutingRule", 'Int'>
+    readonly isActive: FieldRef<"PaymentRoutingRule", 'Boolean'>
+    readonly createdAt: FieldRef<"PaymentRoutingRule", 'DateTime'>
+    readonly updatedAt: FieldRef<"PaymentRoutingRule", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * PaymentRoutingRule findUnique
+   */
+  export type PaymentRoutingRuleFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentRoutingRule
+     */
+    select?: PaymentRoutingRuleSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentRoutingRuleInclude<ExtArgs> | null
+    /**
+     * Filter, which PaymentRoutingRule to fetch.
+     */
+    where: PaymentRoutingRuleWhereUniqueInput
+  }
+
+  /**
+   * PaymentRoutingRule findUniqueOrThrow
+   */
+  export type PaymentRoutingRuleFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentRoutingRule
+     */
+    select?: PaymentRoutingRuleSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentRoutingRuleInclude<ExtArgs> | null
+    /**
+     * Filter, which PaymentRoutingRule to fetch.
+     */
+    where: PaymentRoutingRuleWhereUniqueInput
+  }
+
+  /**
+   * PaymentRoutingRule findFirst
+   */
+  export type PaymentRoutingRuleFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentRoutingRule
+     */
+    select?: PaymentRoutingRuleSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentRoutingRuleInclude<ExtArgs> | null
+    /**
+     * Filter, which PaymentRoutingRule to fetch.
+     */
+    where?: PaymentRoutingRuleWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PaymentRoutingRules to fetch.
+     */
+    orderBy?: PaymentRoutingRuleOrderByWithRelationInput | PaymentRoutingRuleOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PaymentRoutingRules.
+     */
+    cursor?: PaymentRoutingRuleWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PaymentRoutingRules from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PaymentRoutingRules.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PaymentRoutingRules.
+     */
+    distinct?: PaymentRoutingRuleScalarFieldEnum | PaymentRoutingRuleScalarFieldEnum[]
+  }
+
+  /**
+   * PaymentRoutingRule findFirstOrThrow
+   */
+  export type PaymentRoutingRuleFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentRoutingRule
+     */
+    select?: PaymentRoutingRuleSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentRoutingRuleInclude<ExtArgs> | null
+    /**
+     * Filter, which PaymentRoutingRule to fetch.
+     */
+    where?: PaymentRoutingRuleWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PaymentRoutingRules to fetch.
+     */
+    orderBy?: PaymentRoutingRuleOrderByWithRelationInput | PaymentRoutingRuleOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PaymentRoutingRules.
+     */
+    cursor?: PaymentRoutingRuleWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PaymentRoutingRules from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PaymentRoutingRules.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PaymentRoutingRules.
+     */
+    distinct?: PaymentRoutingRuleScalarFieldEnum | PaymentRoutingRuleScalarFieldEnum[]
+  }
+
+  /**
+   * PaymentRoutingRule findMany
+   */
+  export type PaymentRoutingRuleFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentRoutingRule
+     */
+    select?: PaymentRoutingRuleSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentRoutingRuleInclude<ExtArgs> | null
+    /**
+     * Filter, which PaymentRoutingRules to fetch.
+     */
+    where?: PaymentRoutingRuleWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PaymentRoutingRules to fetch.
+     */
+    orderBy?: PaymentRoutingRuleOrderByWithRelationInput | PaymentRoutingRuleOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing PaymentRoutingRules.
+     */
+    cursor?: PaymentRoutingRuleWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PaymentRoutingRules from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PaymentRoutingRules.
+     */
+    skip?: number
+    distinct?: PaymentRoutingRuleScalarFieldEnum | PaymentRoutingRuleScalarFieldEnum[]
+  }
+
+  /**
+   * PaymentRoutingRule create
+   */
+  export type PaymentRoutingRuleCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentRoutingRule
+     */
+    select?: PaymentRoutingRuleSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentRoutingRuleInclude<ExtArgs> | null
+    /**
+     * The data needed to create a PaymentRoutingRule.
+     */
+    data: XOR<PaymentRoutingRuleCreateInput, PaymentRoutingRuleUncheckedCreateInput>
+  }
+
+  /**
+   * PaymentRoutingRule createMany
+   */
+  export type PaymentRoutingRuleCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many PaymentRoutingRules.
+     */
+    data: PaymentRoutingRuleCreateManyInput | PaymentRoutingRuleCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * PaymentRoutingRule createManyAndReturn
+   */
+  export type PaymentRoutingRuleCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentRoutingRule
+     */
+    select?: PaymentRoutingRuleSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many PaymentRoutingRules.
+     */
+    data: PaymentRoutingRuleCreateManyInput | PaymentRoutingRuleCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * PaymentRoutingRule update
+   */
+  export type PaymentRoutingRuleUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentRoutingRule
+     */
+    select?: PaymentRoutingRuleSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentRoutingRuleInclude<ExtArgs> | null
+    /**
+     * The data needed to update a PaymentRoutingRule.
+     */
+    data: XOR<PaymentRoutingRuleUpdateInput, PaymentRoutingRuleUncheckedUpdateInput>
+    /**
+     * Choose, which PaymentRoutingRule to update.
+     */
+    where: PaymentRoutingRuleWhereUniqueInput
+  }
+
+  /**
+   * PaymentRoutingRule updateMany
+   */
+  export type PaymentRoutingRuleUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update PaymentRoutingRules.
+     */
+    data: XOR<PaymentRoutingRuleUpdateManyMutationInput, PaymentRoutingRuleUncheckedUpdateManyInput>
+    /**
+     * Filter which PaymentRoutingRules to update
+     */
+    where?: PaymentRoutingRuleWhereInput
+  }
+
+  /**
+   * PaymentRoutingRule upsert
+   */
+  export type PaymentRoutingRuleUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentRoutingRule
+     */
+    select?: PaymentRoutingRuleSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentRoutingRuleInclude<ExtArgs> | null
+    /**
+     * The filter to search for the PaymentRoutingRule to update in case it exists.
+     */
+    where: PaymentRoutingRuleWhereUniqueInput
+    /**
+     * In case the PaymentRoutingRule found by the `where` argument doesn't exist, create a new PaymentRoutingRule with this data.
+     */
+    create: XOR<PaymentRoutingRuleCreateInput, PaymentRoutingRuleUncheckedCreateInput>
+    /**
+     * In case the PaymentRoutingRule was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<PaymentRoutingRuleUpdateInput, PaymentRoutingRuleUncheckedUpdateInput>
+  }
+
+  /**
+   * PaymentRoutingRule delete
+   */
+  export type PaymentRoutingRuleDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentRoutingRule
+     */
+    select?: PaymentRoutingRuleSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentRoutingRuleInclude<ExtArgs> | null
+    /**
+     * Filter which PaymentRoutingRule to delete.
+     */
+    where: PaymentRoutingRuleWhereUniqueInput
+  }
+
+  /**
+   * PaymentRoutingRule deleteMany
+   */
+  export type PaymentRoutingRuleDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PaymentRoutingRules to delete
+     */
+    where?: PaymentRoutingRuleWhereInput
+  }
+
+  /**
+   * PaymentRoutingRule.conditions
+   */
+  export type PaymentRoutingRule$conditionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentRoutingCondition
+     */
+    select?: PaymentRoutingConditionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentRoutingConditionInclude<ExtArgs> | null
+    where?: PaymentRoutingConditionWhereInput
+    orderBy?: PaymentRoutingConditionOrderByWithRelationInput | PaymentRoutingConditionOrderByWithRelationInput[]
+    cursor?: PaymentRoutingConditionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PaymentRoutingConditionScalarFieldEnum | PaymentRoutingConditionScalarFieldEnum[]
+  }
+
+  /**
+   * PaymentRoutingRule without action
+   */
+  export type PaymentRoutingRuleDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentRoutingRule
+     */
+    select?: PaymentRoutingRuleSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentRoutingRuleInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model PaymentRoutingCondition
+   */
+
+  export type AggregatePaymentRoutingCondition = {
+    _count: PaymentRoutingConditionCountAggregateOutputType | null
+    _min: PaymentRoutingConditionMinAggregateOutputType | null
+    _max: PaymentRoutingConditionMaxAggregateOutputType | null
+  }
+
+  export type PaymentRoutingConditionMinAggregateOutputType = {
+    id: string | null
+    ruleId: string | null
+    type: string | null
+    operator: string | null
+    value: string | null
+    value2: string | null
+  }
+
+  export type PaymentRoutingConditionMaxAggregateOutputType = {
+    id: string | null
+    ruleId: string | null
+    type: string | null
+    operator: string | null
+    value: string | null
+    value2: string | null
+  }
+
+  export type PaymentRoutingConditionCountAggregateOutputType = {
+    id: number
+    ruleId: number
+    type: number
+    operator: number
+    value: number
+    value2: number
+    _all: number
+  }
+
+
+  export type PaymentRoutingConditionMinAggregateInputType = {
+    id?: true
+    ruleId?: true
+    type?: true
+    operator?: true
+    value?: true
+    value2?: true
+  }
+
+  export type PaymentRoutingConditionMaxAggregateInputType = {
+    id?: true
+    ruleId?: true
+    type?: true
+    operator?: true
+    value?: true
+    value2?: true
+  }
+
+  export type PaymentRoutingConditionCountAggregateInputType = {
+    id?: true
+    ruleId?: true
+    type?: true
+    operator?: true
+    value?: true
+    value2?: true
+    _all?: true
+  }
+
+  export type PaymentRoutingConditionAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PaymentRoutingCondition to aggregate.
+     */
+    where?: PaymentRoutingConditionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PaymentRoutingConditions to fetch.
+     */
+    orderBy?: PaymentRoutingConditionOrderByWithRelationInput | PaymentRoutingConditionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: PaymentRoutingConditionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PaymentRoutingConditions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PaymentRoutingConditions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned PaymentRoutingConditions
+    **/
+    _count?: true | PaymentRoutingConditionCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: PaymentRoutingConditionMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: PaymentRoutingConditionMaxAggregateInputType
+  }
+
+  export type GetPaymentRoutingConditionAggregateType<T extends PaymentRoutingConditionAggregateArgs> = {
+        [P in keyof T & keyof AggregatePaymentRoutingCondition]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregatePaymentRoutingCondition[P]>
+      : GetScalarType<T[P], AggregatePaymentRoutingCondition[P]>
+  }
+
+
+
+
+  export type PaymentRoutingConditionGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PaymentRoutingConditionWhereInput
+    orderBy?: PaymentRoutingConditionOrderByWithAggregationInput | PaymentRoutingConditionOrderByWithAggregationInput[]
+    by: PaymentRoutingConditionScalarFieldEnum[] | PaymentRoutingConditionScalarFieldEnum
+    having?: PaymentRoutingConditionScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: PaymentRoutingConditionCountAggregateInputType | true
+    _min?: PaymentRoutingConditionMinAggregateInputType
+    _max?: PaymentRoutingConditionMaxAggregateInputType
+  }
+
+  export type PaymentRoutingConditionGroupByOutputType = {
+    id: string
+    ruleId: string
+    type: string
+    operator: string
+    value: string
+    value2: string | null
+    _count: PaymentRoutingConditionCountAggregateOutputType | null
+    _min: PaymentRoutingConditionMinAggregateOutputType | null
+    _max: PaymentRoutingConditionMaxAggregateOutputType | null
+  }
+
+  type GetPaymentRoutingConditionGroupByPayload<T extends PaymentRoutingConditionGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<PaymentRoutingConditionGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof PaymentRoutingConditionGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], PaymentRoutingConditionGroupByOutputType[P]>
+            : GetScalarType<T[P], PaymentRoutingConditionGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type PaymentRoutingConditionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    ruleId?: boolean
+    type?: boolean
+    operator?: boolean
+    value?: boolean
+    value2?: boolean
+    rule?: boolean | PaymentRoutingRuleDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["paymentRoutingCondition"]>
+
+  export type PaymentRoutingConditionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    ruleId?: boolean
+    type?: boolean
+    operator?: boolean
+    value?: boolean
+    value2?: boolean
+    rule?: boolean | PaymentRoutingRuleDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["paymentRoutingCondition"]>
+
+  export type PaymentRoutingConditionSelectScalar = {
+    id?: boolean
+    ruleId?: boolean
+    type?: boolean
+    operator?: boolean
+    value?: boolean
+    value2?: boolean
+  }
+
+  export type PaymentRoutingConditionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    rule?: boolean | PaymentRoutingRuleDefaultArgs<ExtArgs>
+  }
+  export type PaymentRoutingConditionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    rule?: boolean | PaymentRoutingRuleDefaultArgs<ExtArgs>
+  }
+
+  export type $PaymentRoutingConditionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "PaymentRoutingCondition"
+    objects: {
+      rule: Prisma.$PaymentRoutingRulePayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      ruleId: string
+      type: string
+      operator: string
+      value: string
+      value2: string | null
+    }, ExtArgs["result"]["paymentRoutingCondition"]>
+    composites: {}
+  }
+
+  type PaymentRoutingConditionGetPayload<S extends boolean | null | undefined | PaymentRoutingConditionDefaultArgs> = $Result.GetResult<Prisma.$PaymentRoutingConditionPayload, S>
+
+  type PaymentRoutingConditionCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<PaymentRoutingConditionFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: PaymentRoutingConditionCountAggregateInputType | true
+    }
+
+  export interface PaymentRoutingConditionDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['PaymentRoutingCondition'], meta: { name: 'PaymentRoutingCondition' } }
+    /**
+     * Find zero or one PaymentRoutingCondition that matches the filter.
+     * @param {PaymentRoutingConditionFindUniqueArgs} args - Arguments to find a PaymentRoutingCondition
+     * @example
+     * // Get one PaymentRoutingCondition
+     * const paymentRoutingCondition = await prisma.paymentRoutingCondition.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends PaymentRoutingConditionFindUniqueArgs>(args: SelectSubset<T, PaymentRoutingConditionFindUniqueArgs<ExtArgs>>): Prisma__PaymentRoutingConditionClient<$Result.GetResult<Prisma.$PaymentRoutingConditionPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one PaymentRoutingCondition that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {PaymentRoutingConditionFindUniqueOrThrowArgs} args - Arguments to find a PaymentRoutingCondition
+     * @example
+     * // Get one PaymentRoutingCondition
+     * const paymentRoutingCondition = await prisma.paymentRoutingCondition.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends PaymentRoutingConditionFindUniqueOrThrowArgs>(args: SelectSubset<T, PaymentRoutingConditionFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PaymentRoutingConditionClient<$Result.GetResult<Prisma.$PaymentRoutingConditionPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first PaymentRoutingCondition that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PaymentRoutingConditionFindFirstArgs} args - Arguments to find a PaymentRoutingCondition
+     * @example
+     * // Get one PaymentRoutingCondition
+     * const paymentRoutingCondition = await prisma.paymentRoutingCondition.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends PaymentRoutingConditionFindFirstArgs>(args?: SelectSubset<T, PaymentRoutingConditionFindFirstArgs<ExtArgs>>): Prisma__PaymentRoutingConditionClient<$Result.GetResult<Prisma.$PaymentRoutingConditionPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first PaymentRoutingCondition that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PaymentRoutingConditionFindFirstOrThrowArgs} args - Arguments to find a PaymentRoutingCondition
+     * @example
+     * // Get one PaymentRoutingCondition
+     * const paymentRoutingCondition = await prisma.paymentRoutingCondition.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends PaymentRoutingConditionFindFirstOrThrowArgs>(args?: SelectSubset<T, PaymentRoutingConditionFindFirstOrThrowArgs<ExtArgs>>): Prisma__PaymentRoutingConditionClient<$Result.GetResult<Prisma.$PaymentRoutingConditionPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more PaymentRoutingConditions that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PaymentRoutingConditionFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all PaymentRoutingConditions
+     * const paymentRoutingConditions = await prisma.paymentRoutingCondition.findMany()
+     * 
+     * // Get first 10 PaymentRoutingConditions
+     * const paymentRoutingConditions = await prisma.paymentRoutingCondition.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const paymentRoutingConditionWithIdOnly = await prisma.paymentRoutingCondition.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends PaymentRoutingConditionFindManyArgs>(args?: SelectSubset<T, PaymentRoutingConditionFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PaymentRoutingConditionPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a PaymentRoutingCondition.
+     * @param {PaymentRoutingConditionCreateArgs} args - Arguments to create a PaymentRoutingCondition.
+     * @example
+     * // Create one PaymentRoutingCondition
+     * const PaymentRoutingCondition = await prisma.paymentRoutingCondition.create({
+     *   data: {
+     *     // ... data to create a PaymentRoutingCondition
+     *   }
+     * })
+     * 
+     */
+    create<T extends PaymentRoutingConditionCreateArgs>(args: SelectSubset<T, PaymentRoutingConditionCreateArgs<ExtArgs>>): Prisma__PaymentRoutingConditionClient<$Result.GetResult<Prisma.$PaymentRoutingConditionPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many PaymentRoutingConditions.
+     * @param {PaymentRoutingConditionCreateManyArgs} args - Arguments to create many PaymentRoutingConditions.
+     * @example
+     * // Create many PaymentRoutingConditions
+     * const paymentRoutingCondition = await prisma.paymentRoutingCondition.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends PaymentRoutingConditionCreateManyArgs>(args?: SelectSubset<T, PaymentRoutingConditionCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many PaymentRoutingConditions and returns the data saved in the database.
+     * @param {PaymentRoutingConditionCreateManyAndReturnArgs} args - Arguments to create many PaymentRoutingConditions.
+     * @example
+     * // Create many PaymentRoutingConditions
+     * const paymentRoutingCondition = await prisma.paymentRoutingCondition.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many PaymentRoutingConditions and only return the `id`
+     * const paymentRoutingConditionWithIdOnly = await prisma.paymentRoutingCondition.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends PaymentRoutingConditionCreateManyAndReturnArgs>(args?: SelectSubset<T, PaymentRoutingConditionCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PaymentRoutingConditionPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a PaymentRoutingCondition.
+     * @param {PaymentRoutingConditionDeleteArgs} args - Arguments to delete one PaymentRoutingCondition.
+     * @example
+     * // Delete one PaymentRoutingCondition
+     * const PaymentRoutingCondition = await prisma.paymentRoutingCondition.delete({
+     *   where: {
+     *     // ... filter to delete one PaymentRoutingCondition
+     *   }
+     * })
+     * 
+     */
+    delete<T extends PaymentRoutingConditionDeleteArgs>(args: SelectSubset<T, PaymentRoutingConditionDeleteArgs<ExtArgs>>): Prisma__PaymentRoutingConditionClient<$Result.GetResult<Prisma.$PaymentRoutingConditionPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one PaymentRoutingCondition.
+     * @param {PaymentRoutingConditionUpdateArgs} args - Arguments to update one PaymentRoutingCondition.
+     * @example
+     * // Update one PaymentRoutingCondition
+     * const paymentRoutingCondition = await prisma.paymentRoutingCondition.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends PaymentRoutingConditionUpdateArgs>(args: SelectSubset<T, PaymentRoutingConditionUpdateArgs<ExtArgs>>): Prisma__PaymentRoutingConditionClient<$Result.GetResult<Prisma.$PaymentRoutingConditionPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more PaymentRoutingConditions.
+     * @param {PaymentRoutingConditionDeleteManyArgs} args - Arguments to filter PaymentRoutingConditions to delete.
+     * @example
+     * // Delete a few PaymentRoutingConditions
+     * const { count } = await prisma.paymentRoutingCondition.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends PaymentRoutingConditionDeleteManyArgs>(args?: SelectSubset<T, PaymentRoutingConditionDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PaymentRoutingConditions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PaymentRoutingConditionUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many PaymentRoutingConditions
+     * const paymentRoutingCondition = await prisma.paymentRoutingCondition.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends PaymentRoutingConditionUpdateManyArgs>(args: SelectSubset<T, PaymentRoutingConditionUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one PaymentRoutingCondition.
+     * @param {PaymentRoutingConditionUpsertArgs} args - Arguments to update or create a PaymentRoutingCondition.
+     * @example
+     * // Update or create a PaymentRoutingCondition
+     * const paymentRoutingCondition = await prisma.paymentRoutingCondition.upsert({
+     *   create: {
+     *     // ... data to create a PaymentRoutingCondition
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the PaymentRoutingCondition we want to update
+     *   }
+     * })
+     */
+    upsert<T extends PaymentRoutingConditionUpsertArgs>(args: SelectSubset<T, PaymentRoutingConditionUpsertArgs<ExtArgs>>): Prisma__PaymentRoutingConditionClient<$Result.GetResult<Prisma.$PaymentRoutingConditionPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of PaymentRoutingConditions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PaymentRoutingConditionCountArgs} args - Arguments to filter PaymentRoutingConditions to count.
+     * @example
+     * // Count the number of PaymentRoutingConditions
+     * const count = await prisma.paymentRoutingCondition.count({
+     *   where: {
+     *     // ... the filter for the PaymentRoutingConditions we want to count
+     *   }
+     * })
+    **/
+    count<T extends PaymentRoutingConditionCountArgs>(
+      args?: Subset<T, PaymentRoutingConditionCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], PaymentRoutingConditionCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a PaymentRoutingCondition.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PaymentRoutingConditionAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends PaymentRoutingConditionAggregateArgs>(args: Subset<T, PaymentRoutingConditionAggregateArgs>): Prisma.PrismaPromise<GetPaymentRoutingConditionAggregateType<T>>
+
+    /**
+     * Group by PaymentRoutingCondition.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PaymentRoutingConditionGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends PaymentRoutingConditionGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: PaymentRoutingConditionGroupByArgs['orderBy'] }
+        : { orderBy?: PaymentRoutingConditionGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, PaymentRoutingConditionGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPaymentRoutingConditionGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the PaymentRoutingCondition model
+   */
+  readonly fields: PaymentRoutingConditionFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for PaymentRoutingCondition.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__PaymentRoutingConditionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    rule<T extends PaymentRoutingRuleDefaultArgs<ExtArgs> = {}>(args?: Subset<T, PaymentRoutingRuleDefaultArgs<ExtArgs>>): Prisma__PaymentRoutingRuleClient<$Result.GetResult<Prisma.$PaymentRoutingRulePayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the PaymentRoutingCondition model
+   */ 
+  interface PaymentRoutingConditionFieldRefs {
+    readonly id: FieldRef<"PaymentRoutingCondition", 'String'>
+    readonly ruleId: FieldRef<"PaymentRoutingCondition", 'String'>
+    readonly type: FieldRef<"PaymentRoutingCondition", 'String'>
+    readonly operator: FieldRef<"PaymentRoutingCondition", 'String'>
+    readonly value: FieldRef<"PaymentRoutingCondition", 'String'>
+    readonly value2: FieldRef<"PaymentRoutingCondition", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * PaymentRoutingCondition findUnique
+   */
+  export type PaymentRoutingConditionFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentRoutingCondition
+     */
+    select?: PaymentRoutingConditionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentRoutingConditionInclude<ExtArgs> | null
+    /**
+     * Filter, which PaymentRoutingCondition to fetch.
+     */
+    where: PaymentRoutingConditionWhereUniqueInput
+  }
+
+  /**
+   * PaymentRoutingCondition findUniqueOrThrow
+   */
+  export type PaymentRoutingConditionFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentRoutingCondition
+     */
+    select?: PaymentRoutingConditionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentRoutingConditionInclude<ExtArgs> | null
+    /**
+     * Filter, which PaymentRoutingCondition to fetch.
+     */
+    where: PaymentRoutingConditionWhereUniqueInput
+  }
+
+  /**
+   * PaymentRoutingCondition findFirst
+   */
+  export type PaymentRoutingConditionFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentRoutingCondition
+     */
+    select?: PaymentRoutingConditionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentRoutingConditionInclude<ExtArgs> | null
+    /**
+     * Filter, which PaymentRoutingCondition to fetch.
+     */
+    where?: PaymentRoutingConditionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PaymentRoutingConditions to fetch.
+     */
+    orderBy?: PaymentRoutingConditionOrderByWithRelationInput | PaymentRoutingConditionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PaymentRoutingConditions.
+     */
+    cursor?: PaymentRoutingConditionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PaymentRoutingConditions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PaymentRoutingConditions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PaymentRoutingConditions.
+     */
+    distinct?: PaymentRoutingConditionScalarFieldEnum | PaymentRoutingConditionScalarFieldEnum[]
+  }
+
+  /**
+   * PaymentRoutingCondition findFirstOrThrow
+   */
+  export type PaymentRoutingConditionFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentRoutingCondition
+     */
+    select?: PaymentRoutingConditionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentRoutingConditionInclude<ExtArgs> | null
+    /**
+     * Filter, which PaymentRoutingCondition to fetch.
+     */
+    where?: PaymentRoutingConditionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PaymentRoutingConditions to fetch.
+     */
+    orderBy?: PaymentRoutingConditionOrderByWithRelationInput | PaymentRoutingConditionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PaymentRoutingConditions.
+     */
+    cursor?: PaymentRoutingConditionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PaymentRoutingConditions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PaymentRoutingConditions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PaymentRoutingConditions.
+     */
+    distinct?: PaymentRoutingConditionScalarFieldEnum | PaymentRoutingConditionScalarFieldEnum[]
+  }
+
+  /**
+   * PaymentRoutingCondition findMany
+   */
+  export type PaymentRoutingConditionFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentRoutingCondition
+     */
+    select?: PaymentRoutingConditionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentRoutingConditionInclude<ExtArgs> | null
+    /**
+     * Filter, which PaymentRoutingConditions to fetch.
+     */
+    where?: PaymentRoutingConditionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PaymentRoutingConditions to fetch.
+     */
+    orderBy?: PaymentRoutingConditionOrderByWithRelationInput | PaymentRoutingConditionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing PaymentRoutingConditions.
+     */
+    cursor?: PaymentRoutingConditionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PaymentRoutingConditions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PaymentRoutingConditions.
+     */
+    skip?: number
+    distinct?: PaymentRoutingConditionScalarFieldEnum | PaymentRoutingConditionScalarFieldEnum[]
+  }
+
+  /**
+   * PaymentRoutingCondition create
+   */
+  export type PaymentRoutingConditionCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentRoutingCondition
+     */
+    select?: PaymentRoutingConditionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentRoutingConditionInclude<ExtArgs> | null
+    /**
+     * The data needed to create a PaymentRoutingCondition.
+     */
+    data: XOR<PaymentRoutingConditionCreateInput, PaymentRoutingConditionUncheckedCreateInput>
+  }
+
+  /**
+   * PaymentRoutingCondition createMany
+   */
+  export type PaymentRoutingConditionCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many PaymentRoutingConditions.
+     */
+    data: PaymentRoutingConditionCreateManyInput | PaymentRoutingConditionCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * PaymentRoutingCondition createManyAndReturn
+   */
+  export type PaymentRoutingConditionCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentRoutingCondition
+     */
+    select?: PaymentRoutingConditionSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many PaymentRoutingConditions.
+     */
+    data: PaymentRoutingConditionCreateManyInput | PaymentRoutingConditionCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentRoutingConditionIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * PaymentRoutingCondition update
+   */
+  export type PaymentRoutingConditionUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentRoutingCondition
+     */
+    select?: PaymentRoutingConditionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentRoutingConditionInclude<ExtArgs> | null
+    /**
+     * The data needed to update a PaymentRoutingCondition.
+     */
+    data: XOR<PaymentRoutingConditionUpdateInput, PaymentRoutingConditionUncheckedUpdateInput>
+    /**
+     * Choose, which PaymentRoutingCondition to update.
+     */
+    where: PaymentRoutingConditionWhereUniqueInput
+  }
+
+  /**
+   * PaymentRoutingCondition updateMany
+   */
+  export type PaymentRoutingConditionUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update PaymentRoutingConditions.
+     */
+    data: XOR<PaymentRoutingConditionUpdateManyMutationInput, PaymentRoutingConditionUncheckedUpdateManyInput>
+    /**
+     * Filter which PaymentRoutingConditions to update
+     */
+    where?: PaymentRoutingConditionWhereInput
+  }
+
+  /**
+   * PaymentRoutingCondition upsert
+   */
+  export type PaymentRoutingConditionUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentRoutingCondition
+     */
+    select?: PaymentRoutingConditionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentRoutingConditionInclude<ExtArgs> | null
+    /**
+     * The filter to search for the PaymentRoutingCondition to update in case it exists.
+     */
+    where: PaymentRoutingConditionWhereUniqueInput
+    /**
+     * In case the PaymentRoutingCondition found by the `where` argument doesn't exist, create a new PaymentRoutingCondition with this data.
+     */
+    create: XOR<PaymentRoutingConditionCreateInput, PaymentRoutingConditionUncheckedCreateInput>
+    /**
+     * In case the PaymentRoutingCondition was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<PaymentRoutingConditionUpdateInput, PaymentRoutingConditionUncheckedUpdateInput>
+  }
+
+  /**
+   * PaymentRoutingCondition delete
+   */
+  export type PaymentRoutingConditionDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentRoutingCondition
+     */
+    select?: PaymentRoutingConditionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentRoutingConditionInclude<ExtArgs> | null
+    /**
+     * Filter which PaymentRoutingCondition to delete.
+     */
+    where: PaymentRoutingConditionWhereUniqueInput
+  }
+
+  /**
+   * PaymentRoutingCondition deleteMany
+   */
+  export type PaymentRoutingConditionDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PaymentRoutingConditions to delete
+     */
+    where?: PaymentRoutingConditionWhereInput
+  }
+
+  /**
+   * PaymentRoutingCondition without action
+   */
+  export type PaymentRoutingConditionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentRoutingCondition
+     */
+    select?: PaymentRoutingConditionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentRoutingConditionInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -53659,6 +55837,33 @@ export namespace Prisma {
   };
 
   export type AdminAuditLogScalarFieldEnum = (typeof AdminAuditLogScalarFieldEnum)[keyof typeof AdminAuditLogScalarFieldEnum]
+
+
+  export const PaymentRoutingRuleScalarFieldEnum: {
+    id: 'id',
+    ownerAddress: 'ownerAddress',
+    name: 'name',
+    description: 'description',
+    route: 'route',
+    priority: 'priority',
+    isActive: 'isActive',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type PaymentRoutingRuleScalarFieldEnum = (typeof PaymentRoutingRuleScalarFieldEnum)[keyof typeof PaymentRoutingRuleScalarFieldEnum]
+
+
+  export const PaymentRoutingConditionScalarFieldEnum: {
+    id: 'id',
+    ruleId: 'ruleId',
+    type: 'type',
+    operator: 'operator',
+    value: 'value',
+    value2: 'value2'
+  };
+
+  export type PaymentRoutingConditionScalarFieldEnum = (typeof PaymentRoutingConditionScalarFieldEnum)[keyof typeof PaymentRoutingConditionScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -57679,6 +59884,144 @@ export namespace Prisma {
     error?: StringNullableWithAggregatesFilter<"AdminAuditLog"> | string | null
     changesSummary?: StringNullableWithAggregatesFilter<"AdminAuditLog"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"AdminAuditLog"> | Date | string
+  }
+
+  export type PaymentRoutingRuleWhereInput = {
+    AND?: PaymentRoutingRuleWhereInput | PaymentRoutingRuleWhereInput[]
+    OR?: PaymentRoutingRuleWhereInput[]
+    NOT?: PaymentRoutingRuleWhereInput | PaymentRoutingRuleWhereInput[]
+    id?: StringFilter<"PaymentRoutingRule"> | string
+    ownerAddress?: StringFilter<"PaymentRoutingRule"> | string
+    name?: StringFilter<"PaymentRoutingRule"> | string
+    description?: StringNullableFilter<"PaymentRoutingRule"> | string | null
+    route?: StringFilter<"PaymentRoutingRule"> | string
+    priority?: IntFilter<"PaymentRoutingRule"> | number
+    isActive?: BoolFilter<"PaymentRoutingRule"> | boolean
+    createdAt?: DateTimeFilter<"PaymentRoutingRule"> | Date | string
+    updatedAt?: DateTimeFilter<"PaymentRoutingRule"> | Date | string
+    conditions?: PaymentRoutingConditionListRelationFilter
+  }
+
+  export type PaymentRoutingRuleOrderByWithRelationInput = {
+    id?: SortOrder
+    ownerAddress?: SortOrder
+    name?: SortOrder
+    description?: SortOrderInput | SortOrder
+    route?: SortOrder
+    priority?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    conditions?: PaymentRoutingConditionOrderByRelationAggregateInput
+  }
+
+  export type PaymentRoutingRuleWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    ownerAddress_name?: PaymentRoutingRuleOwnerAddressNameCompoundUniqueInput
+    AND?: PaymentRoutingRuleWhereInput | PaymentRoutingRuleWhereInput[]
+    OR?: PaymentRoutingRuleWhereInput[]
+    NOT?: PaymentRoutingRuleWhereInput | PaymentRoutingRuleWhereInput[]
+    ownerAddress?: StringFilter<"PaymentRoutingRule"> | string
+    name?: StringFilter<"PaymentRoutingRule"> | string
+    description?: StringNullableFilter<"PaymentRoutingRule"> | string | null
+    route?: StringFilter<"PaymentRoutingRule"> | string
+    priority?: IntFilter<"PaymentRoutingRule"> | number
+    isActive?: BoolFilter<"PaymentRoutingRule"> | boolean
+    createdAt?: DateTimeFilter<"PaymentRoutingRule"> | Date | string
+    updatedAt?: DateTimeFilter<"PaymentRoutingRule"> | Date | string
+    conditions?: PaymentRoutingConditionListRelationFilter
+  }, "id" | "ownerAddress_name">
+
+  export type PaymentRoutingRuleOrderByWithAggregationInput = {
+    id?: SortOrder
+    ownerAddress?: SortOrder
+    name?: SortOrder
+    description?: SortOrderInput | SortOrder
+    route?: SortOrder
+    priority?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: PaymentRoutingRuleCountOrderByAggregateInput
+    _avg?: PaymentRoutingRuleAvgOrderByAggregateInput
+    _max?: PaymentRoutingRuleMaxOrderByAggregateInput
+    _min?: PaymentRoutingRuleMinOrderByAggregateInput
+    _sum?: PaymentRoutingRuleSumOrderByAggregateInput
+  }
+
+  export type PaymentRoutingRuleScalarWhereWithAggregatesInput = {
+    AND?: PaymentRoutingRuleScalarWhereWithAggregatesInput | PaymentRoutingRuleScalarWhereWithAggregatesInput[]
+    OR?: PaymentRoutingRuleScalarWhereWithAggregatesInput[]
+    NOT?: PaymentRoutingRuleScalarWhereWithAggregatesInput | PaymentRoutingRuleScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"PaymentRoutingRule"> | string
+    ownerAddress?: StringWithAggregatesFilter<"PaymentRoutingRule"> | string
+    name?: StringWithAggregatesFilter<"PaymentRoutingRule"> | string
+    description?: StringNullableWithAggregatesFilter<"PaymentRoutingRule"> | string | null
+    route?: StringWithAggregatesFilter<"PaymentRoutingRule"> | string
+    priority?: IntWithAggregatesFilter<"PaymentRoutingRule"> | number
+    isActive?: BoolWithAggregatesFilter<"PaymentRoutingRule"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"PaymentRoutingRule"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"PaymentRoutingRule"> | Date | string
+  }
+
+  export type PaymentRoutingConditionWhereInput = {
+    AND?: PaymentRoutingConditionWhereInput | PaymentRoutingConditionWhereInput[]
+    OR?: PaymentRoutingConditionWhereInput[]
+    NOT?: PaymentRoutingConditionWhereInput | PaymentRoutingConditionWhereInput[]
+    id?: StringFilter<"PaymentRoutingCondition"> | string
+    ruleId?: StringFilter<"PaymentRoutingCondition"> | string
+    type?: StringFilter<"PaymentRoutingCondition"> | string
+    operator?: StringFilter<"PaymentRoutingCondition"> | string
+    value?: StringFilter<"PaymentRoutingCondition"> | string
+    value2?: StringNullableFilter<"PaymentRoutingCondition"> | string | null
+    rule?: XOR<PaymentRoutingRuleRelationFilter, PaymentRoutingRuleWhereInput>
+  }
+
+  export type PaymentRoutingConditionOrderByWithRelationInput = {
+    id?: SortOrder
+    ruleId?: SortOrder
+    type?: SortOrder
+    operator?: SortOrder
+    value?: SortOrder
+    value2?: SortOrderInput | SortOrder
+    rule?: PaymentRoutingRuleOrderByWithRelationInput
+  }
+
+  export type PaymentRoutingConditionWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: PaymentRoutingConditionWhereInput | PaymentRoutingConditionWhereInput[]
+    OR?: PaymentRoutingConditionWhereInput[]
+    NOT?: PaymentRoutingConditionWhereInput | PaymentRoutingConditionWhereInput[]
+    ruleId?: StringFilter<"PaymentRoutingCondition"> | string
+    type?: StringFilter<"PaymentRoutingCondition"> | string
+    operator?: StringFilter<"PaymentRoutingCondition"> | string
+    value?: StringFilter<"PaymentRoutingCondition"> | string
+    value2?: StringNullableFilter<"PaymentRoutingCondition"> | string | null
+    rule?: XOR<PaymentRoutingRuleRelationFilter, PaymentRoutingRuleWhereInput>
+  }, "id">
+
+  export type PaymentRoutingConditionOrderByWithAggregationInput = {
+    id?: SortOrder
+    ruleId?: SortOrder
+    type?: SortOrder
+    operator?: SortOrder
+    value?: SortOrder
+    value2?: SortOrderInput | SortOrder
+    _count?: PaymentRoutingConditionCountOrderByAggregateInput
+    _max?: PaymentRoutingConditionMaxOrderByAggregateInput
+    _min?: PaymentRoutingConditionMinOrderByAggregateInput
+  }
+
+  export type PaymentRoutingConditionScalarWhereWithAggregatesInput = {
+    AND?: PaymentRoutingConditionScalarWhereWithAggregatesInput | PaymentRoutingConditionScalarWhereWithAggregatesInput[]
+    OR?: PaymentRoutingConditionScalarWhereWithAggregatesInput[]
+    NOT?: PaymentRoutingConditionScalarWhereWithAggregatesInput | PaymentRoutingConditionScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"PaymentRoutingCondition"> | string
+    ruleId?: StringWithAggregatesFilter<"PaymentRoutingCondition"> | string
+    type?: StringWithAggregatesFilter<"PaymentRoutingCondition"> | string
+    operator?: StringWithAggregatesFilter<"PaymentRoutingCondition"> | string
+    value?: StringWithAggregatesFilter<"PaymentRoutingCondition"> | string
+    value2?: StringNullableWithAggregatesFilter<"PaymentRoutingCondition"> | string | null
   }
 
   export type PaymentCategoryCreateInput = {
@@ -62025,6 +64368,156 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type PaymentRoutingRuleCreateInput = {
+    id?: string
+    ownerAddress: string
+    name: string
+    description?: string | null
+    route: string
+    priority?: number
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    conditions?: PaymentRoutingConditionCreateNestedManyWithoutRuleInput
+  }
+
+  export type PaymentRoutingRuleUncheckedCreateInput = {
+    id?: string
+    ownerAddress: string
+    name: string
+    description?: string | null
+    route: string
+    priority?: number
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    conditions?: PaymentRoutingConditionUncheckedCreateNestedManyWithoutRuleInput
+  }
+
+  export type PaymentRoutingRuleUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    ownerAddress?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    route?: StringFieldUpdateOperationsInput | string
+    priority?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    conditions?: PaymentRoutingConditionUpdateManyWithoutRuleNestedInput
+  }
+
+  export type PaymentRoutingRuleUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    ownerAddress?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    route?: StringFieldUpdateOperationsInput | string
+    priority?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    conditions?: PaymentRoutingConditionUncheckedUpdateManyWithoutRuleNestedInput
+  }
+
+  export type PaymentRoutingRuleCreateManyInput = {
+    id?: string
+    ownerAddress: string
+    name: string
+    description?: string | null
+    route: string
+    priority?: number
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PaymentRoutingRuleUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    ownerAddress?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    route?: StringFieldUpdateOperationsInput | string
+    priority?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PaymentRoutingRuleUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    ownerAddress?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    route?: StringFieldUpdateOperationsInput | string
+    priority?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PaymentRoutingConditionCreateInput = {
+    id?: string
+    type: string
+    operator: string
+    value: string
+    value2?: string | null
+    rule: PaymentRoutingRuleCreateNestedOneWithoutConditionsInput
+  }
+
+  export type PaymentRoutingConditionUncheckedCreateInput = {
+    id?: string
+    ruleId: string
+    type: string
+    operator: string
+    value: string
+    value2?: string | null
+  }
+
+  export type PaymentRoutingConditionUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    operator?: StringFieldUpdateOperationsInput | string
+    value?: StringFieldUpdateOperationsInput | string
+    value2?: NullableStringFieldUpdateOperationsInput | string | null
+    rule?: PaymentRoutingRuleUpdateOneRequiredWithoutConditionsNestedInput
+  }
+
+  export type PaymentRoutingConditionUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    ruleId?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    operator?: StringFieldUpdateOperationsInput | string
+    value?: StringFieldUpdateOperationsInput | string
+    value2?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type PaymentRoutingConditionCreateManyInput = {
+    id?: string
+    ruleId: string
+    type: string
+    operator: string
+    value: string
+    value2?: string | null
+  }
+
+  export type PaymentRoutingConditionUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    operator?: StringFieldUpdateOperationsInput | string
+    value?: StringFieldUpdateOperationsInput | string
+    value2?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type PaymentRoutingConditionUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    ruleId?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    operator?: StringFieldUpdateOperationsInput | string
+    value?: StringFieldUpdateOperationsInput | string
+    value2?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -64867,6 +67360,97 @@ export namespace Prisma {
     executionTimeMs?: SortOrder
   }
 
+  export type PaymentRoutingConditionListRelationFilter = {
+    every?: PaymentRoutingConditionWhereInput
+    some?: PaymentRoutingConditionWhereInput
+    none?: PaymentRoutingConditionWhereInput
+  }
+
+  export type PaymentRoutingConditionOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type PaymentRoutingRuleOwnerAddressNameCompoundUniqueInput = {
+    ownerAddress: string
+    name: string
+  }
+
+  export type PaymentRoutingRuleCountOrderByAggregateInput = {
+    id?: SortOrder
+    ownerAddress?: SortOrder
+    name?: SortOrder
+    description?: SortOrder
+    route?: SortOrder
+    priority?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PaymentRoutingRuleAvgOrderByAggregateInput = {
+    priority?: SortOrder
+  }
+
+  export type PaymentRoutingRuleMaxOrderByAggregateInput = {
+    id?: SortOrder
+    ownerAddress?: SortOrder
+    name?: SortOrder
+    description?: SortOrder
+    route?: SortOrder
+    priority?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PaymentRoutingRuleMinOrderByAggregateInput = {
+    id?: SortOrder
+    ownerAddress?: SortOrder
+    name?: SortOrder
+    description?: SortOrder
+    route?: SortOrder
+    priority?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PaymentRoutingRuleSumOrderByAggregateInput = {
+    priority?: SortOrder
+  }
+
+  export type PaymentRoutingRuleRelationFilter = {
+    is?: PaymentRoutingRuleWhereInput
+    isNot?: PaymentRoutingRuleWhereInput
+  }
+
+  export type PaymentRoutingConditionCountOrderByAggregateInput = {
+    id?: SortOrder
+    ruleId?: SortOrder
+    type?: SortOrder
+    operator?: SortOrder
+    value?: SortOrder
+    value2?: SortOrder
+  }
+
+  export type PaymentRoutingConditionMaxOrderByAggregateInput = {
+    id?: SortOrder
+    ruleId?: SortOrder
+    type?: SortOrder
+    operator?: SortOrder
+    value?: SortOrder
+    value2?: SortOrder
+  }
+
+  export type PaymentRoutingConditionMinOrderByAggregateInput = {
+    id?: SortOrder
+    ruleId?: SortOrder
+    type?: SortOrder
+    operator?: SortOrder
+    value?: SortOrder
+    value2?: SortOrder
+  }
+
   export type PaymentCategoryRuleCreateNestedManyWithoutCategoryInput = {
     create?: XOR<PaymentCategoryRuleCreateWithoutCategoryInput, PaymentCategoryRuleUncheckedCreateWithoutCategoryInput> | PaymentCategoryRuleCreateWithoutCategoryInput[] | PaymentCategoryRuleUncheckedCreateWithoutCategoryInput[]
     connectOrCreate?: PaymentCategoryRuleCreateOrConnectWithoutCategoryInput | PaymentCategoryRuleCreateOrConnectWithoutCategoryInput[]
@@ -65314,6 +67898,62 @@ export namespace Prisma {
     upsert?: DisbursementDraftUpsertWithoutVersionsInput
     connect?: DisbursementDraftWhereUniqueInput
     update?: XOR<XOR<DisbursementDraftUpdateToOneWithWhereWithoutVersionsInput, DisbursementDraftUpdateWithoutVersionsInput>, DisbursementDraftUncheckedUpdateWithoutVersionsInput>
+  }
+
+  export type PaymentRoutingConditionCreateNestedManyWithoutRuleInput = {
+    create?: XOR<PaymentRoutingConditionCreateWithoutRuleInput, PaymentRoutingConditionUncheckedCreateWithoutRuleInput> | PaymentRoutingConditionCreateWithoutRuleInput[] | PaymentRoutingConditionUncheckedCreateWithoutRuleInput[]
+    connectOrCreate?: PaymentRoutingConditionCreateOrConnectWithoutRuleInput | PaymentRoutingConditionCreateOrConnectWithoutRuleInput[]
+    createMany?: PaymentRoutingConditionCreateManyRuleInputEnvelope
+    connect?: PaymentRoutingConditionWhereUniqueInput | PaymentRoutingConditionWhereUniqueInput[]
+  }
+
+  export type PaymentRoutingConditionUncheckedCreateNestedManyWithoutRuleInput = {
+    create?: XOR<PaymentRoutingConditionCreateWithoutRuleInput, PaymentRoutingConditionUncheckedCreateWithoutRuleInput> | PaymentRoutingConditionCreateWithoutRuleInput[] | PaymentRoutingConditionUncheckedCreateWithoutRuleInput[]
+    connectOrCreate?: PaymentRoutingConditionCreateOrConnectWithoutRuleInput | PaymentRoutingConditionCreateOrConnectWithoutRuleInput[]
+    createMany?: PaymentRoutingConditionCreateManyRuleInputEnvelope
+    connect?: PaymentRoutingConditionWhereUniqueInput | PaymentRoutingConditionWhereUniqueInput[]
+  }
+
+  export type PaymentRoutingConditionUpdateManyWithoutRuleNestedInput = {
+    create?: XOR<PaymentRoutingConditionCreateWithoutRuleInput, PaymentRoutingConditionUncheckedCreateWithoutRuleInput> | PaymentRoutingConditionCreateWithoutRuleInput[] | PaymentRoutingConditionUncheckedCreateWithoutRuleInput[]
+    connectOrCreate?: PaymentRoutingConditionCreateOrConnectWithoutRuleInput | PaymentRoutingConditionCreateOrConnectWithoutRuleInput[]
+    upsert?: PaymentRoutingConditionUpsertWithWhereUniqueWithoutRuleInput | PaymentRoutingConditionUpsertWithWhereUniqueWithoutRuleInput[]
+    createMany?: PaymentRoutingConditionCreateManyRuleInputEnvelope
+    set?: PaymentRoutingConditionWhereUniqueInput | PaymentRoutingConditionWhereUniqueInput[]
+    disconnect?: PaymentRoutingConditionWhereUniqueInput | PaymentRoutingConditionWhereUniqueInput[]
+    delete?: PaymentRoutingConditionWhereUniqueInput | PaymentRoutingConditionWhereUniqueInput[]
+    connect?: PaymentRoutingConditionWhereUniqueInput | PaymentRoutingConditionWhereUniqueInput[]
+    update?: PaymentRoutingConditionUpdateWithWhereUniqueWithoutRuleInput | PaymentRoutingConditionUpdateWithWhereUniqueWithoutRuleInput[]
+    updateMany?: PaymentRoutingConditionUpdateManyWithWhereWithoutRuleInput | PaymentRoutingConditionUpdateManyWithWhereWithoutRuleInput[]
+    deleteMany?: PaymentRoutingConditionScalarWhereInput | PaymentRoutingConditionScalarWhereInput[]
+  }
+
+  export type PaymentRoutingConditionUncheckedUpdateManyWithoutRuleNestedInput = {
+    create?: XOR<PaymentRoutingConditionCreateWithoutRuleInput, PaymentRoutingConditionUncheckedCreateWithoutRuleInput> | PaymentRoutingConditionCreateWithoutRuleInput[] | PaymentRoutingConditionUncheckedCreateWithoutRuleInput[]
+    connectOrCreate?: PaymentRoutingConditionCreateOrConnectWithoutRuleInput | PaymentRoutingConditionCreateOrConnectWithoutRuleInput[]
+    upsert?: PaymentRoutingConditionUpsertWithWhereUniqueWithoutRuleInput | PaymentRoutingConditionUpsertWithWhereUniqueWithoutRuleInput[]
+    createMany?: PaymentRoutingConditionCreateManyRuleInputEnvelope
+    set?: PaymentRoutingConditionWhereUniqueInput | PaymentRoutingConditionWhereUniqueInput[]
+    disconnect?: PaymentRoutingConditionWhereUniqueInput | PaymentRoutingConditionWhereUniqueInput[]
+    delete?: PaymentRoutingConditionWhereUniqueInput | PaymentRoutingConditionWhereUniqueInput[]
+    connect?: PaymentRoutingConditionWhereUniqueInput | PaymentRoutingConditionWhereUniqueInput[]
+    update?: PaymentRoutingConditionUpdateWithWhereUniqueWithoutRuleInput | PaymentRoutingConditionUpdateWithWhereUniqueWithoutRuleInput[]
+    updateMany?: PaymentRoutingConditionUpdateManyWithWhereWithoutRuleInput | PaymentRoutingConditionUpdateManyWithWhereWithoutRuleInput[]
+    deleteMany?: PaymentRoutingConditionScalarWhereInput | PaymentRoutingConditionScalarWhereInput[]
+  }
+
+  export type PaymentRoutingRuleCreateNestedOneWithoutConditionsInput = {
+    create?: XOR<PaymentRoutingRuleCreateWithoutConditionsInput, PaymentRoutingRuleUncheckedCreateWithoutConditionsInput>
+    connectOrCreate?: PaymentRoutingRuleCreateOrConnectWithoutConditionsInput
+    connect?: PaymentRoutingRuleWhereUniqueInput
+  }
+
+  export type PaymentRoutingRuleUpdateOneRequiredWithoutConditionsNestedInput = {
+    create?: XOR<PaymentRoutingRuleCreateWithoutConditionsInput, PaymentRoutingRuleUncheckedCreateWithoutConditionsInput>
+    connectOrCreate?: PaymentRoutingRuleCreateOrConnectWithoutConditionsInput
+    upsert?: PaymentRoutingRuleUpsertWithoutConditionsInput
+    connect?: PaymentRoutingRuleWhereUniqueInput
+    update?: XOR<XOR<PaymentRoutingRuleUpdateToOneWithWhereWithoutConditionsInput, PaymentRoutingRuleUpdateWithoutConditionsInput>, PaymentRoutingRuleUncheckedUpdateWithoutConditionsInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -66625,6 +69265,124 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type PaymentRoutingConditionCreateWithoutRuleInput = {
+    id?: string
+    type: string
+    operator: string
+    value: string
+    value2?: string | null
+  }
+
+  export type PaymentRoutingConditionUncheckedCreateWithoutRuleInput = {
+    id?: string
+    type: string
+    operator: string
+    value: string
+    value2?: string | null
+  }
+
+  export type PaymentRoutingConditionCreateOrConnectWithoutRuleInput = {
+    where: PaymentRoutingConditionWhereUniqueInput
+    create: XOR<PaymentRoutingConditionCreateWithoutRuleInput, PaymentRoutingConditionUncheckedCreateWithoutRuleInput>
+  }
+
+  export type PaymentRoutingConditionCreateManyRuleInputEnvelope = {
+    data: PaymentRoutingConditionCreateManyRuleInput | PaymentRoutingConditionCreateManyRuleInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type PaymentRoutingConditionUpsertWithWhereUniqueWithoutRuleInput = {
+    where: PaymentRoutingConditionWhereUniqueInput
+    update: XOR<PaymentRoutingConditionUpdateWithoutRuleInput, PaymentRoutingConditionUncheckedUpdateWithoutRuleInput>
+    create: XOR<PaymentRoutingConditionCreateWithoutRuleInput, PaymentRoutingConditionUncheckedCreateWithoutRuleInput>
+  }
+
+  export type PaymentRoutingConditionUpdateWithWhereUniqueWithoutRuleInput = {
+    where: PaymentRoutingConditionWhereUniqueInput
+    data: XOR<PaymentRoutingConditionUpdateWithoutRuleInput, PaymentRoutingConditionUncheckedUpdateWithoutRuleInput>
+  }
+
+  export type PaymentRoutingConditionUpdateManyWithWhereWithoutRuleInput = {
+    where: PaymentRoutingConditionScalarWhereInput
+    data: XOR<PaymentRoutingConditionUpdateManyMutationInput, PaymentRoutingConditionUncheckedUpdateManyWithoutRuleInput>
+  }
+
+  export type PaymentRoutingConditionScalarWhereInput = {
+    AND?: PaymentRoutingConditionScalarWhereInput | PaymentRoutingConditionScalarWhereInput[]
+    OR?: PaymentRoutingConditionScalarWhereInput[]
+    NOT?: PaymentRoutingConditionScalarWhereInput | PaymentRoutingConditionScalarWhereInput[]
+    id?: StringFilter<"PaymentRoutingCondition"> | string
+    ruleId?: StringFilter<"PaymentRoutingCondition"> | string
+    type?: StringFilter<"PaymentRoutingCondition"> | string
+    operator?: StringFilter<"PaymentRoutingCondition"> | string
+    value?: StringFilter<"PaymentRoutingCondition"> | string
+    value2?: StringNullableFilter<"PaymentRoutingCondition"> | string | null
+  }
+
+  export type PaymentRoutingRuleCreateWithoutConditionsInput = {
+    id?: string
+    ownerAddress: string
+    name: string
+    description?: string | null
+    route: string
+    priority?: number
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PaymentRoutingRuleUncheckedCreateWithoutConditionsInput = {
+    id?: string
+    ownerAddress: string
+    name: string
+    description?: string | null
+    route: string
+    priority?: number
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PaymentRoutingRuleCreateOrConnectWithoutConditionsInput = {
+    where: PaymentRoutingRuleWhereUniqueInput
+    create: XOR<PaymentRoutingRuleCreateWithoutConditionsInput, PaymentRoutingRuleUncheckedCreateWithoutConditionsInput>
+  }
+
+  export type PaymentRoutingRuleUpsertWithoutConditionsInput = {
+    update: XOR<PaymentRoutingRuleUpdateWithoutConditionsInput, PaymentRoutingRuleUncheckedUpdateWithoutConditionsInput>
+    create: XOR<PaymentRoutingRuleCreateWithoutConditionsInput, PaymentRoutingRuleUncheckedCreateWithoutConditionsInput>
+    where?: PaymentRoutingRuleWhereInput
+  }
+
+  export type PaymentRoutingRuleUpdateToOneWithWhereWithoutConditionsInput = {
+    where?: PaymentRoutingRuleWhereInput
+    data: XOR<PaymentRoutingRuleUpdateWithoutConditionsInput, PaymentRoutingRuleUncheckedUpdateWithoutConditionsInput>
+  }
+
+  export type PaymentRoutingRuleUpdateWithoutConditionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    ownerAddress?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    route?: StringFieldUpdateOperationsInput | string
+    priority?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PaymentRoutingRuleUncheckedUpdateWithoutConditionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    ownerAddress?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    route?: StringFieldUpdateOperationsInput | string
+    priority?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type PaymentCategoryRuleCreateManyCategoryInput = {
     id?: string
     field: string
@@ -66931,6 +69689,38 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type PaymentRoutingConditionCreateManyRuleInput = {
+    id?: string
+    type: string
+    operator: string
+    value: string
+    value2?: string | null
+  }
+
+  export type PaymentRoutingConditionUpdateWithoutRuleInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    operator?: StringFieldUpdateOperationsInput | string
+    value?: StringFieldUpdateOperationsInput | string
+    value2?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type PaymentRoutingConditionUncheckedUpdateWithoutRuleInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    operator?: StringFieldUpdateOperationsInput | string
+    value?: StringFieldUpdateOperationsInput | string
+    value2?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type PaymentRoutingConditionUncheckedUpdateManyWithoutRuleInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    operator?: StringFieldUpdateOperationsInput | string
+    value?: StringFieldUpdateOperationsInput | string
+    value2?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
 
 
   /**
@@ -66952,6 +69742,10 @@ export namespace Prisma {
      * @deprecated Use DisbursementDraftCountOutputTypeDefaultArgs instead
      */
     export type DisbursementDraftCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = DisbursementDraftCountOutputTypeDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use PaymentRoutingRuleCountOutputTypeDefaultArgs instead
+     */
+    export type PaymentRoutingRuleCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = PaymentRoutingRuleCountOutputTypeDefaultArgs<ExtArgs>
     /**
      * @deprecated Use PaymentCategoryDefaultArgs instead
      */
@@ -67148,6 +69942,14 @@ export namespace Prisma {
      * @deprecated Use AdminAuditLogDefaultArgs instead
      */
     export type AdminAuditLogArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = AdminAuditLogDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use PaymentRoutingRuleDefaultArgs instead
+     */
+    export type PaymentRoutingRuleArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = PaymentRoutingRuleDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use PaymentRoutingConditionDefaultArgs instead
+     */
+    export type PaymentRoutingConditionArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = PaymentRoutingConditionDefaultArgs<ExtArgs>
 
   /**
    * Batch Payload for updateMany & deleteMany & createMany
