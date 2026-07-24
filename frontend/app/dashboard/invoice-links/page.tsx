@@ -1,6 +1,8 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { Fragment, useEffect, useMemo, useState } from "react";
+import { QrCode } from "lucide-react";
+import { QRStudio } from "@/components/qr-studio";
 
 type InvoiceStatus = "DRAFT" | "SIGNED" | "COMPLETED" | "EXPIRED";
 
@@ -18,6 +20,7 @@ interface InvoiceLink {
   status: InvoiceStatus;
   expiresAt?: string;
   createdAt: string;
+  shareUrl?: string;
   updatedAt: string;
 }
 
@@ -35,6 +38,7 @@ const UNPAID_STATUSES: InvoiceStatus[] = ["DRAFT", "SIGNED"];
 export default function InvoiceLinksPage() {
   const [invoices, setInvoices] = useState<InvoiceLink[]>([]);
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
+  const [qrOpenId, setQrOpenId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [bundleStatus, setBundleStatus] = useState<"idle" | "pending" | "complete" | "error">("idle");
@@ -87,6 +91,14 @@ export default function InvoiceLinksPage() {
   const addToSplitter = (invoice: InvoiceLink) => {
     toggleSelect(invoice.id);
   };
+
+  const toggleQr = (id: string) => {
+    setQrOpenId((prev) => (prev === id ? null : id));
+  };
+
+  const shareUrlFor = (invoice: InvoiceLink) =>
+    invoice.shareUrl ??
+    `${typeof window !== "undefined" ? window.location.origin : ""}/invoice/${invoice.slug}`;
 
   const bundleToSplitter = async () => {
     if (selectedInvoices.length === 0) {
@@ -164,32 +176,59 @@ export default function InvoiceLinksPage() {
                 <th className="px-4 py-3">Invoice</th>
                 <th className="px-4 py-3">Status</th>
                 <th className="px-4 py-3">Action</th>
+                <th className="px-4 py-3">QR Code</th>
               </tr>
             </thead>
             <tbody>
               {unpaidInvoices.map((invoice) => {
                 const isSelected = selectedIds.has(invoice.id);
+                const qrOpen = qrOpenId === invoice.id;
                 return (
-                  <tr key={invoice.id} className={isSelected ? "bg-cyan-500/10" : ""}>
-                    <td className="px-4 py-3 font-mono text-xs text-white/85">{invoice.receiver}</td>
-                    <td className="px-4 py-3 text-sm font-medium">{invoice.amount}</td>
-                    <td className="px-4 py-3 text-sm">{invoice.tokenAddress ?? "--"}</td>
-                    <td className="px-4 py-3 text-sm">{invoice.slug}</td>
-                    <td className="px-4 py-3 text-sm">{invoice.status}</td>
-                    <td className="px-4 py-3">
-                      <button
-                        onClick={() => addToSplitter(invoice)}
-                        className={`rounded-lg px-3 py-1 text-xs font-semibold transition ${
-                          isSelected
-                            ? "bg-emerald-400 text-black"
-                            : "bg-slate-700/70 text-white hover:bg-slate-600"
-                        }`}
-                        data-testid={`add-to-splitter-${invoice.id}`}
-                      >
-                        {isSelected ? "Remove from Splitter" : "Add to Splitter"}
-                      </button>
-                    </td>
-                  </tr>
+                  <Fragment key={invoice.id}>
+                    <tr className={isSelected ? "bg-cyan-500/10" : ""}>
+                      <td className="px-4 py-3 font-mono text-xs text-white/85">{invoice.receiver}</td>
+                      <td className="px-4 py-3 text-sm font-medium">{invoice.amount}</td>
+                      <td className="px-4 py-3 text-sm">{invoice.tokenAddress ?? "--"}</td>
+                      <td className="px-4 py-3 text-sm">{invoice.slug}</td>
+                      <td className="px-4 py-3 text-sm">{invoice.status}</td>
+                      <td className="px-4 py-3">
+                        <button
+                          onClick={() => addToSplitter(invoice)}
+                          className={`rounded-lg px-3 py-1 text-xs font-semibold transition ${
+                            isSelected
+                              ? "bg-emerald-400 text-black"
+                              : "bg-slate-700/70 text-white hover:bg-slate-600"
+                          }`}
+                          data-testid={`add-to-splitter-${invoice.id}`}
+                        >
+                          {isSelected ? "Remove from Splitter" : "Add to Splitter"}
+                        </button>
+                      </td>
+                      <td className="px-4 py-3">
+                        <button
+                          onClick={() => toggleQr(invoice.id)}
+                          className={`inline-flex items-center gap-1.5 rounded-lg px-3 py-1 text-xs font-semibold transition ${
+                            qrOpen
+                              ? "bg-cyan-400 text-black"
+                              : "bg-slate-700/70 text-white hover:bg-slate-600"
+                          }`}
+                          data-testid={`toggle-qr-${invoice.id}`}
+                        >
+                          <QrCode className="h-3.5 w-3.5" />
+                          {qrOpen ? "Hide QR" : "Show QR"}
+                        </button>
+                      </td>
+                    </tr>
+                    {qrOpen && (
+                      <tr>
+                        <td colSpan={7} className="bg-black/20 px-4 py-6">
+                          <div className="max-w-sm">
+                            <QRStudio url={shareUrlFor(invoice)} />
+                          </div>
+                        </td>
+                      </tr>
+                    )}
+                  </Fragment>
                 );
               })}
             </tbody>
