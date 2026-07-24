@@ -169,6 +169,11 @@ export type ArchivedDisbursement = $Result.DefaultSelection<Prisma.$ArchivedDisb
  */
 export type Disbursement = $Result.DefaultSelection<Prisma.$DisbursementPayload>
 /**
+ * Model PaymentStatusEvent
+ * 
+ */
+export type PaymentStatusEvent = $Result.DefaultSelection<Prisma.$PaymentStatusEventPayload>
+/**
  * Model AssetMapping
  * 
  */
@@ -276,6 +281,18 @@ export const DisbursementStatus: {
 
 export type DisbursementStatus = (typeof DisbursementStatus)[keyof typeof DisbursementStatus]
 
+
+export const PaymentTrackingStatus: {
+  INITIATED: 'INITIATED',
+  PENDING: 'PENDING',
+  PROCESSING: 'PROCESSING',
+  CONFIRMED: 'CONFIRMED',
+  FAILED: 'FAILED',
+  REFUNDED: 'REFUNDED'
+};
+
+export type PaymentTrackingStatus = (typeof PaymentTrackingStatus)[keyof typeof PaymentTrackingStatus]
+
 }
 
 export type StreamStatus = $Enums.StreamStatus
@@ -293,6 +310,10 @@ export const NotificationPlatform: typeof $Enums.NotificationPlatform
 export type DisbursementStatus = $Enums.DisbursementStatus
 
 export const DisbursementStatus: typeof $Enums.DisbursementStatus
+
+export type PaymentTrackingStatus = $Enums.PaymentTrackingStatus
+
+export const PaymentTrackingStatus: typeof $Enums.PaymentTrackingStatus
 
 /**
  * ##  Prisma Client ʲˢ
@@ -726,6 +747,16 @@ export class PrismaClient<
     * ```
     */
   get disbursement(): Prisma.DisbursementDelegate<ExtArgs>;
+
+  /**
+   * `prisma.paymentStatusEvent`: Exposes CRUD operations for the **PaymentStatusEvent** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more PaymentStatusEvents
+    * const paymentStatusEvents = await prisma.paymentStatusEvent.findMany()
+    * ```
+    */
+  get paymentStatusEvent(): Prisma.PaymentStatusEventDelegate<ExtArgs>;
 
   /**
    * `prisma.assetMapping`: Exposes CRUD operations for the **AssetMapping** model.
@@ -1328,6 +1359,7 @@ export namespace Prisma {
     AssetConfig: 'AssetConfig',
     ArchivedDisbursement: 'ArchivedDisbursement',
     Disbursement: 'Disbursement',
+    PaymentStatusEvent: 'PaymentStatusEvent',
     AssetMapping: 'AssetMapping',
     PriceHistory: 'PriceHistory',
     ProtocolInefficiencyReport: 'ProtocolInefficiencyReport',
@@ -1356,7 +1388,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, ClientOptions = {}> = {
     meta: {
-      modelProps: "paymentCategory" | "paymentMetadata" | "paymentCategoryRule" | "stream" | "contractEvent" | "tokenPrice" | "webhook" | "webhookDelivery" | "syncState" | "eventLog" | "streamSnapshot" | "streamArchive" | "bridgeLog" | "proposal" | "event" | "organizationMember" | "apiKey" | "ledgerHash" | "syncMetadata" | "clawbackHistory" | "notificationSubscription" | "invoiceLink" | "affiliate" | "globalStats" | "globalStats_V3" | "tvlSnapshot" | "asset" | "autopilotSchedule" | "assetConfig" | "archivedDisbursement" | "disbursement" | "assetMapping" | "priceHistory" | "protocolInefficiencyReport" | "splitLog" | "monitoredTransaction" | "disbursementDraft" | "disbursementDraftVersion" | "multisigProposal" | "cachedAsset" | "streamTemplate" | "splitLink" | "ofacAuditLog" | "adminAuditLog"
+      modelProps: "paymentCategory" | "paymentMetadata" | "paymentCategoryRule" | "stream" | "contractEvent" | "tokenPrice" | "webhook" | "webhookDelivery" | "syncState" | "eventLog" | "streamSnapshot" | "streamArchive" | "bridgeLog" | "proposal" | "event" | "organizationMember" | "apiKey" | "ledgerHash" | "syncMetadata" | "clawbackHistory" | "notificationSubscription" | "invoiceLink" | "affiliate" | "globalStats" | "globalStats_V3" | "tvlSnapshot" | "asset" | "autopilotSchedule" | "assetConfig" | "archivedDisbursement" | "disbursement" | "paymentStatusEvent" | "assetMapping" | "priceHistory" | "protocolInefficiencyReport" | "splitLog" | "monitoredTransaction" | "disbursementDraft" | "disbursementDraftVersion" | "multisigProposal" | "cachedAsset" | "streamTemplate" | "splitLink" | "ofacAuditLog" | "adminAuditLog"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -3530,6 +3562,76 @@ export namespace Prisma {
           }
         }
       }
+      PaymentStatusEvent: {
+        payload: Prisma.$PaymentStatusEventPayload<ExtArgs>
+        fields: Prisma.PaymentStatusEventFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.PaymentStatusEventFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentStatusEventPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.PaymentStatusEventFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentStatusEventPayload>
+          }
+          findFirst: {
+            args: Prisma.PaymentStatusEventFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentStatusEventPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.PaymentStatusEventFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentStatusEventPayload>
+          }
+          findMany: {
+            args: Prisma.PaymentStatusEventFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentStatusEventPayload>[]
+          }
+          create: {
+            args: Prisma.PaymentStatusEventCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentStatusEventPayload>
+          }
+          createMany: {
+            args: Prisma.PaymentStatusEventCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.PaymentStatusEventCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentStatusEventPayload>[]
+          }
+          delete: {
+            args: Prisma.PaymentStatusEventDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentStatusEventPayload>
+          }
+          update: {
+            args: Prisma.PaymentStatusEventUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentStatusEventPayload>
+          }
+          deleteMany: {
+            args: Prisma.PaymentStatusEventDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.PaymentStatusEventUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.PaymentStatusEventUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentStatusEventPayload>
+          }
+          aggregate: {
+            args: Prisma.PaymentStatusEventAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregatePaymentStatusEvent>
+          }
+          groupBy: {
+            args: Prisma.PaymentStatusEventGroupByArgs<ExtArgs>
+            result: $Utils.Optional<PaymentStatusEventGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.PaymentStatusEventCountArgs<ExtArgs>
+            result: $Utils.Optional<PaymentStatusEventCountAggregateOutputType> | number
+          }
+        }
+      }
       AssetMapping: {
         payload: Prisma.$AssetMappingPayload<ExtArgs>
         fields: Prisma.AssetMappingFieldRefs
@@ -4642,6 +4744,37 @@ export namespace Prisma {
    */
   export type PaymentCategoryCountOutputTypeCountDisbursementsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: DisbursementWhereInput
+  }
+
+
+  /**
+   * Count Type DisbursementCountOutputType
+   */
+
+  export type DisbursementCountOutputType = {
+    statusEvents: number
+  }
+
+  export type DisbursementCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    statusEvents?: boolean | DisbursementCountOutputTypeCountStatusEventsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * DisbursementCountOutputType without action
+   */
+  export type DisbursementCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DisbursementCountOutputType
+     */
+    select?: DisbursementCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * DisbursementCountOutputType without action
+   */
+  export type DisbursementCountOutputTypeCountStatusEventsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PaymentStatusEventWhereInput
   }
 
 
@@ -33807,6 +33940,8 @@ export namespace Prisma {
     batchId?: boolean
     categoryId?: boolean
     category?: boolean | Disbursement$categoryArgs<ExtArgs>
+    statusEvents?: boolean | Disbursement$statusEventsArgs<ExtArgs>
+    _count?: boolean | DisbursementCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["disbursement"]>
 
   export type DisbursementSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -33844,6 +33979,8 @@ export namespace Prisma {
 
   export type DisbursementInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     category?: boolean | Disbursement$categoryArgs<ExtArgs>
+    statusEvents?: boolean | Disbursement$statusEventsArgs<ExtArgs>
+    _count?: boolean | DisbursementCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type DisbursementIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     category?: boolean | Disbursement$categoryArgs<ExtArgs>
@@ -33853,6 +33990,7 @@ export namespace Prisma {
     name: "Disbursement"
     objects: {
       category: Prisma.$PaymentCategoryPayload<ExtArgs> | null
+      statusEvents: Prisma.$PaymentStatusEventPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -34233,6 +34371,7 @@ export namespace Prisma {
   export interface Prisma__DisbursementClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     category<T extends Disbursement$categoryArgs<ExtArgs> = {}>(args?: Subset<T, Disbursement$categoryArgs<ExtArgs>>): Prisma__PaymentCategoryClient<$Result.GetResult<Prisma.$PaymentCategoryPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
+    statusEvents<T extends Disbursement$statusEventsArgs<ExtArgs> = {}>(args?: Subset<T, Disbursement$statusEventsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PaymentStatusEventPayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -34608,6 +34747,26 @@ export namespace Prisma {
   }
 
   /**
+   * Disbursement.statusEvents
+   */
+  export type Disbursement$statusEventsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentStatusEvent
+     */
+    select?: PaymentStatusEventSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentStatusEventInclude<ExtArgs> | null
+    where?: PaymentStatusEventWhereInput
+    orderBy?: PaymentStatusEventOrderByWithRelationInput | PaymentStatusEventOrderByWithRelationInput[]
+    cursor?: PaymentStatusEventWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PaymentStatusEventScalarFieldEnum | PaymentStatusEventScalarFieldEnum[]
+  }
+
+  /**
    * Disbursement without action
    */
   export type DisbursementDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -34619,6 +34778,951 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: DisbursementInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model PaymentStatusEvent
+   */
+
+  export type AggregatePaymentStatusEvent = {
+    _count: PaymentStatusEventCountAggregateOutputType | null
+    _min: PaymentStatusEventMinAggregateOutputType | null
+    _max: PaymentStatusEventMaxAggregateOutputType | null
+  }
+
+  export type PaymentStatusEventMinAggregateOutputType = {
+    id: string | null
+    disbursementId: string | null
+    status: $Enums.PaymentTrackingStatus | null
+    previousStatus: $Enums.PaymentTrackingStatus | null
+    note: string | null
+    createdAt: Date | null
+  }
+
+  export type PaymentStatusEventMaxAggregateOutputType = {
+    id: string | null
+    disbursementId: string | null
+    status: $Enums.PaymentTrackingStatus | null
+    previousStatus: $Enums.PaymentTrackingStatus | null
+    note: string | null
+    createdAt: Date | null
+  }
+
+  export type PaymentStatusEventCountAggregateOutputType = {
+    id: number
+    disbursementId: number
+    status: number
+    previousStatus: number
+    note: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type PaymentStatusEventMinAggregateInputType = {
+    id?: true
+    disbursementId?: true
+    status?: true
+    previousStatus?: true
+    note?: true
+    createdAt?: true
+  }
+
+  export type PaymentStatusEventMaxAggregateInputType = {
+    id?: true
+    disbursementId?: true
+    status?: true
+    previousStatus?: true
+    note?: true
+    createdAt?: true
+  }
+
+  export type PaymentStatusEventCountAggregateInputType = {
+    id?: true
+    disbursementId?: true
+    status?: true
+    previousStatus?: true
+    note?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type PaymentStatusEventAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PaymentStatusEvent to aggregate.
+     */
+    where?: PaymentStatusEventWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PaymentStatusEvents to fetch.
+     */
+    orderBy?: PaymentStatusEventOrderByWithRelationInput | PaymentStatusEventOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: PaymentStatusEventWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PaymentStatusEvents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PaymentStatusEvents.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned PaymentStatusEvents
+    **/
+    _count?: true | PaymentStatusEventCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: PaymentStatusEventMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: PaymentStatusEventMaxAggregateInputType
+  }
+
+  export type GetPaymentStatusEventAggregateType<T extends PaymentStatusEventAggregateArgs> = {
+        [P in keyof T & keyof AggregatePaymentStatusEvent]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregatePaymentStatusEvent[P]>
+      : GetScalarType<T[P], AggregatePaymentStatusEvent[P]>
+  }
+
+
+
+
+  export type PaymentStatusEventGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PaymentStatusEventWhereInput
+    orderBy?: PaymentStatusEventOrderByWithAggregationInput | PaymentStatusEventOrderByWithAggregationInput[]
+    by: PaymentStatusEventScalarFieldEnum[] | PaymentStatusEventScalarFieldEnum
+    having?: PaymentStatusEventScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: PaymentStatusEventCountAggregateInputType | true
+    _min?: PaymentStatusEventMinAggregateInputType
+    _max?: PaymentStatusEventMaxAggregateInputType
+  }
+
+  export type PaymentStatusEventGroupByOutputType = {
+    id: string
+    disbursementId: string
+    status: $Enums.PaymentTrackingStatus
+    previousStatus: $Enums.PaymentTrackingStatus | null
+    note: string | null
+    createdAt: Date
+    _count: PaymentStatusEventCountAggregateOutputType | null
+    _min: PaymentStatusEventMinAggregateOutputType | null
+    _max: PaymentStatusEventMaxAggregateOutputType | null
+  }
+
+  type GetPaymentStatusEventGroupByPayload<T extends PaymentStatusEventGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<PaymentStatusEventGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof PaymentStatusEventGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], PaymentStatusEventGroupByOutputType[P]>
+            : GetScalarType<T[P], PaymentStatusEventGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type PaymentStatusEventSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    disbursementId?: boolean
+    status?: boolean
+    previousStatus?: boolean
+    note?: boolean
+    createdAt?: boolean
+    disbursement?: boolean | DisbursementDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["paymentStatusEvent"]>
+
+  export type PaymentStatusEventSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    disbursementId?: boolean
+    status?: boolean
+    previousStatus?: boolean
+    note?: boolean
+    createdAt?: boolean
+    disbursement?: boolean | DisbursementDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["paymentStatusEvent"]>
+
+  export type PaymentStatusEventSelectScalar = {
+    id?: boolean
+    disbursementId?: boolean
+    status?: boolean
+    previousStatus?: boolean
+    note?: boolean
+    createdAt?: boolean
+  }
+
+  export type PaymentStatusEventInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    disbursement?: boolean | DisbursementDefaultArgs<ExtArgs>
+  }
+  export type PaymentStatusEventIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    disbursement?: boolean | DisbursementDefaultArgs<ExtArgs>
+  }
+
+  export type $PaymentStatusEventPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "PaymentStatusEvent"
+    objects: {
+      disbursement: Prisma.$DisbursementPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      disbursementId: string
+      status: $Enums.PaymentTrackingStatus
+      previousStatus: $Enums.PaymentTrackingStatus | null
+      note: string | null
+      createdAt: Date
+    }, ExtArgs["result"]["paymentStatusEvent"]>
+    composites: {}
+  }
+
+  type PaymentStatusEventGetPayload<S extends boolean | null | undefined | PaymentStatusEventDefaultArgs> = $Result.GetResult<Prisma.$PaymentStatusEventPayload, S>
+
+  type PaymentStatusEventCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<PaymentStatusEventFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: PaymentStatusEventCountAggregateInputType | true
+    }
+
+  export interface PaymentStatusEventDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['PaymentStatusEvent'], meta: { name: 'PaymentStatusEvent' } }
+    /**
+     * Find zero or one PaymentStatusEvent that matches the filter.
+     * @param {PaymentStatusEventFindUniqueArgs} args - Arguments to find a PaymentStatusEvent
+     * @example
+     * // Get one PaymentStatusEvent
+     * const paymentStatusEvent = await prisma.paymentStatusEvent.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends PaymentStatusEventFindUniqueArgs>(args: SelectSubset<T, PaymentStatusEventFindUniqueArgs<ExtArgs>>): Prisma__PaymentStatusEventClient<$Result.GetResult<Prisma.$PaymentStatusEventPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one PaymentStatusEvent that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {PaymentStatusEventFindUniqueOrThrowArgs} args - Arguments to find a PaymentStatusEvent
+     * @example
+     * // Get one PaymentStatusEvent
+     * const paymentStatusEvent = await prisma.paymentStatusEvent.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends PaymentStatusEventFindUniqueOrThrowArgs>(args: SelectSubset<T, PaymentStatusEventFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PaymentStatusEventClient<$Result.GetResult<Prisma.$PaymentStatusEventPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first PaymentStatusEvent that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PaymentStatusEventFindFirstArgs} args - Arguments to find a PaymentStatusEvent
+     * @example
+     * // Get one PaymentStatusEvent
+     * const paymentStatusEvent = await prisma.paymentStatusEvent.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends PaymentStatusEventFindFirstArgs>(args?: SelectSubset<T, PaymentStatusEventFindFirstArgs<ExtArgs>>): Prisma__PaymentStatusEventClient<$Result.GetResult<Prisma.$PaymentStatusEventPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first PaymentStatusEvent that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PaymentStatusEventFindFirstOrThrowArgs} args - Arguments to find a PaymentStatusEvent
+     * @example
+     * // Get one PaymentStatusEvent
+     * const paymentStatusEvent = await prisma.paymentStatusEvent.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends PaymentStatusEventFindFirstOrThrowArgs>(args?: SelectSubset<T, PaymentStatusEventFindFirstOrThrowArgs<ExtArgs>>): Prisma__PaymentStatusEventClient<$Result.GetResult<Prisma.$PaymentStatusEventPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more PaymentStatusEvents that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PaymentStatusEventFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all PaymentStatusEvents
+     * const paymentStatusEvents = await prisma.paymentStatusEvent.findMany()
+     * 
+     * // Get first 10 PaymentStatusEvents
+     * const paymentStatusEvents = await prisma.paymentStatusEvent.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const paymentStatusEventWithIdOnly = await prisma.paymentStatusEvent.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends PaymentStatusEventFindManyArgs>(args?: SelectSubset<T, PaymentStatusEventFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PaymentStatusEventPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a PaymentStatusEvent.
+     * @param {PaymentStatusEventCreateArgs} args - Arguments to create a PaymentStatusEvent.
+     * @example
+     * // Create one PaymentStatusEvent
+     * const PaymentStatusEvent = await prisma.paymentStatusEvent.create({
+     *   data: {
+     *     // ... data to create a PaymentStatusEvent
+     *   }
+     * })
+     * 
+     */
+    create<T extends PaymentStatusEventCreateArgs>(args: SelectSubset<T, PaymentStatusEventCreateArgs<ExtArgs>>): Prisma__PaymentStatusEventClient<$Result.GetResult<Prisma.$PaymentStatusEventPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many PaymentStatusEvents.
+     * @param {PaymentStatusEventCreateManyArgs} args - Arguments to create many PaymentStatusEvents.
+     * @example
+     * // Create many PaymentStatusEvents
+     * const paymentStatusEvent = await prisma.paymentStatusEvent.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends PaymentStatusEventCreateManyArgs>(args?: SelectSubset<T, PaymentStatusEventCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many PaymentStatusEvents and returns the data saved in the database.
+     * @param {PaymentStatusEventCreateManyAndReturnArgs} args - Arguments to create many PaymentStatusEvents.
+     * @example
+     * // Create many PaymentStatusEvents
+     * const paymentStatusEvent = await prisma.paymentStatusEvent.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many PaymentStatusEvents and only return the `id`
+     * const paymentStatusEventWithIdOnly = await prisma.paymentStatusEvent.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends PaymentStatusEventCreateManyAndReturnArgs>(args?: SelectSubset<T, PaymentStatusEventCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PaymentStatusEventPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a PaymentStatusEvent.
+     * @param {PaymentStatusEventDeleteArgs} args - Arguments to delete one PaymentStatusEvent.
+     * @example
+     * // Delete one PaymentStatusEvent
+     * const PaymentStatusEvent = await prisma.paymentStatusEvent.delete({
+     *   where: {
+     *     // ... filter to delete one PaymentStatusEvent
+     *   }
+     * })
+     * 
+     */
+    delete<T extends PaymentStatusEventDeleteArgs>(args: SelectSubset<T, PaymentStatusEventDeleteArgs<ExtArgs>>): Prisma__PaymentStatusEventClient<$Result.GetResult<Prisma.$PaymentStatusEventPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one PaymentStatusEvent.
+     * @param {PaymentStatusEventUpdateArgs} args - Arguments to update one PaymentStatusEvent.
+     * @example
+     * // Update one PaymentStatusEvent
+     * const paymentStatusEvent = await prisma.paymentStatusEvent.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends PaymentStatusEventUpdateArgs>(args: SelectSubset<T, PaymentStatusEventUpdateArgs<ExtArgs>>): Prisma__PaymentStatusEventClient<$Result.GetResult<Prisma.$PaymentStatusEventPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more PaymentStatusEvents.
+     * @param {PaymentStatusEventDeleteManyArgs} args - Arguments to filter PaymentStatusEvents to delete.
+     * @example
+     * // Delete a few PaymentStatusEvents
+     * const { count } = await prisma.paymentStatusEvent.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends PaymentStatusEventDeleteManyArgs>(args?: SelectSubset<T, PaymentStatusEventDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PaymentStatusEvents.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PaymentStatusEventUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many PaymentStatusEvents
+     * const paymentStatusEvent = await prisma.paymentStatusEvent.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends PaymentStatusEventUpdateManyArgs>(args: SelectSubset<T, PaymentStatusEventUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one PaymentStatusEvent.
+     * @param {PaymentStatusEventUpsertArgs} args - Arguments to update or create a PaymentStatusEvent.
+     * @example
+     * // Update or create a PaymentStatusEvent
+     * const paymentStatusEvent = await prisma.paymentStatusEvent.upsert({
+     *   create: {
+     *     // ... data to create a PaymentStatusEvent
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the PaymentStatusEvent we want to update
+     *   }
+     * })
+     */
+    upsert<T extends PaymentStatusEventUpsertArgs>(args: SelectSubset<T, PaymentStatusEventUpsertArgs<ExtArgs>>): Prisma__PaymentStatusEventClient<$Result.GetResult<Prisma.$PaymentStatusEventPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of PaymentStatusEvents.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PaymentStatusEventCountArgs} args - Arguments to filter PaymentStatusEvents to count.
+     * @example
+     * // Count the number of PaymentStatusEvents
+     * const count = await prisma.paymentStatusEvent.count({
+     *   where: {
+     *     // ... the filter for the PaymentStatusEvents we want to count
+     *   }
+     * })
+    **/
+    count<T extends PaymentStatusEventCountArgs>(
+      args?: Subset<T, PaymentStatusEventCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], PaymentStatusEventCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a PaymentStatusEvent.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PaymentStatusEventAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends PaymentStatusEventAggregateArgs>(args: Subset<T, PaymentStatusEventAggregateArgs>): Prisma.PrismaPromise<GetPaymentStatusEventAggregateType<T>>
+
+    /**
+     * Group by PaymentStatusEvent.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PaymentStatusEventGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends PaymentStatusEventGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: PaymentStatusEventGroupByArgs['orderBy'] }
+        : { orderBy?: PaymentStatusEventGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, PaymentStatusEventGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPaymentStatusEventGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the PaymentStatusEvent model
+   */
+  readonly fields: PaymentStatusEventFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for PaymentStatusEvent.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__PaymentStatusEventClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    disbursement<T extends DisbursementDefaultArgs<ExtArgs> = {}>(args?: Subset<T, DisbursementDefaultArgs<ExtArgs>>): Prisma__DisbursementClient<$Result.GetResult<Prisma.$DisbursementPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the PaymentStatusEvent model
+   */ 
+  interface PaymentStatusEventFieldRefs {
+    readonly id: FieldRef<"PaymentStatusEvent", 'String'>
+    readonly disbursementId: FieldRef<"PaymentStatusEvent", 'String'>
+    readonly status: FieldRef<"PaymentStatusEvent", 'PaymentTrackingStatus'>
+    readonly previousStatus: FieldRef<"PaymentStatusEvent", 'PaymentTrackingStatus'>
+    readonly note: FieldRef<"PaymentStatusEvent", 'String'>
+    readonly createdAt: FieldRef<"PaymentStatusEvent", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * PaymentStatusEvent findUnique
+   */
+  export type PaymentStatusEventFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentStatusEvent
+     */
+    select?: PaymentStatusEventSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentStatusEventInclude<ExtArgs> | null
+    /**
+     * Filter, which PaymentStatusEvent to fetch.
+     */
+    where: PaymentStatusEventWhereUniqueInput
+  }
+
+  /**
+   * PaymentStatusEvent findUniqueOrThrow
+   */
+  export type PaymentStatusEventFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentStatusEvent
+     */
+    select?: PaymentStatusEventSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentStatusEventInclude<ExtArgs> | null
+    /**
+     * Filter, which PaymentStatusEvent to fetch.
+     */
+    where: PaymentStatusEventWhereUniqueInput
+  }
+
+  /**
+   * PaymentStatusEvent findFirst
+   */
+  export type PaymentStatusEventFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentStatusEvent
+     */
+    select?: PaymentStatusEventSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentStatusEventInclude<ExtArgs> | null
+    /**
+     * Filter, which PaymentStatusEvent to fetch.
+     */
+    where?: PaymentStatusEventWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PaymentStatusEvents to fetch.
+     */
+    orderBy?: PaymentStatusEventOrderByWithRelationInput | PaymentStatusEventOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PaymentStatusEvents.
+     */
+    cursor?: PaymentStatusEventWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PaymentStatusEvents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PaymentStatusEvents.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PaymentStatusEvents.
+     */
+    distinct?: PaymentStatusEventScalarFieldEnum | PaymentStatusEventScalarFieldEnum[]
+  }
+
+  /**
+   * PaymentStatusEvent findFirstOrThrow
+   */
+  export type PaymentStatusEventFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentStatusEvent
+     */
+    select?: PaymentStatusEventSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentStatusEventInclude<ExtArgs> | null
+    /**
+     * Filter, which PaymentStatusEvent to fetch.
+     */
+    where?: PaymentStatusEventWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PaymentStatusEvents to fetch.
+     */
+    orderBy?: PaymentStatusEventOrderByWithRelationInput | PaymentStatusEventOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PaymentStatusEvents.
+     */
+    cursor?: PaymentStatusEventWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PaymentStatusEvents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PaymentStatusEvents.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PaymentStatusEvents.
+     */
+    distinct?: PaymentStatusEventScalarFieldEnum | PaymentStatusEventScalarFieldEnum[]
+  }
+
+  /**
+   * PaymentStatusEvent findMany
+   */
+  export type PaymentStatusEventFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentStatusEvent
+     */
+    select?: PaymentStatusEventSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentStatusEventInclude<ExtArgs> | null
+    /**
+     * Filter, which PaymentStatusEvents to fetch.
+     */
+    where?: PaymentStatusEventWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PaymentStatusEvents to fetch.
+     */
+    orderBy?: PaymentStatusEventOrderByWithRelationInput | PaymentStatusEventOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing PaymentStatusEvents.
+     */
+    cursor?: PaymentStatusEventWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PaymentStatusEvents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PaymentStatusEvents.
+     */
+    skip?: number
+    distinct?: PaymentStatusEventScalarFieldEnum | PaymentStatusEventScalarFieldEnum[]
+  }
+
+  /**
+   * PaymentStatusEvent create
+   */
+  export type PaymentStatusEventCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentStatusEvent
+     */
+    select?: PaymentStatusEventSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentStatusEventInclude<ExtArgs> | null
+    /**
+     * The data needed to create a PaymentStatusEvent.
+     */
+    data: XOR<PaymentStatusEventCreateInput, PaymentStatusEventUncheckedCreateInput>
+  }
+
+  /**
+   * PaymentStatusEvent createMany
+   */
+  export type PaymentStatusEventCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many PaymentStatusEvents.
+     */
+    data: PaymentStatusEventCreateManyInput | PaymentStatusEventCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * PaymentStatusEvent createManyAndReturn
+   */
+  export type PaymentStatusEventCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentStatusEvent
+     */
+    select?: PaymentStatusEventSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many PaymentStatusEvents.
+     */
+    data: PaymentStatusEventCreateManyInput | PaymentStatusEventCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentStatusEventIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * PaymentStatusEvent update
+   */
+  export type PaymentStatusEventUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentStatusEvent
+     */
+    select?: PaymentStatusEventSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentStatusEventInclude<ExtArgs> | null
+    /**
+     * The data needed to update a PaymentStatusEvent.
+     */
+    data: XOR<PaymentStatusEventUpdateInput, PaymentStatusEventUncheckedUpdateInput>
+    /**
+     * Choose, which PaymentStatusEvent to update.
+     */
+    where: PaymentStatusEventWhereUniqueInput
+  }
+
+  /**
+   * PaymentStatusEvent updateMany
+   */
+  export type PaymentStatusEventUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update PaymentStatusEvents.
+     */
+    data: XOR<PaymentStatusEventUpdateManyMutationInput, PaymentStatusEventUncheckedUpdateManyInput>
+    /**
+     * Filter which PaymentStatusEvents to update
+     */
+    where?: PaymentStatusEventWhereInput
+  }
+
+  /**
+   * PaymentStatusEvent upsert
+   */
+  export type PaymentStatusEventUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentStatusEvent
+     */
+    select?: PaymentStatusEventSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentStatusEventInclude<ExtArgs> | null
+    /**
+     * The filter to search for the PaymentStatusEvent to update in case it exists.
+     */
+    where: PaymentStatusEventWhereUniqueInput
+    /**
+     * In case the PaymentStatusEvent found by the `where` argument doesn't exist, create a new PaymentStatusEvent with this data.
+     */
+    create: XOR<PaymentStatusEventCreateInput, PaymentStatusEventUncheckedCreateInput>
+    /**
+     * In case the PaymentStatusEvent was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<PaymentStatusEventUpdateInput, PaymentStatusEventUncheckedUpdateInput>
+  }
+
+  /**
+   * PaymentStatusEvent delete
+   */
+  export type PaymentStatusEventDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentStatusEvent
+     */
+    select?: PaymentStatusEventSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentStatusEventInclude<ExtArgs> | null
+    /**
+     * Filter which PaymentStatusEvent to delete.
+     */
+    where: PaymentStatusEventWhereUniqueInput
+  }
+
+  /**
+   * PaymentStatusEvent deleteMany
+   */
+  export type PaymentStatusEventDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PaymentStatusEvents to delete
+     */
+    where?: PaymentStatusEventWhereInput
+  }
+
+  /**
+   * PaymentStatusEvent without action
+   */
+  export type PaymentStatusEventDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentStatusEvent
+     */
+    select?: PaymentStatusEventSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentStatusEventInclude<ExtArgs> | null
   }
 
 
@@ -47965,6 +49069,18 @@ export namespace Prisma {
   export type DisbursementScalarFieldEnum = (typeof DisbursementScalarFieldEnum)[keyof typeof DisbursementScalarFieldEnum]
 
 
+  export const PaymentStatusEventScalarFieldEnum: {
+    id: 'id',
+    disbursementId: 'disbursementId',
+    status: 'status',
+    previousStatus: 'previousStatus',
+    note: 'note',
+    createdAt: 'createdAt'
+  };
+
+  export type PaymentStatusEventScalarFieldEnum = (typeof PaymentStatusEventScalarFieldEnum)[keyof typeof PaymentStatusEventScalarFieldEnum]
+
+
   export const AssetMappingScalarFieldEnum: {
     id: 'id',
     stellarAssetId: 'stellarAssetId',
@@ -48364,6 +49480,20 @@ export namespace Prisma {
    * Reference to a field of type 'DisbursementStatus[]'
    */
   export type ListEnumDisbursementStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DisbursementStatus[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'PaymentTrackingStatus'
+   */
+  export type EnumPaymentTrackingStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PaymentTrackingStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'PaymentTrackingStatus[]'
+   */
+  export type ListEnumPaymentTrackingStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PaymentTrackingStatus[]'>
     
   /**
    * Deep Input Types
@@ -50655,6 +51785,7 @@ export namespace Prisma {
     batchId?: StringNullableFilter<"Disbursement"> | string | null
     categoryId?: StringNullableFilter<"Disbursement"> | string | null
     category?: XOR<PaymentCategoryNullableRelationFilter, PaymentCategoryWhereInput> | null
+    statusEvents?: PaymentStatusEventListRelationFilter
   }
 
   export type DisbursementOrderByWithRelationInput = {
@@ -50672,6 +51803,7 @@ export namespace Prisma {
     batchId?: SortOrderInput | SortOrder
     categoryId?: SortOrderInput | SortOrder
     category?: PaymentCategoryOrderByWithRelationInput
+    statusEvents?: PaymentStatusEventOrderByRelationAggregateInput
   }
 
   export type DisbursementWhereUniqueInput = Prisma.AtLeast<{
@@ -50692,6 +51824,7 @@ export namespace Prisma {
     batchId?: StringNullableFilter<"Disbursement"> | string | null
     categoryId?: StringNullableFilter<"Disbursement"> | string | null
     category?: XOR<PaymentCategoryNullableRelationFilter, PaymentCategoryWhereInput> | null
+    statusEvents?: PaymentStatusEventListRelationFilter
   }, "id" | "txHash">
 
   export type DisbursementOrderByWithAggregationInput = {
@@ -50732,6 +51865,66 @@ export namespace Prisma {
     ledger?: IntWithAggregatesFilter<"Disbursement"> | number
     batchId?: StringNullableWithAggregatesFilter<"Disbursement"> | string | null
     categoryId?: StringNullableWithAggregatesFilter<"Disbursement"> | string | null
+  }
+
+  export type PaymentStatusEventWhereInput = {
+    AND?: PaymentStatusEventWhereInput | PaymentStatusEventWhereInput[]
+    OR?: PaymentStatusEventWhereInput[]
+    NOT?: PaymentStatusEventWhereInput | PaymentStatusEventWhereInput[]
+    id?: StringFilter<"PaymentStatusEvent"> | string
+    disbursementId?: StringFilter<"PaymentStatusEvent"> | string
+    status?: EnumPaymentTrackingStatusFilter<"PaymentStatusEvent"> | $Enums.PaymentTrackingStatus
+    previousStatus?: EnumPaymentTrackingStatusNullableFilter<"PaymentStatusEvent"> | $Enums.PaymentTrackingStatus | null
+    note?: StringNullableFilter<"PaymentStatusEvent"> | string | null
+    createdAt?: DateTimeFilter<"PaymentStatusEvent"> | Date | string
+    disbursement?: XOR<DisbursementRelationFilter, DisbursementWhereInput>
+  }
+
+  export type PaymentStatusEventOrderByWithRelationInput = {
+    id?: SortOrder
+    disbursementId?: SortOrder
+    status?: SortOrder
+    previousStatus?: SortOrderInput | SortOrder
+    note?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    disbursement?: DisbursementOrderByWithRelationInput
+  }
+
+  export type PaymentStatusEventWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: PaymentStatusEventWhereInput | PaymentStatusEventWhereInput[]
+    OR?: PaymentStatusEventWhereInput[]
+    NOT?: PaymentStatusEventWhereInput | PaymentStatusEventWhereInput[]
+    disbursementId?: StringFilter<"PaymentStatusEvent"> | string
+    status?: EnumPaymentTrackingStatusFilter<"PaymentStatusEvent"> | $Enums.PaymentTrackingStatus
+    previousStatus?: EnumPaymentTrackingStatusNullableFilter<"PaymentStatusEvent"> | $Enums.PaymentTrackingStatus | null
+    note?: StringNullableFilter<"PaymentStatusEvent"> | string | null
+    createdAt?: DateTimeFilter<"PaymentStatusEvent"> | Date | string
+    disbursement?: XOR<DisbursementRelationFilter, DisbursementWhereInput>
+  }, "id">
+
+  export type PaymentStatusEventOrderByWithAggregationInput = {
+    id?: SortOrder
+    disbursementId?: SortOrder
+    status?: SortOrder
+    previousStatus?: SortOrderInput | SortOrder
+    note?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: PaymentStatusEventCountOrderByAggregateInput
+    _max?: PaymentStatusEventMaxOrderByAggregateInput
+    _min?: PaymentStatusEventMinOrderByAggregateInput
+  }
+
+  export type PaymentStatusEventScalarWhereWithAggregatesInput = {
+    AND?: PaymentStatusEventScalarWhereWithAggregatesInput | PaymentStatusEventScalarWhereWithAggregatesInput[]
+    OR?: PaymentStatusEventScalarWhereWithAggregatesInput[]
+    NOT?: PaymentStatusEventScalarWhereWithAggregatesInput | PaymentStatusEventScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"PaymentStatusEvent"> | string
+    disbursementId?: StringWithAggregatesFilter<"PaymentStatusEvent"> | string
+    status?: EnumPaymentTrackingStatusWithAggregatesFilter<"PaymentStatusEvent"> | $Enums.PaymentTrackingStatus
+    previousStatus?: EnumPaymentTrackingStatusNullableWithAggregatesFilter<"PaymentStatusEvent"> | $Enums.PaymentTrackingStatus | null
+    note?: StringNullableWithAggregatesFilter<"PaymentStatusEvent"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"PaymentStatusEvent"> | Date | string
   }
 
   export type AssetMappingWhereInput = {
@@ -54419,6 +55612,7 @@ export namespace Prisma {
     ledger: number
     batchId?: string | null
     category?: PaymentCategoryCreateNestedOneWithoutDisbursementsInput
+    statusEvents?: PaymentStatusEventCreateNestedManyWithoutDisbursementInput
   }
 
   export type DisbursementUncheckedCreateInput = {
@@ -54435,6 +55629,7 @@ export namespace Prisma {
     ledger: number
     batchId?: string | null
     categoryId?: string | null
+    statusEvents?: PaymentStatusEventUncheckedCreateNestedManyWithoutDisbursementInput
   }
 
   export type DisbursementUpdateInput = {
@@ -54451,6 +55646,7 @@ export namespace Prisma {
     ledger?: IntFieldUpdateOperationsInput | number
     batchId?: NullableStringFieldUpdateOperationsInput | string | null
     category?: PaymentCategoryUpdateOneWithoutDisbursementsNestedInput
+    statusEvents?: PaymentStatusEventUpdateManyWithoutDisbursementNestedInput
   }
 
   export type DisbursementUncheckedUpdateInput = {
@@ -54467,6 +55663,7 @@ export namespace Prisma {
     ledger?: IntFieldUpdateOperationsInput | number
     batchId?: NullableStringFieldUpdateOperationsInput | string | null
     categoryId?: NullableStringFieldUpdateOperationsInput | string | null
+    statusEvents?: PaymentStatusEventUncheckedUpdateManyWithoutDisbursementNestedInput
   }
 
   export type DisbursementCreateManyInput = {
@@ -54514,6 +55711,68 @@ export namespace Prisma {
     ledger?: IntFieldUpdateOperationsInput | number
     batchId?: NullableStringFieldUpdateOperationsInput | string | null
     categoryId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type PaymentStatusEventCreateInput = {
+    id?: string
+    status: $Enums.PaymentTrackingStatus
+    previousStatus?: $Enums.PaymentTrackingStatus | null
+    note?: string | null
+    createdAt?: Date | string
+    disbursement: DisbursementCreateNestedOneWithoutStatusEventsInput
+  }
+
+  export type PaymentStatusEventUncheckedCreateInput = {
+    id?: string
+    disbursementId: string
+    status: $Enums.PaymentTrackingStatus
+    previousStatus?: $Enums.PaymentTrackingStatus | null
+    note?: string | null
+    createdAt?: Date | string
+  }
+
+  export type PaymentStatusEventUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: EnumPaymentTrackingStatusFieldUpdateOperationsInput | $Enums.PaymentTrackingStatus
+    previousStatus?: NullableEnumPaymentTrackingStatusFieldUpdateOperationsInput | $Enums.PaymentTrackingStatus | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    disbursement?: DisbursementUpdateOneRequiredWithoutStatusEventsNestedInput
+  }
+
+  export type PaymentStatusEventUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    disbursementId?: StringFieldUpdateOperationsInput | string
+    status?: EnumPaymentTrackingStatusFieldUpdateOperationsInput | $Enums.PaymentTrackingStatus
+    previousStatus?: NullableEnumPaymentTrackingStatusFieldUpdateOperationsInput | $Enums.PaymentTrackingStatus | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PaymentStatusEventCreateManyInput = {
+    id?: string
+    disbursementId: string
+    status: $Enums.PaymentTrackingStatus
+    previousStatus?: $Enums.PaymentTrackingStatus | null
+    note?: string | null
+    createdAt?: Date | string
+  }
+
+  export type PaymentStatusEventUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: EnumPaymentTrackingStatusFieldUpdateOperationsInput | $Enums.PaymentTrackingStatus
+    previousStatus?: NullableEnumPaymentTrackingStatusFieldUpdateOperationsInput | $Enums.PaymentTrackingStatus | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PaymentStatusEventUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    disbursementId?: StringFieldUpdateOperationsInput | string
+    status?: EnumPaymentTrackingStatusFieldUpdateOperationsInput | $Enums.PaymentTrackingStatus
+    previousStatus?: NullableEnumPaymentTrackingStatusFieldUpdateOperationsInput | $Enums.PaymentTrackingStatus | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type AssetMappingCreateInput = {
@@ -57510,6 +58769,16 @@ export namespace Prisma {
     not?: NestedEnumDisbursementStatusFilter<$PrismaModel> | $Enums.DisbursementStatus
   }
 
+  export type PaymentStatusEventListRelationFilter = {
+    every?: PaymentStatusEventWhereInput
+    some?: PaymentStatusEventWhereInput
+    none?: PaymentStatusEventWhereInput
+  }
+
+  export type PaymentStatusEventOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type DisbursementCountOrderByAggregateInput = {
     id?: SortOrder
     streamId?: SortOrder
@@ -57576,6 +58845,72 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumDisbursementStatusFilter<$PrismaModel>
     _max?: NestedEnumDisbursementStatusFilter<$PrismaModel>
+  }
+
+  export type EnumPaymentTrackingStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.PaymentTrackingStatus | EnumPaymentTrackingStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.PaymentTrackingStatus[] | ListEnumPaymentTrackingStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.PaymentTrackingStatus[] | ListEnumPaymentTrackingStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumPaymentTrackingStatusFilter<$PrismaModel> | $Enums.PaymentTrackingStatus
+  }
+
+  export type EnumPaymentTrackingStatusNullableFilter<$PrismaModel = never> = {
+    equals?: $Enums.PaymentTrackingStatus | EnumPaymentTrackingStatusFieldRefInput<$PrismaModel> | null
+    in?: $Enums.PaymentTrackingStatus[] | ListEnumPaymentTrackingStatusFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.PaymentTrackingStatus[] | ListEnumPaymentTrackingStatusFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumPaymentTrackingStatusNullableFilter<$PrismaModel> | $Enums.PaymentTrackingStatus | null
+  }
+
+  export type DisbursementRelationFilter = {
+    is?: DisbursementWhereInput
+    isNot?: DisbursementWhereInput
+  }
+
+  export type PaymentStatusEventCountOrderByAggregateInput = {
+    id?: SortOrder
+    disbursementId?: SortOrder
+    status?: SortOrder
+    previousStatus?: SortOrder
+    note?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type PaymentStatusEventMaxOrderByAggregateInput = {
+    id?: SortOrder
+    disbursementId?: SortOrder
+    status?: SortOrder
+    previousStatus?: SortOrder
+    note?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type PaymentStatusEventMinOrderByAggregateInput = {
+    id?: SortOrder
+    disbursementId?: SortOrder
+    status?: SortOrder
+    previousStatus?: SortOrder
+    note?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type EnumPaymentTrackingStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.PaymentTrackingStatus | EnumPaymentTrackingStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.PaymentTrackingStatus[] | ListEnumPaymentTrackingStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.PaymentTrackingStatus[] | ListEnumPaymentTrackingStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumPaymentTrackingStatusWithAggregatesFilter<$PrismaModel> | $Enums.PaymentTrackingStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumPaymentTrackingStatusFilter<$PrismaModel>
+    _max?: NestedEnumPaymentTrackingStatusFilter<$PrismaModel>
+  }
+
+  export type EnumPaymentTrackingStatusNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.PaymentTrackingStatus | EnumPaymentTrackingStatusFieldRefInput<$PrismaModel> | null
+    in?: $Enums.PaymentTrackingStatus[] | ListEnumPaymentTrackingStatusFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.PaymentTrackingStatus[] | ListEnumPaymentTrackingStatusFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumPaymentTrackingStatusNullableWithAggregatesFilter<$PrismaModel> | $Enums.PaymentTrackingStatus | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedEnumPaymentTrackingStatusNullableFilter<$PrismaModel>
+    _max?: NestedEnumPaymentTrackingStatusNullableFilter<$PrismaModel>
   }
 
   export type AssetMappingCountOrderByAggregateInput = {
@@ -58511,6 +59846,20 @@ export namespace Prisma {
     connect?: PaymentCategoryWhereUniqueInput
   }
 
+  export type PaymentStatusEventCreateNestedManyWithoutDisbursementInput = {
+    create?: XOR<PaymentStatusEventCreateWithoutDisbursementInput, PaymentStatusEventUncheckedCreateWithoutDisbursementInput> | PaymentStatusEventCreateWithoutDisbursementInput[] | PaymentStatusEventUncheckedCreateWithoutDisbursementInput[]
+    connectOrCreate?: PaymentStatusEventCreateOrConnectWithoutDisbursementInput | PaymentStatusEventCreateOrConnectWithoutDisbursementInput[]
+    createMany?: PaymentStatusEventCreateManyDisbursementInputEnvelope
+    connect?: PaymentStatusEventWhereUniqueInput | PaymentStatusEventWhereUniqueInput[]
+  }
+
+  export type PaymentStatusEventUncheckedCreateNestedManyWithoutDisbursementInput = {
+    create?: XOR<PaymentStatusEventCreateWithoutDisbursementInput, PaymentStatusEventUncheckedCreateWithoutDisbursementInput> | PaymentStatusEventCreateWithoutDisbursementInput[] | PaymentStatusEventUncheckedCreateWithoutDisbursementInput[]
+    connectOrCreate?: PaymentStatusEventCreateOrConnectWithoutDisbursementInput | PaymentStatusEventCreateOrConnectWithoutDisbursementInput[]
+    createMany?: PaymentStatusEventCreateManyDisbursementInputEnvelope
+    connect?: PaymentStatusEventWhereUniqueInput | PaymentStatusEventWhereUniqueInput[]
+  }
+
   export type EnumDisbursementStatusFieldUpdateOperationsInput = {
     set?: $Enums.DisbursementStatus
   }
@@ -58523,6 +59872,56 @@ export namespace Prisma {
     delete?: PaymentCategoryWhereInput | boolean
     connect?: PaymentCategoryWhereUniqueInput
     update?: XOR<XOR<PaymentCategoryUpdateToOneWithWhereWithoutDisbursementsInput, PaymentCategoryUpdateWithoutDisbursementsInput>, PaymentCategoryUncheckedUpdateWithoutDisbursementsInput>
+  }
+
+  export type PaymentStatusEventUpdateManyWithoutDisbursementNestedInput = {
+    create?: XOR<PaymentStatusEventCreateWithoutDisbursementInput, PaymentStatusEventUncheckedCreateWithoutDisbursementInput> | PaymentStatusEventCreateWithoutDisbursementInput[] | PaymentStatusEventUncheckedCreateWithoutDisbursementInput[]
+    connectOrCreate?: PaymentStatusEventCreateOrConnectWithoutDisbursementInput | PaymentStatusEventCreateOrConnectWithoutDisbursementInput[]
+    upsert?: PaymentStatusEventUpsertWithWhereUniqueWithoutDisbursementInput | PaymentStatusEventUpsertWithWhereUniqueWithoutDisbursementInput[]
+    createMany?: PaymentStatusEventCreateManyDisbursementInputEnvelope
+    set?: PaymentStatusEventWhereUniqueInput | PaymentStatusEventWhereUniqueInput[]
+    disconnect?: PaymentStatusEventWhereUniqueInput | PaymentStatusEventWhereUniqueInput[]
+    delete?: PaymentStatusEventWhereUniqueInput | PaymentStatusEventWhereUniqueInput[]
+    connect?: PaymentStatusEventWhereUniqueInput | PaymentStatusEventWhereUniqueInput[]
+    update?: PaymentStatusEventUpdateWithWhereUniqueWithoutDisbursementInput | PaymentStatusEventUpdateWithWhereUniqueWithoutDisbursementInput[]
+    updateMany?: PaymentStatusEventUpdateManyWithWhereWithoutDisbursementInput | PaymentStatusEventUpdateManyWithWhereWithoutDisbursementInput[]
+    deleteMany?: PaymentStatusEventScalarWhereInput | PaymentStatusEventScalarWhereInput[]
+  }
+
+  export type PaymentStatusEventUncheckedUpdateManyWithoutDisbursementNestedInput = {
+    create?: XOR<PaymentStatusEventCreateWithoutDisbursementInput, PaymentStatusEventUncheckedCreateWithoutDisbursementInput> | PaymentStatusEventCreateWithoutDisbursementInput[] | PaymentStatusEventUncheckedCreateWithoutDisbursementInput[]
+    connectOrCreate?: PaymentStatusEventCreateOrConnectWithoutDisbursementInput | PaymentStatusEventCreateOrConnectWithoutDisbursementInput[]
+    upsert?: PaymentStatusEventUpsertWithWhereUniqueWithoutDisbursementInput | PaymentStatusEventUpsertWithWhereUniqueWithoutDisbursementInput[]
+    createMany?: PaymentStatusEventCreateManyDisbursementInputEnvelope
+    set?: PaymentStatusEventWhereUniqueInput | PaymentStatusEventWhereUniqueInput[]
+    disconnect?: PaymentStatusEventWhereUniqueInput | PaymentStatusEventWhereUniqueInput[]
+    delete?: PaymentStatusEventWhereUniqueInput | PaymentStatusEventWhereUniqueInput[]
+    connect?: PaymentStatusEventWhereUniqueInput | PaymentStatusEventWhereUniqueInput[]
+    update?: PaymentStatusEventUpdateWithWhereUniqueWithoutDisbursementInput | PaymentStatusEventUpdateWithWhereUniqueWithoutDisbursementInput[]
+    updateMany?: PaymentStatusEventUpdateManyWithWhereWithoutDisbursementInput | PaymentStatusEventUpdateManyWithWhereWithoutDisbursementInput[]
+    deleteMany?: PaymentStatusEventScalarWhereInput | PaymentStatusEventScalarWhereInput[]
+  }
+
+  export type DisbursementCreateNestedOneWithoutStatusEventsInput = {
+    create?: XOR<DisbursementCreateWithoutStatusEventsInput, DisbursementUncheckedCreateWithoutStatusEventsInput>
+    connectOrCreate?: DisbursementCreateOrConnectWithoutStatusEventsInput
+    connect?: DisbursementWhereUniqueInput
+  }
+
+  export type EnumPaymentTrackingStatusFieldUpdateOperationsInput = {
+    set?: $Enums.PaymentTrackingStatus
+  }
+
+  export type NullableEnumPaymentTrackingStatusFieldUpdateOperationsInput = {
+    set?: $Enums.PaymentTrackingStatus | null
+  }
+
+  export type DisbursementUpdateOneRequiredWithoutStatusEventsNestedInput = {
+    create?: XOR<DisbursementCreateWithoutStatusEventsInput, DisbursementUncheckedCreateWithoutStatusEventsInput>
+    connectOrCreate?: DisbursementCreateOrConnectWithoutStatusEventsInput
+    upsert?: DisbursementUpsertWithoutStatusEventsInput
+    connect?: DisbursementWhereUniqueInput
+    update?: XOR<XOR<DisbursementUpdateToOneWithWhereWithoutStatusEventsInput, DisbursementUpdateWithoutStatusEventsInput>, DisbursementUncheckedUpdateWithoutStatusEventsInput>
   }
 
   export type NullableFloatFieldUpdateOperationsInput = {
@@ -58950,6 +60349,40 @@ export namespace Prisma {
     _max?: NestedEnumDisbursementStatusFilter<$PrismaModel>
   }
 
+  export type NestedEnumPaymentTrackingStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.PaymentTrackingStatus | EnumPaymentTrackingStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.PaymentTrackingStatus[] | ListEnumPaymentTrackingStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.PaymentTrackingStatus[] | ListEnumPaymentTrackingStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumPaymentTrackingStatusFilter<$PrismaModel> | $Enums.PaymentTrackingStatus
+  }
+
+  export type NestedEnumPaymentTrackingStatusNullableFilter<$PrismaModel = never> = {
+    equals?: $Enums.PaymentTrackingStatus | EnumPaymentTrackingStatusFieldRefInput<$PrismaModel> | null
+    in?: $Enums.PaymentTrackingStatus[] | ListEnumPaymentTrackingStatusFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.PaymentTrackingStatus[] | ListEnumPaymentTrackingStatusFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumPaymentTrackingStatusNullableFilter<$PrismaModel> | $Enums.PaymentTrackingStatus | null
+  }
+
+  export type NestedEnumPaymentTrackingStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.PaymentTrackingStatus | EnumPaymentTrackingStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.PaymentTrackingStatus[] | ListEnumPaymentTrackingStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.PaymentTrackingStatus[] | ListEnumPaymentTrackingStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumPaymentTrackingStatusWithAggregatesFilter<$PrismaModel> | $Enums.PaymentTrackingStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumPaymentTrackingStatusFilter<$PrismaModel>
+    _max?: NestedEnumPaymentTrackingStatusFilter<$PrismaModel>
+  }
+
+  export type NestedEnumPaymentTrackingStatusNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.PaymentTrackingStatus | EnumPaymentTrackingStatusFieldRefInput<$PrismaModel> | null
+    in?: $Enums.PaymentTrackingStatus[] | ListEnumPaymentTrackingStatusFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.PaymentTrackingStatus[] | ListEnumPaymentTrackingStatusFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumPaymentTrackingStatusNullableWithAggregatesFilter<$PrismaModel> | $Enums.PaymentTrackingStatus | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedEnumPaymentTrackingStatusNullableFilter<$PrismaModel>
+    _max?: NestedEnumPaymentTrackingStatusNullableFilter<$PrismaModel>
+  }
+
   export type NestedFloatNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | FloatFieldRefInput<$PrismaModel> | null
     in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
@@ -59071,6 +60504,7 @@ export namespace Prisma {
     completedAt?: Date | string | null
     ledger: number
     batchId?: string | null
+    statusEvents?: PaymentStatusEventCreateNestedManyWithoutDisbursementInput
   }
 
   export type DisbursementUncheckedCreateWithoutCategoryInput = {
@@ -59086,6 +60520,7 @@ export namespace Prisma {
     completedAt?: Date | string | null
     ledger: number
     batchId?: string | null
+    statusEvents?: PaymentStatusEventUncheckedCreateNestedManyWithoutDisbursementInput
   }
 
   export type DisbursementCreateOrConnectWithoutCategoryInput = {
@@ -59386,6 +60821,32 @@ export namespace Prisma {
     create: XOR<PaymentCategoryCreateWithoutDisbursementsInput, PaymentCategoryUncheckedCreateWithoutDisbursementsInput>
   }
 
+  export type PaymentStatusEventCreateWithoutDisbursementInput = {
+    id?: string
+    status: $Enums.PaymentTrackingStatus
+    previousStatus?: $Enums.PaymentTrackingStatus | null
+    note?: string | null
+    createdAt?: Date | string
+  }
+
+  export type PaymentStatusEventUncheckedCreateWithoutDisbursementInput = {
+    id?: string
+    status: $Enums.PaymentTrackingStatus
+    previousStatus?: $Enums.PaymentTrackingStatus | null
+    note?: string | null
+    createdAt?: Date | string
+  }
+
+  export type PaymentStatusEventCreateOrConnectWithoutDisbursementInput = {
+    where: PaymentStatusEventWhereUniqueInput
+    create: XOR<PaymentStatusEventCreateWithoutDisbursementInput, PaymentStatusEventUncheckedCreateWithoutDisbursementInput>
+  }
+
+  export type PaymentStatusEventCreateManyDisbursementInputEnvelope = {
+    data: PaymentStatusEventCreateManyDisbursementInput | PaymentStatusEventCreateManyDisbursementInput[]
+    skipDuplicates?: boolean
+  }
+
   export type PaymentCategoryUpsertWithoutDisbursementsInput = {
     update: XOR<PaymentCategoryUpdateWithoutDisbursementsInput, PaymentCategoryUncheckedUpdateWithoutDisbursementsInput>
     create: XOR<PaymentCategoryCreateWithoutDisbursementsInput, PaymentCategoryUncheckedCreateWithoutDisbursementsInput>
@@ -59423,6 +60884,114 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     rules?: PaymentCategoryRuleUncheckedUpdateManyWithoutCategoryNestedInput
     streams?: StreamUncheckedUpdateManyWithoutCategoryNestedInput
+  }
+
+  export type PaymentStatusEventUpsertWithWhereUniqueWithoutDisbursementInput = {
+    where: PaymentStatusEventWhereUniqueInput
+    update: XOR<PaymentStatusEventUpdateWithoutDisbursementInput, PaymentStatusEventUncheckedUpdateWithoutDisbursementInput>
+    create: XOR<PaymentStatusEventCreateWithoutDisbursementInput, PaymentStatusEventUncheckedCreateWithoutDisbursementInput>
+  }
+
+  export type PaymentStatusEventUpdateWithWhereUniqueWithoutDisbursementInput = {
+    where: PaymentStatusEventWhereUniqueInput
+    data: XOR<PaymentStatusEventUpdateWithoutDisbursementInput, PaymentStatusEventUncheckedUpdateWithoutDisbursementInput>
+  }
+
+  export type PaymentStatusEventUpdateManyWithWhereWithoutDisbursementInput = {
+    where: PaymentStatusEventScalarWhereInput
+    data: XOR<PaymentStatusEventUpdateManyMutationInput, PaymentStatusEventUncheckedUpdateManyWithoutDisbursementInput>
+  }
+
+  export type PaymentStatusEventScalarWhereInput = {
+    AND?: PaymentStatusEventScalarWhereInput | PaymentStatusEventScalarWhereInput[]
+    OR?: PaymentStatusEventScalarWhereInput[]
+    NOT?: PaymentStatusEventScalarWhereInput | PaymentStatusEventScalarWhereInput[]
+    id?: StringFilter<"PaymentStatusEvent"> | string
+    disbursementId?: StringFilter<"PaymentStatusEvent"> | string
+    status?: EnumPaymentTrackingStatusFilter<"PaymentStatusEvent"> | $Enums.PaymentTrackingStatus
+    previousStatus?: EnumPaymentTrackingStatusNullableFilter<"PaymentStatusEvent"> | $Enums.PaymentTrackingStatus | null
+    note?: StringNullableFilter<"PaymentStatusEvent"> | string | null
+    createdAt?: DateTimeFilter<"PaymentStatusEvent"> | Date | string
+  }
+
+  export type DisbursementCreateWithoutStatusEventsInput = {
+    id?: string
+    streamId: string
+    txHash: string
+    sender: string
+    receiver: string
+    amount: bigint | number
+    tokenAddress: string
+    status?: $Enums.DisbursementStatus
+    createdAt?: Date | string
+    completedAt?: Date | string | null
+    ledger: number
+    batchId?: string | null
+    category?: PaymentCategoryCreateNestedOneWithoutDisbursementsInput
+  }
+
+  export type DisbursementUncheckedCreateWithoutStatusEventsInput = {
+    id?: string
+    streamId: string
+    txHash: string
+    sender: string
+    receiver: string
+    amount: bigint | number
+    tokenAddress: string
+    status?: $Enums.DisbursementStatus
+    createdAt?: Date | string
+    completedAt?: Date | string | null
+    ledger: number
+    batchId?: string | null
+    categoryId?: string | null
+  }
+
+  export type DisbursementCreateOrConnectWithoutStatusEventsInput = {
+    where: DisbursementWhereUniqueInput
+    create: XOR<DisbursementCreateWithoutStatusEventsInput, DisbursementUncheckedCreateWithoutStatusEventsInput>
+  }
+
+  export type DisbursementUpsertWithoutStatusEventsInput = {
+    update: XOR<DisbursementUpdateWithoutStatusEventsInput, DisbursementUncheckedUpdateWithoutStatusEventsInput>
+    create: XOR<DisbursementCreateWithoutStatusEventsInput, DisbursementUncheckedCreateWithoutStatusEventsInput>
+    where?: DisbursementWhereInput
+  }
+
+  export type DisbursementUpdateToOneWithWhereWithoutStatusEventsInput = {
+    where?: DisbursementWhereInput
+    data: XOR<DisbursementUpdateWithoutStatusEventsInput, DisbursementUncheckedUpdateWithoutStatusEventsInput>
+  }
+
+  export type DisbursementUpdateWithoutStatusEventsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    streamId?: StringFieldUpdateOperationsInput | string
+    txHash?: StringFieldUpdateOperationsInput | string
+    sender?: StringFieldUpdateOperationsInput | string
+    receiver?: StringFieldUpdateOperationsInput | string
+    amount?: BigIntFieldUpdateOperationsInput | bigint | number
+    tokenAddress?: StringFieldUpdateOperationsInput | string
+    status?: EnumDisbursementStatusFieldUpdateOperationsInput | $Enums.DisbursementStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    ledger?: IntFieldUpdateOperationsInput | number
+    batchId?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: PaymentCategoryUpdateOneWithoutDisbursementsNestedInput
+  }
+
+  export type DisbursementUncheckedUpdateWithoutStatusEventsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    streamId?: StringFieldUpdateOperationsInput | string
+    txHash?: StringFieldUpdateOperationsInput | string
+    sender?: StringFieldUpdateOperationsInput | string
+    receiver?: StringFieldUpdateOperationsInput | string
+    amount?: BigIntFieldUpdateOperationsInput | bigint | number
+    tokenAddress?: StringFieldUpdateOperationsInput | string
+    status?: EnumDisbursementStatusFieldUpdateOperationsInput | $Enums.DisbursementStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    ledger?: IntFieldUpdateOperationsInput | number
+    batchId?: NullableStringFieldUpdateOperationsInput | string | null
+    categoryId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type DisbursementDraftVersionCreateWithoutDraftInput = {
@@ -59717,6 +61286,7 @@ export namespace Prisma {
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ledger?: IntFieldUpdateOperationsInput | number
     batchId?: NullableStringFieldUpdateOperationsInput | string | null
+    statusEvents?: PaymentStatusEventUpdateManyWithoutDisbursementNestedInput
   }
 
   export type DisbursementUncheckedUpdateWithoutCategoryInput = {
@@ -59732,6 +61302,7 @@ export namespace Prisma {
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ledger?: IntFieldUpdateOperationsInput | number
     batchId?: NullableStringFieldUpdateOperationsInput | string | null
+    statusEvents?: PaymentStatusEventUncheckedUpdateManyWithoutDisbursementNestedInput
   }
 
   export type DisbursementUncheckedUpdateManyWithoutCategoryInput = {
@@ -59747,6 +61318,38 @@ export namespace Prisma {
     completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ledger?: IntFieldUpdateOperationsInput | number
     batchId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type PaymentStatusEventCreateManyDisbursementInput = {
+    id?: string
+    status: $Enums.PaymentTrackingStatus
+    previousStatus?: $Enums.PaymentTrackingStatus | null
+    note?: string | null
+    createdAt?: Date | string
+  }
+
+  export type PaymentStatusEventUpdateWithoutDisbursementInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: EnumPaymentTrackingStatusFieldUpdateOperationsInput | $Enums.PaymentTrackingStatus
+    previousStatus?: NullableEnumPaymentTrackingStatusFieldUpdateOperationsInput | $Enums.PaymentTrackingStatus | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PaymentStatusEventUncheckedUpdateWithoutDisbursementInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: EnumPaymentTrackingStatusFieldUpdateOperationsInput | $Enums.PaymentTrackingStatus
+    previousStatus?: NullableEnumPaymentTrackingStatusFieldUpdateOperationsInput | $Enums.PaymentTrackingStatus | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PaymentStatusEventUncheckedUpdateManyWithoutDisbursementInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: EnumPaymentTrackingStatusFieldUpdateOperationsInput | $Enums.PaymentTrackingStatus
+    previousStatus?: NullableEnumPaymentTrackingStatusFieldUpdateOperationsInput | $Enums.PaymentTrackingStatus | null
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type DisbursementDraftVersionCreateManyDraftInput = {
@@ -59798,6 +61401,10 @@ export namespace Prisma {
      * @deprecated Use PaymentCategoryCountOutputTypeDefaultArgs instead
      */
     export type PaymentCategoryCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = PaymentCategoryCountOutputTypeDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use DisbursementCountOutputTypeDefaultArgs instead
+     */
+    export type DisbursementCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = DisbursementCountOutputTypeDefaultArgs<ExtArgs>
     /**
      * @deprecated Use DisbursementDraftCountOutputTypeDefaultArgs instead
      */
@@ -59926,6 +61533,10 @@ export namespace Prisma {
      * @deprecated Use DisbursementDefaultArgs instead
      */
     export type DisbursementArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = DisbursementDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use PaymentStatusEventDefaultArgs instead
+     */
+    export type PaymentStatusEventArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = PaymentStatusEventDefaultArgs<ExtArgs>
     /**
      * @deprecated Use AssetMappingDefaultArgs instead
      */

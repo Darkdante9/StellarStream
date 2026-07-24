@@ -507,6 +507,15 @@ exports.Prisma.DisbursementScalarFieldEnum = {
   categoryId: 'categoryId'
 };
 
+exports.Prisma.PaymentStatusEventScalarFieldEnum = {
+  id: 'id',
+  disbursementId: 'disbursementId',
+  status: 'status',
+  previousStatus: 'previousStatus',
+  note: 'note',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.AssetMappingScalarFieldEnum = {
   id: 'id',
   stellarAssetId: 'stellarAssetId',
@@ -736,6 +745,15 @@ exports.DisbursementStatus = exports.$Enums.DisbursementStatus = {
   CANCELLED: 'CANCELLED'
 };
 
+exports.PaymentTrackingStatus = exports.$Enums.PaymentTrackingStatus = {
+  INITIATED: 'INITIATED',
+  PENDING: 'PENDING',
+  PROCESSING: 'PROCESSING',
+  CONFIRMED: 'CONFIRMED',
+  FAILED: 'FAILED',
+  REFUNDED: 'REFUNDED'
+};
+
 exports.Prisma.ModelName = {
   PaymentCategory: 'PaymentCategory',
   PaymentMetadata: 'PaymentMetadata',
@@ -768,6 +786,7 @@ exports.Prisma.ModelName = {
   AssetConfig: 'AssetConfig',
   ArchivedDisbursement: 'ArchivedDisbursement',
   Disbursement: 'Disbursement',
+  PaymentStatusEvent: 'PaymentStatusEvent',
   AssetMapping: 'AssetMapping',
   PriceHistory: 'PriceHistory',
   ProtocolInefficiencyReport: 'ProtocolInefficiencyReport',
