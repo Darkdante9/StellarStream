@@ -605,6 +605,7 @@ model Disbursement {
   batchId        String?      @map("batch_id") // #1148 — groups disbursements processed in one batch (#1202)
   categoryId     String?      // Optional payment category
   category       PaymentCategory? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  statusEvents   PaymentStatusEvent[]
 
   @@index([streamId])
   @@index([sender])
@@ -622,6 +623,37 @@ enum DisbursementStatus {
   COMPLETED
   FAILED
   CANCELLED
+}
+
+// ── Payment Status Tracking (#1369) ───────────────────────────────────────────
+
+// Fine-grained payment lifecycle status, distinct from DisbursementStatus (which
+// drives the batch-processing engine). Tracks the full timeline a payment goes
+// through from creation to settlement, including refunds.
+enum PaymentTrackingStatus {
+  INITIATED
+  PENDING
+  PROCESSING
+  CONFIRMED
+  FAILED
+  REFUNDED
+}
+
+// Append-only timeline of status transitions for a Disbursement. Each row is one
+// transition; the current status is the most recent row (by createdAt) for a
+// given disbursementId.
+model PaymentStatusEvent {
+  id             String                @id @default(cuid())
+  disbursementId String
+  status         PaymentTrackingStatus
+  previousStatus PaymentTrackingStatus?
+  note           String?
+  createdAt      DateTime              @default(now())
+
+  disbursement   Disbursement          @relation(fields: [disbursementId], references: [id], onDelete: Cascade)
+
+  @@index([disbursementId, createdAt])
+  @@index([status])
 }
 // ── V3 Fund-Split Tables ──────────────────────────────────────────────────────
 
