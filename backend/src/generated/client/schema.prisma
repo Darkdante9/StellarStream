@@ -50,6 +50,52 @@ model PaymentMetadata {
   @@index([ownerAddress, key, value]) // supports search-by-metadata
 }
 
+// Payment pre-authorization: hold funds against a payer, then capture
+// (fully or partially) or release the hold within a bounded hold period (#1373)
+model PaymentAuthorization {
+  id             String              @id @default(cuid())
+  payerAddress   String // Stellar address placing the hold
+  payeeAddress   String // Stellar address the hold will be captured to
+  tokenAddress   String
+  amount         BigInt // total amount authorized (stroops / smallest unit)
+  capturedAmount BigInt              @default(0) // sum of all captures so far
+  status         AuthorizationStatus @default(AUTHORIZED)
+  holdPeriodSecs Int // length of the hold window from authorizedAt
+  authorizedAt   DateTime            @default(now())
+  expiresAt      DateTime // authorizedAt + holdPeriodSecs; capture must occur before this
+  releasedAt     DateTime?
+  createdAt      DateTime            @default(now())
+  updatedAt      DateTime            @updatedAt
+
+  captures PaymentCapture[]
+
+  @@index([payerAddress])
+  @@index([payeeAddress])
+  @@index([status])
+  @@index([expiresAt])
+}
+
+enum AuthorizationStatus {
+  AUTHORIZED // hold is active, awaiting capture or release
+  PARTIALLY_CAPTURED // some but not all of the amount has been captured
+  CAPTURED // fully captured, terminal
+  RELEASED // hold (or remainder) released back to payer, terminal
+  EXPIRED // hold period elapsed before full capture, terminal
+}
+
+// A single capture event against a PaymentAuthorization; captures accumulate
+// until the full authorized amount is captured or the remainder is released.
+model PaymentCapture {
+  id              String               @id @default(cuid())
+  authorizationId String
+  authorization   PaymentAuthorization @relation(fields: [authorizationId], references: [id], onDelete: Cascade)
+  amount          BigInt
+  txHash          String?
+  createdAt       DateTime             @default(now())
+
+  @@index([authorizationId])
+}
+
 // Auto-categorization rules attached to a PaymentCategory
 model PaymentCategoryRule {
   id         String          @id @default(cuid())
