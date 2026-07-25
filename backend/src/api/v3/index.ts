@@ -29,6 +29,9 @@ import escrowRouter from "./escrow.routes.js";
 import analyticsRouter from "../analytics.routes.js";
 import paymentCategoryRouter from "./payment-category.routes.js";
 import paymentMetadataRouter from "./payment-metadata.routes.js";
+import eventReplayRouter from "./event-replay.routes.js";
+import paymentStatusRouter from "./payment-status.routes.js";
+import paymentAuthorizationRouter from "./payment-authorization.routes.js";
 import { getNonce } from "../auth.js";
 
 
@@ -72,6 +75,9 @@ router.use("/analytics", analyticsRouter);
 router.use(templateRouter);
 router.use(paymentCategoryRouter);
 router.use(paymentMetadataRouter);
+router.use(eventReplayRouter);
+router.use(paymentStatusRouter);
+router.use(paymentAuthorizationRouter);
 router.use(escrowRouter);
 
 export default router;

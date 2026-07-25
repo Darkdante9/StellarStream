@@ -50,6 +50,52 @@ model PaymentMetadata {
   @@index([ownerAddress, key, value]) // supports search-by-metadata
 }
 
+// Payment pre-authorization: hold funds against a payer, then capture
+// (fully or partially) or release the hold within a bounded hold period (#1373)
+model PaymentAuthorization {
+  id             String              @id @default(cuid())
+  payerAddress   String // Stellar address placing the hold
+  payeeAddress   String // Stellar address the hold will be captured to
+  tokenAddress   String
+  amount         BigInt // total amount authorized (stroops / smallest unit)
+  capturedAmount BigInt              @default(0) // sum of all captures so far
+  status         AuthorizationStatus @default(AUTHORIZED)
+  holdPeriodSecs Int // length of the hold window from authorizedAt
+  authorizedAt   DateTime            @default(now())
+  expiresAt      DateTime // authorizedAt + holdPeriodSecs; capture must occur before this
+  releasedAt     DateTime?
+  createdAt      DateTime            @default(now())
+  updatedAt      DateTime            @updatedAt
+
+  captures PaymentCapture[]
+
+  @@index([payerAddress])
+  @@index([payeeAddress])
+  @@index([status])
+  @@index([expiresAt])
+}
+
+enum AuthorizationStatus {
+  AUTHORIZED // hold is active, awaiting capture or release
+  PARTIALLY_CAPTURED // some but not all of the amount has been captured
+  CAPTURED // fully captured, terminal
+  RELEASED // hold (or remainder) released back to payer, terminal
+  EXPIRED // hold period elapsed before full capture, terminal
+}
+
+// A single capture event against a PaymentAuthorization; captures accumulate
+// until the full authorized amount is captured or the remainder is released.
+model PaymentCapture {
+  id              String               @id @default(cuid())
+  authorizationId String
+  authorization   PaymentAuthorization @relation(fields: [authorizationId], references: [id], onDelete: Cascade)
+  amount          BigInt
+  txHash          String?
+  createdAt       DateTime             @default(now())
+
+  @@index([authorizationId])
+}
+
 // Auto-categorization rules attached to a PaymentCategory
 model PaymentCategoryRule {
   id         String          @id @default(cuid())
@@ -299,6 +345,37 @@ model Event {
   @@index([timestamp])
 }
 
+// A named bookmark into a stream's event log to replay from (#1375)
+model ReplayCheckpoint {
+  id        String   @id @default(cuid())
+  streamId  String
+  eventId   String // Event.eventId this checkpoint pins to (inclusive baseline)
+  label     String?
+  createdAt DateTime @default(now())
+
+  @@unique([streamId, eventId])
+  @@index([streamId])
+}
+
+// Audit trail of replay/verification runs — records what was replayed and
+// whether the reconstructed state matched the live Stream row (#1375)
+model ReplayRun {
+  id                     String   @id @default(cuid())
+  streamId               String
+  fromEventId            String? // checkpoint eventId replay resumed after (null = from genesis)
+  toEventId              String? // last event applied (null = no events applied)
+  eventCount             Int
+  reconstructedStatus    String?
+  reconstructedWithdrawn String?
+  matchesLive            Boolean? // null when not compared against the live Stream row
+  differences            Json?
+  durationMs             Int
+  createdAt              DateTime @default(now())
+
+  @@index([streamId])
+  @@index([createdAt])
+}
+
 enum StreamStatus {
   ACTIVE
   PAUSED
@@ -546,20 +623,21 @@ model ArchivedDisbursement {
 
 // Active disbursements table (keeps primary table lean)
 model Disbursement {
-  id           String             @id @default(cuid())
+  id           String               @id @default(cuid())
   streamId     String
-  txHash       String             @unique
+  txHash       String               @unique
   sender       String
   receiver     String
   amount       BigInt
   tokenAddress String
-  status       DisbursementStatus @default(PENDING)
-  createdAt    DateTime           @default(now())
+  status       DisbursementStatus   @default(PENDING)
+  createdAt    DateTime             @default(now())
   completedAt  DateTime?
   ledger       Int
-  batchId      String?            @map("batch_id") // #1148 — groups disbursements processed in one batch (#1202)
+  batchId      String?              @map("batch_id") // #1148 — groups disbursements processed in one batch (#1202)
   categoryId   String? // Optional payment category
-  category     PaymentCategory?   @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  category     PaymentCategory?     @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  statusEvents PaymentStatusEvent[]
 
   @@index([streamId])
   @@index([sender])
@@ -577,6 +655,37 @@ enum DisbursementStatus {
   COMPLETED
   FAILED
   CANCELLED
+}
+
+// ── Payment Status Tracking (#1369) ───────────────────────────────────────────
+
+// Fine-grained payment lifecycle status, distinct from DisbursementStatus (which
+// drives the batch-processing engine). Tracks the full timeline a payment goes
+// through from creation to settlement, including refunds.
+enum PaymentTrackingStatus {
+  INITIATED
+  PENDING
+  PROCESSING
+  CONFIRMED
+  FAILED
+  REFUNDED
+}
+
+// Append-only timeline of status transitions for a Disbursement. Each row is one
+// transition; the current status is the most recent row (by createdAt) for a
+// given disbursementId.
+model PaymentStatusEvent {
+  id             String                 @id @default(cuid())
+  disbursementId String
+  status         PaymentTrackingStatus
+  previousStatus PaymentTrackingStatus?
+  note           String?
+  createdAt      DateTime               @default(now())
+
+  disbursement Disbursement @relation(fields: [disbursementId], references: [id], onDelete: Cascade)
+
+  @@index([disbursementId, createdAt])
+  @@index([status])
 }
 
 // ── V3 Fund-Split Tables ──────────────────────────────────────────────────────

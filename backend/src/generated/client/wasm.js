@@ -145,6 +145,30 @@ exports.Prisma.PaymentMetadataScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.PaymentAuthorizationScalarFieldEnum = {
+  id: 'id',
+  payerAddress: 'payerAddress',
+  payeeAddress: 'payeeAddress',
+  tokenAddress: 'tokenAddress',
+  amount: 'amount',
+  capturedAmount: 'capturedAmount',
+  status: 'status',
+  holdPeriodSecs: 'holdPeriodSecs',
+  authorizedAt: 'authorizedAt',
+  expiresAt: 'expiresAt',
+  releasedAt: 'releasedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.PaymentCaptureScalarFieldEnum = {
+  id: 'id',
+  authorizationId: 'authorizationId',
+  amount: 'amount',
+  txHash: 'txHash',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.PaymentCategoryRuleScalarFieldEnum = {
   id: 'id',
   categoryId: 'categoryId',
@@ -320,6 +344,28 @@ exports.Prisma.EventScalarFieldEnum = {
   timestamp: 'timestamp',
   hash: 'hash',
   previousHash: 'previousHash'
+};
+
+exports.Prisma.ReplayCheckpointScalarFieldEnum = {
+  id: 'id',
+  streamId: 'streamId',
+  eventId: 'eventId',
+  label: 'label',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.ReplayRunScalarFieldEnum = {
+  id: 'id',
+  streamId: 'streamId',
+  fromEventId: 'fromEventId',
+  toEventId: 'toEventId',
+  eventCount: 'eventCount',
+  reconstructedStatus: 'reconstructedStatus',
+  reconstructedWithdrawn: 'reconstructedWithdrawn',
+  matchesLive: 'matchesLive',
+  differences: 'differences',
+  durationMs: 'durationMs',
+  createdAt: 'createdAt'
 };
 
 exports.Prisma.OrganizationMemberScalarFieldEnum = {
@@ -505,6 +551,15 @@ exports.Prisma.DisbursementScalarFieldEnum = {
   ledger: 'ledger',
   batchId: 'batchId',
   categoryId: 'categoryId'
+};
+
+exports.Prisma.PaymentStatusEventScalarFieldEnum = {
+  id: 'id',
+  disbursementId: 'disbursementId',
+  status: 'status',
+  previousStatus: 'previousStatus',
+  note: 'note',
+  createdAt: 'createdAt'
 };
 
 exports.Prisma.AssetMappingScalarFieldEnum = {
@@ -694,6 +749,11 @@ exports.Prisma.JsonNullValueInput = {
   JsonNull: Prisma.JsonNull
 };
 
+exports.Prisma.NullableJsonNullValueInput = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull
+};
+
 exports.Prisma.QueryMode = {
   default: 'default',
   insensitive: 'insensitive'
@@ -709,6 +769,14 @@ exports.Prisma.JsonNullValueFilter = {
   JsonNull: Prisma.JsonNull,
   AnyNull: Prisma.AnyNull
 };
+exports.AuthorizationStatus = exports.$Enums.AuthorizationStatus = {
+  AUTHORIZED: 'AUTHORIZED',
+  PARTIALLY_CAPTURED: 'PARTIALLY_CAPTURED',
+  CAPTURED: 'CAPTURED',
+  RELEASED: 'RELEASED',
+  EXPIRED: 'EXPIRED'
+};
+
 exports.StreamStatus = exports.$Enums.StreamStatus = {
   ACTIVE: 'ACTIVE',
   PAUSED: 'PAUSED',
@@ -736,9 +804,20 @@ exports.DisbursementStatus = exports.$Enums.DisbursementStatus = {
   CANCELLED: 'CANCELLED'
 };
 
+exports.PaymentTrackingStatus = exports.$Enums.PaymentTrackingStatus = {
+  INITIATED: 'INITIATED',
+  PENDING: 'PENDING',
+  PROCESSING: 'PROCESSING',
+  CONFIRMED: 'CONFIRMED',
+  FAILED: 'FAILED',
+  REFUNDED: 'REFUNDED'
+};
+
 exports.Prisma.ModelName = {
   PaymentCategory: 'PaymentCategory',
   PaymentMetadata: 'PaymentMetadata',
+  PaymentAuthorization: 'PaymentAuthorization',
+  PaymentCapture: 'PaymentCapture',
   PaymentCategoryRule: 'PaymentCategoryRule',
   Stream: 'Stream',
   ContractEvent: 'ContractEvent',
@@ -752,6 +831,8 @@ exports.Prisma.ModelName = {
   BridgeLog: 'BridgeLog',
   Proposal: 'Proposal',
   Event: 'Event',
+  ReplayCheckpoint: 'ReplayCheckpoint',
+  ReplayRun: 'ReplayRun',
   OrganizationMember: 'OrganizationMember',
   ApiKey: 'ApiKey',
   LedgerHash: 'LedgerHash',
@@ -768,6 +849,7 @@ exports.Prisma.ModelName = {
   AssetConfig: 'AssetConfig',
   ArchivedDisbursement: 'ArchivedDisbursement',
   Disbursement: 'Disbursement',
+  PaymentStatusEvent: 'PaymentStatusEvent',
   AssetMapping: 'AssetMapping',
   PriceHistory: 'PriceHistory',
   ProtocolInefficiencyReport: 'ProtocolInefficiencyReport',
