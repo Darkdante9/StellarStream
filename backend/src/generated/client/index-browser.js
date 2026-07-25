@@ -740,6 +740,7 @@ exports.Prisma.AdminAuditLogScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+<<<<<<< HEAD
 exports.Prisma.PaymentRoutingRuleScalarFieldEnum = {
   id: 'id',
   ownerAddress: 'ownerAddress',
@@ -748,10 +749,32 @@ exports.Prisma.PaymentRoutingRuleScalarFieldEnum = {
   route: 'route',
   priority: 'priority',
   isActive: 'isActive',
+=======
+exports.Prisma.InvoiceScalarFieldEnum = {
+  id: 'id',
+  invoiceNumber: 'invoiceNumber',
+  ownerAddress: 'ownerAddress',
+  disbursementId: 'disbursementId',
+  templateId: 'templateId',
+  status: 'status',
+  language: 'language',
+  sender: 'sender',
+  asset: 'asset',
+  recipients: 'recipients',
+  subtotal: 'subtotal',
+  taxRate: 'taxRate',
+  taxAmount: 'taxAmount',
+  totalAmount: 'totalAmount',
+  note: 'note',
+  txHash: 'txHash',
+  issuedAt: 'issuedAt',
+  dueAt: 'dueAt',
+>>>>>>> 5551a02 (Feat: Add Payment Invoice Generation)
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
 
+<<<<<<< HEAD
 exports.Prisma.PaymentRoutingConditionScalarFieldEnum = {
   id: 'id',
   ruleId: 'ruleId',
@@ -759,6 +782,25 @@ exports.Prisma.PaymentRoutingConditionScalarFieldEnum = {
   operator: 'operator',
   value: 'value',
   value2: 'value2'
+=======
+exports.Prisma.InvoiceTemplateScalarFieldEnum = {
+  id: 'id',
+  ownerAddress: 'ownerAddress',
+  name: 'name',
+  language: 'language',
+  isDefault: 'isDefault',
+  accentColor: 'accentColor',
+  logoBase64: 'logoBase64',
+  footerText: 'footerText',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.InvoiceCounterScalarFieldEnum = {
+  ownerAddress: 'ownerAddress',
+  year: 'year',
+  lastSeq: 'lastSeq'
+>>>>>>> 5551a02 (Feat: Add Payment Invoice Generation)
 };
 
 exports.Prisma.SortOrder = {
@@ -834,6 +876,13 @@ exports.PaymentTrackingStatus = exports.$Enums.PaymentTrackingStatus = {
   REFUNDED: 'REFUNDED'
 };
 
+exports.InvoiceStatus = exports.$Enums.InvoiceStatus = {
+  DRAFT: 'DRAFT',
+  ISSUED: 'ISSUED',
+  PAID: 'PAID',
+  VOID: 'VOID'
+};
+
 exports.Prisma.ModelName = {
   PaymentCategory: 'PaymentCategory',
   PaymentMetadata: 'PaymentMetadata',
@@ -884,8 +933,14 @@ exports.Prisma.ModelName = {
   SplitLink: 'SplitLink',
   OfacAuditLog: 'OfacAuditLog',
   AdminAuditLog: 'AdminAuditLog',
+<<<<<<< HEAD
   PaymentRoutingRule: 'PaymentRoutingRule',
   PaymentRoutingCondition: 'PaymentRoutingCondition'
+=======
+  Invoice: 'Invoice',
+  InvoiceTemplate: 'InvoiceTemplate',
+  InvoiceCounter: 'InvoiceCounter'
+>>>>>>> 5551a02 (Feat: Add Payment Invoice Generation)
 };
 
 /**
