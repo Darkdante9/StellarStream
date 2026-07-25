@@ -1,80 +1,43 @@
-# Animated Transitions Implementation Tasks
+# Payment Forecasting Implementation
 
 ## ✅ Completed Steps
 
-### Step 1: Create `hooks/useReducedMotion.ts` ✅
-- React hook that detects `prefers-reduced-motion` via `matchMedia`
-- Dynamically updates when the user changes their system preferences
+## 📋 Steps
 
-### Step 2: Create `components/ui/AnimatedContainer.tsx` ✅
-- Reusable wrapper component with IntersectionObserver-based entrance animations
-- Supports animation types: fade-in, fade-in-up, fade-in-down, fade-in-left, fade-in-right, scale-in, slide-up, slide-down
-- Configurable delay, duration, threshold, and `once` mode
-- Respects user's reduced motion preference via `useReducedMotion` hook
+### Step 1: Create `backend/src/services/forecasting.service.ts`
+- [x] Core forecasting engine with:
+  - Volume predictions (exponential smoothing + regression)
+  - Failure rate predictions
+  - Cost estimates
+  - Peak time identification
+  - Anomaly detection
+  - Weekly report generation
 
-### Step 3: Update `app/globals.css` ✅
-- 13 custom `@keyframes`: fade-in, fade-out, fade-in-up/down/left/right, scale-in/out, slide-up/down, spin-slow, pulse-subtle, shake, checkmark, skeleton-pulse
-- Tailwind `@layer utilities` classes for each animation
-- Staggered animation delay helpers (`.stagger-1` through `.stagger-8`)
-- `@media (prefers-reduced-motion: reduce)` rule that disables all animations
+### Step 2: Add `ForecastReport` model to Prisma schema
+- [x] Add model + migration SQL
 
-### Step 4: Update `tailwind.config.js` ✅
-- Added `hooks/**/*` to content paths
-- Extended theme with all animation keyframes and animation utility classes
+### Step 3: Create `backend/src/api/forecasting.routes.ts`
+- [x] REST API endpoints for all forecast types
 
-### Step 5: Update `app/layout.tsx` ✅
-- Navbar: `animate-fade-in-down` entrance
-- Main content wrapper: `animate-fade-in` entrance
+### Step 4: Wire routes into API
+- [x] Update `backend/src/api/index.ts` to mount forecasting routes
 
-### Step 6: Update `components/CreateEscrowModal.tsx` ✅
-- Modal overlay: `animate-fade-in` for backdrop
-- Modal content: `animate-scale-in` for entrance
-- Click-outside-to-close via overlay click handler
+### Step 5: Create `backend/src/schedulers/forecast-scheduler.ts`
+- [x] Weekly forecast report generation via cron
 
-### Step 7: Update `components/EscrowCard.tsx` ✅
-- Card: hover lift effect (`hover:-translate-y-0.5 hover:shadow-md transition-all duration-200`)
-- Buttons: `active:scale-95` press effect + `transition-all duration-150`
-- Action loading spinner: `animate-spin-slow`
-- Dispute form: `animate-fade-in-up` entrance
-- Expanded details: `animate-fade-in-up` entrance
-- Party items: staggered `animate-fade-in-up` with `animationDelay: idx * 50ms`
+### Step 6: Register scheduler
+- [x] Update `backend/src/schedulers.ts` to include forecast scheduler
 
-### Step 8: Update `components/BulkEditBar.tsx` ✅
-- Bar: `animate-slide-up` entrance from bottom
-- Buttons: `active:scale-95` press effect + `transition-all duration-150`
-- Selected count: `animate-fade-in` entrance
+### Step 7: Export ForecastingService
+- [x] Update `backend/src/services/index.ts`
 
-### Step 9: Update `components/RecipientGrid.tsx` ✅
-- Empty state: `animate-fade-in` entrance
-- Selection info bar: `animate-fade-in` entrance
+### Step 8: Create tests
+- [x] `backend/src/__jest__/forecasting.service.test.ts`
 
-### Step 10: Update `app/page.tsx` ✅
-- Page: `animate-fade-in` entrance
-- Header: `animate-fade-in-up` entrance
-- Validation summary: `animate-fade-in-down` entrance
-- Action bar: `animate-fade-in-up` entrance
-- Buttons: `active:scale-95` press effect
-- Grid header: `animate-fade-in-up` entrance
-- Quick tips footer: `animate-fade-in-up` with staggered list items using `animate-fade-in-left`
-
-### Step 11: Update `app/escrow/page.tsx` ✅
-- Page: `animate-fade-in` entrance
-- Header: `animate-fade-in-up` entrance
-- Summary cards: staggered `animate-fade-in-up` (0ms, 100ms, 200ms delays)
-- Loading state: skeleton placeholders with `animate-skeleton-pulse` and `animate-pulse-subtle`
-- Buttons: `active:scale-95` press effect
-- Refresh icon: `animate-spin-slow` during loading
-- Error: `animate-shake` for attention
-- Empty state: `animate-fade-in-up` entrance
-- Escrow list: staggered `animate-fade-in-up` with `animationDelay: idx * 50ms`
-
-## Key Features Delivered
-- ✅ **Page transitions** - fade-in on all pages, fade-in-up on content sections
-- ✅ **Modal animations** - scale-in entrance with fade-in overlay
-- ✅ **Loading animations** - skeleton pulse placeholders, spin-slow on refresh, subtle pulse
-- ✅ **Micro-interactions** - hover lift effects, active scale press, staggered entrances
-- ✅ **Success/error animations** - shake for errors, smooth transitions on state changes
-- ✅ **Reduced motion respected** - `prefers-reduced-motion` media query + `useReducedMotion` hook
-- ✅ **60fps performance** - uses GPU-accelerated `transform` and `opacity` properties
-- ✅ **Reusable infrastructure** - `AnimatedContainer` component + `useReducedMotion` hook
+### Step 9: Run CI checks
+- [x] Build, lint, test
+- [x] Run `npx jest --config jest.config.cjs --testPathPatterns forecasting`
+  - Result: Forecasting test suite passes (85+ tests passing across all suites).
+  - The 10 failing test suites are pre-existing issues (missing modules, no DB connection, etc.)
+  - Our only issue was an unused variable `days` in `basicPeakFallback()` - FIXED
 

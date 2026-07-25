@@ -866,6 +866,8 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
+      "value": "C:\\Users\\LENOVO\\grantfox\\StellarStream\\backend\\src\\generated\\client",
+      "value": "/Users/mac/Documents/DripsOS/xeladev/StellarStream/backend/src/generated/client",
       "value": "/home/tije/StellarStream/backend/src/generated/client",
       "fromEnvVar": null
     },
@@ -875,11 +877,15 @@ const config = {
     "binaryTargets": [
       {
         "fromEnvVar": null,
+        "value": "windows",
+        "value": "darwin-arm64",
         "value": "debian-openssl-3.0.x",
         "native": true
       }
     ],
     "previewFeatures": [],
+    "sourceFilePath": "C:\\Users\\LENOVO\\grantfox\\StellarStream\\backend\\prisma\\schema.prisma",
+    "sourceFilePath": "/Users/mac/Documents/DripsOS/xeladev/StellarStream/backend/prisma/schema.prisma",
     "sourceFilePath": "/home/tije/StellarStream/backend/prisma/schema.prisma",
     "isCustomOutput": true
   },

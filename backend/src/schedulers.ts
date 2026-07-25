@@ -9,6 +9,7 @@ import { MultisigNotifierService } from "./services/multisig-notifier.service.js
 import { archiveOldDisbursements } from "./services/disbursement-archive.service.js";
 import { LedgerConsistencyChecker } from "./services/ledger-consistency.service.js";
 import { V3VolumeAggregatorService } from "./services/v3-volume-aggregator.service.js";
+import { scheduleWeeklyForecastReport, scheduleDailyForecastCacheWarm } from "./schedulers/forecast-scheduler.js";
 import { complianceReportService } from "./services/compliance-report.service.js";
 import { logger } from "./logger.js";
 

@@ -867,6 +867,8 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
+      "value": "C:\\Users\\LENOVO\\grantfox\\StellarStream\\backend\\src\\generated\\client",
+      "value": "/Users/mac/Documents/DripsOS/xeladev/StellarStream/backend/src/generated/client",
       "value": "/home/tije/StellarStream/backend/src/generated/client",
       "fromEnvVar": null
     },
@@ -876,11 +878,15 @@ const config = {
     "binaryTargets": [
       {
         "fromEnvVar": null,
+        "value": "windows",
+        "value": "darwin-arm64",
         "value": "debian-openssl-3.0.x",
         "native": true
       }
     ],
     "previewFeatures": [],
+    "sourceFilePath": "C:\\Users\\LENOVO\\grantfox\\StellarStream\\backend\\prisma\\schema.prisma",
+    "sourceFilePath": "/Users/mac/Documents/DripsOS/xeladev/StellarStream/backend/prisma/schema.prisma",
     "sourceFilePath": "/home/tije/StellarStream/backend/prisma/schema.prisma",
     "isCustomOutput": true
   },
@@ -942,6 +948,10 @@ exports.PrismaClient = PrismaClient
 Object.assign(exports, Prisma)
 
 // file annotations for bundling tools to include these files
+path.join(__dirname, "query-engine-windows");
+path.join(process.cwd(), "src/generated/client/query-engine-windows")
+path.join(__dirname, "query-engine-darwin-arm64");
+path.join(process.cwd(), "src/generated/client/query-engine-darwin-arm64")
 path.join(__dirname, "query-engine-debian-openssl-3.0.x");
 path.join(process.cwd(), "src/generated/client/query-engine-debian-openssl-3.0.x")
 // file annotations for bundling tools to include these files
