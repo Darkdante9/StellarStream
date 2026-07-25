@@ -740,6 +740,27 @@ exports.Prisma.AdminAuditLogScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.PaymentRoutingRuleScalarFieldEnum = {
+  id: 'id',
+  ownerAddress: 'ownerAddress',
+  name: 'name',
+  description: 'description',
+  route: 'route',
+  priority: 'priority',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.PaymentRoutingConditionScalarFieldEnum = {
+  id: 'id',
+  ruleId: 'ruleId',
+  type: 'type',
+  operator: 'operator',
+  value: 'value',
+  value2: 'value2'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -862,7 +883,9 @@ exports.Prisma.ModelName = {
   StreamTemplate: 'StreamTemplate',
   SplitLink: 'SplitLink',
   OfacAuditLog: 'OfacAuditLog',
-  AdminAuditLog: 'AdminAuditLog'
+  AdminAuditLog: 'AdminAuditLog',
+  PaymentRoutingRule: 'PaymentRoutingRule',
+  PaymentRoutingCondition: 'PaymentRoutingCondition'
 };
 
 /**

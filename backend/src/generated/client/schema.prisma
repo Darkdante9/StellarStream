@@ -950,3 +950,39 @@ model AdminAuditLog {
   @@index([path, timestamp(sort: Desc)])
   @@map("admin_audit_log")
 }
+
+// Payment routing rules — decide which route/gateway a payment is sent through
+// based on amount, asset, geography, or time-of-day conditions (#1361)
+model PaymentRoutingRule {
+  id           String   @id @default(cuid())
+  ownerAddress String // Stellar address of the creator
+  name         String
+  description  String?
+  route        String // destination route/gateway identifier
+  priority     Int      @default(0) // higher priority evaluated first
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  conditions PaymentRoutingCondition[]
+
+  @@unique([ownerAddress, name])
+  @@index([ownerAddress])
+  @@index([ownerAddress, isActive, priority])
+}
+
+// A single condition within a routing rule. All conditions on a rule
+// must match (AND semantics) for the rule's route to apply.
+model PaymentRoutingCondition {
+  id       String             @id @default(cuid())
+  ruleId   String
+  rule     PaymentRoutingRule @relation(fields: [ruleId], references: [id], onDelete: Cascade)
+  // type: 'amount' | 'asset' | 'geography' | 'time'
+  type     String
+  // operator: 'gte' | 'lte' | 'between' | 'equals' | 'in'
+  operator String
+  value    String
+  value2   String? // upper bound for 'between'
+
+  @@index([ruleId])
+}
