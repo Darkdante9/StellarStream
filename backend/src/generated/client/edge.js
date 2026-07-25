@@ -761,7 +761,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "C:\\Users\\iampr\\Documents\\StellarStream\\backend\\src\\generated\\client",
+      "value": "C:\\Users\\LENOVO\\grantfox\\StellarStream\\backend\\src\\generated\\client",
       "fromEnvVar": null
     },
     "config": {
@@ -770,12 +770,12 @@ const config = {
     "binaryTargets": [
       {
         "fromEnvVar": null,
-        "value": "debian-openssl-1.1.x",
+        "value": "windows",
         "native": true
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "C:\\Users\\iampr\\Documents\\StellarStream\\backend\\prisma\\schema.prisma",
+    "sourceFilePath": "C:\\Users\\LENOVO\\grantfox\\StellarStream\\backend\\prisma\\schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {

@@ -79,3 +79,19 @@ export { TTLArchivalMonitorService, type StreamTTLStatus } from "./ttl-archival-
 
 // Template service (#1185)
 export { TemplateService, type CreateTemplateInput, type UpdateTemplateInput } from "./template.service.js";
+
+// Forecasting service for ML-based payment predictions
+export {
+  ForecastingService,
+  type VolumeForecast,
+  type VolumePrediction,
+  type FailureRateForecast,
+  type FailureRatePrediction,
+  type CostForecast,
+  type CostEstimate,
+  type PeakTimeResult,
+  type PeakTimeSlot,
+  type AnomalyDetectionResult,
+  type AnomalyPoint,
+  type WeeklyForecastReport,
+} from "./forecasting.service.js";

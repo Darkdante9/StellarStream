@@ -762,7 +762,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "C:\\Users\\iampr\\Documents\\StellarStream\\backend\\src\\generated\\client",
+      "value": "C:\\Users\\LENOVO\\grantfox\\StellarStream\\backend\\src\\generated\\client",
       "fromEnvVar": null
     },
     "config": {
@@ -771,12 +771,12 @@ const config = {
     "binaryTargets": [
       {
         "fromEnvVar": null,
-        "value": "debian-openssl-1.1.x",
+        "value": "windows",
         "native": true
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "C:\\Users\\iampr\\Documents\\StellarStream\\backend\\prisma\\schema.prisma",
+    "sourceFilePath": "C:\\Users\\LENOVO\\grantfox\\StellarStream\\backend\\prisma\\schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
@@ -837,8 +837,8 @@ exports.PrismaClient = PrismaClient
 Object.assign(exports, Prisma)
 
 // file annotations for bundling tools to include these files
-path.join(__dirname, "query-engine-debian-openssl-1.1.x");
-path.join(process.cwd(), "src/generated/client/query-engine-debian-openssl-1.1.x")
+path.join(__dirname, "query-engine-windows");
+path.join(process.cwd(), "src/generated/client/query-engine-windows")
 // file annotations for bundling tools to include these files
 path.join(__dirname, "schema.prisma");
 path.join(process.cwd(), "src/generated/client/schema.prisma")
