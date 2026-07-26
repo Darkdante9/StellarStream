@@ -139,6 +139,15 @@ model Stream {
   affiliateId  String?      // Affiliate who referred this stream (0.5% commission)
   categoryId   String?      // Optional payment category
   category     PaymentCategory? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  // Additional fields for contract state snapshots
+  startTime    DateTime?    @map("start_time")
+  endTime      DateTime?    @map("end_time")
+  cliffTime    Int?         @map("cliff_time")
+  isSoulbound  Boolean      @default(false) @map("is_soulbound")
+  isFrozen     Boolean      @default(false) @map("is_frozen")
+  pausedDuration Int?         @map("paused_duration")
+  vaultAddress String?      @map("vault_address")
+  vaultShares  String?      @map("vault_shares")
   createdAt    DateTime     @default(now())
 
   @@index([sender])
@@ -267,6 +276,39 @@ model StreamSnapshot {
   @@index([streamId])
   @@index([snapshotMonth])
   @@unique([streamId, snapshotMonth])
+}
+
+// ── Hourly snapshots of contract states for historical analysis ───────────────────
+model ContractStateSnapshot {
+  id              String   @id @default(cuid())
+  streamId        String
+  contractId      String? // Contract address for cross-contract snapshots
+  snapshotTime    DateTime // Exact timestamp of snapshot
+  snapshotHour    String // YYYY-MM-DD-HH for efficient hourly queries (indexed)
+  sender          String
+  receiver        String
+  tokenAddress    String
+  totalAmount     BigInt
+  withdrawnAmount BigInt
+  cliffTime       BigInt
+  startTime       DateTime
+  endTime         DateTime
+  state           StreamStatus
+  curveType       Int // 0 = Linear, 1 = Exponential
+  isSoulbound     Boolean @default(false)
+  isFrozen        Boolean @default(false)
+  pausedDuration  BigInt @default(0)
+  vaultAddress    String?
+  vaultShares     BigInt?
+  metadataHash    String? // Hash of full metadata for integrity
+  compressedState String? // GZIP-compressed delta from previous snapshot
+  previousSnapshotId String? @map("previous_snapshot_id") // Link to previous for chain
+
+  @@index([streamId, snapshotTime(sort: Desc)])
+  @@index([snapshotHour])
+  @@index([contractId, snapshotTime(sort: Desc)])
+  @@index([sender, snapshotTime(sort: Desc)])
+  @@unique([streamId, snapshotHour])
 }
 
 // Archived event logs (older than 3 months)
