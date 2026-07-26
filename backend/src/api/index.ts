@@ -3,7 +3,7 @@ import { AuditLogService } from "../services/audit-log.service.js";
 import { AuditChainVerificationService } from "../services/audit-chain-verification.service.js";
 import { logger } from "../logger.js";
 import { SorobanRpc } from "@stellar/stellar-sdk";
-import streamsRouter from "./streams.routes";
+import streamsRouter from "./streams.routes.js";
 import yieldRouter from "./yield.routes.js";
 import snapshotRouter from "./snapshot.routes";
 import governanceRouter from "./governance.routes.js";
