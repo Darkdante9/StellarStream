@@ -145,6 +145,30 @@ exports.Prisma.PaymentMetadataScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.PaymentAuthorizationScalarFieldEnum = {
+  id: 'id',
+  payerAddress: 'payerAddress',
+  payeeAddress: 'payeeAddress',
+  tokenAddress: 'tokenAddress',
+  amount: 'amount',
+  capturedAmount: 'capturedAmount',
+  status: 'status',
+  holdPeriodSecs: 'holdPeriodSecs',
+  authorizedAt: 'authorizedAt',
+  expiresAt: 'expiresAt',
+  releasedAt: 'releasedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.PaymentCaptureScalarFieldEnum = {
+  id: 'id',
+  authorizationId: 'authorizationId',
+  amount: 'amount',
+  txHash: 'txHash',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.PaymentCategoryRuleScalarFieldEnum = {
   id: 'id',
   categoryId: 'categoryId',
@@ -320,6 +344,28 @@ exports.Prisma.EventScalarFieldEnum = {
   timestamp: 'timestamp',
   hash: 'hash',
   previousHash: 'previousHash'
+};
+
+exports.Prisma.ReplayCheckpointScalarFieldEnum = {
+  id: 'id',
+  streamId: 'streamId',
+  eventId: 'eventId',
+  label: 'label',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.ReplayRunScalarFieldEnum = {
+  id: 'id',
+  streamId: 'streamId',
+  fromEventId: 'fromEventId',
+  toEventId: 'toEventId',
+  eventCount: 'eventCount',
+  reconstructedStatus: 'reconstructedStatus',
+  reconstructedWithdrawn: 'reconstructedWithdrawn',
+  matchesLive: 'matchesLive',
+  differences: 'differences',
+  durationMs: 'durationMs',
+  createdAt: 'createdAt'
 };
 
 exports.Prisma.OrganizationMemberScalarFieldEnum = {
@@ -507,6 +553,15 @@ exports.Prisma.DisbursementScalarFieldEnum = {
   categoryId: 'categoryId'
 };
 
+exports.Prisma.PaymentStatusEventScalarFieldEnum = {
+  id: 'id',
+  disbursementId: 'disbursementId',
+  status: 'status',
+  previousStatus: 'previousStatus',
+  note: 'note',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.AssetMappingScalarFieldEnum = {
   id: 'id',
   stellarAssetId: 'stellarAssetId',
@@ -685,12 +740,80 @@ exports.Prisma.AdminAuditLogScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+<<<<<<< HEAD
+exports.Prisma.PaymentRoutingRuleScalarFieldEnum = {
+  id: 'id',
+  ownerAddress: 'ownerAddress',
+  name: 'name',
+  description: 'description',
+  route: 'route',
+  priority: 'priority',
+  isActive: 'isActive',
+=======
+exports.Prisma.InvoiceScalarFieldEnum = {
+  id: 'id',
+  invoiceNumber: 'invoiceNumber',
+  ownerAddress: 'ownerAddress',
+  disbursementId: 'disbursementId',
+  templateId: 'templateId',
+  status: 'status',
+  language: 'language',
+  sender: 'sender',
+  asset: 'asset',
+  recipients: 'recipients',
+  subtotal: 'subtotal',
+  taxRate: 'taxRate',
+  taxAmount: 'taxAmount',
+  totalAmount: 'totalAmount',
+  note: 'note',
+  txHash: 'txHash',
+  issuedAt: 'issuedAt',
+  dueAt: 'dueAt',
+>>>>>>> 5551a02 (Feat: Add Payment Invoice Generation)
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+<<<<<<< HEAD
+exports.Prisma.PaymentRoutingConditionScalarFieldEnum = {
+  id: 'id',
+  ruleId: 'ruleId',
+  type: 'type',
+  operator: 'operator',
+  value: 'value',
+  value2: 'value2'
+=======
+exports.Prisma.InvoiceTemplateScalarFieldEnum = {
+  id: 'id',
+  ownerAddress: 'ownerAddress',
+  name: 'name',
+  language: 'language',
+  isDefault: 'isDefault',
+  accentColor: 'accentColor',
+  logoBase64: 'logoBase64',
+  footerText: 'footerText',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.InvoiceCounterScalarFieldEnum = {
+  ownerAddress: 'ownerAddress',
+  year: 'year',
+  lastSeq: 'lastSeq'
+>>>>>>> 5551a02 (Feat: Add Payment Invoice Generation)
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
 };
 
 exports.Prisma.JsonNullValueInput = {
+  JsonNull: Prisma.JsonNull
+};
+
+exports.Prisma.NullableJsonNullValueInput = {
+  DbNull: Prisma.DbNull,
   JsonNull: Prisma.JsonNull
 };
 
@@ -709,6 +832,14 @@ exports.Prisma.JsonNullValueFilter = {
   JsonNull: Prisma.JsonNull,
   AnyNull: Prisma.AnyNull
 };
+exports.AuthorizationStatus = exports.$Enums.AuthorizationStatus = {
+  AUTHORIZED: 'AUTHORIZED',
+  PARTIALLY_CAPTURED: 'PARTIALLY_CAPTURED',
+  CAPTURED: 'CAPTURED',
+  RELEASED: 'RELEASED',
+  EXPIRED: 'EXPIRED'
+};
+
 exports.StreamStatus = exports.$Enums.StreamStatus = {
   ACTIVE: 'ACTIVE',
   PAUSED: 'PAUSED',
@@ -736,9 +867,27 @@ exports.DisbursementStatus = exports.$Enums.DisbursementStatus = {
   CANCELLED: 'CANCELLED'
 };
 
+exports.PaymentTrackingStatus = exports.$Enums.PaymentTrackingStatus = {
+  INITIATED: 'INITIATED',
+  PENDING: 'PENDING',
+  PROCESSING: 'PROCESSING',
+  CONFIRMED: 'CONFIRMED',
+  FAILED: 'FAILED',
+  REFUNDED: 'REFUNDED'
+};
+
+exports.InvoiceStatus = exports.$Enums.InvoiceStatus = {
+  DRAFT: 'DRAFT',
+  ISSUED: 'ISSUED',
+  PAID: 'PAID',
+  VOID: 'VOID'
+};
+
 exports.Prisma.ModelName = {
   PaymentCategory: 'PaymentCategory',
   PaymentMetadata: 'PaymentMetadata',
+  PaymentAuthorization: 'PaymentAuthorization',
+  PaymentCapture: 'PaymentCapture',
   PaymentCategoryRule: 'PaymentCategoryRule',
   Stream: 'Stream',
   ContractEvent: 'ContractEvent',
@@ -752,6 +901,8 @@ exports.Prisma.ModelName = {
   BridgeLog: 'BridgeLog',
   Proposal: 'Proposal',
   Event: 'Event',
+  ReplayCheckpoint: 'ReplayCheckpoint',
+  ReplayRun: 'ReplayRun',
   OrganizationMember: 'OrganizationMember',
   ApiKey: 'ApiKey',
   LedgerHash: 'LedgerHash',
@@ -768,6 +919,7 @@ exports.Prisma.ModelName = {
   AssetConfig: 'AssetConfig',
   ArchivedDisbursement: 'ArchivedDisbursement',
   Disbursement: 'Disbursement',
+  PaymentStatusEvent: 'PaymentStatusEvent',
   AssetMapping: 'AssetMapping',
   PriceHistory: 'PriceHistory',
   ProtocolInefficiencyReport: 'ProtocolInefficiencyReport',
@@ -780,7 +932,15 @@ exports.Prisma.ModelName = {
   StreamTemplate: 'StreamTemplate',
   SplitLink: 'SplitLink',
   OfacAuditLog: 'OfacAuditLog',
-  AdminAuditLog: 'AdminAuditLog'
+  AdminAuditLog: 'AdminAuditLog',
+<<<<<<< HEAD
+  PaymentRoutingRule: 'PaymentRoutingRule',
+  PaymentRoutingCondition: 'PaymentRoutingCondition'
+=======
+  Invoice: 'Invoice',
+  InvoiceTemplate: 'InvoiceTemplate',
+  InvoiceCounter: 'InvoiceCounter'
+>>>>>>> 5551a02 (Feat: Add Payment Invoice Generation)
 };
 
 /**

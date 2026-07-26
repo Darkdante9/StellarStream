@@ -22,9 +22,12 @@ import assetMappingRouter from "./asset-mapping.routes.js";
 import dustAuditRouter from "./dust-audit.routes.js";
 import recipientRouter from "./recipient.routes.js";
 import complianceRouter from "./compliance.routes.js";
+import complianceReportsRouter from "./compliance-reports.routes.js";
 import auditLogRoutes from "./audit-log.routes.js";
 import clawbackRoutes from "./clawback.routes.js";
 import dashboardRouter from "./dashboard.routes.js";
+import feeOptimizationRouter from "./fee-optimization.routes.js";
+import reversalRoutes from "./reversal.routes.js";
 
 const router = Router();
 
@@ -47,7 +50,14 @@ router.use("/asset-mapping", assetMappingRouter);
 router.use("/dust-audit", dustAuditRouter);
 router.use("/recipient", recipientRouter);
 router.use("/compliance", complianceRouter);
+router.use("/compliance/reports", complianceReportsRouter);
 router.use("/v2/streams/:streamId/clawback", clawbackRoutes);
+
+// ── Fee Optimization Routes (#1363) ────────────────────────────────────────────
+router.use("/fee-optimization", feeOptimizationRouter);
+
+// ── Payment Reversal Routes (#1374) ────────────────────────────────────────────
+router.use("/reversals", reversalRoutes);
 
 // ── Admin Audit Log Routes (#COMPLIANCE - requires admin access) ────────────────
 router.use("/audit", auditLogRoutes);
