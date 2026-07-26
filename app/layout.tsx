@@ -34,6 +34,12 @@ export default function RootLayout({
                 >
                   Escrow
                 </Link>
+                <Link
+                  href="/dashboard"
+                  className="text-sm text-gray-600 hover:text-gray-900 transition-colors"
+                >
+                  Dashboard
+                </Link>
               </div>
             </div>
           </div>

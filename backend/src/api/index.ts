@@ -24,6 +24,7 @@ import recipientRouter from "./recipient.routes.js";
 import complianceRouter from "./compliance.routes.js";
 import auditLogRoutes from "./audit-log.routes.js";
 import clawbackRoutes from "./clawback.routes.js";
+import dashboardRouter from "./dashboard.routes.js";
 
 const router = Router();
 
@@ -50,6 +51,9 @@ router.use("/v2/streams/:streamId/clawback", clawbackRoutes);
 
 // ── Admin Audit Log Routes (#COMPLIANCE - requires admin access) ────────────────
 router.use("/audit", auditLogRoutes);
+
+// ── Dashboard Routes (real-time updates) ──────────────────────────────────────
+router.use("/dashboard", dashboardRouter);
 
 const auditLogService = new AuditLogService();
 const chainVerificationService = new AuditChainVerificationService();

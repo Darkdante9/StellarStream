@@ -25,6 +25,42 @@ export interface BalanceUpdatePayload {
   timestamp: string;
 }
 
+export interface PaymentStatusPayload {
+  streamId: string;
+  txHash: string;
+  status: 'pending' | 'confirmed' | 'failed';
+  sender: string;
+  receiver: string;
+  amount: string;
+  asset: string;
+  confirmations?: number;
+  errorMessage?: string;
+  timestamp: string;
+}
+
+export interface StreamProgressPayload {
+  streamId: string;
+  sender: string;
+  receiver: string;
+  totalAmount: string;
+  streamedAmount: string;
+  percentage: number;
+  remainingAmount: string;
+  estimatedCompletion: string;
+  timestamp: string;
+}
+
+export interface NotificationPayload {
+  id: string;
+  type: 'payment_received' | 'stream_created' | 'stream_completed' | 'stream_cancelled' | 'balance_change' | 'system_alert';
+  title: string;
+  message: string;
+  severity: 'info' | 'warning' | 'error' | 'success';
+  actionUrl?: string;
+  read: boolean;
+  timestamp: string;
+}
+
 export class WebSocketService {
   private io: SocketIOServer;
   private userRooms: Map<string, Set<string>> = new Map();
@@ -70,12 +106,12 @@ export class WebSocketService {
     socket.join(roomName);
     this.socketUserMap.set(socket.id, userAddress);
     this.lastPong.set(socket.id, Date.now());
-    
+
     if (!this.userRooms.has(userAddress)) {
       this.userRooms.set(userAddress, new Set());
     }
     this.userRooms.get(userAddress)!.add(socket.id);
-    
+
     console.log(`📱 Socket ${socket.id} joined room for user: ${userAddress}`);
     socket.emit('joined-room', { userAddress, roomName });
   }
@@ -83,7 +119,7 @@ export class WebSocketService {
   private leaveUserRoom(socket: Socket, userAddress: string): void {
     const roomName = `stream-${userAddress}`;
     socket.leave(roomName);
-    
+
     const userSockets = this.userRooms.get(userAddress);
     if (userSockets) {
       userSockets.delete(socket.id);
@@ -93,7 +129,7 @@ export class WebSocketService {
     }
     this.socketUserMap.delete(socket.id);
     this.lastPong.delete(socket.id);
-    
+
     console.log(`📱 Socket ${socket.id} left room for user: ${userAddress}`);
     socket.emit('left-room', { userAddress, roomName });
   }
@@ -110,41 +146,6 @@ export class WebSocketService {
     }
     this.socketUserMap.delete(socket.id);
     this.lastPong.delete(socket.id);
-  }
-
-  startHeartbeat(intervalMs = 15000, staleMs = 45000): void {
-    if (this.heartbeatIntervalHandle) return;
-    this.heartbeatIntervalHandle = setInterval(() => {
-      const now = Date.now();
-      for (const [id, socket] of this.io.sockets.sockets) {
-        try {
-          socket.emit('server-ping', { ts: now });
-        } catch (err) {
-          console.warn('Failed to send heartbeat to', id, err);
-        }
-      }
-
-      // Disconnect stale sockets that didn't respond
-      for (const [socketId, last] of this.lastPong.entries()) {
-        if (now - last > staleMs) {
-          const s = this.io.sockets.sockets.get(socketId);
-          if (s) {
-            console.log(`⏱️  Disconnecting stale socket ${socketId}`);
-            s.disconnect(true);
-          }
-          this.lastPong.delete(socketId);
-          const userAddr = this.socketUserMap.get(socketId);
-          if (userAddr) {
-            const set = this.userRooms.get(userAddr);
-            if (set) {
-              set.delete(socketId);
-              if (set.size === 0) this.userRooms.delete(userAddr);
-            }
-            this.socketUserMap.delete(socketId);
-          }
-        }
-      }
-    }, intervalMs);
   }
 
   stopHeartbeat(): void {
@@ -188,6 +189,82 @@ export class WebSocketService {
   emitSplitExecuted(payload: SplitExecutedPayload): void {
     this.io.to('split-feed').emit('SPLIT_EXECUTED', payload);
     console.log(`✂️  Emitted SPLIT_EXECUTED to split-feed:`, payload);
+  }
+
+  /**
+   * Emit payment status update to a user's room
+   */
+  emitPaymentStatus(userAddress: string, payload: PaymentStatusPayload): void {
+    const roomName = `stream-${userAddress}`;
+    this.io.to(roomName).emit('payment-status', payload);
+    console.log(`💳 Emitted PAYMENT_STATUS to ${roomName}:`, payload);
+  }
+
+  /**
+   * Emit stream progress update to a user's room
+   */
+  emitStreamProgress(userAddress: string, payload: StreamProgressPayload): void {
+    const roomName = `stream-${userAddress}`;
+    this.io.to(roomName).emit('stream-progress', payload);
+    console.log(`📊 Emitted STREAM_PROGRESS to ${roomName}:`, payload);
+  }
+
+  /**
+   * Emit notification to a user's room
+   */
+  emitNotification(userAddress: string, payload: NotificationPayload): void {
+    const roomName = `stream-${userAddress}`;
+    this.io.to(roomName).emit('notification', payload);
+    console.log(`🔔 Emitted NOTIFICATION to ${roomName}:`, payload);
+  }
+
+  /**
+   * Broadcast active user count to all connected clients
+   */
+  broadcastActiveUserCount(): void {
+    const count = this.userRooms.size;
+    this.io.emit('active-users', { count, timestamp: new Date().toISOString() });
+  }
+
+  /**
+   * Update the heartbeat to also broadcast active user count periodically
+   */
+  startHeartbeat(intervalMs = 15000, staleMs = 45000): void {
+    if (this.heartbeatIntervalHandle) return;
+    this.heartbeatIntervalHandle = setInterval(() => {
+      const now = Date.now();
+      for (const [id, socket] of this.io.sockets.sockets) {
+        try {
+          socket.emit('server-ping', { ts: now });
+        } catch (err) {
+          console.warn('Failed to send heartbeat to', id, err);
+        }
+      }
+
+      // Broadcast active user count every heartbeat cycle
+      this.broadcastActiveUserCount();
+
+      // Disconnect stale sockets that didn't respond
+      for (const [socketId, last] of this.lastPong.entries()) {
+        if (now - last > staleMs) {
+          const s = this.io.sockets.sockets.get(socketId);
+          if (s) {
+            console.log(`⏱️  Disconnecting stale socket ${socketId}`);
+            s.disconnect(true);
+          }
+          this.lastPong.delete(socketId);
+          const userAddr = this.socketUserMap.get(socketId);
+          if (userAddr) {
+            const set = this.userRooms.get(userAddr);
+            if (set) {
+              set.delete(socketId);
+              if (set.size === 0) this.userRooms.delete(userAddr);
+            }
+            this.socketUserMap.delete(socketId);
+          }
+        }
+      }
+    }, intervalMs);
   }
 }
 
