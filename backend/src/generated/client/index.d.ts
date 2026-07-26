@@ -258,6 +258,33 @@ export type OfacAuditLog = $Result.DefaultSelection<Prisma.$OfacAuditLogPayload>
  * 
  */
 export type AdminAuditLog = $Result.DefaultSelection<Prisma.$AdminAuditLogPayload>
+/**
+<<<<<<< HEAD
+ * Model PaymentRoutingRule
+ * 
+ */
+export type PaymentRoutingRule = $Result.DefaultSelection<Prisma.$PaymentRoutingRulePayload>
+/**
+ * Model PaymentRoutingCondition
+ * 
+ */
+export type PaymentRoutingCondition = $Result.DefaultSelection<Prisma.$PaymentRoutingConditionPayload>
+=======
+ * Model Invoice
+ * 
+ */
+export type Invoice = $Result.DefaultSelection<Prisma.$InvoicePayload>
+/**
+ * Model InvoiceTemplate
+ * 
+ */
+export type InvoiceTemplate = $Result.DefaultSelection<Prisma.$InvoiceTemplatePayload>
+/**
+ * Model InvoiceCounter
+ * 
+ */
+export type InvoiceCounter = $Result.DefaultSelection<Prisma.$InvoiceCounterPayload>
+>>>>>>> 5551a02 (Feat: Add Payment Invoice Generation)
 
 /**
  * Enums
@@ -324,6 +351,16 @@ export const PaymentTrackingStatus: {
 
 export type PaymentTrackingStatus = (typeof PaymentTrackingStatus)[keyof typeof PaymentTrackingStatus]
 
+
+export const InvoiceStatus: {
+  DRAFT: 'DRAFT',
+  ISSUED: 'ISSUED',
+  PAID: 'PAID',
+  VOID: 'VOID'
+};
+
+export type InvoiceStatus = (typeof InvoiceStatus)[keyof typeof InvoiceStatus]
+
 }
 
 export type AuthorizationStatus = $Enums.AuthorizationStatus
@@ -349,6 +386,10 @@ export const DisbursementStatus: typeof $Enums.DisbursementStatus
 export type PaymentTrackingStatus = $Enums.PaymentTrackingStatus
 
 export const PaymentTrackingStatus: typeof $Enums.PaymentTrackingStatus
+
+export type InvoiceStatus = $Enums.InvoiceStatus
+
+export const InvoiceStatus: typeof $Enums.InvoiceStatus
 
 /**
  * ##  Prisma Client ʲˢ
@@ -962,6 +1003,57 @@ export class PrismaClient<
     * ```
     */
   get adminAuditLog(): Prisma.AdminAuditLogDelegate<ExtArgs>;
+
+  /**
+<<<<<<< HEAD
+   * `prisma.paymentRoutingRule`: Exposes CRUD operations for the **PaymentRoutingRule** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more PaymentRoutingRules
+    * const paymentRoutingRules = await prisma.paymentRoutingRule.findMany()
+    * ```
+    */
+  get paymentRoutingRule(): Prisma.PaymentRoutingRuleDelegate<ExtArgs>;
+
+  /**
+   * `prisma.paymentRoutingCondition`: Exposes CRUD operations for the **PaymentRoutingCondition** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more PaymentRoutingConditions
+    * const paymentRoutingConditions = await prisma.paymentRoutingCondition.findMany()
+    * ```
+    */
+  get paymentRoutingCondition(): Prisma.PaymentRoutingConditionDelegate<ExtArgs>;
+=======
+   * `prisma.invoice`: Exposes CRUD operations for the **Invoice** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Invoices
+    * const invoices = await prisma.invoice.findMany()
+    * ```
+    */
+  get invoice(): Prisma.InvoiceDelegate<ExtArgs>;
+
+  /**
+   * `prisma.invoiceTemplate`: Exposes CRUD operations for the **InvoiceTemplate** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more InvoiceTemplates
+    * const invoiceTemplates = await prisma.invoiceTemplate.findMany()
+    * ```
+    */
+  get invoiceTemplate(): Prisma.InvoiceTemplateDelegate<ExtArgs>;
+
+  /**
+   * `prisma.invoiceCounter`: Exposes CRUD operations for the **InvoiceCounter** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more InvoiceCounters
+    * const invoiceCounters = await prisma.invoiceCounter.findMany()
+    * ```
+    */
+  get invoiceCounter(): Prisma.InvoiceCounterDelegate<ExtArgs>;
+>>>>>>> 5551a02 (Feat: Add Payment Invoice Generation)
 }
 
 export namespace Prisma {
@@ -1451,7 +1543,15 @@ export namespace Prisma {
     StreamTemplate: 'StreamTemplate',
     SplitLink: 'SplitLink',
     OfacAuditLog: 'OfacAuditLog',
-    AdminAuditLog: 'AdminAuditLog'
+    AdminAuditLog: 'AdminAuditLog',
+<<<<<<< HEAD
+    PaymentRoutingRule: 'PaymentRoutingRule',
+    PaymentRoutingCondition: 'PaymentRoutingCondition'
+=======
+    Invoice: 'Invoice',
+    InvoiceTemplate: 'InvoiceTemplate',
+    InvoiceCounter: 'InvoiceCounter'
+>>>>>>> 5551a02 (Feat: Add Payment Invoice Generation)
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1467,7 +1567,11 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, ClientOptions = {}> = {
     meta: {
-      modelProps: "paymentCategory" | "paymentMetadata" | "paymentAuthorization" | "paymentCapture" | "paymentCategoryRule" | "stream" | "contractEvent" | "tokenPrice" | "webhook" | "webhookDelivery" | "syncState" | "eventLog" | "streamSnapshot" | "streamArchive" | "bridgeLog" | "proposal" | "event" | "replayCheckpoint" | "replayRun" | "organizationMember" | "apiKey" | "ledgerHash" | "syncMetadata" | "clawbackHistory" | "notificationSubscription" | "invoiceLink" | "affiliate" | "globalStats" | "globalStats_V3" | "tvlSnapshot" | "asset" | "autopilotSchedule" | "assetConfig" | "archivedDisbursement" | "disbursement" | "paymentStatusEvent" | "assetMapping" | "priceHistory" | "protocolInefficiencyReport" | "splitLog" | "monitoredTransaction" | "disbursementDraft" | "disbursementDraftVersion" | "multisigProposal" | "cachedAsset" | "streamTemplate" | "splitLink" | "ofacAuditLog" | "adminAuditLog"
+<<<<<<< HEAD
+      modelProps: "paymentCategory" | "paymentMetadata" | "paymentAuthorization" | "paymentCapture" | "paymentCategoryRule" | "stream" | "contractEvent" | "tokenPrice" | "webhook" | "webhookDelivery" | "syncState" | "eventLog" | "streamSnapshot" | "streamArchive" | "bridgeLog" | "proposal" | "event" | "replayCheckpoint" | "replayRun" | "organizationMember" | "apiKey" | "ledgerHash" | "syncMetadata" | "clawbackHistory" | "notificationSubscription" | "invoiceLink" | "affiliate" | "globalStats" | "globalStats_V3" | "tvlSnapshot" | "asset" | "autopilotSchedule" | "assetConfig" | "archivedDisbursement" | "disbursement" | "paymentStatusEvent" | "assetMapping" | "priceHistory" | "protocolInefficiencyReport" | "splitLog" | "monitoredTransaction" | "disbursementDraft" | "disbursementDraftVersion" | "multisigProposal" | "cachedAsset" | "streamTemplate" | "splitLink" | "ofacAuditLog" | "adminAuditLog" | "paymentRoutingRule" | "paymentRoutingCondition"
+=======
+      modelProps: "paymentCategory" | "paymentMetadata" | "paymentAuthorization" | "paymentCapture" | "paymentCategoryRule" | "stream" | "contractEvent" | "tokenPrice" | "webhook" | "webhookDelivery" | "syncState" | "eventLog" | "streamSnapshot" | "streamArchive" | "bridgeLog" | "proposal" | "event" | "replayCheckpoint" | "replayRun" | "organizationMember" | "apiKey" | "ledgerHash" | "syncMetadata" | "clawbackHistory" | "notificationSubscription" | "invoiceLink" | "affiliate" | "globalStats" | "globalStats_V3" | "tvlSnapshot" | "asset" | "autopilotSchedule" | "assetConfig" | "archivedDisbursement" | "disbursement" | "paymentStatusEvent" | "assetMapping" | "priceHistory" | "protocolInefficiencyReport" | "splitLog" | "monitoredTransaction" | "disbursementDraft" | "disbursementDraftVersion" | "multisigProposal" | "cachedAsset" | "streamTemplate" | "splitLink" | "ofacAuditLog" | "adminAuditLog" | "invoice" | "invoiceTemplate" | "invoiceCounter"
+>>>>>>> 5551a02 (Feat: Add Payment Invoice Generation)
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -4901,6 +5005,356 @@ export namespace Prisma {
           }
         }
       }
+<<<<<<< HEAD
+      PaymentRoutingRule: {
+        payload: Prisma.$PaymentRoutingRulePayload<ExtArgs>
+        fields: Prisma.PaymentRoutingRuleFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.PaymentRoutingRuleFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentRoutingRulePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.PaymentRoutingRuleFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentRoutingRulePayload>
+          }
+          findFirst: {
+            args: Prisma.PaymentRoutingRuleFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentRoutingRulePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.PaymentRoutingRuleFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentRoutingRulePayload>
+          }
+          findMany: {
+            args: Prisma.PaymentRoutingRuleFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentRoutingRulePayload>[]
+          }
+          create: {
+            args: Prisma.PaymentRoutingRuleCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentRoutingRulePayload>
+          }
+          createMany: {
+            args: Prisma.PaymentRoutingRuleCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.PaymentRoutingRuleCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentRoutingRulePayload>[]
+          }
+          delete: {
+            args: Prisma.PaymentRoutingRuleDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentRoutingRulePayload>
+          }
+          update: {
+            args: Prisma.PaymentRoutingRuleUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentRoutingRulePayload>
+          }
+          deleteMany: {
+            args: Prisma.PaymentRoutingRuleDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.PaymentRoutingRuleUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.PaymentRoutingRuleUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentRoutingRulePayload>
+          }
+          aggregate: {
+            args: Prisma.PaymentRoutingRuleAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregatePaymentRoutingRule>
+          }
+          groupBy: {
+            args: Prisma.PaymentRoutingRuleGroupByArgs<ExtArgs>
+            result: $Utils.Optional<PaymentRoutingRuleGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.PaymentRoutingRuleCountArgs<ExtArgs>
+            result: $Utils.Optional<PaymentRoutingRuleCountAggregateOutputType> | number
+          }
+        }
+      }
+      PaymentRoutingCondition: {
+        payload: Prisma.$PaymentRoutingConditionPayload<ExtArgs>
+        fields: Prisma.PaymentRoutingConditionFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.PaymentRoutingConditionFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentRoutingConditionPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.PaymentRoutingConditionFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentRoutingConditionPayload>
+          }
+          findFirst: {
+            args: Prisma.PaymentRoutingConditionFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentRoutingConditionPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.PaymentRoutingConditionFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentRoutingConditionPayload>
+          }
+          findMany: {
+            args: Prisma.PaymentRoutingConditionFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentRoutingConditionPayload>[]
+          }
+          create: {
+            args: Prisma.PaymentRoutingConditionCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentRoutingConditionPayload>
+          }
+          createMany: {
+            args: Prisma.PaymentRoutingConditionCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.PaymentRoutingConditionCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentRoutingConditionPayload>[]
+          }
+          delete: {
+            args: Prisma.PaymentRoutingConditionDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentRoutingConditionPayload>
+          }
+          update: {
+            args: Prisma.PaymentRoutingConditionUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentRoutingConditionPayload>
+          }
+          deleteMany: {
+            args: Prisma.PaymentRoutingConditionDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.PaymentRoutingConditionUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.PaymentRoutingConditionUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PaymentRoutingConditionPayload>
+          }
+          aggregate: {
+            args: Prisma.PaymentRoutingConditionAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregatePaymentRoutingCondition>
+          }
+          groupBy: {
+            args: Prisma.PaymentRoutingConditionGroupByArgs<ExtArgs>
+            result: $Utils.Optional<PaymentRoutingConditionGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.PaymentRoutingConditionCountArgs<ExtArgs>
+            result: $Utils.Optional<PaymentRoutingConditionCountAggregateOutputType> | number
+=======
+      Invoice: {
+        payload: Prisma.$InvoicePayload<ExtArgs>
+        fields: Prisma.InvoiceFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.InvoiceFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvoicePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.InvoiceFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvoicePayload>
+          }
+          findFirst: {
+            args: Prisma.InvoiceFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvoicePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.InvoiceFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvoicePayload>
+          }
+          findMany: {
+            args: Prisma.InvoiceFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvoicePayload>[]
+          }
+          create: {
+            args: Prisma.InvoiceCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvoicePayload>
+          }
+          createMany: {
+            args: Prisma.InvoiceCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.InvoiceCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvoicePayload>[]
+          }
+          delete: {
+            args: Prisma.InvoiceDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvoicePayload>
+          }
+          update: {
+            args: Prisma.InvoiceUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvoicePayload>
+          }
+          deleteMany: {
+            args: Prisma.InvoiceDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.InvoiceUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.InvoiceUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvoicePayload>
+          }
+          aggregate: {
+            args: Prisma.InvoiceAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateInvoice>
+          }
+          groupBy: {
+            args: Prisma.InvoiceGroupByArgs<ExtArgs>
+            result: $Utils.Optional<InvoiceGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.InvoiceCountArgs<ExtArgs>
+            result: $Utils.Optional<InvoiceCountAggregateOutputType> | number
+          }
+        }
+      }
+      InvoiceTemplate: {
+        payload: Prisma.$InvoiceTemplatePayload<ExtArgs>
+        fields: Prisma.InvoiceTemplateFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.InvoiceTemplateFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvoiceTemplatePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.InvoiceTemplateFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvoiceTemplatePayload>
+          }
+          findFirst: {
+            args: Prisma.InvoiceTemplateFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvoiceTemplatePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.InvoiceTemplateFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvoiceTemplatePayload>
+          }
+          findMany: {
+            args: Prisma.InvoiceTemplateFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvoiceTemplatePayload>[]
+          }
+          create: {
+            args: Prisma.InvoiceTemplateCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvoiceTemplatePayload>
+          }
+          createMany: {
+            args: Prisma.InvoiceTemplateCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.InvoiceTemplateCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvoiceTemplatePayload>[]
+          }
+          delete: {
+            args: Prisma.InvoiceTemplateDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvoiceTemplatePayload>
+          }
+          update: {
+            args: Prisma.InvoiceTemplateUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvoiceTemplatePayload>
+          }
+          deleteMany: {
+            args: Prisma.InvoiceTemplateDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.InvoiceTemplateUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.InvoiceTemplateUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvoiceTemplatePayload>
+          }
+          aggregate: {
+            args: Prisma.InvoiceTemplateAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateInvoiceTemplate>
+          }
+          groupBy: {
+            args: Prisma.InvoiceTemplateGroupByArgs<ExtArgs>
+            result: $Utils.Optional<InvoiceTemplateGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.InvoiceTemplateCountArgs<ExtArgs>
+            result: $Utils.Optional<InvoiceTemplateCountAggregateOutputType> | number
+          }
+        }
+      }
+      InvoiceCounter: {
+        payload: Prisma.$InvoiceCounterPayload<ExtArgs>
+        fields: Prisma.InvoiceCounterFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.InvoiceCounterFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvoiceCounterPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.InvoiceCounterFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvoiceCounterPayload>
+          }
+          findFirst: {
+            args: Prisma.InvoiceCounterFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvoiceCounterPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.InvoiceCounterFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvoiceCounterPayload>
+          }
+          findMany: {
+            args: Prisma.InvoiceCounterFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvoiceCounterPayload>[]
+          }
+          create: {
+            args: Prisma.InvoiceCounterCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvoiceCounterPayload>
+          }
+          createMany: {
+            args: Prisma.InvoiceCounterCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.InvoiceCounterCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvoiceCounterPayload>[]
+          }
+          delete: {
+            args: Prisma.InvoiceCounterDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvoiceCounterPayload>
+          }
+          update: {
+            args: Prisma.InvoiceCounterUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvoiceCounterPayload>
+          }
+          deleteMany: {
+            args: Prisma.InvoiceCounterDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.InvoiceCounterUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.InvoiceCounterUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvoiceCounterPayload>
+          }
+          aggregate: {
+            args: Prisma.InvoiceCounterAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateInvoiceCounter>
+          }
+          groupBy: {
+            args: Prisma.InvoiceCounterGroupByArgs<ExtArgs>
+            result: $Utils.Optional<InvoiceCounterGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.InvoiceCounterCountArgs<ExtArgs>
+            result: $Utils.Optional<InvoiceCounterCountAggregateOutputType> | number
+>>>>>>> 5551a02 (Feat: Add Payment Invoice Generation)
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -5143,10 +5597,12 @@ export namespace Prisma {
 
   export type DisbursementCountOutputType = {
     statusEvents: number
+    invoices: number
   }
 
   export type DisbursementCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     statusEvents?: boolean | DisbursementCountOutputTypeCountStatusEventsArgs
+    invoices?: boolean | DisbursementCountOutputTypeCountInvoicesArgs
   }
 
   // Custom InputTypes
@@ -5165,6 +5621,13 @@ export namespace Prisma {
    */
   export type DisbursementCountOutputTypeCountStatusEventsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: PaymentStatusEventWhereInput
+  }
+
+  /**
+   * DisbursementCountOutputType without action
+   */
+  export type DisbursementCountOutputTypeCountInvoicesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: InvoiceWhereInput
   }
 
 
@@ -5196,6 +5659,66 @@ export namespace Prisma {
    */
   export type DisbursementDraftCountOutputTypeCountVersionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: DisbursementDraftVersionWhereInput
+  }
+
+
+  /**
+<<<<<<< HEAD
+   * Count Type PaymentRoutingRuleCountOutputType
+   */
+
+  export type PaymentRoutingRuleCountOutputType = {
+    conditions: number
+  }
+
+  export type PaymentRoutingRuleCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    conditions?: boolean | PaymentRoutingRuleCountOutputTypeCountConditionsArgs
+=======
+   * Count Type InvoiceTemplateCountOutputType
+   */
+
+  export type InvoiceTemplateCountOutputType = {
+    invoices: number
+  }
+
+  export type InvoiceTemplateCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    invoices?: boolean | InvoiceTemplateCountOutputTypeCountInvoicesArgs
+>>>>>>> 5551a02 (Feat: Add Payment Invoice Generation)
+  }
+
+  // Custom InputTypes
+  /**
+<<<<<<< HEAD
+   * PaymentRoutingRuleCountOutputType without action
+   */
+  export type PaymentRoutingRuleCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentRoutingRuleCountOutputType
+     */
+    select?: PaymentRoutingRuleCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * PaymentRoutingRuleCountOutputType without action
+   */
+  export type PaymentRoutingRuleCountOutputTypeCountConditionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PaymentRoutingConditionWhereInput
+=======
+   * InvoiceTemplateCountOutputType without action
+   */
+  export type InvoiceTemplateCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InvoiceTemplateCountOutputType
+     */
+    select?: InvoiceTemplateCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * InvoiceTemplateCountOutputType without action
+   */
+  export type InvoiceTemplateCountOutputTypeCountInvoicesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: InvoiceWhereInput
+>>>>>>> 5551a02 (Feat: Add Payment Invoice Generation)
   }
 
 
@@ -38246,6 +38769,7 @@ export namespace Prisma {
     categoryId?: boolean
     category?: boolean | Disbursement$categoryArgs<ExtArgs>
     statusEvents?: boolean | Disbursement$statusEventsArgs<ExtArgs>
+    invoices?: boolean | Disbursement$invoicesArgs<ExtArgs>
     _count?: boolean | DisbursementCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["disbursement"]>
 
@@ -38285,6 +38809,7 @@ export namespace Prisma {
   export type DisbursementInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     category?: boolean | Disbursement$categoryArgs<ExtArgs>
     statusEvents?: boolean | Disbursement$statusEventsArgs<ExtArgs>
+    invoices?: boolean | Disbursement$invoicesArgs<ExtArgs>
     _count?: boolean | DisbursementCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type DisbursementIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -38296,6 +38821,7 @@ export namespace Prisma {
     objects: {
       category: Prisma.$PaymentCategoryPayload<ExtArgs> | null
       statusEvents: Prisma.$PaymentStatusEventPayload<ExtArgs>[]
+      invoices: Prisma.$InvoicePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -38677,6 +39203,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     category<T extends Disbursement$categoryArgs<ExtArgs> = {}>(args?: Subset<T, Disbursement$categoryArgs<ExtArgs>>): Prisma__PaymentCategoryClient<$Result.GetResult<Prisma.$PaymentCategoryPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
     statusEvents<T extends Disbursement$statusEventsArgs<ExtArgs> = {}>(args?: Subset<T, Disbursement$statusEventsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PaymentStatusEventPayload<ExtArgs>, T, "findMany"> | Null>
+    invoices<T extends Disbursement$invoicesArgs<ExtArgs> = {}>(args?: Subset<T, Disbursement$invoicesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InvoicePayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -39069,6 +39596,26 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: PaymentStatusEventScalarFieldEnum | PaymentStatusEventScalarFieldEnum[]
+  }
+
+  /**
+   * Disbursement.invoices
+   */
+  export type Disbursement$invoicesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Invoice
+     */
+    select?: InvoiceSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvoiceInclude<ExtArgs> | null
+    where?: InvoiceWhereInput
+    orderBy?: InvoiceOrderByWithRelationInput | InvoiceOrderByWithRelationInput[]
+    cursor?: InvoiceWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: InvoiceScalarFieldEnum | InvoiceScalarFieldEnum[]
   }
 
   /**
@@ -52883,6 +53430,4713 @@ export namespace Prisma {
 
 
   /**
+<<<<<<< HEAD
+   * Model PaymentRoutingRule
+   */
+
+  export type AggregatePaymentRoutingRule = {
+    _count: PaymentRoutingRuleCountAggregateOutputType | null
+    _avg: PaymentRoutingRuleAvgAggregateOutputType | null
+    _sum: PaymentRoutingRuleSumAggregateOutputType | null
+    _min: PaymentRoutingRuleMinAggregateOutputType | null
+    _max: PaymentRoutingRuleMaxAggregateOutputType | null
+  }
+
+  export type PaymentRoutingRuleAvgAggregateOutputType = {
+    priority: number | null
+  }
+
+  export type PaymentRoutingRuleSumAggregateOutputType = {
+    priority: number | null
+  }
+
+  export type PaymentRoutingRuleMinAggregateOutputType = {
+    id: string | null
+    ownerAddress: string | null
+    name: string | null
+    description: string | null
+    route: string | null
+    priority: number | null
+    isActive: boolean | null
+=======
+   * Model Invoice
+   */
+
+  export type AggregateInvoice = {
+    _count: InvoiceCountAggregateOutputType | null
+    _avg: InvoiceAvgAggregateOutputType | null
+    _sum: InvoiceSumAggregateOutputType | null
+    _min: InvoiceMinAggregateOutputType | null
+    _max: InvoiceMaxAggregateOutputType | null
+  }
+
+  export type InvoiceAvgAggregateOutputType = {
+    taxRate: number | null
+  }
+
+  export type InvoiceSumAggregateOutputType = {
+    taxRate: number | null
+  }
+
+  export type InvoiceMinAggregateOutputType = {
+    id: string | null
+    invoiceNumber: string | null
+    ownerAddress: string | null
+    disbursementId: string | null
+    templateId: string | null
+    status: $Enums.InvoiceStatus | null
+    language: string | null
+    sender: string | null
+    asset: string | null
+    subtotal: string | null
+    taxRate: number | null
+    taxAmount: string | null
+    totalAmount: string | null
+    note: string | null
+    txHash: string | null
+    issuedAt: Date | null
+    dueAt: Date | null
+>>>>>>> 5551a02 (Feat: Add Payment Invoice Generation)
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+<<<<<<< HEAD
+  export type PaymentRoutingRuleMaxAggregateOutputType = {
+    id: string | null
+    ownerAddress: string | null
+    name: string | null
+    description: string | null
+    route: string | null
+    priority: number | null
+    isActive: boolean | null
+=======
+  export type InvoiceMaxAggregateOutputType = {
+    id: string | null
+    invoiceNumber: string | null
+    ownerAddress: string | null
+    disbursementId: string | null
+    templateId: string | null
+    status: $Enums.InvoiceStatus | null
+    language: string | null
+    sender: string | null
+    asset: string | null
+    subtotal: string | null
+    taxRate: number | null
+    taxAmount: string | null
+    totalAmount: string | null
+    note: string | null
+    txHash: string | null
+    issuedAt: Date | null
+    dueAt: Date | null
+>>>>>>> 5551a02 (Feat: Add Payment Invoice Generation)
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+<<<<<<< HEAD
+  export type PaymentRoutingRuleCountAggregateOutputType = {
+    id: number
+    ownerAddress: number
+    name: number
+    description: number
+    route: number
+    priority: number
+    isActive: number
+=======
+  export type InvoiceCountAggregateOutputType = {
+    id: number
+    invoiceNumber: number
+    ownerAddress: number
+    disbursementId: number
+    templateId: number
+    status: number
+    language: number
+    sender: number
+    asset: number
+    recipients: number
+    subtotal: number
+    taxRate: number
+    taxAmount: number
+    totalAmount: number
+    note: number
+    txHash: number
+    issuedAt: number
+    dueAt: number
+>>>>>>> 5551a02 (Feat: Add Payment Invoice Generation)
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+<<<<<<< HEAD
+  export type PaymentRoutingRuleAvgAggregateInputType = {
+    priority?: true
+  }
+
+  export type PaymentRoutingRuleSumAggregateInputType = {
+    priority?: true
+  }
+
+  export type PaymentRoutingRuleMinAggregateInputType = {
+    id?: true
+    ownerAddress?: true
+    name?: true
+    description?: true
+    route?: true
+    priority?: true
+    isActive?: true
+=======
+  export type InvoiceAvgAggregateInputType = {
+    taxRate?: true
+  }
+
+  export type InvoiceSumAggregateInputType = {
+    taxRate?: true
+  }
+
+  export type InvoiceMinAggregateInputType = {
+    id?: true
+    invoiceNumber?: true
+    ownerAddress?: true
+    disbursementId?: true
+    templateId?: true
+    status?: true
+    language?: true
+    sender?: true
+    asset?: true
+    subtotal?: true
+    taxRate?: true
+    taxAmount?: true
+    totalAmount?: true
+    note?: true
+    txHash?: true
+    issuedAt?: true
+    dueAt?: true
+>>>>>>> 5551a02 (Feat: Add Payment Invoice Generation)
+    createdAt?: true
+    updatedAt?: true
+  }
+
+<<<<<<< HEAD
+  export type PaymentRoutingRuleMaxAggregateInputType = {
+    id?: true
+    ownerAddress?: true
+    name?: true
+    description?: true
+    route?: true
+    priority?: true
+    isActive?: true
+=======
+  export type InvoiceMaxAggregateInputType = {
+    id?: true
+    invoiceNumber?: true
+    ownerAddress?: true
+    disbursementId?: true
+    templateId?: true
+    status?: true
+    language?: true
+    sender?: true
+    asset?: true
+    subtotal?: true
+    taxRate?: true
+    taxAmount?: true
+    totalAmount?: true
+    note?: true
+    txHash?: true
+    issuedAt?: true
+    dueAt?: true
+>>>>>>> 5551a02 (Feat: Add Payment Invoice Generation)
+    createdAt?: true
+    updatedAt?: true
+  }
+
+<<<<<<< HEAD
+  export type PaymentRoutingRuleCountAggregateInputType = {
+    id?: true
+    ownerAddress?: true
+    name?: true
+    description?: true
+    route?: true
+    priority?: true
+    isActive?: true
+=======
+  export type InvoiceCountAggregateInputType = {
+    id?: true
+    invoiceNumber?: true
+    ownerAddress?: true
+    disbursementId?: true
+    templateId?: true
+    status?: true
+    language?: true
+    sender?: true
+    asset?: true
+    recipients?: true
+    subtotal?: true
+    taxRate?: true
+    taxAmount?: true
+    totalAmount?: true
+    note?: true
+    txHash?: true
+    issuedAt?: true
+    dueAt?: true
+>>>>>>> 5551a02 (Feat: Add Payment Invoice Generation)
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+<<<<<<< HEAD
+  export type PaymentRoutingRuleAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PaymentRoutingRule to aggregate.
+     */
+    where?: PaymentRoutingRuleWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PaymentRoutingRules to fetch.
+     */
+    orderBy?: PaymentRoutingRuleOrderByWithRelationInput | PaymentRoutingRuleOrderByWithRelationInput[]
+=======
+  export type InvoiceAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Invoice to aggregate.
+     */
+    where?: InvoiceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Invoices to fetch.
+     */
+    orderBy?: InvoiceOrderByWithRelationInput | InvoiceOrderByWithRelationInput[]
+>>>>>>> 5551a02 (Feat: Add Payment Invoice Generation)
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+<<<<<<< HEAD
+    cursor?: PaymentRoutingRuleWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PaymentRoutingRules from the position of the cursor.
+=======
+    cursor?: InvoiceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Invoices from the position of the cursor.
+>>>>>>> 5551a02 (Feat: Add Payment Invoice Generation)
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+<<<<<<< HEAD
+     * Skip the first `n` PaymentRoutingRules.
+=======
+     * Skip the first `n` Invoices.
+>>>>>>> 5551a02 (Feat: Add Payment Invoice Generation)
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+<<<<<<< HEAD
+     * Count returned PaymentRoutingRules
+    **/
+    _count?: true | PaymentRoutingRuleCountAggregateInputType
+=======
+     * Count returned Invoices
+    **/
+    _count?: true | InvoiceCountAggregateInputType
+>>>>>>> 5551a02 (Feat: Add Payment Invoice Generation)
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+<<<<<<< HEAD
+    _avg?: PaymentRoutingRuleAvgAggregateInputType
+=======
+    _avg?: InvoiceAvgAggregateInputType
+>>>>>>> 5551a02 (Feat: Add Payment Invoice Generation)
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+<<<<<<< HEAD
+    _sum?: PaymentRoutingRuleSumAggregateInputType
+=======
+    _sum?: InvoiceSumAggregateInputType
+>>>>>>> 5551a02 (Feat: Add Payment Invoice Generation)
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+<<<<<<< HEAD
+    _min?: PaymentRoutingRuleMinAggregateInputType
+=======
+    _min?: InvoiceMinAggregateInputType
+>>>>>>> 5551a02 (Feat: Add Payment Invoice Generation)
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+<<<<<<< HEAD
+    _max?: PaymentRoutingRuleMaxAggregateInputType
+  }
+
+  export type GetPaymentRoutingRuleAggregateType<T extends PaymentRoutingRuleAggregateArgs> = {
+        [P in keyof T & keyof AggregatePaymentRoutingRule]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregatePaymentRoutingRule[P]>
+      : GetScalarType<T[P], AggregatePaymentRoutingRule[P]>
+=======
+    _max?: InvoiceMaxAggregateInputType
+  }
+
+  export type GetInvoiceAggregateType<T extends InvoiceAggregateArgs> = {
+        [P in keyof T & keyof AggregateInvoice]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateInvoice[P]>
+      : GetScalarType<T[P], AggregateInvoice[P]>
+>>>>>>> 5551a02 (Feat: Add Payment Invoice Generation)
+  }
+
+
+
+
+<<<<<<< HEAD
+  export type PaymentRoutingRuleGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PaymentRoutingRuleWhereInput
+    orderBy?: PaymentRoutingRuleOrderByWithAggregationInput | PaymentRoutingRuleOrderByWithAggregationInput[]
+    by: PaymentRoutingRuleScalarFieldEnum[] | PaymentRoutingRuleScalarFieldEnum
+    having?: PaymentRoutingRuleScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: PaymentRoutingRuleCountAggregateInputType | true
+    _avg?: PaymentRoutingRuleAvgAggregateInputType
+    _sum?: PaymentRoutingRuleSumAggregateInputType
+    _min?: PaymentRoutingRuleMinAggregateInputType
+    _max?: PaymentRoutingRuleMaxAggregateInputType
+  }
+
+  export type PaymentRoutingRuleGroupByOutputType = {
+    id: string
+    ownerAddress: string
+    name: string
+    description: string | null
+    route: string
+    priority: number
+    isActive: boolean
+    createdAt: Date
+    updatedAt: Date
+    _count: PaymentRoutingRuleCountAggregateOutputType | null
+    _avg: PaymentRoutingRuleAvgAggregateOutputType | null
+    _sum: PaymentRoutingRuleSumAggregateOutputType | null
+    _min: PaymentRoutingRuleMinAggregateOutputType | null
+    _max: PaymentRoutingRuleMaxAggregateOutputType | null
+  }
+
+  type GetPaymentRoutingRuleGroupByPayload<T extends PaymentRoutingRuleGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<PaymentRoutingRuleGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof PaymentRoutingRuleGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], PaymentRoutingRuleGroupByOutputType[P]>
+            : GetScalarType<T[P], PaymentRoutingRuleGroupByOutputType[P]>
+=======
+  export type InvoiceGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: InvoiceWhereInput
+    orderBy?: InvoiceOrderByWithAggregationInput | InvoiceOrderByWithAggregationInput[]
+    by: InvoiceScalarFieldEnum[] | InvoiceScalarFieldEnum
+    having?: InvoiceScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: InvoiceCountAggregateInputType | true
+    _avg?: InvoiceAvgAggregateInputType
+    _sum?: InvoiceSumAggregateInputType
+    _min?: InvoiceMinAggregateInputType
+    _max?: InvoiceMaxAggregateInputType
+  }
+
+  export type InvoiceGroupByOutputType = {
+    id: string
+    invoiceNumber: string
+    ownerAddress: string
+    disbursementId: string | null
+    templateId: string | null
+    status: $Enums.InvoiceStatus
+    language: string
+    sender: string
+    asset: string
+    recipients: JsonValue
+    subtotal: string
+    taxRate: number
+    taxAmount: string
+    totalAmount: string
+    note: string | null
+    txHash: string | null
+    issuedAt: Date | null
+    dueAt: Date | null
+    createdAt: Date
+    updatedAt: Date
+    _count: InvoiceCountAggregateOutputType | null
+    _avg: InvoiceAvgAggregateOutputType | null
+    _sum: InvoiceSumAggregateOutputType | null
+    _min: InvoiceMinAggregateOutputType | null
+    _max: InvoiceMaxAggregateOutputType | null
+  }
+
+  type GetInvoiceGroupByPayload<T extends InvoiceGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<InvoiceGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof InvoiceGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], InvoiceGroupByOutputType[P]>
+            : GetScalarType<T[P], InvoiceGroupByOutputType[P]>
+>>>>>>> 5551a02 (Feat: Add Payment Invoice Generation)
+        }
+      >
+    >
+
+
+<<<<<<< HEAD
+  export type PaymentRoutingRuleSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    ownerAddress?: boolean
+    name?: boolean
+    description?: boolean
+    route?: boolean
+    priority?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    conditions?: boolean | PaymentRoutingRule$conditionsArgs<ExtArgs>
+    _count?: boolean | PaymentRoutingRuleCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["paymentRoutingRule"]>
+
+  export type PaymentRoutingRuleSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    ownerAddress?: boolean
+    name?: boolean
+    description?: boolean
+    route?: boolean
+    priority?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["paymentRoutingRule"]>
+
+  export type PaymentRoutingRuleSelectScalar = {
+    id?: boolean
+    ownerAddress?: boolean
+    name?: boolean
+    description?: boolean
+    route?: boolean
+    priority?: boolean
+    isActive?: boolean
+=======
+  export type InvoiceSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    invoiceNumber?: boolean
+    ownerAddress?: boolean
+    disbursementId?: boolean
+    templateId?: boolean
+    status?: boolean
+    language?: boolean
+    sender?: boolean
+    asset?: boolean
+    recipients?: boolean
+    subtotal?: boolean
+    taxRate?: boolean
+    taxAmount?: boolean
+    totalAmount?: boolean
+    note?: boolean
+    txHash?: boolean
+    issuedAt?: boolean
+    dueAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    disbursement?: boolean | Invoice$disbursementArgs<ExtArgs>
+    template?: boolean | Invoice$templateArgs<ExtArgs>
+  }, ExtArgs["result"]["invoice"]>
+
+  export type InvoiceSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    invoiceNumber?: boolean
+    ownerAddress?: boolean
+    disbursementId?: boolean
+    templateId?: boolean
+    status?: boolean
+    language?: boolean
+    sender?: boolean
+    asset?: boolean
+    recipients?: boolean
+    subtotal?: boolean
+    taxRate?: boolean
+    taxAmount?: boolean
+    totalAmount?: boolean
+    note?: boolean
+    txHash?: boolean
+    issuedAt?: boolean
+    dueAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    disbursement?: boolean | Invoice$disbursementArgs<ExtArgs>
+    template?: boolean | Invoice$templateArgs<ExtArgs>
+  }, ExtArgs["result"]["invoice"]>
+
+  export type InvoiceSelectScalar = {
+    id?: boolean
+    invoiceNumber?: boolean
+    ownerAddress?: boolean
+    disbursementId?: boolean
+    templateId?: boolean
+    status?: boolean
+    language?: boolean
+    sender?: boolean
+    asset?: boolean
+    recipients?: boolean
+    subtotal?: boolean
+    taxRate?: boolean
+    taxAmount?: boolean
+    totalAmount?: boolean
+    note?: boolean
+    txHash?: boolean
+    issuedAt?: boolean
+    dueAt?: boolean
+>>>>>>> 5551a02 (Feat: Add Payment Invoice Generation)
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+<<<<<<< HEAD
+  export type PaymentRoutingRuleInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    conditions?: boolean | PaymentRoutingRule$conditionsArgs<ExtArgs>
+    _count?: boolean | PaymentRoutingRuleCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type PaymentRoutingRuleIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+
+  export type $PaymentRoutingRulePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "PaymentRoutingRule"
+    objects: {
+      conditions: Prisma.$PaymentRoutingConditionPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      ownerAddress: string
+      name: string
+      description: string | null
+      route: string
+      priority: number
+      isActive: boolean
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["paymentRoutingRule"]>
+    composites: {}
+  }
+
+  type PaymentRoutingRuleGetPayload<S extends boolean | null | undefined | PaymentRoutingRuleDefaultArgs> = $Result.GetResult<Prisma.$PaymentRoutingRulePayload, S>
+
+  type PaymentRoutingRuleCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<PaymentRoutingRuleFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: PaymentRoutingRuleCountAggregateInputType | true
+    }
+
+  export interface PaymentRoutingRuleDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['PaymentRoutingRule'], meta: { name: 'PaymentRoutingRule' } }
+    /**
+     * Find zero or one PaymentRoutingRule that matches the filter.
+     * @param {PaymentRoutingRuleFindUniqueArgs} args - Arguments to find a PaymentRoutingRule
+     * @example
+     * // Get one PaymentRoutingRule
+     * const paymentRoutingRule = await prisma.paymentRoutingRule.findUnique({
+=======
+  export type InvoiceInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    disbursement?: boolean | Invoice$disbursementArgs<ExtArgs>
+    template?: boolean | Invoice$templateArgs<ExtArgs>
+  }
+  export type InvoiceIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    disbursement?: boolean | Invoice$disbursementArgs<ExtArgs>
+    template?: boolean | Invoice$templateArgs<ExtArgs>
+  }
+
+  export type $InvoicePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Invoice"
+    objects: {
+      disbursement: Prisma.$DisbursementPayload<ExtArgs> | null
+      template: Prisma.$InvoiceTemplatePayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      invoiceNumber: string
+      ownerAddress: string
+      disbursementId: string | null
+      templateId: string | null
+      status: $Enums.InvoiceStatus
+      language: string
+      sender: string
+      asset: string
+      recipients: Prisma.JsonValue
+      subtotal: string
+      taxRate: number
+      taxAmount: string
+      totalAmount: string
+      note: string | null
+      txHash: string | null
+      issuedAt: Date | null
+      dueAt: Date | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["invoice"]>
+    composites: {}
+  }
+
+  type InvoiceGetPayload<S extends boolean | null | undefined | InvoiceDefaultArgs> = $Result.GetResult<Prisma.$InvoicePayload, S>
+
+  type InvoiceCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<InvoiceFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: InvoiceCountAggregateInputType | true
+    }
+
+  export interface InvoiceDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Invoice'], meta: { name: 'Invoice' } }
+    /**
+     * Find zero or one Invoice that matches the filter.
+     * @param {InvoiceFindUniqueArgs} args - Arguments to find a Invoice
+     * @example
+     * // Get one Invoice
+     * const invoice = await prisma.invoice.findUnique({
+>>>>>>> 5551a02 (Feat: Add Payment Invoice Generation)
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+<<<<<<< HEAD
+    findUnique<T extends PaymentRoutingRuleFindUniqueArgs>(args: SelectSubset<T, PaymentRoutingRuleFindUniqueArgs<ExtArgs>>): Prisma__PaymentRoutingRuleClient<$Result.GetResult<Prisma.$PaymentRoutingRulePayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one PaymentRoutingRule that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {PaymentRoutingRuleFindUniqueOrThrowArgs} args - Arguments to find a PaymentRoutingRule
+     * @example
+     * // Get one PaymentRoutingRule
+     * const paymentRoutingRule = await prisma.paymentRoutingRule.findUniqueOrThrow({
+=======
+    findUnique<T extends InvoiceFindUniqueArgs>(args: SelectSubset<T, InvoiceFindUniqueArgs<ExtArgs>>): Prisma__InvoiceClient<$Result.GetResult<Prisma.$InvoicePayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one Invoice that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {InvoiceFindUniqueOrThrowArgs} args - Arguments to find a Invoice
+     * @example
+     * // Get one Invoice
+     * const invoice = await prisma.invoice.findUniqueOrThrow({
+>>>>>>> 5551a02 (Feat: Add Payment Invoice Generation)
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+<<<<<<< HEAD
+    findUniqueOrThrow<T extends PaymentRoutingRuleFindUniqueOrThrowArgs>(args: SelectSubset<T, PaymentRoutingRuleFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PaymentRoutingRuleClient<$Result.GetResult<Prisma.$PaymentRoutingRulePayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first PaymentRoutingRule that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PaymentRoutingRuleFindFirstArgs} args - Arguments to find a PaymentRoutingRule
+     * @example
+     * // Get one PaymentRoutingRule
+     * const paymentRoutingRule = await prisma.paymentRoutingRule.findFirst({
+=======
+    findUniqueOrThrow<T extends InvoiceFindUniqueOrThrowArgs>(args: SelectSubset<T, InvoiceFindUniqueOrThrowArgs<ExtArgs>>): Prisma__InvoiceClient<$Result.GetResult<Prisma.$InvoicePayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first Invoice that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InvoiceFindFirstArgs} args - Arguments to find a Invoice
+     * @example
+     * // Get one Invoice
+     * const invoice = await prisma.invoice.findFirst({
+>>>>>>> 5551a02 (Feat: Add Payment Invoice Generation)
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+<<<<<<< HEAD
+    findFirst<T extends PaymentRoutingRuleFindFirstArgs>(args?: SelectSubset<T, PaymentRoutingRuleFindFirstArgs<ExtArgs>>): Prisma__PaymentRoutingRuleClient<$Result.GetResult<Prisma.$PaymentRoutingRulePayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first PaymentRoutingRule that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PaymentRoutingRuleFindFirstOrThrowArgs} args - Arguments to find a PaymentRoutingRule
+     * @example
+     * // Get one PaymentRoutingRule
+     * const paymentRoutingRule = await prisma.paymentRoutingRule.findFirstOrThrow({
+=======
+    findFirst<T extends InvoiceFindFirstArgs>(args?: SelectSubset<T, InvoiceFindFirstArgs<ExtArgs>>): Prisma__InvoiceClient<$Result.GetResult<Prisma.$InvoicePayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first Invoice that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InvoiceFindFirstOrThrowArgs} args - Arguments to find a Invoice
+     * @example
+     * // Get one Invoice
+     * const invoice = await prisma.invoice.findFirstOrThrow({
+>>>>>>> 5551a02 (Feat: Add Payment Invoice Generation)
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+<<<<<<< HEAD
+    findFirstOrThrow<T extends PaymentRoutingRuleFindFirstOrThrowArgs>(args?: SelectSubset<T, PaymentRoutingRuleFindFirstOrThrowArgs<ExtArgs>>): Prisma__PaymentRoutingRuleClient<$Result.GetResult<Prisma.$PaymentRoutingRulePayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more PaymentRoutingRules that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PaymentRoutingRuleFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all PaymentRoutingRules
+     * const paymentRoutingRules = await prisma.paymentRoutingRule.findMany()
+     * 
+     * // Get first 10 PaymentRoutingRules
+     * const paymentRoutingRules = await prisma.paymentRoutingRule.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const paymentRoutingRuleWithIdOnly = await prisma.paymentRoutingRule.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends PaymentRoutingRuleFindManyArgs>(args?: SelectSubset<T, PaymentRoutingRuleFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PaymentRoutingRulePayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a PaymentRoutingRule.
+     * @param {PaymentRoutingRuleCreateArgs} args - Arguments to create a PaymentRoutingRule.
+     * @example
+     * // Create one PaymentRoutingRule
+     * const PaymentRoutingRule = await prisma.paymentRoutingRule.create({
+     *   data: {
+     *     // ... data to create a PaymentRoutingRule
+=======
+    findFirstOrThrow<T extends InvoiceFindFirstOrThrowArgs>(args?: SelectSubset<T, InvoiceFindFirstOrThrowArgs<ExtArgs>>): Prisma__InvoiceClient<$Result.GetResult<Prisma.$InvoicePayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more Invoices that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InvoiceFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Invoices
+     * const invoices = await prisma.invoice.findMany()
+     * 
+     * // Get first 10 Invoices
+     * const invoices = await prisma.invoice.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const invoiceWithIdOnly = await prisma.invoice.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends InvoiceFindManyArgs>(args?: SelectSubset<T, InvoiceFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InvoicePayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a Invoice.
+     * @param {InvoiceCreateArgs} args - Arguments to create a Invoice.
+     * @example
+     * // Create one Invoice
+     * const Invoice = await prisma.invoice.create({
+     *   data: {
+     *     // ... data to create a Invoice
+>>>>>>> 5551a02 (Feat: Add Payment Invoice Generation)
+     *   }
+     * })
+     * 
+     */
+<<<<<<< HEAD
+    create<T extends PaymentRoutingRuleCreateArgs>(args: SelectSubset<T, PaymentRoutingRuleCreateArgs<ExtArgs>>): Prisma__PaymentRoutingRuleClient<$Result.GetResult<Prisma.$PaymentRoutingRulePayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many PaymentRoutingRules.
+     * @param {PaymentRoutingRuleCreateManyArgs} args - Arguments to create many PaymentRoutingRules.
+     * @example
+     * // Create many PaymentRoutingRules
+     * const paymentRoutingRule = await prisma.paymentRoutingRule.createMany({
+=======
+    create<T extends InvoiceCreateArgs>(args: SelectSubset<T, InvoiceCreateArgs<ExtArgs>>): Prisma__InvoiceClient<$Result.GetResult<Prisma.$InvoicePayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many Invoices.
+     * @param {InvoiceCreateManyArgs} args - Arguments to create many Invoices.
+     * @example
+     * // Create many Invoices
+     * const invoice = await prisma.invoice.createMany({
+>>>>>>> 5551a02 (Feat: Add Payment Invoice Generation)
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+<<<<<<< HEAD
+    createMany<T extends PaymentRoutingRuleCreateManyArgs>(args?: SelectSubset<T, PaymentRoutingRuleCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many PaymentRoutingRules and returns the data saved in the database.
+     * @param {PaymentRoutingRuleCreateManyAndReturnArgs} args - Arguments to create many PaymentRoutingRules.
+     * @example
+     * // Create many PaymentRoutingRules
+     * const paymentRoutingRule = await prisma.paymentRoutingRule.createManyAndReturn({
+=======
+    createMany<T extends InvoiceCreateManyArgs>(args?: SelectSubset<T, InvoiceCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Invoices and returns the data saved in the database.
+     * @param {InvoiceCreateManyAndReturnArgs} args - Arguments to create many Invoices.
+     * @example
+     * // Create many Invoices
+     * const invoice = await prisma.invoice.createManyAndReturn({
+>>>>>>> 5551a02 (Feat: Add Payment Invoice Generation)
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+<<<<<<< HEAD
+     * // Create many PaymentRoutingRules and only return the `id`
+     * const paymentRoutingRuleWithIdOnly = await prisma.paymentRoutingRule.createManyAndReturn({ 
+=======
+     * // Create many Invoices and only return the `id`
+     * const invoiceWithIdOnly = await prisma.invoice.createManyAndReturn({ 
+>>>>>>> 5551a02 (Feat: Add Payment Invoice Generation)
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+<<<<<<< HEAD
+    createManyAndReturn<T extends PaymentRoutingRuleCreateManyAndReturnArgs>(args?: SelectSubset<T, PaymentRoutingRuleCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PaymentRoutingRulePayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a PaymentRoutingRule.
+     * @param {PaymentRoutingRuleDeleteArgs} args - Arguments to delete one PaymentRoutingRule.
+     * @example
+     * // Delete one PaymentRoutingRule
+     * const PaymentRoutingRule = await prisma.paymentRoutingRule.delete({
+     *   where: {
+     *     // ... filter to delete one PaymentRoutingRule
+=======
+    createManyAndReturn<T extends InvoiceCreateManyAndReturnArgs>(args?: SelectSubset<T, InvoiceCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InvoicePayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a Invoice.
+     * @param {InvoiceDeleteArgs} args - Arguments to delete one Invoice.
+     * @example
+     * // Delete one Invoice
+     * const Invoice = await prisma.invoice.delete({
+     *   where: {
+     *     // ... filter to delete one Invoice
+>>>>>>> 5551a02 (Feat: Add Payment Invoice Generation)
+     *   }
+     * })
+     * 
+     */
+<<<<<<< HEAD
+    delete<T extends PaymentRoutingRuleDeleteArgs>(args: SelectSubset<T, PaymentRoutingRuleDeleteArgs<ExtArgs>>): Prisma__PaymentRoutingRuleClient<$Result.GetResult<Prisma.$PaymentRoutingRulePayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one PaymentRoutingRule.
+     * @param {PaymentRoutingRuleUpdateArgs} args - Arguments to update one PaymentRoutingRule.
+     * @example
+     * // Update one PaymentRoutingRule
+     * const paymentRoutingRule = await prisma.paymentRoutingRule.update({
+=======
+    delete<T extends InvoiceDeleteArgs>(args: SelectSubset<T, InvoiceDeleteArgs<ExtArgs>>): Prisma__InvoiceClient<$Result.GetResult<Prisma.$InvoicePayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one Invoice.
+     * @param {InvoiceUpdateArgs} args - Arguments to update one Invoice.
+     * @example
+     * // Update one Invoice
+     * const invoice = await prisma.invoice.update({
+>>>>>>> 5551a02 (Feat: Add Payment Invoice Generation)
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+<<<<<<< HEAD
+    update<T extends PaymentRoutingRuleUpdateArgs>(args: SelectSubset<T, PaymentRoutingRuleUpdateArgs<ExtArgs>>): Prisma__PaymentRoutingRuleClient<$Result.GetResult<Prisma.$PaymentRoutingRulePayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more PaymentRoutingRules.
+     * @param {PaymentRoutingRuleDeleteManyArgs} args - Arguments to filter PaymentRoutingRules to delete.
+     * @example
+     * // Delete a few PaymentRoutingRules
+     * const { count } = await prisma.paymentRoutingRule.deleteMany({
+=======
+    update<T extends InvoiceUpdateArgs>(args: SelectSubset<T, InvoiceUpdateArgs<ExtArgs>>): Prisma__InvoiceClient<$Result.GetResult<Prisma.$InvoicePayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more Invoices.
+     * @param {InvoiceDeleteManyArgs} args - Arguments to filter Invoices to delete.
+     * @example
+     * // Delete a few Invoices
+     * const { count } = await prisma.invoice.deleteMany({
+>>>>>>> 5551a02 (Feat: Add Payment Invoice Generation)
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+<<<<<<< HEAD
+    deleteMany<T extends PaymentRoutingRuleDeleteManyArgs>(args?: SelectSubset<T, PaymentRoutingRuleDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PaymentRoutingRules.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PaymentRoutingRuleUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many PaymentRoutingRules
+     * const paymentRoutingRule = await prisma.paymentRoutingRule.updateMany({
+=======
+    deleteMany<T extends InvoiceDeleteManyArgs>(args?: SelectSubset<T, InvoiceDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Invoices.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InvoiceUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Invoices
+     * const invoice = await prisma.invoice.updateMany({
+>>>>>>> 5551a02 (Feat: Add Payment Invoice Generation)
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+<<<<<<< HEAD
+    updateMany<T extends PaymentRoutingRuleUpdateManyArgs>(args: SelectSubset<T, PaymentRoutingRuleUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one PaymentRoutingRule.
+     * @param {PaymentRoutingRuleUpsertArgs} args - Arguments to update or create a PaymentRoutingRule.
+     * @example
+     * // Update or create a PaymentRoutingRule
+     * const paymentRoutingRule = await prisma.paymentRoutingRule.upsert({
+     *   create: {
+     *     // ... data to create a PaymentRoutingRule
+=======
+    updateMany<T extends InvoiceUpdateManyArgs>(args: SelectSubset<T, InvoiceUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Invoice.
+     * @param {InvoiceUpsertArgs} args - Arguments to update or create a Invoice.
+     * @example
+     * // Update or create a Invoice
+     * const invoice = await prisma.invoice.upsert({
+     *   create: {
+     *     // ... data to create a Invoice
+>>>>>>> 5551a02 (Feat: Add Payment Invoice Generation)
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+<<<<<<< HEAD
+     *     // ... the filter for the PaymentRoutingRule we want to update
+     *   }
+     * })
+     */
+    upsert<T extends PaymentRoutingRuleUpsertArgs>(args: SelectSubset<T, PaymentRoutingRuleUpsertArgs<ExtArgs>>): Prisma__PaymentRoutingRuleClient<$Result.GetResult<Prisma.$PaymentRoutingRulePayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of PaymentRoutingRules.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PaymentRoutingRuleCountArgs} args - Arguments to filter PaymentRoutingRules to count.
+     * @example
+     * // Count the number of PaymentRoutingRules
+     * const count = await prisma.paymentRoutingRule.count({
+     *   where: {
+     *     // ... the filter for the PaymentRoutingRules we want to count
+     *   }
+     * })
+    **/
+    count<T extends PaymentRoutingRuleCountArgs>(
+      args?: Subset<T, PaymentRoutingRuleCountArgs>,
+=======
+     *     // ... the filter for the Invoice we want to update
+     *   }
+     * })
+     */
+    upsert<T extends InvoiceUpsertArgs>(args: SelectSubset<T, InvoiceUpsertArgs<ExtArgs>>): Prisma__InvoiceClient<$Result.GetResult<Prisma.$InvoicePayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of Invoices.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InvoiceCountArgs} args - Arguments to filter Invoices to count.
+     * @example
+     * // Count the number of Invoices
+     * const count = await prisma.invoice.count({
+     *   where: {
+     *     // ... the filter for the Invoices we want to count
+     *   }
+     * })
+    **/
+    count<T extends InvoiceCountArgs>(
+      args?: Subset<T, InvoiceCountArgs>,
+>>>>>>> 5551a02 (Feat: Add Payment Invoice Generation)
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+<<<<<<< HEAD
+          : GetScalarType<T['select'], PaymentRoutingRuleCountAggregateOutputType>
+=======
+          : GetScalarType<T['select'], InvoiceCountAggregateOutputType>
+>>>>>>> 5551a02 (Feat: Add Payment Invoice Generation)
+        : number
+    >
+
+    /**
+<<<<<<< HEAD
+     * Allows you to perform aggregations operations on a PaymentRoutingRule.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PaymentRoutingRuleAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+=======
+     * Allows you to perform aggregations operations on a Invoice.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InvoiceAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+>>>>>>> 5551a02 (Feat: Add Payment Invoice Generation)
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+<<<<<<< HEAD
+    aggregate<T extends PaymentRoutingRuleAggregateArgs>(args: Subset<T, PaymentRoutingRuleAggregateArgs>): Prisma.PrismaPromise<GetPaymentRoutingRuleAggregateType<T>>
+
+    /**
+     * Group by PaymentRoutingRule.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PaymentRoutingRuleGroupByArgs} args - Group by arguments.
+=======
+    aggregate<T extends InvoiceAggregateArgs>(args: Subset<T, InvoiceAggregateArgs>): Prisma.PrismaPromise<GetInvoiceAggregateType<T>>
+
+    /**
+     * Group by Invoice.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InvoiceGroupByArgs} args - Group by arguments.
+>>>>>>> 5551a02 (Feat: Add Payment Invoice Generation)
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+<<<<<<< HEAD
+      T extends PaymentRoutingRuleGroupByArgs,
+=======
+      T extends InvoiceGroupByArgs,
+>>>>>>> 5551a02 (Feat: Add Payment Invoice Generation)
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+<<<<<<< HEAD
+        ? { orderBy: PaymentRoutingRuleGroupByArgs['orderBy'] }
+        : { orderBy?: PaymentRoutingRuleGroupByArgs['orderBy'] },
+=======
+        ? { orderBy: InvoiceGroupByArgs['orderBy'] }
+        : { orderBy?: InvoiceGroupByArgs['orderBy'] },
+>>>>>>> 5551a02 (Feat: Add Payment Invoice Generation)
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+<<<<<<< HEAD
+    >(args: SubsetIntersection<T, PaymentRoutingRuleGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPaymentRoutingRuleGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the PaymentRoutingRule model
+   */
+  readonly fields: PaymentRoutingRuleFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for PaymentRoutingRule.
+=======
+    >(args: SubsetIntersection<T, InvoiceGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetInvoiceGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Invoice model
+   */
+  readonly fields: InvoiceFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Invoice.
+>>>>>>> 5551a02 (Feat: Add Payment Invoice Generation)
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+<<<<<<< HEAD
+  export interface Prisma__PaymentRoutingRuleClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    conditions<T extends PaymentRoutingRule$conditionsArgs<ExtArgs> = {}>(args?: Subset<T, PaymentRoutingRule$conditionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PaymentRoutingConditionPayload<ExtArgs>, T, "findMany"> | Null>
+=======
+  export interface Prisma__InvoiceClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    disbursement<T extends Invoice$disbursementArgs<ExtArgs> = {}>(args?: Subset<T, Invoice$disbursementArgs<ExtArgs>>): Prisma__DisbursementClient<$Result.GetResult<Prisma.$DisbursementPayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
+    template<T extends Invoice$templateArgs<ExtArgs> = {}>(args?: Subset<T, Invoice$templateArgs<ExtArgs>>): Prisma__InvoiceTemplateClient<$Result.GetResult<Prisma.$InvoiceTemplatePayload<ExtArgs>, T, "findUniqueOrThrow"> | null, null, ExtArgs>
+>>>>>>> 5551a02 (Feat: Add Payment Invoice Generation)
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+<<<<<<< HEAD
+   * Fields of the PaymentRoutingRule model
+   */ 
+  interface PaymentRoutingRuleFieldRefs {
+    readonly id: FieldRef<"PaymentRoutingRule", 'String'>
+    readonly ownerAddress: FieldRef<"PaymentRoutingRule", 'String'>
+    readonly name: FieldRef<"PaymentRoutingRule", 'String'>
+    readonly description: FieldRef<"PaymentRoutingRule", 'String'>
+    readonly route: FieldRef<"PaymentRoutingRule", 'String'>
+    readonly priority: FieldRef<"PaymentRoutingRule", 'Int'>
+    readonly isActive: FieldRef<"PaymentRoutingRule", 'Boolean'>
+    readonly createdAt: FieldRef<"PaymentRoutingRule", 'DateTime'>
+    readonly updatedAt: FieldRef<"PaymentRoutingRule", 'DateTime'>
+=======
+   * Fields of the Invoice model
+   */ 
+  interface InvoiceFieldRefs {
+    readonly id: FieldRef<"Invoice", 'String'>
+    readonly invoiceNumber: FieldRef<"Invoice", 'String'>
+    readonly ownerAddress: FieldRef<"Invoice", 'String'>
+    readonly disbursementId: FieldRef<"Invoice", 'String'>
+    readonly templateId: FieldRef<"Invoice", 'String'>
+    readonly status: FieldRef<"Invoice", 'InvoiceStatus'>
+    readonly language: FieldRef<"Invoice", 'String'>
+    readonly sender: FieldRef<"Invoice", 'String'>
+    readonly asset: FieldRef<"Invoice", 'String'>
+    readonly recipients: FieldRef<"Invoice", 'Json'>
+    readonly subtotal: FieldRef<"Invoice", 'String'>
+    readonly taxRate: FieldRef<"Invoice", 'Float'>
+    readonly taxAmount: FieldRef<"Invoice", 'String'>
+    readonly totalAmount: FieldRef<"Invoice", 'String'>
+    readonly note: FieldRef<"Invoice", 'String'>
+    readonly txHash: FieldRef<"Invoice", 'String'>
+    readonly issuedAt: FieldRef<"Invoice", 'DateTime'>
+    readonly dueAt: FieldRef<"Invoice", 'DateTime'>
+    readonly createdAt: FieldRef<"Invoice", 'DateTime'>
+    readonly updatedAt: FieldRef<"Invoice", 'DateTime'>
+>>>>>>> 5551a02 (Feat: Add Payment Invoice Generation)
+  }
+    
+
+  // Custom InputTypes
+  /**
+<<<<<<< HEAD
+   * PaymentRoutingRule findUnique
+   */
+  export type PaymentRoutingRuleFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentRoutingRule
+     */
+    select?: PaymentRoutingRuleSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentRoutingRuleInclude<ExtArgs> | null
+    /**
+     * Filter, which PaymentRoutingRule to fetch.
+     */
+    where: PaymentRoutingRuleWhereUniqueInput
+  }
+
+  /**
+   * PaymentRoutingRule findUniqueOrThrow
+   */
+  export type PaymentRoutingRuleFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentRoutingRule
+     */
+    select?: PaymentRoutingRuleSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentRoutingRuleInclude<ExtArgs> | null
+    /**
+     * Filter, which PaymentRoutingRule to fetch.
+     */
+    where: PaymentRoutingRuleWhereUniqueInput
+  }
+
+  /**
+   * PaymentRoutingRule findFirst
+   */
+  export type PaymentRoutingRuleFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentRoutingRule
+     */
+    select?: PaymentRoutingRuleSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentRoutingRuleInclude<ExtArgs> | null
+    /**
+     * Filter, which PaymentRoutingRule to fetch.
+     */
+    where?: PaymentRoutingRuleWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PaymentRoutingRules to fetch.
+     */
+    orderBy?: PaymentRoutingRuleOrderByWithRelationInput | PaymentRoutingRuleOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PaymentRoutingRules.
+     */
+    cursor?: PaymentRoutingRuleWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PaymentRoutingRules from the position of the cursor.
+=======
+   * Invoice findUnique
+   */
+  export type InvoiceFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Invoice
+     */
+    select?: InvoiceSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvoiceInclude<ExtArgs> | null
+    /**
+     * Filter, which Invoice to fetch.
+     */
+    where: InvoiceWhereUniqueInput
+  }
+
+  /**
+   * Invoice findUniqueOrThrow
+   */
+  export type InvoiceFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Invoice
+     */
+    select?: InvoiceSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvoiceInclude<ExtArgs> | null
+    /**
+     * Filter, which Invoice to fetch.
+     */
+    where: InvoiceWhereUniqueInput
+  }
+
+  /**
+   * Invoice findFirst
+   */
+  export type InvoiceFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Invoice
+     */
+    select?: InvoiceSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvoiceInclude<ExtArgs> | null
+    /**
+     * Filter, which Invoice to fetch.
+     */
+    where?: InvoiceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Invoices to fetch.
+     */
+    orderBy?: InvoiceOrderByWithRelationInput | InvoiceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Invoices.
+     */
+    cursor?: InvoiceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Invoices from the position of the cursor.
+>>>>>>> 5551a02 (Feat: Add Payment Invoice Generation)
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+<<<<<<< HEAD
+     * Skip the first `n` PaymentRoutingRules.
+=======
+     * Skip the first `n` Invoices.
+>>>>>>> 5551a02 (Feat: Add Payment Invoice Generation)
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+<<<<<<< HEAD
+     * Filter by unique combinations of PaymentRoutingRules.
+     */
+    distinct?: PaymentRoutingRuleScalarFieldEnum | PaymentRoutingRuleScalarFieldEnum[]
+  }
+
+  /**
+   * PaymentRoutingRule findFirstOrThrow
+   */
+  export type PaymentRoutingRuleFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentRoutingRule
+     */
+    select?: PaymentRoutingRuleSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentRoutingRuleInclude<ExtArgs> | null
+    /**
+     * Filter, which PaymentRoutingRule to fetch.
+     */
+    where?: PaymentRoutingRuleWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PaymentRoutingRules to fetch.
+     */
+    orderBy?: PaymentRoutingRuleOrderByWithRelationInput | PaymentRoutingRuleOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PaymentRoutingRules.
+     */
+    cursor?: PaymentRoutingRuleWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PaymentRoutingRules from the position of the cursor.
+=======
+     * Filter by unique combinations of Invoices.
+     */
+    distinct?: InvoiceScalarFieldEnum | InvoiceScalarFieldEnum[]
+  }
+
+  /**
+   * Invoice findFirstOrThrow
+   */
+  export type InvoiceFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Invoice
+     */
+    select?: InvoiceSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvoiceInclude<ExtArgs> | null
+    /**
+     * Filter, which Invoice to fetch.
+     */
+    where?: InvoiceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Invoices to fetch.
+     */
+    orderBy?: InvoiceOrderByWithRelationInput | InvoiceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Invoices.
+     */
+    cursor?: InvoiceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Invoices from the position of the cursor.
+>>>>>>> 5551a02 (Feat: Add Payment Invoice Generation)
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+<<<<<<< HEAD
+     * Skip the first `n` PaymentRoutingRules.
+=======
+     * Skip the first `n` Invoices.
+>>>>>>> 5551a02 (Feat: Add Payment Invoice Generation)
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+<<<<<<< HEAD
+     * Filter by unique combinations of PaymentRoutingRules.
+     */
+    distinct?: PaymentRoutingRuleScalarFieldEnum | PaymentRoutingRuleScalarFieldEnum[]
+  }
+
+  /**
+   * PaymentRoutingRule findMany
+   */
+  export type PaymentRoutingRuleFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentRoutingRule
+     */
+    select?: PaymentRoutingRuleSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentRoutingRuleInclude<ExtArgs> | null
+    /**
+     * Filter, which PaymentRoutingRules to fetch.
+     */
+    where?: PaymentRoutingRuleWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PaymentRoutingRules to fetch.
+     */
+    orderBy?: PaymentRoutingRuleOrderByWithRelationInput | PaymentRoutingRuleOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing PaymentRoutingRules.
+     */
+    cursor?: PaymentRoutingRuleWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PaymentRoutingRules from the position of the cursor.
+=======
+     * Filter by unique combinations of Invoices.
+     */
+    distinct?: InvoiceScalarFieldEnum | InvoiceScalarFieldEnum[]
+  }
+
+  /**
+   * Invoice findMany
+   */
+  export type InvoiceFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Invoice
+     */
+    select?: InvoiceSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvoiceInclude<ExtArgs> | null
+    /**
+     * Filter, which Invoices to fetch.
+     */
+    where?: InvoiceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Invoices to fetch.
+     */
+    orderBy?: InvoiceOrderByWithRelationInput | InvoiceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Invoices.
+     */
+    cursor?: InvoiceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Invoices from the position of the cursor.
+>>>>>>> 5551a02 (Feat: Add Payment Invoice Generation)
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+<<<<<<< HEAD
+     * Skip the first `n` PaymentRoutingRules.
+     */
+    skip?: number
+    distinct?: PaymentRoutingRuleScalarFieldEnum | PaymentRoutingRuleScalarFieldEnum[]
+  }
+
+  /**
+   * PaymentRoutingRule create
+   */
+  export type PaymentRoutingRuleCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentRoutingRule
+     */
+    select?: PaymentRoutingRuleSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentRoutingRuleInclude<ExtArgs> | null
+    /**
+     * The data needed to create a PaymentRoutingRule.
+     */
+    data: XOR<PaymentRoutingRuleCreateInput, PaymentRoutingRuleUncheckedCreateInput>
+  }
+
+  /**
+   * PaymentRoutingRule createMany
+   */
+  export type PaymentRoutingRuleCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many PaymentRoutingRules.
+     */
+    data: PaymentRoutingRuleCreateManyInput | PaymentRoutingRuleCreateManyInput[]
+=======
+     * Skip the first `n` Invoices.
+     */
+    skip?: number
+    distinct?: InvoiceScalarFieldEnum | InvoiceScalarFieldEnum[]
+  }
+
+  /**
+   * Invoice create
+   */
+  export type InvoiceCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Invoice
+     */
+    select?: InvoiceSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvoiceInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Invoice.
+     */
+    data: XOR<InvoiceCreateInput, InvoiceUncheckedCreateInput>
+  }
+
+  /**
+   * Invoice createMany
+   */
+  export type InvoiceCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Invoices.
+     */
+    data: InvoiceCreateManyInput | InvoiceCreateManyInput[]
+>>>>>>> 5551a02 (Feat: Add Payment Invoice Generation)
+    skipDuplicates?: boolean
+  }
+
+  /**
+<<<<<<< HEAD
+   * PaymentRoutingRule createManyAndReturn
+   */
+  export type PaymentRoutingRuleCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentRoutingRule
+     */
+    select?: PaymentRoutingRuleSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many PaymentRoutingRules.
+     */
+    data: PaymentRoutingRuleCreateManyInput | PaymentRoutingRuleCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * PaymentRoutingRule update
+   */
+  export type PaymentRoutingRuleUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentRoutingRule
+     */
+    select?: PaymentRoutingRuleSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentRoutingRuleInclude<ExtArgs> | null
+    /**
+     * The data needed to update a PaymentRoutingRule.
+     */
+    data: XOR<PaymentRoutingRuleUpdateInput, PaymentRoutingRuleUncheckedUpdateInput>
+    /**
+     * Choose, which PaymentRoutingRule to update.
+     */
+    where: PaymentRoutingRuleWhereUniqueInput
+  }
+
+  /**
+   * PaymentRoutingRule updateMany
+   */
+  export type PaymentRoutingRuleUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update PaymentRoutingRules.
+     */
+    data: XOR<PaymentRoutingRuleUpdateManyMutationInput, PaymentRoutingRuleUncheckedUpdateManyInput>
+    /**
+     * Filter which PaymentRoutingRules to update
+     */
+    where?: PaymentRoutingRuleWhereInput
+  }
+
+  /**
+   * PaymentRoutingRule upsert
+   */
+  export type PaymentRoutingRuleUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentRoutingRule
+     */
+    select?: PaymentRoutingRuleSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentRoutingRuleInclude<ExtArgs> | null
+    /**
+     * The filter to search for the PaymentRoutingRule to update in case it exists.
+     */
+    where: PaymentRoutingRuleWhereUniqueInput
+    /**
+     * In case the PaymentRoutingRule found by the `where` argument doesn't exist, create a new PaymentRoutingRule with this data.
+     */
+    create: XOR<PaymentRoutingRuleCreateInput, PaymentRoutingRuleUncheckedCreateInput>
+    /**
+     * In case the PaymentRoutingRule was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<PaymentRoutingRuleUpdateInput, PaymentRoutingRuleUncheckedUpdateInput>
+  }
+
+  /**
+   * PaymentRoutingRule delete
+   */
+  export type PaymentRoutingRuleDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentRoutingRule
+     */
+    select?: PaymentRoutingRuleSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentRoutingRuleInclude<ExtArgs> | null
+    /**
+     * Filter which PaymentRoutingRule to delete.
+     */
+    where: PaymentRoutingRuleWhereUniqueInput
+  }
+
+  /**
+   * PaymentRoutingRule deleteMany
+   */
+  export type PaymentRoutingRuleDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PaymentRoutingRules to delete
+     */
+    where?: PaymentRoutingRuleWhereInput
+  }
+
+  /**
+   * PaymentRoutingRule.conditions
+   */
+  export type PaymentRoutingRule$conditionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentRoutingCondition
+     */
+    select?: PaymentRoutingConditionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentRoutingConditionInclude<ExtArgs> | null
+    where?: PaymentRoutingConditionWhereInput
+    orderBy?: PaymentRoutingConditionOrderByWithRelationInput | PaymentRoutingConditionOrderByWithRelationInput[]
+    cursor?: PaymentRoutingConditionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PaymentRoutingConditionScalarFieldEnum | PaymentRoutingConditionScalarFieldEnum[]
+  }
+
+  /**
+   * PaymentRoutingRule without action
+   */
+  export type PaymentRoutingRuleDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentRoutingRule
+     */
+    select?: PaymentRoutingRuleSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentRoutingRuleInclude<ExtArgs> | null
+=======
+   * Invoice createManyAndReturn
+   */
+  export type InvoiceCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Invoice
+     */
+    select?: InvoiceSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many Invoices.
+     */
+    data: InvoiceCreateManyInput | InvoiceCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvoiceIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Invoice update
+   */
+  export type InvoiceUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Invoice
+     */
+    select?: InvoiceSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvoiceInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Invoice.
+     */
+    data: XOR<InvoiceUpdateInput, InvoiceUncheckedUpdateInput>
+    /**
+     * Choose, which Invoice to update.
+     */
+    where: InvoiceWhereUniqueInput
+  }
+
+  /**
+   * Invoice updateMany
+   */
+  export type InvoiceUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Invoices.
+     */
+    data: XOR<InvoiceUpdateManyMutationInput, InvoiceUncheckedUpdateManyInput>
+    /**
+     * Filter which Invoices to update
+     */
+    where?: InvoiceWhereInput
+  }
+
+  /**
+   * Invoice upsert
+   */
+  export type InvoiceUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Invoice
+     */
+    select?: InvoiceSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvoiceInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Invoice to update in case it exists.
+     */
+    where: InvoiceWhereUniqueInput
+    /**
+     * In case the Invoice found by the `where` argument doesn't exist, create a new Invoice with this data.
+     */
+    create: XOR<InvoiceCreateInput, InvoiceUncheckedCreateInput>
+    /**
+     * In case the Invoice was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<InvoiceUpdateInput, InvoiceUncheckedUpdateInput>
+  }
+
+  /**
+   * Invoice delete
+   */
+  export type InvoiceDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Invoice
+     */
+    select?: InvoiceSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvoiceInclude<ExtArgs> | null
+    /**
+     * Filter which Invoice to delete.
+     */
+    where: InvoiceWhereUniqueInput
+  }
+
+  /**
+   * Invoice deleteMany
+   */
+  export type InvoiceDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Invoices to delete
+     */
+    where?: InvoiceWhereInput
+  }
+
+  /**
+   * Invoice.disbursement
+   */
+  export type Invoice$disbursementArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Disbursement
+     */
+    select?: DisbursementSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DisbursementInclude<ExtArgs> | null
+    where?: DisbursementWhereInput
+  }
+
+  /**
+   * Invoice.template
+   */
+  export type Invoice$templateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InvoiceTemplate
+     */
+    select?: InvoiceTemplateSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvoiceTemplateInclude<ExtArgs> | null
+    where?: InvoiceTemplateWhereInput
+  }
+
+  /**
+   * Invoice without action
+   */
+  export type InvoiceDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Invoice
+     */
+    select?: InvoiceSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvoiceInclude<ExtArgs> | null
+>>>>>>> 5551a02 (Feat: Add Payment Invoice Generation)
+  }
+
+
+  /**
+<<<<<<< HEAD
+   * Model PaymentRoutingCondition
+   */
+
+  export type AggregatePaymentRoutingCondition = {
+    _count: PaymentRoutingConditionCountAggregateOutputType | null
+    _min: PaymentRoutingConditionMinAggregateOutputType | null
+    _max: PaymentRoutingConditionMaxAggregateOutputType | null
+  }
+
+  export type PaymentRoutingConditionMinAggregateOutputType = {
+    id: string | null
+    ruleId: string | null
+    type: string | null
+    operator: string | null
+    value: string | null
+    value2: string | null
+  }
+
+  export type PaymentRoutingConditionMaxAggregateOutputType = {
+    id: string | null
+    ruleId: string | null
+    type: string | null
+    operator: string | null
+    value: string | null
+    value2: string | null
+  }
+
+  export type PaymentRoutingConditionCountAggregateOutputType = {
+    id: number
+    ruleId: number
+    type: number
+    operator: number
+    value: number
+    value2: number
+=======
+   * Model InvoiceTemplate
+   */
+
+  export type AggregateInvoiceTemplate = {
+    _count: InvoiceTemplateCountAggregateOutputType | null
+    _min: InvoiceTemplateMinAggregateOutputType | null
+    _max: InvoiceTemplateMaxAggregateOutputType | null
+  }
+
+  export type InvoiceTemplateMinAggregateOutputType = {
+    id: string | null
+    ownerAddress: string | null
+    name: string | null
+    language: string | null
+    isDefault: boolean | null
+    accentColor: string | null
+    logoBase64: string | null
+    footerText: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type InvoiceTemplateMaxAggregateOutputType = {
+    id: string | null
+    ownerAddress: string | null
+    name: string | null
+    language: string | null
+    isDefault: boolean | null
+    accentColor: string | null
+    logoBase64: string | null
+    footerText: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type InvoiceTemplateCountAggregateOutputType = {
+    id: number
+    ownerAddress: number
+    name: number
+    language: number
+    isDefault: number
+    accentColor: number
+    logoBase64: number
+    footerText: number
+    createdAt: number
+    updatedAt: number
+>>>>>>> 5551a02 (Feat: Add Payment Invoice Generation)
+    _all: number
+  }
+
+
+<<<<<<< HEAD
+  export type PaymentRoutingConditionMinAggregateInputType = {
+    id?: true
+    ruleId?: true
+    type?: true
+    operator?: true
+    value?: true
+    value2?: true
+  }
+
+  export type PaymentRoutingConditionMaxAggregateInputType = {
+    id?: true
+    ruleId?: true
+    type?: true
+    operator?: true
+    value?: true
+    value2?: true
+  }
+
+  export type PaymentRoutingConditionCountAggregateInputType = {
+    id?: true
+    ruleId?: true
+    type?: true
+    operator?: true
+    value?: true
+    value2?: true
+    _all?: true
+  }
+
+  export type PaymentRoutingConditionAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PaymentRoutingCondition to aggregate.
+     */
+    where?: PaymentRoutingConditionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PaymentRoutingConditions to fetch.
+     */
+    orderBy?: PaymentRoutingConditionOrderByWithRelationInput | PaymentRoutingConditionOrderByWithRelationInput[]
+=======
+  export type InvoiceTemplateMinAggregateInputType = {
+    id?: true
+    ownerAddress?: true
+    name?: true
+    language?: true
+    isDefault?: true
+    accentColor?: true
+    logoBase64?: true
+    footerText?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type InvoiceTemplateMaxAggregateInputType = {
+    id?: true
+    ownerAddress?: true
+    name?: true
+    language?: true
+    isDefault?: true
+    accentColor?: true
+    logoBase64?: true
+    footerText?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type InvoiceTemplateCountAggregateInputType = {
+    id?: true
+    ownerAddress?: true
+    name?: true
+    language?: true
+    isDefault?: true
+    accentColor?: true
+    logoBase64?: true
+    footerText?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type InvoiceTemplateAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which InvoiceTemplate to aggregate.
+     */
+    where?: InvoiceTemplateWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of InvoiceTemplates to fetch.
+     */
+    orderBy?: InvoiceTemplateOrderByWithRelationInput | InvoiceTemplateOrderByWithRelationInput[]
+>>>>>>> 5551a02 (Feat: Add Payment Invoice Generation)
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+<<<<<<< HEAD
+    cursor?: PaymentRoutingConditionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PaymentRoutingConditions from the position of the cursor.
+=======
+    cursor?: InvoiceTemplateWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` InvoiceTemplates from the position of the cursor.
+>>>>>>> 5551a02 (Feat: Add Payment Invoice Generation)
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+<<<<<<< HEAD
+     * Skip the first `n` PaymentRoutingConditions.
+=======
+     * Skip the first `n` InvoiceTemplates.
+>>>>>>> 5551a02 (Feat: Add Payment Invoice Generation)
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+<<<<<<< HEAD
+     * Count returned PaymentRoutingConditions
+    **/
+    _count?: true | PaymentRoutingConditionCountAggregateInputType
+=======
+     * Count returned InvoiceTemplates
+    **/
+    _count?: true | InvoiceTemplateCountAggregateInputType
+>>>>>>> 5551a02 (Feat: Add Payment Invoice Generation)
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+<<<<<<< HEAD
+    _min?: PaymentRoutingConditionMinAggregateInputType
+=======
+    _min?: InvoiceTemplateMinAggregateInputType
+>>>>>>> 5551a02 (Feat: Add Payment Invoice Generation)
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+<<<<<<< HEAD
+    _max?: PaymentRoutingConditionMaxAggregateInputType
+  }
+
+  export type GetPaymentRoutingConditionAggregateType<T extends PaymentRoutingConditionAggregateArgs> = {
+        [P in keyof T & keyof AggregatePaymentRoutingCondition]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregatePaymentRoutingCondition[P]>
+      : GetScalarType<T[P], AggregatePaymentRoutingCondition[P]>
+=======
+    _max?: InvoiceTemplateMaxAggregateInputType
+  }
+
+  export type GetInvoiceTemplateAggregateType<T extends InvoiceTemplateAggregateArgs> = {
+        [P in keyof T & keyof AggregateInvoiceTemplate]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateInvoiceTemplate[P]>
+      : GetScalarType<T[P], AggregateInvoiceTemplate[P]>
+>>>>>>> 5551a02 (Feat: Add Payment Invoice Generation)
+  }
+
+
+
+
+<<<<<<< HEAD
+  export type PaymentRoutingConditionGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PaymentRoutingConditionWhereInput
+    orderBy?: PaymentRoutingConditionOrderByWithAggregationInput | PaymentRoutingConditionOrderByWithAggregationInput[]
+    by: PaymentRoutingConditionScalarFieldEnum[] | PaymentRoutingConditionScalarFieldEnum
+    having?: PaymentRoutingConditionScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: PaymentRoutingConditionCountAggregateInputType | true
+    _min?: PaymentRoutingConditionMinAggregateInputType
+    _max?: PaymentRoutingConditionMaxAggregateInputType
+  }
+
+  export type PaymentRoutingConditionGroupByOutputType = {
+    id: string
+    ruleId: string
+    type: string
+    operator: string
+    value: string
+    value2: string | null
+    _count: PaymentRoutingConditionCountAggregateOutputType | null
+    _min: PaymentRoutingConditionMinAggregateOutputType | null
+    _max: PaymentRoutingConditionMaxAggregateOutputType | null
+  }
+
+  type GetPaymentRoutingConditionGroupByPayload<T extends PaymentRoutingConditionGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<PaymentRoutingConditionGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof PaymentRoutingConditionGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], PaymentRoutingConditionGroupByOutputType[P]>
+            : GetScalarType<T[P], PaymentRoutingConditionGroupByOutputType[P]>
+=======
+  export type InvoiceTemplateGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: InvoiceTemplateWhereInput
+    orderBy?: InvoiceTemplateOrderByWithAggregationInput | InvoiceTemplateOrderByWithAggregationInput[]
+    by: InvoiceTemplateScalarFieldEnum[] | InvoiceTemplateScalarFieldEnum
+    having?: InvoiceTemplateScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: InvoiceTemplateCountAggregateInputType | true
+    _min?: InvoiceTemplateMinAggregateInputType
+    _max?: InvoiceTemplateMaxAggregateInputType
+  }
+
+  export type InvoiceTemplateGroupByOutputType = {
+    id: string
+    ownerAddress: string
+    name: string
+    language: string
+    isDefault: boolean
+    accentColor: string
+    logoBase64: string | null
+    footerText: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: InvoiceTemplateCountAggregateOutputType | null
+    _min: InvoiceTemplateMinAggregateOutputType | null
+    _max: InvoiceTemplateMaxAggregateOutputType | null
+  }
+
+  type GetInvoiceTemplateGroupByPayload<T extends InvoiceTemplateGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<InvoiceTemplateGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof InvoiceTemplateGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], InvoiceTemplateGroupByOutputType[P]>
+            : GetScalarType<T[P], InvoiceTemplateGroupByOutputType[P]>
+>>>>>>> 5551a02 (Feat: Add Payment Invoice Generation)
+        }
+      >
+    >
+
+
+<<<<<<< HEAD
+  export type PaymentRoutingConditionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    ruleId?: boolean
+    type?: boolean
+    operator?: boolean
+    value?: boolean
+    value2?: boolean
+    rule?: boolean | PaymentRoutingRuleDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["paymentRoutingCondition"]>
+
+  export type PaymentRoutingConditionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    ruleId?: boolean
+    type?: boolean
+    operator?: boolean
+    value?: boolean
+    value2?: boolean
+    rule?: boolean | PaymentRoutingRuleDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["paymentRoutingCondition"]>
+
+  export type PaymentRoutingConditionSelectScalar = {
+    id?: boolean
+    ruleId?: boolean
+    type?: boolean
+    operator?: boolean
+    value?: boolean
+    value2?: boolean
+  }
+
+  export type PaymentRoutingConditionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    rule?: boolean | PaymentRoutingRuleDefaultArgs<ExtArgs>
+  }
+  export type PaymentRoutingConditionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    rule?: boolean | PaymentRoutingRuleDefaultArgs<ExtArgs>
+  }
+
+  export type $PaymentRoutingConditionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "PaymentRoutingCondition"
+    objects: {
+      rule: Prisma.$PaymentRoutingRulePayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      ruleId: string
+      type: string
+      operator: string
+      value: string
+      value2: string | null
+    }, ExtArgs["result"]["paymentRoutingCondition"]>
+    composites: {}
+  }
+
+  type PaymentRoutingConditionGetPayload<S extends boolean | null | undefined | PaymentRoutingConditionDefaultArgs> = $Result.GetResult<Prisma.$PaymentRoutingConditionPayload, S>
+
+  type PaymentRoutingConditionCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<PaymentRoutingConditionFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: PaymentRoutingConditionCountAggregateInputType | true
+    }
+
+  export interface PaymentRoutingConditionDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['PaymentRoutingCondition'], meta: { name: 'PaymentRoutingCondition' } }
+    /**
+     * Find zero or one PaymentRoutingCondition that matches the filter.
+     * @param {PaymentRoutingConditionFindUniqueArgs} args - Arguments to find a PaymentRoutingCondition
+     * @example
+     * // Get one PaymentRoutingCondition
+     * const paymentRoutingCondition = await prisma.paymentRoutingCondition.findUnique({
+=======
+  export type InvoiceTemplateSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    ownerAddress?: boolean
+    name?: boolean
+    language?: boolean
+    isDefault?: boolean
+    accentColor?: boolean
+    logoBase64?: boolean
+    footerText?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    invoices?: boolean | InvoiceTemplate$invoicesArgs<ExtArgs>
+    _count?: boolean | InvoiceTemplateCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["invoiceTemplate"]>
+
+  export type InvoiceTemplateSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    ownerAddress?: boolean
+    name?: boolean
+    language?: boolean
+    isDefault?: boolean
+    accentColor?: boolean
+    logoBase64?: boolean
+    footerText?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["invoiceTemplate"]>
+
+  export type InvoiceTemplateSelectScalar = {
+    id?: boolean
+    ownerAddress?: boolean
+    name?: boolean
+    language?: boolean
+    isDefault?: boolean
+    accentColor?: boolean
+    logoBase64?: boolean
+    footerText?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type InvoiceTemplateInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    invoices?: boolean | InvoiceTemplate$invoicesArgs<ExtArgs>
+    _count?: boolean | InvoiceTemplateCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type InvoiceTemplateIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+
+  export type $InvoiceTemplatePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "InvoiceTemplate"
+    objects: {
+      invoices: Prisma.$InvoicePayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      ownerAddress: string
+      name: string
+      language: string
+      isDefault: boolean
+      accentColor: string
+      logoBase64: string | null
+      footerText: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["invoiceTemplate"]>
+    composites: {}
+  }
+
+  type InvoiceTemplateGetPayload<S extends boolean | null | undefined | InvoiceTemplateDefaultArgs> = $Result.GetResult<Prisma.$InvoiceTemplatePayload, S>
+
+  type InvoiceTemplateCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<InvoiceTemplateFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: InvoiceTemplateCountAggregateInputType | true
+    }
+
+  export interface InvoiceTemplateDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['InvoiceTemplate'], meta: { name: 'InvoiceTemplate' } }
+    /**
+     * Find zero or one InvoiceTemplate that matches the filter.
+     * @param {InvoiceTemplateFindUniqueArgs} args - Arguments to find a InvoiceTemplate
+     * @example
+     * // Get one InvoiceTemplate
+     * const invoiceTemplate = await prisma.invoiceTemplate.findUnique({
+>>>>>>> 5551a02 (Feat: Add Payment Invoice Generation)
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+<<<<<<< HEAD
+    findUnique<T extends PaymentRoutingConditionFindUniqueArgs>(args: SelectSubset<T, PaymentRoutingConditionFindUniqueArgs<ExtArgs>>): Prisma__PaymentRoutingConditionClient<$Result.GetResult<Prisma.$PaymentRoutingConditionPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one PaymentRoutingCondition that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {PaymentRoutingConditionFindUniqueOrThrowArgs} args - Arguments to find a PaymentRoutingCondition
+     * @example
+     * // Get one PaymentRoutingCondition
+     * const paymentRoutingCondition = await prisma.paymentRoutingCondition.findUniqueOrThrow({
+=======
+    findUnique<T extends InvoiceTemplateFindUniqueArgs>(args: SelectSubset<T, InvoiceTemplateFindUniqueArgs<ExtArgs>>): Prisma__InvoiceTemplateClient<$Result.GetResult<Prisma.$InvoiceTemplatePayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one InvoiceTemplate that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {InvoiceTemplateFindUniqueOrThrowArgs} args - Arguments to find a InvoiceTemplate
+     * @example
+     * // Get one InvoiceTemplate
+     * const invoiceTemplate = await prisma.invoiceTemplate.findUniqueOrThrow({
+>>>>>>> 5551a02 (Feat: Add Payment Invoice Generation)
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+<<<<<<< HEAD
+    findUniqueOrThrow<T extends PaymentRoutingConditionFindUniqueOrThrowArgs>(args: SelectSubset<T, PaymentRoutingConditionFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PaymentRoutingConditionClient<$Result.GetResult<Prisma.$PaymentRoutingConditionPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first PaymentRoutingCondition that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PaymentRoutingConditionFindFirstArgs} args - Arguments to find a PaymentRoutingCondition
+     * @example
+     * // Get one PaymentRoutingCondition
+     * const paymentRoutingCondition = await prisma.paymentRoutingCondition.findFirst({
+=======
+    findUniqueOrThrow<T extends InvoiceTemplateFindUniqueOrThrowArgs>(args: SelectSubset<T, InvoiceTemplateFindUniqueOrThrowArgs<ExtArgs>>): Prisma__InvoiceTemplateClient<$Result.GetResult<Prisma.$InvoiceTemplatePayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first InvoiceTemplate that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InvoiceTemplateFindFirstArgs} args - Arguments to find a InvoiceTemplate
+     * @example
+     * // Get one InvoiceTemplate
+     * const invoiceTemplate = await prisma.invoiceTemplate.findFirst({
+>>>>>>> 5551a02 (Feat: Add Payment Invoice Generation)
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+<<<<<<< HEAD
+    findFirst<T extends PaymentRoutingConditionFindFirstArgs>(args?: SelectSubset<T, PaymentRoutingConditionFindFirstArgs<ExtArgs>>): Prisma__PaymentRoutingConditionClient<$Result.GetResult<Prisma.$PaymentRoutingConditionPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first PaymentRoutingCondition that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PaymentRoutingConditionFindFirstOrThrowArgs} args - Arguments to find a PaymentRoutingCondition
+     * @example
+     * // Get one PaymentRoutingCondition
+     * const paymentRoutingCondition = await prisma.paymentRoutingCondition.findFirstOrThrow({
+=======
+    findFirst<T extends InvoiceTemplateFindFirstArgs>(args?: SelectSubset<T, InvoiceTemplateFindFirstArgs<ExtArgs>>): Prisma__InvoiceTemplateClient<$Result.GetResult<Prisma.$InvoiceTemplatePayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first InvoiceTemplate that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InvoiceTemplateFindFirstOrThrowArgs} args - Arguments to find a InvoiceTemplate
+     * @example
+     * // Get one InvoiceTemplate
+     * const invoiceTemplate = await prisma.invoiceTemplate.findFirstOrThrow({
+>>>>>>> 5551a02 (Feat: Add Payment Invoice Generation)
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+<<<<<<< HEAD
+    findFirstOrThrow<T extends PaymentRoutingConditionFindFirstOrThrowArgs>(args?: SelectSubset<T, PaymentRoutingConditionFindFirstOrThrowArgs<ExtArgs>>): Prisma__PaymentRoutingConditionClient<$Result.GetResult<Prisma.$PaymentRoutingConditionPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more PaymentRoutingConditions that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PaymentRoutingConditionFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all PaymentRoutingConditions
+     * const paymentRoutingConditions = await prisma.paymentRoutingCondition.findMany()
+     * 
+     * // Get first 10 PaymentRoutingConditions
+     * const paymentRoutingConditions = await prisma.paymentRoutingCondition.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const paymentRoutingConditionWithIdOnly = await prisma.paymentRoutingCondition.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends PaymentRoutingConditionFindManyArgs>(args?: SelectSubset<T, PaymentRoutingConditionFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PaymentRoutingConditionPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a PaymentRoutingCondition.
+     * @param {PaymentRoutingConditionCreateArgs} args - Arguments to create a PaymentRoutingCondition.
+     * @example
+     * // Create one PaymentRoutingCondition
+     * const PaymentRoutingCondition = await prisma.paymentRoutingCondition.create({
+     *   data: {
+     *     // ... data to create a PaymentRoutingCondition
+=======
+    findFirstOrThrow<T extends InvoiceTemplateFindFirstOrThrowArgs>(args?: SelectSubset<T, InvoiceTemplateFindFirstOrThrowArgs<ExtArgs>>): Prisma__InvoiceTemplateClient<$Result.GetResult<Prisma.$InvoiceTemplatePayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more InvoiceTemplates that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InvoiceTemplateFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all InvoiceTemplates
+     * const invoiceTemplates = await prisma.invoiceTemplate.findMany()
+     * 
+     * // Get first 10 InvoiceTemplates
+     * const invoiceTemplates = await prisma.invoiceTemplate.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const invoiceTemplateWithIdOnly = await prisma.invoiceTemplate.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends InvoiceTemplateFindManyArgs>(args?: SelectSubset<T, InvoiceTemplateFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InvoiceTemplatePayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a InvoiceTemplate.
+     * @param {InvoiceTemplateCreateArgs} args - Arguments to create a InvoiceTemplate.
+     * @example
+     * // Create one InvoiceTemplate
+     * const InvoiceTemplate = await prisma.invoiceTemplate.create({
+     *   data: {
+     *     // ... data to create a InvoiceTemplate
+>>>>>>> 5551a02 (Feat: Add Payment Invoice Generation)
+     *   }
+     * })
+     * 
+     */
+<<<<<<< HEAD
+    create<T extends PaymentRoutingConditionCreateArgs>(args: SelectSubset<T, PaymentRoutingConditionCreateArgs<ExtArgs>>): Prisma__PaymentRoutingConditionClient<$Result.GetResult<Prisma.$PaymentRoutingConditionPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many PaymentRoutingConditions.
+     * @param {PaymentRoutingConditionCreateManyArgs} args - Arguments to create many PaymentRoutingConditions.
+     * @example
+     * // Create many PaymentRoutingConditions
+     * const paymentRoutingCondition = await prisma.paymentRoutingCondition.createMany({
+=======
+    create<T extends InvoiceTemplateCreateArgs>(args: SelectSubset<T, InvoiceTemplateCreateArgs<ExtArgs>>): Prisma__InvoiceTemplateClient<$Result.GetResult<Prisma.$InvoiceTemplatePayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many InvoiceTemplates.
+     * @param {InvoiceTemplateCreateManyArgs} args - Arguments to create many InvoiceTemplates.
+     * @example
+     * // Create many InvoiceTemplates
+     * const invoiceTemplate = await prisma.invoiceTemplate.createMany({
+>>>>>>> 5551a02 (Feat: Add Payment Invoice Generation)
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+<<<<<<< HEAD
+    createMany<T extends PaymentRoutingConditionCreateManyArgs>(args?: SelectSubset<T, PaymentRoutingConditionCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many PaymentRoutingConditions and returns the data saved in the database.
+     * @param {PaymentRoutingConditionCreateManyAndReturnArgs} args - Arguments to create many PaymentRoutingConditions.
+     * @example
+     * // Create many PaymentRoutingConditions
+     * const paymentRoutingCondition = await prisma.paymentRoutingCondition.createManyAndReturn({
+=======
+    createMany<T extends InvoiceTemplateCreateManyArgs>(args?: SelectSubset<T, InvoiceTemplateCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many InvoiceTemplates and returns the data saved in the database.
+     * @param {InvoiceTemplateCreateManyAndReturnArgs} args - Arguments to create many InvoiceTemplates.
+     * @example
+     * // Create many InvoiceTemplates
+     * const invoiceTemplate = await prisma.invoiceTemplate.createManyAndReturn({
+>>>>>>> 5551a02 (Feat: Add Payment Invoice Generation)
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+<<<<<<< HEAD
+     * // Create many PaymentRoutingConditions and only return the `id`
+     * const paymentRoutingConditionWithIdOnly = await prisma.paymentRoutingCondition.createManyAndReturn({ 
+=======
+     * // Create many InvoiceTemplates and only return the `id`
+     * const invoiceTemplateWithIdOnly = await prisma.invoiceTemplate.createManyAndReturn({ 
+>>>>>>> 5551a02 (Feat: Add Payment Invoice Generation)
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+<<<<<<< HEAD
+    createManyAndReturn<T extends PaymentRoutingConditionCreateManyAndReturnArgs>(args?: SelectSubset<T, PaymentRoutingConditionCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PaymentRoutingConditionPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a PaymentRoutingCondition.
+     * @param {PaymentRoutingConditionDeleteArgs} args - Arguments to delete one PaymentRoutingCondition.
+     * @example
+     * // Delete one PaymentRoutingCondition
+     * const PaymentRoutingCondition = await prisma.paymentRoutingCondition.delete({
+     *   where: {
+     *     // ... filter to delete one PaymentRoutingCondition
+=======
+    createManyAndReturn<T extends InvoiceTemplateCreateManyAndReturnArgs>(args?: SelectSubset<T, InvoiceTemplateCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InvoiceTemplatePayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a InvoiceTemplate.
+     * @param {InvoiceTemplateDeleteArgs} args - Arguments to delete one InvoiceTemplate.
+     * @example
+     * // Delete one InvoiceTemplate
+     * const InvoiceTemplate = await prisma.invoiceTemplate.delete({
+     *   where: {
+     *     // ... filter to delete one InvoiceTemplate
+>>>>>>> 5551a02 (Feat: Add Payment Invoice Generation)
+     *   }
+     * })
+     * 
+     */
+<<<<<<< HEAD
+    delete<T extends PaymentRoutingConditionDeleteArgs>(args: SelectSubset<T, PaymentRoutingConditionDeleteArgs<ExtArgs>>): Prisma__PaymentRoutingConditionClient<$Result.GetResult<Prisma.$PaymentRoutingConditionPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one PaymentRoutingCondition.
+     * @param {PaymentRoutingConditionUpdateArgs} args - Arguments to update one PaymentRoutingCondition.
+     * @example
+     * // Update one PaymentRoutingCondition
+     * const paymentRoutingCondition = await prisma.paymentRoutingCondition.update({
+=======
+    delete<T extends InvoiceTemplateDeleteArgs>(args: SelectSubset<T, InvoiceTemplateDeleteArgs<ExtArgs>>): Prisma__InvoiceTemplateClient<$Result.GetResult<Prisma.$InvoiceTemplatePayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one InvoiceTemplate.
+     * @param {InvoiceTemplateUpdateArgs} args - Arguments to update one InvoiceTemplate.
+     * @example
+     * // Update one InvoiceTemplate
+     * const invoiceTemplate = await prisma.invoiceTemplate.update({
+>>>>>>> 5551a02 (Feat: Add Payment Invoice Generation)
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+<<<<<<< HEAD
+    update<T extends PaymentRoutingConditionUpdateArgs>(args: SelectSubset<T, PaymentRoutingConditionUpdateArgs<ExtArgs>>): Prisma__PaymentRoutingConditionClient<$Result.GetResult<Prisma.$PaymentRoutingConditionPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more PaymentRoutingConditions.
+     * @param {PaymentRoutingConditionDeleteManyArgs} args - Arguments to filter PaymentRoutingConditions to delete.
+     * @example
+     * // Delete a few PaymentRoutingConditions
+     * const { count } = await prisma.paymentRoutingCondition.deleteMany({
+=======
+    update<T extends InvoiceTemplateUpdateArgs>(args: SelectSubset<T, InvoiceTemplateUpdateArgs<ExtArgs>>): Prisma__InvoiceTemplateClient<$Result.GetResult<Prisma.$InvoiceTemplatePayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more InvoiceTemplates.
+     * @param {InvoiceTemplateDeleteManyArgs} args - Arguments to filter InvoiceTemplates to delete.
+     * @example
+     * // Delete a few InvoiceTemplates
+     * const { count } = await prisma.invoiceTemplate.deleteMany({
+>>>>>>> 5551a02 (Feat: Add Payment Invoice Generation)
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+<<<<<<< HEAD
+    deleteMany<T extends PaymentRoutingConditionDeleteManyArgs>(args?: SelectSubset<T, PaymentRoutingConditionDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PaymentRoutingConditions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PaymentRoutingConditionUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many PaymentRoutingConditions
+     * const paymentRoutingCondition = await prisma.paymentRoutingCondition.updateMany({
+=======
+    deleteMany<T extends InvoiceTemplateDeleteManyArgs>(args?: SelectSubset<T, InvoiceTemplateDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more InvoiceTemplates.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InvoiceTemplateUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many InvoiceTemplates
+     * const invoiceTemplate = await prisma.invoiceTemplate.updateMany({
+>>>>>>> 5551a02 (Feat: Add Payment Invoice Generation)
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+<<<<<<< HEAD
+    updateMany<T extends PaymentRoutingConditionUpdateManyArgs>(args: SelectSubset<T, PaymentRoutingConditionUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one PaymentRoutingCondition.
+     * @param {PaymentRoutingConditionUpsertArgs} args - Arguments to update or create a PaymentRoutingCondition.
+     * @example
+     * // Update or create a PaymentRoutingCondition
+     * const paymentRoutingCondition = await prisma.paymentRoutingCondition.upsert({
+     *   create: {
+     *     // ... data to create a PaymentRoutingCondition
+=======
+    updateMany<T extends InvoiceTemplateUpdateManyArgs>(args: SelectSubset<T, InvoiceTemplateUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one InvoiceTemplate.
+     * @param {InvoiceTemplateUpsertArgs} args - Arguments to update or create a InvoiceTemplate.
+     * @example
+     * // Update or create a InvoiceTemplate
+     * const invoiceTemplate = await prisma.invoiceTemplate.upsert({
+     *   create: {
+     *     // ... data to create a InvoiceTemplate
+>>>>>>> 5551a02 (Feat: Add Payment Invoice Generation)
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+<<<<<<< HEAD
+     *     // ... the filter for the PaymentRoutingCondition we want to update
+     *   }
+     * })
+     */
+    upsert<T extends PaymentRoutingConditionUpsertArgs>(args: SelectSubset<T, PaymentRoutingConditionUpsertArgs<ExtArgs>>): Prisma__PaymentRoutingConditionClient<$Result.GetResult<Prisma.$PaymentRoutingConditionPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of PaymentRoutingConditions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PaymentRoutingConditionCountArgs} args - Arguments to filter PaymentRoutingConditions to count.
+     * @example
+     * // Count the number of PaymentRoutingConditions
+     * const count = await prisma.paymentRoutingCondition.count({
+     *   where: {
+     *     // ... the filter for the PaymentRoutingConditions we want to count
+     *   }
+     * })
+    **/
+    count<T extends PaymentRoutingConditionCountArgs>(
+      args?: Subset<T, PaymentRoutingConditionCountArgs>,
+=======
+     *     // ... the filter for the InvoiceTemplate we want to update
+     *   }
+     * })
+     */
+    upsert<T extends InvoiceTemplateUpsertArgs>(args: SelectSubset<T, InvoiceTemplateUpsertArgs<ExtArgs>>): Prisma__InvoiceTemplateClient<$Result.GetResult<Prisma.$InvoiceTemplatePayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of InvoiceTemplates.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InvoiceTemplateCountArgs} args - Arguments to filter InvoiceTemplates to count.
+     * @example
+     * // Count the number of InvoiceTemplates
+     * const count = await prisma.invoiceTemplate.count({
+     *   where: {
+     *     // ... the filter for the InvoiceTemplates we want to count
+     *   }
+     * })
+    **/
+    count<T extends InvoiceTemplateCountArgs>(
+      args?: Subset<T, InvoiceTemplateCountArgs>,
+>>>>>>> 5551a02 (Feat: Add Payment Invoice Generation)
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+<<<<<<< HEAD
+          : GetScalarType<T['select'], PaymentRoutingConditionCountAggregateOutputType>
+=======
+          : GetScalarType<T['select'], InvoiceTemplateCountAggregateOutputType>
+>>>>>>> 5551a02 (Feat: Add Payment Invoice Generation)
+        : number
+    >
+
+    /**
+<<<<<<< HEAD
+     * Allows you to perform aggregations operations on a PaymentRoutingCondition.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PaymentRoutingConditionAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+=======
+     * Allows you to perform aggregations operations on a InvoiceTemplate.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InvoiceTemplateAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+>>>>>>> 5551a02 (Feat: Add Payment Invoice Generation)
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+<<<<<<< HEAD
+    aggregate<T extends PaymentRoutingConditionAggregateArgs>(args: Subset<T, PaymentRoutingConditionAggregateArgs>): Prisma.PrismaPromise<GetPaymentRoutingConditionAggregateType<T>>
+
+    /**
+     * Group by PaymentRoutingCondition.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PaymentRoutingConditionGroupByArgs} args - Group by arguments.
+=======
+    aggregate<T extends InvoiceTemplateAggregateArgs>(args: Subset<T, InvoiceTemplateAggregateArgs>): Prisma.PrismaPromise<GetInvoiceTemplateAggregateType<T>>
+
+    /**
+     * Group by InvoiceTemplate.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InvoiceTemplateGroupByArgs} args - Group by arguments.
+>>>>>>> 5551a02 (Feat: Add Payment Invoice Generation)
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+<<<<<<< HEAD
+      T extends PaymentRoutingConditionGroupByArgs,
+=======
+      T extends InvoiceTemplateGroupByArgs,
+>>>>>>> 5551a02 (Feat: Add Payment Invoice Generation)
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+<<<<<<< HEAD
+        ? { orderBy: PaymentRoutingConditionGroupByArgs['orderBy'] }
+        : { orderBy?: PaymentRoutingConditionGroupByArgs['orderBy'] },
+=======
+        ? { orderBy: InvoiceTemplateGroupByArgs['orderBy'] }
+        : { orderBy?: InvoiceTemplateGroupByArgs['orderBy'] },
+>>>>>>> 5551a02 (Feat: Add Payment Invoice Generation)
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+<<<<<<< HEAD
+    >(args: SubsetIntersection<T, PaymentRoutingConditionGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPaymentRoutingConditionGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the PaymentRoutingCondition model
+   */
+  readonly fields: PaymentRoutingConditionFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for PaymentRoutingCondition.
+=======
+    >(args: SubsetIntersection<T, InvoiceTemplateGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetInvoiceTemplateGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the InvoiceTemplate model
+   */
+  readonly fields: InvoiceTemplateFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for InvoiceTemplate.
+>>>>>>> 5551a02 (Feat: Add Payment Invoice Generation)
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+<<<<<<< HEAD
+  export interface Prisma__PaymentRoutingConditionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    rule<T extends PaymentRoutingRuleDefaultArgs<ExtArgs> = {}>(args?: Subset<T, PaymentRoutingRuleDefaultArgs<ExtArgs>>): Prisma__PaymentRoutingRuleClient<$Result.GetResult<Prisma.$PaymentRoutingRulePayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+=======
+  export interface Prisma__InvoiceTemplateClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    invoices<T extends InvoiceTemplate$invoicesArgs<ExtArgs> = {}>(args?: Subset<T, InvoiceTemplate$invoicesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InvoicePayload<ExtArgs>, T, "findMany"> | Null>
+>>>>>>> 5551a02 (Feat: Add Payment Invoice Generation)
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+<<<<<<< HEAD
+   * Fields of the PaymentRoutingCondition model
+   */ 
+  interface PaymentRoutingConditionFieldRefs {
+    readonly id: FieldRef<"PaymentRoutingCondition", 'String'>
+    readonly ruleId: FieldRef<"PaymentRoutingCondition", 'String'>
+    readonly type: FieldRef<"PaymentRoutingCondition", 'String'>
+    readonly operator: FieldRef<"PaymentRoutingCondition", 'String'>
+    readonly value: FieldRef<"PaymentRoutingCondition", 'String'>
+    readonly value2: FieldRef<"PaymentRoutingCondition", 'String'>
+=======
+   * Fields of the InvoiceTemplate model
+   */ 
+  interface InvoiceTemplateFieldRefs {
+    readonly id: FieldRef<"InvoiceTemplate", 'String'>
+    readonly ownerAddress: FieldRef<"InvoiceTemplate", 'String'>
+    readonly name: FieldRef<"InvoiceTemplate", 'String'>
+    readonly language: FieldRef<"InvoiceTemplate", 'String'>
+    readonly isDefault: FieldRef<"InvoiceTemplate", 'Boolean'>
+    readonly accentColor: FieldRef<"InvoiceTemplate", 'String'>
+    readonly logoBase64: FieldRef<"InvoiceTemplate", 'String'>
+    readonly footerText: FieldRef<"InvoiceTemplate", 'String'>
+    readonly createdAt: FieldRef<"InvoiceTemplate", 'DateTime'>
+    readonly updatedAt: FieldRef<"InvoiceTemplate", 'DateTime'>
+>>>>>>> 5551a02 (Feat: Add Payment Invoice Generation)
+  }
+    
+
+  // Custom InputTypes
+  /**
+<<<<<<< HEAD
+   * PaymentRoutingCondition findUnique
+   */
+  export type PaymentRoutingConditionFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentRoutingCondition
+     */
+    select?: PaymentRoutingConditionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentRoutingConditionInclude<ExtArgs> | null
+    /**
+     * Filter, which PaymentRoutingCondition to fetch.
+     */
+    where: PaymentRoutingConditionWhereUniqueInput
+  }
+
+  /**
+   * PaymentRoutingCondition findUniqueOrThrow
+   */
+  export type PaymentRoutingConditionFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentRoutingCondition
+     */
+    select?: PaymentRoutingConditionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentRoutingConditionInclude<ExtArgs> | null
+    /**
+     * Filter, which PaymentRoutingCondition to fetch.
+     */
+    where: PaymentRoutingConditionWhereUniqueInput
+  }
+
+  /**
+   * PaymentRoutingCondition findFirst
+   */
+  export type PaymentRoutingConditionFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentRoutingCondition
+     */
+    select?: PaymentRoutingConditionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentRoutingConditionInclude<ExtArgs> | null
+    /**
+     * Filter, which PaymentRoutingCondition to fetch.
+     */
+    where?: PaymentRoutingConditionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PaymentRoutingConditions to fetch.
+     */
+    orderBy?: PaymentRoutingConditionOrderByWithRelationInput | PaymentRoutingConditionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PaymentRoutingConditions.
+     */
+    cursor?: PaymentRoutingConditionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PaymentRoutingConditions from the position of the cursor.
+=======
+   * InvoiceTemplate findUnique
+   */
+  export type InvoiceTemplateFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InvoiceTemplate
+     */
+    select?: InvoiceTemplateSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvoiceTemplateInclude<ExtArgs> | null
+    /**
+     * Filter, which InvoiceTemplate to fetch.
+     */
+    where: InvoiceTemplateWhereUniqueInput
+  }
+
+  /**
+   * InvoiceTemplate findUniqueOrThrow
+   */
+  export type InvoiceTemplateFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InvoiceTemplate
+     */
+    select?: InvoiceTemplateSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvoiceTemplateInclude<ExtArgs> | null
+    /**
+     * Filter, which InvoiceTemplate to fetch.
+     */
+    where: InvoiceTemplateWhereUniqueInput
+  }
+
+  /**
+   * InvoiceTemplate findFirst
+   */
+  export type InvoiceTemplateFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InvoiceTemplate
+     */
+    select?: InvoiceTemplateSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvoiceTemplateInclude<ExtArgs> | null
+    /**
+     * Filter, which InvoiceTemplate to fetch.
+     */
+    where?: InvoiceTemplateWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of InvoiceTemplates to fetch.
+     */
+    orderBy?: InvoiceTemplateOrderByWithRelationInput | InvoiceTemplateOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for InvoiceTemplates.
+     */
+    cursor?: InvoiceTemplateWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` InvoiceTemplates from the position of the cursor.
+>>>>>>> 5551a02 (Feat: Add Payment Invoice Generation)
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+<<<<<<< HEAD
+     * Skip the first `n` PaymentRoutingConditions.
+=======
+     * Skip the first `n` InvoiceTemplates.
+>>>>>>> 5551a02 (Feat: Add Payment Invoice Generation)
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+<<<<<<< HEAD
+     * Filter by unique combinations of PaymentRoutingConditions.
+     */
+    distinct?: PaymentRoutingConditionScalarFieldEnum | PaymentRoutingConditionScalarFieldEnum[]
+  }
+
+  /**
+   * PaymentRoutingCondition findFirstOrThrow
+   */
+  export type PaymentRoutingConditionFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentRoutingCondition
+     */
+    select?: PaymentRoutingConditionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentRoutingConditionInclude<ExtArgs> | null
+    /**
+     * Filter, which PaymentRoutingCondition to fetch.
+     */
+    where?: PaymentRoutingConditionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PaymentRoutingConditions to fetch.
+     */
+    orderBy?: PaymentRoutingConditionOrderByWithRelationInput | PaymentRoutingConditionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PaymentRoutingConditions.
+     */
+    cursor?: PaymentRoutingConditionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PaymentRoutingConditions from the position of the cursor.
+=======
+     * Filter by unique combinations of InvoiceTemplates.
+     */
+    distinct?: InvoiceTemplateScalarFieldEnum | InvoiceTemplateScalarFieldEnum[]
+  }
+
+  /**
+   * InvoiceTemplate findFirstOrThrow
+   */
+  export type InvoiceTemplateFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InvoiceTemplate
+     */
+    select?: InvoiceTemplateSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvoiceTemplateInclude<ExtArgs> | null
+    /**
+     * Filter, which InvoiceTemplate to fetch.
+     */
+    where?: InvoiceTemplateWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of InvoiceTemplates to fetch.
+     */
+    orderBy?: InvoiceTemplateOrderByWithRelationInput | InvoiceTemplateOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for InvoiceTemplates.
+     */
+    cursor?: InvoiceTemplateWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` InvoiceTemplates from the position of the cursor.
+>>>>>>> 5551a02 (Feat: Add Payment Invoice Generation)
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+<<<<<<< HEAD
+     * Skip the first `n` PaymentRoutingConditions.
+=======
+     * Skip the first `n` InvoiceTemplates.
+>>>>>>> 5551a02 (Feat: Add Payment Invoice Generation)
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+<<<<<<< HEAD
+     * Filter by unique combinations of PaymentRoutingConditions.
+     */
+    distinct?: PaymentRoutingConditionScalarFieldEnum | PaymentRoutingConditionScalarFieldEnum[]
+  }
+
+  /**
+   * PaymentRoutingCondition findMany
+   */
+  export type PaymentRoutingConditionFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentRoutingCondition
+     */
+    select?: PaymentRoutingConditionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentRoutingConditionInclude<ExtArgs> | null
+    /**
+     * Filter, which PaymentRoutingConditions to fetch.
+     */
+    where?: PaymentRoutingConditionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PaymentRoutingConditions to fetch.
+     */
+    orderBy?: PaymentRoutingConditionOrderByWithRelationInput | PaymentRoutingConditionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing PaymentRoutingConditions.
+     */
+    cursor?: PaymentRoutingConditionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PaymentRoutingConditions from the position of the cursor.
+=======
+     * Filter by unique combinations of InvoiceTemplates.
+     */
+    distinct?: InvoiceTemplateScalarFieldEnum | InvoiceTemplateScalarFieldEnum[]
+  }
+
+  /**
+   * InvoiceTemplate findMany
+   */
+  export type InvoiceTemplateFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InvoiceTemplate
+     */
+    select?: InvoiceTemplateSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvoiceTemplateInclude<ExtArgs> | null
+    /**
+     * Filter, which InvoiceTemplates to fetch.
+     */
+    where?: InvoiceTemplateWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of InvoiceTemplates to fetch.
+     */
+    orderBy?: InvoiceTemplateOrderByWithRelationInput | InvoiceTemplateOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing InvoiceTemplates.
+     */
+    cursor?: InvoiceTemplateWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` InvoiceTemplates from the position of the cursor.
+>>>>>>> 5551a02 (Feat: Add Payment Invoice Generation)
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+<<<<<<< HEAD
+     * Skip the first `n` PaymentRoutingConditions.
+     */
+    skip?: number
+    distinct?: PaymentRoutingConditionScalarFieldEnum | PaymentRoutingConditionScalarFieldEnum[]
+  }
+
+  /**
+   * PaymentRoutingCondition create
+   */
+  export type PaymentRoutingConditionCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentRoutingCondition
+     */
+    select?: PaymentRoutingConditionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentRoutingConditionInclude<ExtArgs> | null
+    /**
+     * The data needed to create a PaymentRoutingCondition.
+     */
+    data: XOR<PaymentRoutingConditionCreateInput, PaymentRoutingConditionUncheckedCreateInput>
+  }
+
+  /**
+   * PaymentRoutingCondition createMany
+   */
+  export type PaymentRoutingConditionCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many PaymentRoutingConditions.
+     */
+    data: PaymentRoutingConditionCreateManyInput | PaymentRoutingConditionCreateManyInput[]
+=======
+     * Skip the first `n` InvoiceTemplates.
+     */
+    skip?: number
+    distinct?: InvoiceTemplateScalarFieldEnum | InvoiceTemplateScalarFieldEnum[]
+  }
+
+  /**
+   * InvoiceTemplate create
+   */
+  export type InvoiceTemplateCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InvoiceTemplate
+     */
+    select?: InvoiceTemplateSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvoiceTemplateInclude<ExtArgs> | null
+    /**
+     * The data needed to create a InvoiceTemplate.
+     */
+    data: XOR<InvoiceTemplateCreateInput, InvoiceTemplateUncheckedCreateInput>
+  }
+
+  /**
+   * InvoiceTemplate createMany
+   */
+  export type InvoiceTemplateCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many InvoiceTemplates.
+     */
+    data: InvoiceTemplateCreateManyInput | InvoiceTemplateCreateManyInput[]
+>>>>>>> 5551a02 (Feat: Add Payment Invoice Generation)
+    skipDuplicates?: boolean
+  }
+
+  /**
+<<<<<<< HEAD
+   * PaymentRoutingCondition createManyAndReturn
+   */
+  export type PaymentRoutingConditionCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentRoutingCondition
+     */
+    select?: PaymentRoutingConditionSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many PaymentRoutingConditions.
+     */
+    data: PaymentRoutingConditionCreateManyInput | PaymentRoutingConditionCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentRoutingConditionIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * PaymentRoutingCondition update
+   */
+  export type PaymentRoutingConditionUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentRoutingCondition
+     */
+    select?: PaymentRoutingConditionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentRoutingConditionInclude<ExtArgs> | null
+    /**
+     * The data needed to update a PaymentRoutingCondition.
+     */
+    data: XOR<PaymentRoutingConditionUpdateInput, PaymentRoutingConditionUncheckedUpdateInput>
+    /**
+     * Choose, which PaymentRoutingCondition to update.
+     */
+    where: PaymentRoutingConditionWhereUniqueInput
+  }
+
+  /**
+   * PaymentRoutingCondition updateMany
+   */
+  export type PaymentRoutingConditionUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update PaymentRoutingConditions.
+     */
+    data: XOR<PaymentRoutingConditionUpdateManyMutationInput, PaymentRoutingConditionUncheckedUpdateManyInput>
+    /**
+     * Filter which PaymentRoutingConditions to update
+     */
+    where?: PaymentRoutingConditionWhereInput
+  }
+
+  /**
+   * PaymentRoutingCondition upsert
+   */
+  export type PaymentRoutingConditionUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentRoutingCondition
+     */
+    select?: PaymentRoutingConditionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentRoutingConditionInclude<ExtArgs> | null
+    /**
+     * The filter to search for the PaymentRoutingCondition to update in case it exists.
+     */
+    where: PaymentRoutingConditionWhereUniqueInput
+    /**
+     * In case the PaymentRoutingCondition found by the `where` argument doesn't exist, create a new PaymentRoutingCondition with this data.
+     */
+    create: XOR<PaymentRoutingConditionCreateInput, PaymentRoutingConditionUncheckedCreateInput>
+    /**
+     * In case the PaymentRoutingCondition was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<PaymentRoutingConditionUpdateInput, PaymentRoutingConditionUncheckedUpdateInput>
+  }
+
+  /**
+   * PaymentRoutingCondition delete
+   */
+  export type PaymentRoutingConditionDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentRoutingCondition
+     */
+    select?: PaymentRoutingConditionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentRoutingConditionInclude<ExtArgs> | null
+    /**
+     * Filter which PaymentRoutingCondition to delete.
+     */
+    where: PaymentRoutingConditionWhereUniqueInput
+  }
+
+  /**
+   * PaymentRoutingCondition deleteMany
+   */
+  export type PaymentRoutingConditionDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PaymentRoutingConditions to delete
+     */
+    where?: PaymentRoutingConditionWhereInput
+  }
+
+  /**
+   * PaymentRoutingCondition without action
+   */
+  export type PaymentRoutingConditionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PaymentRoutingCondition
+     */
+    select?: PaymentRoutingConditionSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PaymentRoutingConditionInclude<ExtArgs> | null
+=======
+   * InvoiceTemplate createManyAndReturn
+   */
+  export type InvoiceTemplateCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InvoiceTemplate
+     */
+    select?: InvoiceTemplateSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many InvoiceTemplates.
+     */
+    data: InvoiceTemplateCreateManyInput | InvoiceTemplateCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * InvoiceTemplate update
+   */
+  export type InvoiceTemplateUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InvoiceTemplate
+     */
+    select?: InvoiceTemplateSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvoiceTemplateInclude<ExtArgs> | null
+    /**
+     * The data needed to update a InvoiceTemplate.
+     */
+    data: XOR<InvoiceTemplateUpdateInput, InvoiceTemplateUncheckedUpdateInput>
+    /**
+     * Choose, which InvoiceTemplate to update.
+     */
+    where: InvoiceTemplateWhereUniqueInput
+  }
+
+  /**
+   * InvoiceTemplate updateMany
+   */
+  export type InvoiceTemplateUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update InvoiceTemplates.
+     */
+    data: XOR<InvoiceTemplateUpdateManyMutationInput, InvoiceTemplateUncheckedUpdateManyInput>
+    /**
+     * Filter which InvoiceTemplates to update
+     */
+    where?: InvoiceTemplateWhereInput
+  }
+
+  /**
+   * InvoiceTemplate upsert
+   */
+  export type InvoiceTemplateUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InvoiceTemplate
+     */
+    select?: InvoiceTemplateSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvoiceTemplateInclude<ExtArgs> | null
+    /**
+     * The filter to search for the InvoiceTemplate to update in case it exists.
+     */
+    where: InvoiceTemplateWhereUniqueInput
+    /**
+     * In case the InvoiceTemplate found by the `where` argument doesn't exist, create a new InvoiceTemplate with this data.
+     */
+    create: XOR<InvoiceTemplateCreateInput, InvoiceTemplateUncheckedCreateInput>
+    /**
+     * In case the InvoiceTemplate was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<InvoiceTemplateUpdateInput, InvoiceTemplateUncheckedUpdateInput>
+  }
+
+  /**
+   * InvoiceTemplate delete
+   */
+  export type InvoiceTemplateDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InvoiceTemplate
+     */
+    select?: InvoiceTemplateSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvoiceTemplateInclude<ExtArgs> | null
+    /**
+     * Filter which InvoiceTemplate to delete.
+     */
+    where: InvoiceTemplateWhereUniqueInput
+  }
+
+  /**
+   * InvoiceTemplate deleteMany
+   */
+  export type InvoiceTemplateDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which InvoiceTemplates to delete
+     */
+    where?: InvoiceTemplateWhereInput
+  }
+
+  /**
+   * InvoiceTemplate.invoices
+   */
+  export type InvoiceTemplate$invoicesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Invoice
+     */
+    select?: InvoiceSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvoiceInclude<ExtArgs> | null
+    where?: InvoiceWhereInput
+    orderBy?: InvoiceOrderByWithRelationInput | InvoiceOrderByWithRelationInput[]
+    cursor?: InvoiceWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: InvoiceScalarFieldEnum | InvoiceScalarFieldEnum[]
+  }
+
+  /**
+   * InvoiceTemplate without action
+   */
+  export type InvoiceTemplateDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InvoiceTemplate
+     */
+    select?: InvoiceTemplateSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvoiceTemplateInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model InvoiceCounter
+   */
+
+  export type AggregateInvoiceCounter = {
+    _count: InvoiceCounterCountAggregateOutputType | null
+    _avg: InvoiceCounterAvgAggregateOutputType | null
+    _sum: InvoiceCounterSumAggregateOutputType | null
+    _min: InvoiceCounterMinAggregateOutputType | null
+    _max: InvoiceCounterMaxAggregateOutputType | null
+  }
+
+  export type InvoiceCounterAvgAggregateOutputType = {
+    year: number | null
+    lastSeq: number | null
+  }
+
+  export type InvoiceCounterSumAggregateOutputType = {
+    year: number | null
+    lastSeq: number | null
+  }
+
+  export type InvoiceCounterMinAggregateOutputType = {
+    ownerAddress: string | null
+    year: number | null
+    lastSeq: number | null
+  }
+
+  export type InvoiceCounterMaxAggregateOutputType = {
+    ownerAddress: string | null
+    year: number | null
+    lastSeq: number | null
+  }
+
+  export type InvoiceCounterCountAggregateOutputType = {
+    ownerAddress: number
+    year: number
+    lastSeq: number
+    _all: number
+  }
+
+
+  export type InvoiceCounterAvgAggregateInputType = {
+    year?: true
+    lastSeq?: true
+  }
+
+  export type InvoiceCounterSumAggregateInputType = {
+    year?: true
+    lastSeq?: true
+  }
+
+  export type InvoiceCounterMinAggregateInputType = {
+    ownerAddress?: true
+    year?: true
+    lastSeq?: true
+  }
+
+  export type InvoiceCounterMaxAggregateInputType = {
+    ownerAddress?: true
+    year?: true
+    lastSeq?: true
+  }
+
+  export type InvoiceCounterCountAggregateInputType = {
+    ownerAddress?: true
+    year?: true
+    lastSeq?: true
+    _all?: true
+  }
+
+  export type InvoiceCounterAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which InvoiceCounter to aggregate.
+     */
+    where?: InvoiceCounterWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of InvoiceCounters to fetch.
+     */
+    orderBy?: InvoiceCounterOrderByWithRelationInput | InvoiceCounterOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: InvoiceCounterWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` InvoiceCounters from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` InvoiceCounters.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned InvoiceCounters
+    **/
+    _count?: true | InvoiceCounterCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: InvoiceCounterAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: InvoiceCounterSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: InvoiceCounterMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: InvoiceCounterMaxAggregateInputType
+  }
+
+  export type GetInvoiceCounterAggregateType<T extends InvoiceCounterAggregateArgs> = {
+        [P in keyof T & keyof AggregateInvoiceCounter]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateInvoiceCounter[P]>
+      : GetScalarType<T[P], AggregateInvoiceCounter[P]>
+  }
+
+
+
+
+  export type InvoiceCounterGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: InvoiceCounterWhereInput
+    orderBy?: InvoiceCounterOrderByWithAggregationInput | InvoiceCounterOrderByWithAggregationInput[]
+    by: InvoiceCounterScalarFieldEnum[] | InvoiceCounterScalarFieldEnum
+    having?: InvoiceCounterScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: InvoiceCounterCountAggregateInputType | true
+    _avg?: InvoiceCounterAvgAggregateInputType
+    _sum?: InvoiceCounterSumAggregateInputType
+    _min?: InvoiceCounterMinAggregateInputType
+    _max?: InvoiceCounterMaxAggregateInputType
+  }
+
+  export type InvoiceCounterGroupByOutputType = {
+    ownerAddress: string
+    year: number
+    lastSeq: number
+    _count: InvoiceCounterCountAggregateOutputType | null
+    _avg: InvoiceCounterAvgAggregateOutputType | null
+    _sum: InvoiceCounterSumAggregateOutputType | null
+    _min: InvoiceCounterMinAggregateOutputType | null
+    _max: InvoiceCounterMaxAggregateOutputType | null
+  }
+
+  type GetInvoiceCounterGroupByPayload<T extends InvoiceCounterGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<InvoiceCounterGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof InvoiceCounterGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], InvoiceCounterGroupByOutputType[P]>
+            : GetScalarType<T[P], InvoiceCounterGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type InvoiceCounterSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    ownerAddress?: boolean
+    year?: boolean
+    lastSeq?: boolean
+  }, ExtArgs["result"]["invoiceCounter"]>
+
+  export type InvoiceCounterSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    ownerAddress?: boolean
+    year?: boolean
+    lastSeq?: boolean
+  }, ExtArgs["result"]["invoiceCounter"]>
+
+  export type InvoiceCounterSelectScalar = {
+    ownerAddress?: boolean
+    year?: boolean
+    lastSeq?: boolean
+  }
+
+
+  export type $InvoiceCounterPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "InvoiceCounter"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      ownerAddress: string
+      year: number
+      lastSeq: number
+    }, ExtArgs["result"]["invoiceCounter"]>
+    composites: {}
+  }
+
+  type InvoiceCounterGetPayload<S extends boolean | null | undefined | InvoiceCounterDefaultArgs> = $Result.GetResult<Prisma.$InvoiceCounterPayload, S>
+
+  type InvoiceCounterCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<InvoiceCounterFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: InvoiceCounterCountAggregateInputType | true
+    }
+
+  export interface InvoiceCounterDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['InvoiceCounter'], meta: { name: 'InvoiceCounter' } }
+    /**
+     * Find zero or one InvoiceCounter that matches the filter.
+     * @param {InvoiceCounterFindUniqueArgs} args - Arguments to find a InvoiceCounter
+     * @example
+     * // Get one InvoiceCounter
+     * const invoiceCounter = await prisma.invoiceCounter.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends InvoiceCounterFindUniqueArgs>(args: SelectSubset<T, InvoiceCounterFindUniqueArgs<ExtArgs>>): Prisma__InvoiceCounterClient<$Result.GetResult<Prisma.$InvoiceCounterPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one InvoiceCounter that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {InvoiceCounterFindUniqueOrThrowArgs} args - Arguments to find a InvoiceCounter
+     * @example
+     * // Get one InvoiceCounter
+     * const invoiceCounter = await prisma.invoiceCounter.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends InvoiceCounterFindUniqueOrThrowArgs>(args: SelectSubset<T, InvoiceCounterFindUniqueOrThrowArgs<ExtArgs>>): Prisma__InvoiceCounterClient<$Result.GetResult<Prisma.$InvoiceCounterPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first InvoiceCounter that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InvoiceCounterFindFirstArgs} args - Arguments to find a InvoiceCounter
+     * @example
+     * // Get one InvoiceCounter
+     * const invoiceCounter = await prisma.invoiceCounter.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends InvoiceCounterFindFirstArgs>(args?: SelectSubset<T, InvoiceCounterFindFirstArgs<ExtArgs>>): Prisma__InvoiceCounterClient<$Result.GetResult<Prisma.$InvoiceCounterPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first InvoiceCounter that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InvoiceCounterFindFirstOrThrowArgs} args - Arguments to find a InvoiceCounter
+     * @example
+     * // Get one InvoiceCounter
+     * const invoiceCounter = await prisma.invoiceCounter.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends InvoiceCounterFindFirstOrThrowArgs>(args?: SelectSubset<T, InvoiceCounterFindFirstOrThrowArgs<ExtArgs>>): Prisma__InvoiceCounterClient<$Result.GetResult<Prisma.$InvoiceCounterPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more InvoiceCounters that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InvoiceCounterFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all InvoiceCounters
+     * const invoiceCounters = await prisma.invoiceCounter.findMany()
+     * 
+     * // Get first 10 InvoiceCounters
+     * const invoiceCounters = await prisma.invoiceCounter.findMany({ take: 10 })
+     * 
+     * // Only select the `ownerAddress`
+     * const invoiceCounterWithOwnerAddressOnly = await prisma.invoiceCounter.findMany({ select: { ownerAddress: true } })
+     * 
+     */
+    findMany<T extends InvoiceCounterFindManyArgs>(args?: SelectSubset<T, InvoiceCounterFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InvoiceCounterPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a InvoiceCounter.
+     * @param {InvoiceCounterCreateArgs} args - Arguments to create a InvoiceCounter.
+     * @example
+     * // Create one InvoiceCounter
+     * const InvoiceCounter = await prisma.invoiceCounter.create({
+     *   data: {
+     *     // ... data to create a InvoiceCounter
+     *   }
+     * })
+     * 
+     */
+    create<T extends InvoiceCounterCreateArgs>(args: SelectSubset<T, InvoiceCounterCreateArgs<ExtArgs>>): Prisma__InvoiceCounterClient<$Result.GetResult<Prisma.$InvoiceCounterPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many InvoiceCounters.
+     * @param {InvoiceCounterCreateManyArgs} args - Arguments to create many InvoiceCounters.
+     * @example
+     * // Create many InvoiceCounters
+     * const invoiceCounter = await prisma.invoiceCounter.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends InvoiceCounterCreateManyArgs>(args?: SelectSubset<T, InvoiceCounterCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many InvoiceCounters and returns the data saved in the database.
+     * @param {InvoiceCounterCreateManyAndReturnArgs} args - Arguments to create many InvoiceCounters.
+     * @example
+     * // Create many InvoiceCounters
+     * const invoiceCounter = await prisma.invoiceCounter.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many InvoiceCounters and only return the `ownerAddress`
+     * const invoiceCounterWithOwnerAddressOnly = await prisma.invoiceCounter.createManyAndReturn({ 
+     *   select: { ownerAddress: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends InvoiceCounterCreateManyAndReturnArgs>(args?: SelectSubset<T, InvoiceCounterCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InvoiceCounterPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a InvoiceCounter.
+     * @param {InvoiceCounterDeleteArgs} args - Arguments to delete one InvoiceCounter.
+     * @example
+     * // Delete one InvoiceCounter
+     * const InvoiceCounter = await prisma.invoiceCounter.delete({
+     *   where: {
+     *     // ... filter to delete one InvoiceCounter
+     *   }
+     * })
+     * 
+     */
+    delete<T extends InvoiceCounterDeleteArgs>(args: SelectSubset<T, InvoiceCounterDeleteArgs<ExtArgs>>): Prisma__InvoiceCounterClient<$Result.GetResult<Prisma.$InvoiceCounterPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one InvoiceCounter.
+     * @param {InvoiceCounterUpdateArgs} args - Arguments to update one InvoiceCounter.
+     * @example
+     * // Update one InvoiceCounter
+     * const invoiceCounter = await prisma.invoiceCounter.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends InvoiceCounterUpdateArgs>(args: SelectSubset<T, InvoiceCounterUpdateArgs<ExtArgs>>): Prisma__InvoiceCounterClient<$Result.GetResult<Prisma.$InvoiceCounterPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more InvoiceCounters.
+     * @param {InvoiceCounterDeleteManyArgs} args - Arguments to filter InvoiceCounters to delete.
+     * @example
+     * // Delete a few InvoiceCounters
+     * const { count } = await prisma.invoiceCounter.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends InvoiceCounterDeleteManyArgs>(args?: SelectSubset<T, InvoiceCounterDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more InvoiceCounters.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InvoiceCounterUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many InvoiceCounters
+     * const invoiceCounter = await prisma.invoiceCounter.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends InvoiceCounterUpdateManyArgs>(args: SelectSubset<T, InvoiceCounterUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one InvoiceCounter.
+     * @param {InvoiceCounterUpsertArgs} args - Arguments to update or create a InvoiceCounter.
+     * @example
+     * // Update or create a InvoiceCounter
+     * const invoiceCounter = await prisma.invoiceCounter.upsert({
+     *   create: {
+     *     // ... data to create a InvoiceCounter
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the InvoiceCounter we want to update
+     *   }
+     * })
+     */
+    upsert<T extends InvoiceCounterUpsertArgs>(args: SelectSubset<T, InvoiceCounterUpsertArgs<ExtArgs>>): Prisma__InvoiceCounterClient<$Result.GetResult<Prisma.$InvoiceCounterPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of InvoiceCounters.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InvoiceCounterCountArgs} args - Arguments to filter InvoiceCounters to count.
+     * @example
+     * // Count the number of InvoiceCounters
+     * const count = await prisma.invoiceCounter.count({
+     *   where: {
+     *     // ... the filter for the InvoiceCounters we want to count
+     *   }
+     * })
+    **/
+    count<T extends InvoiceCounterCountArgs>(
+      args?: Subset<T, InvoiceCounterCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], InvoiceCounterCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a InvoiceCounter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InvoiceCounterAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends InvoiceCounterAggregateArgs>(args: Subset<T, InvoiceCounterAggregateArgs>): Prisma.PrismaPromise<GetInvoiceCounterAggregateType<T>>
+
+    /**
+     * Group by InvoiceCounter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InvoiceCounterGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends InvoiceCounterGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: InvoiceCounterGroupByArgs['orderBy'] }
+        : { orderBy?: InvoiceCounterGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, InvoiceCounterGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetInvoiceCounterGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the InvoiceCounter model
+   */
+  readonly fields: InvoiceCounterFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for InvoiceCounter.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__InvoiceCounterClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the InvoiceCounter model
+   */ 
+  interface InvoiceCounterFieldRefs {
+    readonly ownerAddress: FieldRef<"InvoiceCounter", 'String'>
+    readonly year: FieldRef<"InvoiceCounter", 'Int'>
+    readonly lastSeq: FieldRef<"InvoiceCounter", 'Int'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * InvoiceCounter findUnique
+   */
+  export type InvoiceCounterFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InvoiceCounter
+     */
+    select?: InvoiceCounterSelect<ExtArgs> | null
+    /**
+     * Filter, which InvoiceCounter to fetch.
+     */
+    where: InvoiceCounterWhereUniqueInput
+  }
+
+  /**
+   * InvoiceCounter findUniqueOrThrow
+   */
+  export type InvoiceCounterFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InvoiceCounter
+     */
+    select?: InvoiceCounterSelect<ExtArgs> | null
+    /**
+     * Filter, which InvoiceCounter to fetch.
+     */
+    where: InvoiceCounterWhereUniqueInput
+  }
+
+  /**
+   * InvoiceCounter findFirst
+   */
+  export type InvoiceCounterFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InvoiceCounter
+     */
+    select?: InvoiceCounterSelect<ExtArgs> | null
+    /**
+     * Filter, which InvoiceCounter to fetch.
+     */
+    where?: InvoiceCounterWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of InvoiceCounters to fetch.
+     */
+    orderBy?: InvoiceCounterOrderByWithRelationInput | InvoiceCounterOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for InvoiceCounters.
+     */
+    cursor?: InvoiceCounterWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` InvoiceCounters from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` InvoiceCounters.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of InvoiceCounters.
+     */
+    distinct?: InvoiceCounterScalarFieldEnum | InvoiceCounterScalarFieldEnum[]
+  }
+
+  /**
+   * InvoiceCounter findFirstOrThrow
+   */
+  export type InvoiceCounterFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InvoiceCounter
+     */
+    select?: InvoiceCounterSelect<ExtArgs> | null
+    /**
+     * Filter, which InvoiceCounter to fetch.
+     */
+    where?: InvoiceCounterWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of InvoiceCounters to fetch.
+     */
+    orderBy?: InvoiceCounterOrderByWithRelationInput | InvoiceCounterOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for InvoiceCounters.
+     */
+    cursor?: InvoiceCounterWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` InvoiceCounters from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` InvoiceCounters.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of InvoiceCounters.
+     */
+    distinct?: InvoiceCounterScalarFieldEnum | InvoiceCounterScalarFieldEnum[]
+  }
+
+  /**
+   * InvoiceCounter findMany
+   */
+  export type InvoiceCounterFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InvoiceCounter
+     */
+    select?: InvoiceCounterSelect<ExtArgs> | null
+    /**
+     * Filter, which InvoiceCounters to fetch.
+     */
+    where?: InvoiceCounterWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of InvoiceCounters to fetch.
+     */
+    orderBy?: InvoiceCounterOrderByWithRelationInput | InvoiceCounterOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing InvoiceCounters.
+     */
+    cursor?: InvoiceCounterWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` InvoiceCounters from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` InvoiceCounters.
+     */
+    skip?: number
+    distinct?: InvoiceCounterScalarFieldEnum | InvoiceCounterScalarFieldEnum[]
+  }
+
+  /**
+   * InvoiceCounter create
+   */
+  export type InvoiceCounterCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InvoiceCounter
+     */
+    select?: InvoiceCounterSelect<ExtArgs> | null
+    /**
+     * The data needed to create a InvoiceCounter.
+     */
+    data: XOR<InvoiceCounterCreateInput, InvoiceCounterUncheckedCreateInput>
+  }
+
+  /**
+   * InvoiceCounter createMany
+   */
+  export type InvoiceCounterCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many InvoiceCounters.
+     */
+    data: InvoiceCounterCreateManyInput | InvoiceCounterCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * InvoiceCounter createManyAndReturn
+   */
+  export type InvoiceCounterCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InvoiceCounter
+     */
+    select?: InvoiceCounterSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many InvoiceCounters.
+     */
+    data: InvoiceCounterCreateManyInput | InvoiceCounterCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * InvoiceCounter update
+   */
+  export type InvoiceCounterUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InvoiceCounter
+     */
+    select?: InvoiceCounterSelect<ExtArgs> | null
+    /**
+     * The data needed to update a InvoiceCounter.
+     */
+    data: XOR<InvoiceCounterUpdateInput, InvoiceCounterUncheckedUpdateInput>
+    /**
+     * Choose, which InvoiceCounter to update.
+     */
+    where: InvoiceCounterWhereUniqueInput
+  }
+
+  /**
+   * InvoiceCounter updateMany
+   */
+  export type InvoiceCounterUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update InvoiceCounters.
+     */
+    data: XOR<InvoiceCounterUpdateManyMutationInput, InvoiceCounterUncheckedUpdateManyInput>
+    /**
+     * Filter which InvoiceCounters to update
+     */
+    where?: InvoiceCounterWhereInput
+  }
+
+  /**
+   * InvoiceCounter upsert
+   */
+  export type InvoiceCounterUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InvoiceCounter
+     */
+    select?: InvoiceCounterSelect<ExtArgs> | null
+    /**
+     * The filter to search for the InvoiceCounter to update in case it exists.
+     */
+    where: InvoiceCounterWhereUniqueInput
+    /**
+     * In case the InvoiceCounter found by the `where` argument doesn't exist, create a new InvoiceCounter with this data.
+     */
+    create: XOR<InvoiceCounterCreateInput, InvoiceCounterUncheckedCreateInput>
+    /**
+     * In case the InvoiceCounter was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<InvoiceCounterUpdateInput, InvoiceCounterUncheckedUpdateInput>
+  }
+
+  /**
+   * InvoiceCounter delete
+   */
+  export type InvoiceCounterDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InvoiceCounter
+     */
+    select?: InvoiceCounterSelect<ExtArgs> | null
+    /**
+     * Filter which InvoiceCounter to delete.
+     */
+    where: InvoiceCounterWhereUniqueInput
+  }
+
+  /**
+   * InvoiceCounter deleteMany
+   */
+  export type InvoiceCounterDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which InvoiceCounters to delete
+     */
+    where?: InvoiceCounterWhereInput
+  }
+
+  /**
+   * InvoiceCounter without action
+   */
+  export type InvoiceCounterDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InvoiceCounter
+     */
+    select?: InvoiceCounterSelect<ExtArgs> | null
+>>>>>>> 5551a02 (Feat: Add Payment Invoice Generation)
+  }
+
+
+  /**
    * Enums
    */
 
@@ -53661,6 +58915,84 @@ export namespace Prisma {
   export type AdminAuditLogScalarFieldEnum = (typeof AdminAuditLogScalarFieldEnum)[keyof typeof AdminAuditLogScalarFieldEnum]
 
 
+<<<<<<< HEAD
+  export const PaymentRoutingRuleScalarFieldEnum: {
+    id: 'id',
+    ownerAddress: 'ownerAddress',
+    name: 'name',
+    description: 'description',
+    route: 'route',
+    priority: 'priority',
+    isActive: 'isActive',
+=======
+  export const InvoiceScalarFieldEnum: {
+    id: 'id',
+    invoiceNumber: 'invoiceNumber',
+    ownerAddress: 'ownerAddress',
+    disbursementId: 'disbursementId',
+    templateId: 'templateId',
+    status: 'status',
+    language: 'language',
+    sender: 'sender',
+    asset: 'asset',
+    recipients: 'recipients',
+    subtotal: 'subtotal',
+    taxRate: 'taxRate',
+    taxAmount: 'taxAmount',
+    totalAmount: 'totalAmount',
+    note: 'note',
+    txHash: 'txHash',
+    issuedAt: 'issuedAt',
+    dueAt: 'dueAt',
+>>>>>>> 5551a02 (Feat: Add Payment Invoice Generation)
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+<<<<<<< HEAD
+  export type PaymentRoutingRuleScalarFieldEnum = (typeof PaymentRoutingRuleScalarFieldEnum)[keyof typeof PaymentRoutingRuleScalarFieldEnum]
+
+
+  export const PaymentRoutingConditionScalarFieldEnum: {
+    id: 'id',
+    ruleId: 'ruleId',
+    type: 'type',
+    operator: 'operator',
+    value: 'value',
+    value2: 'value2'
+  };
+
+  export type PaymentRoutingConditionScalarFieldEnum = (typeof PaymentRoutingConditionScalarFieldEnum)[keyof typeof PaymentRoutingConditionScalarFieldEnum]
+=======
+  export type InvoiceScalarFieldEnum = (typeof InvoiceScalarFieldEnum)[keyof typeof InvoiceScalarFieldEnum]
+
+
+  export const InvoiceTemplateScalarFieldEnum: {
+    id: 'id',
+    ownerAddress: 'ownerAddress',
+    name: 'name',
+    language: 'language',
+    isDefault: 'isDefault',
+    accentColor: 'accentColor',
+    logoBase64: 'logoBase64',
+    footerText: 'footerText',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type InvoiceTemplateScalarFieldEnum = (typeof InvoiceTemplateScalarFieldEnum)[keyof typeof InvoiceTemplateScalarFieldEnum]
+
+
+  export const InvoiceCounterScalarFieldEnum: {
+    ownerAddress: 'ownerAddress',
+    year: 'year',
+    lastSeq: 'lastSeq'
+  };
+
+  export type InvoiceCounterScalarFieldEnum = (typeof InvoiceCounterScalarFieldEnum)[keyof typeof InvoiceCounterScalarFieldEnum]
+>>>>>>> 5551a02 (Feat: Add Payment Invoice Generation)
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -53879,6 +59211,20 @@ export namespace Prisma {
    * Reference to a field of type 'PaymentTrackingStatus[]'
    */
   export type ListEnumPaymentTrackingStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PaymentTrackingStatus[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'InvoiceStatus'
+   */
+  export type EnumInvoiceStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'InvoiceStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'InvoiceStatus[]'
+   */
+  export type ListEnumInvoiceStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'InvoiceStatus[]'>
     
   /**
    * Deep Input Types
@@ -56462,6 +61808,7 @@ export namespace Prisma {
     categoryId?: StringNullableFilter<"Disbursement"> | string | null
     category?: XOR<PaymentCategoryNullableRelationFilter, PaymentCategoryWhereInput> | null
     statusEvents?: PaymentStatusEventListRelationFilter
+    invoices?: InvoiceListRelationFilter
   }
 
   export type DisbursementOrderByWithRelationInput = {
@@ -56480,6 +61827,7 @@ export namespace Prisma {
     categoryId?: SortOrderInput | SortOrder
     category?: PaymentCategoryOrderByWithRelationInput
     statusEvents?: PaymentStatusEventOrderByRelationAggregateInput
+    invoices?: InvoiceOrderByRelationAggregateInput
   }
 
   export type DisbursementWhereUniqueInput = Prisma.AtLeast<{
@@ -56501,6 +61849,7 @@ export namespace Prisma {
     categoryId?: StringNullableFilter<"Disbursement"> | string | null
     category?: XOR<PaymentCategoryNullableRelationFilter, PaymentCategoryWhereInput> | null
     statusEvents?: PaymentStatusEventListRelationFilter
+    invoices?: InvoiceListRelationFilter
   }, "id" | "txHash">
 
   export type DisbursementOrderByWithAggregationInput = {
@@ -57679,6 +63028,406 @@ export namespace Prisma {
     error?: StringNullableWithAggregatesFilter<"AdminAuditLog"> | string | null
     changesSummary?: StringNullableWithAggregatesFilter<"AdminAuditLog"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"AdminAuditLog"> | Date | string
+  }
+
+<<<<<<< HEAD
+  export type PaymentRoutingRuleWhereInput = {
+    AND?: PaymentRoutingRuleWhereInput | PaymentRoutingRuleWhereInput[]
+    OR?: PaymentRoutingRuleWhereInput[]
+    NOT?: PaymentRoutingRuleWhereInput | PaymentRoutingRuleWhereInput[]
+    id?: StringFilter<"PaymentRoutingRule"> | string
+    ownerAddress?: StringFilter<"PaymentRoutingRule"> | string
+    name?: StringFilter<"PaymentRoutingRule"> | string
+    description?: StringNullableFilter<"PaymentRoutingRule"> | string | null
+    route?: StringFilter<"PaymentRoutingRule"> | string
+    priority?: IntFilter<"PaymentRoutingRule"> | number
+    isActive?: BoolFilter<"PaymentRoutingRule"> | boolean
+    createdAt?: DateTimeFilter<"PaymentRoutingRule"> | Date | string
+    updatedAt?: DateTimeFilter<"PaymentRoutingRule"> | Date | string
+    conditions?: PaymentRoutingConditionListRelationFilter
+  }
+
+  export type PaymentRoutingRuleOrderByWithRelationInput = {
+    id?: SortOrder
+    ownerAddress?: SortOrder
+    name?: SortOrder
+    description?: SortOrderInput | SortOrder
+    route?: SortOrder
+    priority?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    conditions?: PaymentRoutingConditionOrderByRelationAggregateInput
+  }
+
+  export type PaymentRoutingRuleWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    ownerAddress_name?: PaymentRoutingRuleOwnerAddressNameCompoundUniqueInput
+    AND?: PaymentRoutingRuleWhereInput | PaymentRoutingRuleWhereInput[]
+    OR?: PaymentRoutingRuleWhereInput[]
+    NOT?: PaymentRoutingRuleWhereInput | PaymentRoutingRuleWhereInput[]
+    ownerAddress?: StringFilter<"PaymentRoutingRule"> | string
+    name?: StringFilter<"PaymentRoutingRule"> | string
+    description?: StringNullableFilter<"PaymentRoutingRule"> | string | null
+    route?: StringFilter<"PaymentRoutingRule"> | string
+    priority?: IntFilter<"PaymentRoutingRule"> | number
+    isActive?: BoolFilter<"PaymentRoutingRule"> | boolean
+    createdAt?: DateTimeFilter<"PaymentRoutingRule"> | Date | string
+    updatedAt?: DateTimeFilter<"PaymentRoutingRule"> | Date | string
+    conditions?: PaymentRoutingConditionListRelationFilter
+  }, "id" | "ownerAddress_name">
+
+  export type PaymentRoutingRuleOrderByWithAggregationInput = {
+    id?: SortOrder
+    ownerAddress?: SortOrder
+    name?: SortOrder
+    description?: SortOrderInput | SortOrder
+    route?: SortOrder
+    priority?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: PaymentRoutingRuleCountOrderByAggregateInput
+    _avg?: PaymentRoutingRuleAvgOrderByAggregateInput
+    _max?: PaymentRoutingRuleMaxOrderByAggregateInput
+    _min?: PaymentRoutingRuleMinOrderByAggregateInput
+    _sum?: PaymentRoutingRuleSumOrderByAggregateInput
+  }
+
+  export type PaymentRoutingRuleScalarWhereWithAggregatesInput = {
+    AND?: PaymentRoutingRuleScalarWhereWithAggregatesInput | PaymentRoutingRuleScalarWhereWithAggregatesInput[]
+    OR?: PaymentRoutingRuleScalarWhereWithAggregatesInput[]
+    NOT?: PaymentRoutingRuleScalarWhereWithAggregatesInput | PaymentRoutingRuleScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"PaymentRoutingRule"> | string
+    ownerAddress?: StringWithAggregatesFilter<"PaymentRoutingRule"> | string
+    name?: StringWithAggregatesFilter<"PaymentRoutingRule"> | string
+    description?: StringNullableWithAggregatesFilter<"PaymentRoutingRule"> | string | null
+    route?: StringWithAggregatesFilter<"PaymentRoutingRule"> | string
+    priority?: IntWithAggregatesFilter<"PaymentRoutingRule"> | number
+    isActive?: BoolWithAggregatesFilter<"PaymentRoutingRule"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"PaymentRoutingRule"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"PaymentRoutingRule"> | Date | string
+  }
+
+  export type PaymentRoutingConditionWhereInput = {
+    AND?: PaymentRoutingConditionWhereInput | PaymentRoutingConditionWhereInput[]
+    OR?: PaymentRoutingConditionWhereInput[]
+    NOT?: PaymentRoutingConditionWhereInput | PaymentRoutingConditionWhereInput[]
+    id?: StringFilter<"PaymentRoutingCondition"> | string
+    ruleId?: StringFilter<"PaymentRoutingCondition"> | string
+    type?: StringFilter<"PaymentRoutingCondition"> | string
+    operator?: StringFilter<"PaymentRoutingCondition"> | string
+    value?: StringFilter<"PaymentRoutingCondition"> | string
+    value2?: StringNullableFilter<"PaymentRoutingCondition"> | string | null
+    rule?: XOR<PaymentRoutingRuleRelationFilter, PaymentRoutingRuleWhereInput>
+  }
+
+  export type PaymentRoutingConditionOrderByWithRelationInput = {
+    id?: SortOrder
+    ruleId?: SortOrder
+    type?: SortOrder
+    operator?: SortOrder
+    value?: SortOrder
+    value2?: SortOrderInput | SortOrder
+    rule?: PaymentRoutingRuleOrderByWithRelationInput
+  }
+
+  export type PaymentRoutingConditionWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: PaymentRoutingConditionWhereInput | PaymentRoutingConditionWhereInput[]
+    OR?: PaymentRoutingConditionWhereInput[]
+    NOT?: PaymentRoutingConditionWhereInput | PaymentRoutingConditionWhereInput[]
+    ruleId?: StringFilter<"PaymentRoutingCondition"> | string
+    type?: StringFilter<"PaymentRoutingCondition"> | string
+    operator?: StringFilter<"PaymentRoutingCondition"> | string
+    value?: StringFilter<"PaymentRoutingCondition"> | string
+    value2?: StringNullableFilter<"PaymentRoutingCondition"> | string | null
+    rule?: XOR<PaymentRoutingRuleRelationFilter, PaymentRoutingRuleWhereInput>
+  }, "id">
+
+  export type PaymentRoutingConditionOrderByWithAggregationInput = {
+    id?: SortOrder
+    ruleId?: SortOrder
+    type?: SortOrder
+    operator?: SortOrder
+    value?: SortOrder
+    value2?: SortOrderInput | SortOrder
+    _count?: PaymentRoutingConditionCountOrderByAggregateInput
+    _max?: PaymentRoutingConditionMaxOrderByAggregateInput
+    _min?: PaymentRoutingConditionMinOrderByAggregateInput
+  }
+
+  export type PaymentRoutingConditionScalarWhereWithAggregatesInput = {
+    AND?: PaymentRoutingConditionScalarWhereWithAggregatesInput | PaymentRoutingConditionScalarWhereWithAggregatesInput[]
+    OR?: PaymentRoutingConditionScalarWhereWithAggregatesInput[]
+    NOT?: PaymentRoutingConditionScalarWhereWithAggregatesInput | PaymentRoutingConditionScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"PaymentRoutingCondition"> | string
+    ruleId?: StringWithAggregatesFilter<"PaymentRoutingCondition"> | string
+    type?: StringWithAggregatesFilter<"PaymentRoutingCondition"> | string
+    operator?: StringWithAggregatesFilter<"PaymentRoutingCondition"> | string
+    value?: StringWithAggregatesFilter<"PaymentRoutingCondition"> | string
+    value2?: StringNullableWithAggregatesFilter<"PaymentRoutingCondition"> | string | null
+=======
+  export type InvoiceWhereInput = {
+    AND?: InvoiceWhereInput | InvoiceWhereInput[]
+    OR?: InvoiceWhereInput[]
+    NOT?: InvoiceWhereInput | InvoiceWhereInput[]
+    id?: StringFilter<"Invoice"> | string
+    invoiceNumber?: StringFilter<"Invoice"> | string
+    ownerAddress?: StringFilter<"Invoice"> | string
+    disbursementId?: StringNullableFilter<"Invoice"> | string | null
+    templateId?: StringNullableFilter<"Invoice"> | string | null
+    status?: EnumInvoiceStatusFilter<"Invoice"> | $Enums.InvoiceStatus
+    language?: StringFilter<"Invoice"> | string
+    sender?: StringFilter<"Invoice"> | string
+    asset?: StringFilter<"Invoice"> | string
+    recipients?: JsonFilter<"Invoice">
+    subtotal?: StringFilter<"Invoice"> | string
+    taxRate?: FloatFilter<"Invoice"> | number
+    taxAmount?: StringFilter<"Invoice"> | string
+    totalAmount?: StringFilter<"Invoice"> | string
+    note?: StringNullableFilter<"Invoice"> | string | null
+    txHash?: StringNullableFilter<"Invoice"> | string | null
+    issuedAt?: DateTimeNullableFilter<"Invoice"> | Date | string | null
+    dueAt?: DateTimeNullableFilter<"Invoice"> | Date | string | null
+    createdAt?: DateTimeFilter<"Invoice"> | Date | string
+    updatedAt?: DateTimeFilter<"Invoice"> | Date | string
+    disbursement?: XOR<DisbursementNullableRelationFilter, DisbursementWhereInput> | null
+    template?: XOR<InvoiceTemplateNullableRelationFilter, InvoiceTemplateWhereInput> | null
+  }
+
+  export type InvoiceOrderByWithRelationInput = {
+    id?: SortOrder
+    invoiceNumber?: SortOrder
+    ownerAddress?: SortOrder
+    disbursementId?: SortOrderInput | SortOrder
+    templateId?: SortOrderInput | SortOrder
+    status?: SortOrder
+    language?: SortOrder
+    sender?: SortOrder
+    asset?: SortOrder
+    recipients?: SortOrder
+    subtotal?: SortOrder
+    taxRate?: SortOrder
+    taxAmount?: SortOrder
+    totalAmount?: SortOrder
+    note?: SortOrderInput | SortOrder
+    txHash?: SortOrderInput | SortOrder
+    issuedAt?: SortOrderInput | SortOrder
+    dueAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    disbursement?: DisbursementOrderByWithRelationInput
+    template?: InvoiceTemplateOrderByWithRelationInput
+  }
+
+  export type InvoiceWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    invoiceNumber?: string
+    AND?: InvoiceWhereInput | InvoiceWhereInput[]
+    OR?: InvoiceWhereInput[]
+    NOT?: InvoiceWhereInput | InvoiceWhereInput[]
+    ownerAddress?: StringFilter<"Invoice"> | string
+    disbursementId?: StringNullableFilter<"Invoice"> | string | null
+    templateId?: StringNullableFilter<"Invoice"> | string | null
+    status?: EnumInvoiceStatusFilter<"Invoice"> | $Enums.InvoiceStatus
+    language?: StringFilter<"Invoice"> | string
+    sender?: StringFilter<"Invoice"> | string
+    asset?: StringFilter<"Invoice"> | string
+    recipients?: JsonFilter<"Invoice">
+    subtotal?: StringFilter<"Invoice"> | string
+    taxRate?: FloatFilter<"Invoice"> | number
+    taxAmount?: StringFilter<"Invoice"> | string
+    totalAmount?: StringFilter<"Invoice"> | string
+    note?: StringNullableFilter<"Invoice"> | string | null
+    txHash?: StringNullableFilter<"Invoice"> | string | null
+    issuedAt?: DateTimeNullableFilter<"Invoice"> | Date | string | null
+    dueAt?: DateTimeNullableFilter<"Invoice"> | Date | string | null
+    createdAt?: DateTimeFilter<"Invoice"> | Date | string
+    updatedAt?: DateTimeFilter<"Invoice"> | Date | string
+    disbursement?: XOR<DisbursementNullableRelationFilter, DisbursementWhereInput> | null
+    template?: XOR<InvoiceTemplateNullableRelationFilter, InvoiceTemplateWhereInput> | null
+  }, "id" | "invoiceNumber">
+
+  export type InvoiceOrderByWithAggregationInput = {
+    id?: SortOrder
+    invoiceNumber?: SortOrder
+    ownerAddress?: SortOrder
+    disbursementId?: SortOrderInput | SortOrder
+    templateId?: SortOrderInput | SortOrder
+    status?: SortOrder
+    language?: SortOrder
+    sender?: SortOrder
+    asset?: SortOrder
+    recipients?: SortOrder
+    subtotal?: SortOrder
+    taxRate?: SortOrder
+    taxAmount?: SortOrder
+    totalAmount?: SortOrder
+    note?: SortOrderInput | SortOrder
+    txHash?: SortOrderInput | SortOrder
+    issuedAt?: SortOrderInput | SortOrder
+    dueAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: InvoiceCountOrderByAggregateInput
+    _avg?: InvoiceAvgOrderByAggregateInput
+    _max?: InvoiceMaxOrderByAggregateInput
+    _min?: InvoiceMinOrderByAggregateInput
+    _sum?: InvoiceSumOrderByAggregateInput
+  }
+
+  export type InvoiceScalarWhereWithAggregatesInput = {
+    AND?: InvoiceScalarWhereWithAggregatesInput | InvoiceScalarWhereWithAggregatesInput[]
+    OR?: InvoiceScalarWhereWithAggregatesInput[]
+    NOT?: InvoiceScalarWhereWithAggregatesInput | InvoiceScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Invoice"> | string
+    invoiceNumber?: StringWithAggregatesFilter<"Invoice"> | string
+    ownerAddress?: StringWithAggregatesFilter<"Invoice"> | string
+    disbursementId?: StringNullableWithAggregatesFilter<"Invoice"> | string | null
+    templateId?: StringNullableWithAggregatesFilter<"Invoice"> | string | null
+    status?: EnumInvoiceStatusWithAggregatesFilter<"Invoice"> | $Enums.InvoiceStatus
+    language?: StringWithAggregatesFilter<"Invoice"> | string
+    sender?: StringWithAggregatesFilter<"Invoice"> | string
+    asset?: StringWithAggregatesFilter<"Invoice"> | string
+    recipients?: JsonWithAggregatesFilter<"Invoice">
+    subtotal?: StringWithAggregatesFilter<"Invoice"> | string
+    taxRate?: FloatWithAggregatesFilter<"Invoice"> | number
+    taxAmount?: StringWithAggregatesFilter<"Invoice"> | string
+    totalAmount?: StringWithAggregatesFilter<"Invoice"> | string
+    note?: StringNullableWithAggregatesFilter<"Invoice"> | string | null
+    txHash?: StringNullableWithAggregatesFilter<"Invoice"> | string | null
+    issuedAt?: DateTimeNullableWithAggregatesFilter<"Invoice"> | Date | string | null
+    dueAt?: DateTimeNullableWithAggregatesFilter<"Invoice"> | Date | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"Invoice"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Invoice"> | Date | string
+  }
+
+  export type InvoiceTemplateWhereInput = {
+    AND?: InvoiceTemplateWhereInput | InvoiceTemplateWhereInput[]
+    OR?: InvoiceTemplateWhereInput[]
+    NOT?: InvoiceTemplateWhereInput | InvoiceTemplateWhereInput[]
+    id?: StringFilter<"InvoiceTemplate"> | string
+    ownerAddress?: StringFilter<"InvoiceTemplate"> | string
+    name?: StringFilter<"InvoiceTemplate"> | string
+    language?: StringFilter<"InvoiceTemplate"> | string
+    isDefault?: BoolFilter<"InvoiceTemplate"> | boolean
+    accentColor?: StringFilter<"InvoiceTemplate"> | string
+    logoBase64?: StringNullableFilter<"InvoiceTemplate"> | string | null
+    footerText?: StringNullableFilter<"InvoiceTemplate"> | string | null
+    createdAt?: DateTimeFilter<"InvoiceTemplate"> | Date | string
+    updatedAt?: DateTimeFilter<"InvoiceTemplate"> | Date | string
+    invoices?: InvoiceListRelationFilter
+  }
+
+  export type InvoiceTemplateOrderByWithRelationInput = {
+    id?: SortOrder
+    ownerAddress?: SortOrder
+    name?: SortOrder
+    language?: SortOrder
+    isDefault?: SortOrder
+    accentColor?: SortOrder
+    logoBase64?: SortOrderInput | SortOrder
+    footerText?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    invoices?: InvoiceOrderByRelationAggregateInput
+  }
+
+  export type InvoiceTemplateWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    ownerAddress_name?: InvoiceTemplateOwnerAddressNameCompoundUniqueInput
+    AND?: InvoiceTemplateWhereInput | InvoiceTemplateWhereInput[]
+    OR?: InvoiceTemplateWhereInput[]
+    NOT?: InvoiceTemplateWhereInput | InvoiceTemplateWhereInput[]
+    ownerAddress?: StringFilter<"InvoiceTemplate"> | string
+    name?: StringFilter<"InvoiceTemplate"> | string
+    language?: StringFilter<"InvoiceTemplate"> | string
+    isDefault?: BoolFilter<"InvoiceTemplate"> | boolean
+    accentColor?: StringFilter<"InvoiceTemplate"> | string
+    logoBase64?: StringNullableFilter<"InvoiceTemplate"> | string | null
+    footerText?: StringNullableFilter<"InvoiceTemplate"> | string | null
+    createdAt?: DateTimeFilter<"InvoiceTemplate"> | Date | string
+    updatedAt?: DateTimeFilter<"InvoiceTemplate"> | Date | string
+    invoices?: InvoiceListRelationFilter
+  }, "id" | "ownerAddress_name">
+
+  export type InvoiceTemplateOrderByWithAggregationInput = {
+    id?: SortOrder
+    ownerAddress?: SortOrder
+    name?: SortOrder
+    language?: SortOrder
+    isDefault?: SortOrder
+    accentColor?: SortOrder
+    logoBase64?: SortOrderInput | SortOrder
+    footerText?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: InvoiceTemplateCountOrderByAggregateInput
+    _max?: InvoiceTemplateMaxOrderByAggregateInput
+    _min?: InvoiceTemplateMinOrderByAggregateInput
+  }
+
+  export type InvoiceTemplateScalarWhereWithAggregatesInput = {
+    AND?: InvoiceTemplateScalarWhereWithAggregatesInput | InvoiceTemplateScalarWhereWithAggregatesInput[]
+    OR?: InvoiceTemplateScalarWhereWithAggregatesInput[]
+    NOT?: InvoiceTemplateScalarWhereWithAggregatesInput | InvoiceTemplateScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"InvoiceTemplate"> | string
+    ownerAddress?: StringWithAggregatesFilter<"InvoiceTemplate"> | string
+    name?: StringWithAggregatesFilter<"InvoiceTemplate"> | string
+    language?: StringWithAggregatesFilter<"InvoiceTemplate"> | string
+    isDefault?: BoolWithAggregatesFilter<"InvoiceTemplate"> | boolean
+    accentColor?: StringWithAggregatesFilter<"InvoiceTemplate"> | string
+    logoBase64?: StringNullableWithAggregatesFilter<"InvoiceTemplate"> | string | null
+    footerText?: StringNullableWithAggregatesFilter<"InvoiceTemplate"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"InvoiceTemplate"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"InvoiceTemplate"> | Date | string
+  }
+
+  export type InvoiceCounterWhereInput = {
+    AND?: InvoiceCounterWhereInput | InvoiceCounterWhereInput[]
+    OR?: InvoiceCounterWhereInput[]
+    NOT?: InvoiceCounterWhereInput | InvoiceCounterWhereInput[]
+    ownerAddress?: StringFilter<"InvoiceCounter"> | string
+    year?: IntFilter<"InvoiceCounter"> | number
+    lastSeq?: IntFilter<"InvoiceCounter"> | number
+  }
+
+  export type InvoiceCounterOrderByWithRelationInput = {
+    ownerAddress?: SortOrder
+    year?: SortOrder
+    lastSeq?: SortOrder
+  }
+
+  export type InvoiceCounterWhereUniqueInput = Prisma.AtLeast<{
+    ownerAddress_year?: InvoiceCounterOwnerAddressYearCompoundUniqueInput
+    AND?: InvoiceCounterWhereInput | InvoiceCounterWhereInput[]
+    OR?: InvoiceCounterWhereInput[]
+    NOT?: InvoiceCounterWhereInput | InvoiceCounterWhereInput[]
+    ownerAddress?: StringFilter<"InvoiceCounter"> | string
+    year?: IntFilter<"InvoiceCounter"> | number
+    lastSeq?: IntFilter<"InvoiceCounter"> | number
+  }, "ownerAddress_year">
+
+  export type InvoiceCounterOrderByWithAggregationInput = {
+    ownerAddress?: SortOrder
+    year?: SortOrder
+    lastSeq?: SortOrder
+    _count?: InvoiceCounterCountOrderByAggregateInput
+    _avg?: InvoiceCounterAvgOrderByAggregateInput
+    _max?: InvoiceCounterMaxOrderByAggregateInput
+    _min?: InvoiceCounterMinOrderByAggregateInput
+    _sum?: InvoiceCounterSumOrderByAggregateInput
+  }
+
+  export type InvoiceCounterScalarWhereWithAggregatesInput = {
+    AND?: InvoiceCounterScalarWhereWithAggregatesInput | InvoiceCounterScalarWhereWithAggregatesInput[]
+    OR?: InvoiceCounterScalarWhereWithAggregatesInput[]
+    NOT?: InvoiceCounterScalarWhereWithAggregatesInput | InvoiceCounterScalarWhereWithAggregatesInput[]
+    ownerAddress?: StringWithAggregatesFilter<"InvoiceCounter"> | string
+    year?: IntWithAggregatesFilter<"InvoiceCounter"> | number
+    lastSeq?: IntWithAggregatesFilter<"InvoiceCounter"> | number
+>>>>>>> 5551a02 (Feat: Add Payment Invoice Generation)
   }
 
   export type PaymentCategoryCreateInput = {
@@ -60614,6 +66363,7 @@ export namespace Prisma {
     batchId?: string | null
     category?: PaymentCategoryCreateNestedOneWithoutDisbursementsInput
     statusEvents?: PaymentStatusEventCreateNestedManyWithoutDisbursementInput
+    invoices?: InvoiceCreateNestedManyWithoutDisbursementInput
   }
 
   export type DisbursementUncheckedCreateInput = {
@@ -60631,6 +66381,7 @@ export namespace Prisma {
     batchId?: string | null
     categoryId?: string | null
     statusEvents?: PaymentStatusEventUncheckedCreateNestedManyWithoutDisbursementInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutDisbursementInput
   }
 
   export type DisbursementUpdateInput = {
@@ -60648,6 +66399,7 @@ export namespace Prisma {
     batchId?: NullableStringFieldUpdateOperationsInput | string | null
     category?: PaymentCategoryUpdateOneWithoutDisbursementsNestedInput
     statusEvents?: PaymentStatusEventUpdateManyWithoutDisbursementNestedInput
+    invoices?: InvoiceUpdateManyWithoutDisbursementNestedInput
   }
 
   export type DisbursementUncheckedUpdateInput = {
@@ -60665,6 +66417,7 @@ export namespace Prisma {
     batchId?: NullableStringFieldUpdateOperationsInput | string | null
     categoryId?: NullableStringFieldUpdateOperationsInput | string | null
     statusEvents?: PaymentStatusEventUncheckedUpdateManyWithoutDisbursementNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutDisbursementNestedInput
   }
 
   export type DisbursementCreateManyInput = {
@@ -62023,6 +67776,450 @@ export namespace Prisma {
     error?: NullableStringFieldUpdateOperationsInput | string | null
     changesSummary?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+<<<<<<< HEAD
+  export type PaymentRoutingRuleCreateInput = {
+    id?: string
+    ownerAddress: string
+    name: string
+    description?: string | null
+    route: string
+    priority?: number
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    conditions?: PaymentRoutingConditionCreateNestedManyWithoutRuleInput
+  }
+
+  export type PaymentRoutingRuleUncheckedCreateInput = {
+    id?: string
+    ownerAddress: string
+    name: string
+    description?: string | null
+    route: string
+    priority?: number
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    conditions?: PaymentRoutingConditionUncheckedCreateNestedManyWithoutRuleInput
+  }
+
+  export type PaymentRoutingRuleUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    ownerAddress?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    route?: StringFieldUpdateOperationsInput | string
+    priority?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    conditions?: PaymentRoutingConditionUpdateManyWithoutRuleNestedInput
+  }
+
+  export type PaymentRoutingRuleUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    ownerAddress?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    route?: StringFieldUpdateOperationsInput | string
+    priority?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    conditions?: PaymentRoutingConditionUncheckedUpdateManyWithoutRuleNestedInput
+  }
+
+  export type PaymentRoutingRuleCreateManyInput = {
+    id?: string
+    ownerAddress: string
+    name: string
+    description?: string | null
+    route: string
+    priority?: number
+    isActive?: boolean
+=======
+  export type InvoiceCreateInput = {
+    id?: string
+    invoiceNumber: string
+    ownerAddress: string
+    status?: $Enums.InvoiceStatus
+    language?: string
+    sender: string
+    asset: string
+    recipients: JsonNullValueInput | InputJsonValue
+    subtotal: string
+    taxRate?: number
+    taxAmount?: string
+    totalAmount: string
+    note?: string | null
+    txHash?: string | null
+    issuedAt?: Date | string | null
+    dueAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    disbursement?: DisbursementCreateNestedOneWithoutInvoicesInput
+    template?: InvoiceTemplateCreateNestedOneWithoutInvoicesInput
+  }
+
+  export type InvoiceUncheckedCreateInput = {
+    id?: string
+    invoiceNumber: string
+    ownerAddress: string
+    disbursementId?: string | null
+    templateId?: string | null
+    status?: $Enums.InvoiceStatus
+    language?: string
+    sender: string
+    asset: string
+    recipients: JsonNullValueInput | InputJsonValue
+    subtotal: string
+    taxRate?: number
+    taxAmount?: string
+    totalAmount: string
+    note?: string | null
+    txHash?: string | null
+    issuedAt?: Date | string | null
+    dueAt?: Date | string | null
+>>>>>>> 5551a02 (Feat: Add Payment Invoice Generation)
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+<<<<<<< HEAD
+  export type PaymentRoutingRuleUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    ownerAddress?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    route?: StringFieldUpdateOperationsInput | string
+    priority?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+=======
+  export type InvoiceUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    invoiceNumber?: StringFieldUpdateOperationsInput | string
+    ownerAddress?: StringFieldUpdateOperationsInput | string
+    status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
+    language?: StringFieldUpdateOperationsInput | string
+    sender?: StringFieldUpdateOperationsInput | string
+    asset?: StringFieldUpdateOperationsInput | string
+    recipients?: JsonNullValueInput | InputJsonValue
+    subtotal?: StringFieldUpdateOperationsInput | string
+    taxRate?: FloatFieldUpdateOperationsInput | number
+    taxAmount?: StringFieldUpdateOperationsInput | string
+    totalAmount?: StringFieldUpdateOperationsInput | string
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    txHash?: NullableStringFieldUpdateOperationsInput | string | null
+    issuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dueAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    disbursement?: DisbursementUpdateOneWithoutInvoicesNestedInput
+    template?: InvoiceTemplateUpdateOneWithoutInvoicesNestedInput
+  }
+
+  export type InvoiceUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    invoiceNumber?: StringFieldUpdateOperationsInput | string
+    ownerAddress?: StringFieldUpdateOperationsInput | string
+    disbursementId?: NullableStringFieldUpdateOperationsInput | string | null
+    templateId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
+    language?: StringFieldUpdateOperationsInput | string
+    sender?: StringFieldUpdateOperationsInput | string
+    asset?: StringFieldUpdateOperationsInput | string
+    recipients?: JsonNullValueInput | InputJsonValue
+    subtotal?: StringFieldUpdateOperationsInput | string
+    taxRate?: FloatFieldUpdateOperationsInput | number
+    taxAmount?: StringFieldUpdateOperationsInput | string
+    totalAmount?: StringFieldUpdateOperationsInput | string
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    txHash?: NullableStringFieldUpdateOperationsInput | string | null
+    issuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dueAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+>>>>>>> 5551a02 (Feat: Add Payment Invoice Generation)
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+<<<<<<< HEAD
+  export type PaymentRoutingRuleUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    ownerAddress?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    route?: StringFieldUpdateOperationsInput | string
+    priority?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+=======
+  export type InvoiceCreateManyInput = {
+    id?: string
+    invoiceNumber: string
+    ownerAddress: string
+    disbursementId?: string | null
+    templateId?: string | null
+    status?: $Enums.InvoiceStatus
+    language?: string
+    sender: string
+    asset: string
+    recipients: JsonNullValueInput | InputJsonValue
+    subtotal: string
+    taxRate?: number
+    taxAmount?: string
+    totalAmount: string
+    note?: string | null
+    txHash?: string | null
+    issuedAt?: Date | string | null
+    dueAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type InvoiceUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    invoiceNumber?: StringFieldUpdateOperationsInput | string
+    ownerAddress?: StringFieldUpdateOperationsInput | string
+    status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
+    language?: StringFieldUpdateOperationsInput | string
+    sender?: StringFieldUpdateOperationsInput | string
+    asset?: StringFieldUpdateOperationsInput | string
+    recipients?: JsonNullValueInput | InputJsonValue
+    subtotal?: StringFieldUpdateOperationsInput | string
+    taxRate?: FloatFieldUpdateOperationsInput | number
+    taxAmount?: StringFieldUpdateOperationsInput | string
+    totalAmount?: StringFieldUpdateOperationsInput | string
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    txHash?: NullableStringFieldUpdateOperationsInput | string | null
+    issuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dueAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+>>>>>>> 5551a02 (Feat: Add Payment Invoice Generation)
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+<<<<<<< HEAD
+  export type PaymentRoutingConditionCreateInput = {
+    id?: string
+    type: string
+    operator: string
+    value: string
+    value2?: string | null
+    rule: PaymentRoutingRuleCreateNestedOneWithoutConditionsInput
+  }
+
+  export type PaymentRoutingConditionUncheckedCreateInput = {
+    id?: string
+    ruleId: string
+    type: string
+    operator: string
+    value: string
+    value2?: string | null
+  }
+
+  export type PaymentRoutingConditionUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    operator?: StringFieldUpdateOperationsInput | string
+    value?: StringFieldUpdateOperationsInput | string
+    value2?: NullableStringFieldUpdateOperationsInput | string | null
+    rule?: PaymentRoutingRuleUpdateOneRequiredWithoutConditionsNestedInput
+  }
+
+  export type PaymentRoutingConditionUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    ruleId?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    operator?: StringFieldUpdateOperationsInput | string
+    value?: StringFieldUpdateOperationsInput | string
+    value2?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type PaymentRoutingConditionCreateManyInput = {
+    id?: string
+    ruleId: string
+    type: string
+    operator: string
+    value: string
+    value2?: string | null
+  }
+
+  export type PaymentRoutingConditionUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    operator?: StringFieldUpdateOperationsInput | string
+    value?: StringFieldUpdateOperationsInput | string
+    value2?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type PaymentRoutingConditionUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    ruleId?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    operator?: StringFieldUpdateOperationsInput | string
+    value?: StringFieldUpdateOperationsInput | string
+    value2?: NullableStringFieldUpdateOperationsInput | string | null
+=======
+  export type InvoiceUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    invoiceNumber?: StringFieldUpdateOperationsInput | string
+    ownerAddress?: StringFieldUpdateOperationsInput | string
+    disbursementId?: NullableStringFieldUpdateOperationsInput | string | null
+    templateId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
+    language?: StringFieldUpdateOperationsInput | string
+    sender?: StringFieldUpdateOperationsInput | string
+    asset?: StringFieldUpdateOperationsInput | string
+    recipients?: JsonNullValueInput | InputJsonValue
+    subtotal?: StringFieldUpdateOperationsInput | string
+    taxRate?: FloatFieldUpdateOperationsInput | number
+    taxAmount?: StringFieldUpdateOperationsInput | string
+    totalAmount?: StringFieldUpdateOperationsInput | string
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    txHash?: NullableStringFieldUpdateOperationsInput | string | null
+    issuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dueAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type InvoiceTemplateCreateInput = {
+    id?: string
+    ownerAddress: string
+    name: string
+    language?: string
+    isDefault?: boolean
+    accentColor?: string
+    logoBase64?: string | null
+    footerText?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    invoices?: InvoiceCreateNestedManyWithoutTemplateInput
+  }
+
+  export type InvoiceTemplateUncheckedCreateInput = {
+    id?: string
+    ownerAddress: string
+    name: string
+    language?: string
+    isDefault?: boolean
+    accentColor?: string
+    logoBase64?: string | null
+    footerText?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutTemplateInput
+  }
+
+  export type InvoiceTemplateUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    ownerAddress?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    language?: StringFieldUpdateOperationsInput | string
+    isDefault?: BoolFieldUpdateOperationsInput | boolean
+    accentColor?: StringFieldUpdateOperationsInput | string
+    logoBase64?: NullableStringFieldUpdateOperationsInput | string | null
+    footerText?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    invoices?: InvoiceUpdateManyWithoutTemplateNestedInput
+  }
+
+  export type InvoiceTemplateUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    ownerAddress?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    language?: StringFieldUpdateOperationsInput | string
+    isDefault?: BoolFieldUpdateOperationsInput | boolean
+    accentColor?: StringFieldUpdateOperationsInput | string
+    logoBase64?: NullableStringFieldUpdateOperationsInput | string | null
+    footerText?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    invoices?: InvoiceUncheckedUpdateManyWithoutTemplateNestedInput
+  }
+
+  export type InvoiceTemplateCreateManyInput = {
+    id?: string
+    ownerAddress: string
+    name: string
+    language?: string
+    isDefault?: boolean
+    accentColor?: string
+    logoBase64?: string | null
+    footerText?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type InvoiceTemplateUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    ownerAddress?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    language?: StringFieldUpdateOperationsInput | string
+    isDefault?: BoolFieldUpdateOperationsInput | boolean
+    accentColor?: StringFieldUpdateOperationsInput | string
+    logoBase64?: NullableStringFieldUpdateOperationsInput | string | null
+    footerText?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type InvoiceTemplateUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    ownerAddress?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    language?: StringFieldUpdateOperationsInput | string
+    isDefault?: BoolFieldUpdateOperationsInput | boolean
+    accentColor?: StringFieldUpdateOperationsInput | string
+    logoBase64?: NullableStringFieldUpdateOperationsInput | string | null
+    footerText?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type InvoiceCounterCreateInput = {
+    ownerAddress: string
+    year: number
+    lastSeq?: number
+  }
+
+  export type InvoiceCounterUncheckedCreateInput = {
+    ownerAddress: string
+    year: number
+    lastSeq?: number
+  }
+
+  export type InvoiceCounterUpdateInput = {
+    ownerAddress?: StringFieldUpdateOperationsInput | string
+    year?: IntFieldUpdateOperationsInput | number
+    lastSeq?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type InvoiceCounterUncheckedUpdateInput = {
+    ownerAddress?: StringFieldUpdateOperationsInput | string
+    year?: IntFieldUpdateOperationsInput | number
+    lastSeq?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type InvoiceCounterCreateManyInput = {
+    ownerAddress: string
+    year: number
+    lastSeq?: number
+  }
+
+  export type InvoiceCounterUpdateManyMutationInput = {
+    ownerAddress?: StringFieldUpdateOperationsInput | string
+    year?: IntFieldUpdateOperationsInput | number
+    lastSeq?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type InvoiceCounterUncheckedUpdateManyInput = {
+    ownerAddress?: StringFieldUpdateOperationsInput | string
+    year?: IntFieldUpdateOperationsInput | number
+    lastSeq?: IntFieldUpdateOperationsInput | number
+>>>>>>> 5551a02 (Feat: Add Payment Invoice Generation)
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -64039,7 +70236,17 @@ export namespace Prisma {
     none?: PaymentStatusEventWhereInput
   }
 
+  export type InvoiceListRelationFilter = {
+    every?: InvoiceWhereInput
+    some?: InvoiceWhereInput
+    none?: InvoiceWhereInput
+  }
+
   export type PaymentStatusEventOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type InvoiceOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -64867,6 +71074,273 @@ export namespace Prisma {
     executionTimeMs?: SortOrder
   }
 
+<<<<<<< HEAD
+  export type PaymentRoutingConditionListRelationFilter = {
+    every?: PaymentRoutingConditionWhereInput
+    some?: PaymentRoutingConditionWhereInput
+    none?: PaymentRoutingConditionWhereInput
+  }
+
+  export type PaymentRoutingConditionOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type PaymentRoutingRuleOwnerAddressNameCompoundUniqueInput = {
+=======
+  export type EnumInvoiceStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.InvoiceStatus | EnumInvoiceStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.InvoiceStatus[] | ListEnumInvoiceStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.InvoiceStatus[] | ListEnumInvoiceStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumInvoiceStatusFilter<$PrismaModel> | $Enums.InvoiceStatus
+  }
+
+  export type DisbursementNullableRelationFilter = {
+    is?: DisbursementWhereInput | null
+    isNot?: DisbursementWhereInput | null
+  }
+
+  export type InvoiceTemplateNullableRelationFilter = {
+    is?: InvoiceTemplateWhereInput | null
+    isNot?: InvoiceTemplateWhereInput | null
+  }
+
+  export type InvoiceCountOrderByAggregateInput = {
+    id?: SortOrder
+    invoiceNumber?: SortOrder
+    ownerAddress?: SortOrder
+    disbursementId?: SortOrder
+    templateId?: SortOrder
+    status?: SortOrder
+    language?: SortOrder
+    sender?: SortOrder
+    asset?: SortOrder
+    recipients?: SortOrder
+    subtotal?: SortOrder
+    taxRate?: SortOrder
+    taxAmount?: SortOrder
+    totalAmount?: SortOrder
+    note?: SortOrder
+    txHash?: SortOrder
+    issuedAt?: SortOrder
+    dueAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type InvoiceAvgOrderByAggregateInput = {
+    taxRate?: SortOrder
+  }
+
+  export type InvoiceMaxOrderByAggregateInput = {
+    id?: SortOrder
+    invoiceNumber?: SortOrder
+    ownerAddress?: SortOrder
+    disbursementId?: SortOrder
+    templateId?: SortOrder
+    status?: SortOrder
+    language?: SortOrder
+    sender?: SortOrder
+    asset?: SortOrder
+    subtotal?: SortOrder
+    taxRate?: SortOrder
+    taxAmount?: SortOrder
+    totalAmount?: SortOrder
+    note?: SortOrder
+    txHash?: SortOrder
+    issuedAt?: SortOrder
+    dueAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type InvoiceMinOrderByAggregateInput = {
+    id?: SortOrder
+    invoiceNumber?: SortOrder
+    ownerAddress?: SortOrder
+    disbursementId?: SortOrder
+    templateId?: SortOrder
+    status?: SortOrder
+    language?: SortOrder
+    sender?: SortOrder
+    asset?: SortOrder
+    subtotal?: SortOrder
+    taxRate?: SortOrder
+    taxAmount?: SortOrder
+    totalAmount?: SortOrder
+    note?: SortOrder
+    txHash?: SortOrder
+    issuedAt?: SortOrder
+    dueAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type InvoiceSumOrderByAggregateInput = {
+    taxRate?: SortOrder
+  }
+
+  export type EnumInvoiceStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.InvoiceStatus | EnumInvoiceStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.InvoiceStatus[] | ListEnumInvoiceStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.InvoiceStatus[] | ListEnumInvoiceStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumInvoiceStatusWithAggregatesFilter<$PrismaModel> | $Enums.InvoiceStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumInvoiceStatusFilter<$PrismaModel>
+    _max?: NestedEnumInvoiceStatusFilter<$PrismaModel>
+  }
+
+  export type InvoiceTemplateOwnerAddressNameCompoundUniqueInput = {
+>>>>>>> 5551a02 (Feat: Add Payment Invoice Generation)
+    ownerAddress: string
+    name: string
+  }
+
+<<<<<<< HEAD
+  export type PaymentRoutingRuleCountOrderByAggregateInput = {
+    id?: SortOrder
+    ownerAddress?: SortOrder
+    name?: SortOrder
+    description?: SortOrder
+    route?: SortOrder
+    priority?: SortOrder
+    isActive?: SortOrder
+=======
+  export type InvoiceTemplateCountOrderByAggregateInput = {
+    id?: SortOrder
+    ownerAddress?: SortOrder
+    name?: SortOrder
+    language?: SortOrder
+    isDefault?: SortOrder
+    accentColor?: SortOrder
+    logoBase64?: SortOrder
+    footerText?: SortOrder
+>>>>>>> 5551a02 (Feat: Add Payment Invoice Generation)
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+<<<<<<< HEAD
+  export type PaymentRoutingRuleAvgOrderByAggregateInput = {
+    priority?: SortOrder
+  }
+
+  export type PaymentRoutingRuleMaxOrderByAggregateInput = {
+    id?: SortOrder
+    ownerAddress?: SortOrder
+    name?: SortOrder
+    description?: SortOrder
+    route?: SortOrder
+    priority?: SortOrder
+    isActive?: SortOrder
+=======
+  export type InvoiceTemplateMaxOrderByAggregateInput = {
+    id?: SortOrder
+    ownerAddress?: SortOrder
+    name?: SortOrder
+    language?: SortOrder
+    isDefault?: SortOrder
+    accentColor?: SortOrder
+    logoBase64?: SortOrder
+    footerText?: SortOrder
+>>>>>>> 5551a02 (Feat: Add Payment Invoice Generation)
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+<<<<<<< HEAD
+  export type PaymentRoutingRuleMinOrderByAggregateInput = {
+    id?: SortOrder
+    ownerAddress?: SortOrder
+    name?: SortOrder
+    description?: SortOrder
+    route?: SortOrder
+    priority?: SortOrder
+    isActive?: SortOrder
+=======
+  export type InvoiceTemplateMinOrderByAggregateInput = {
+    id?: SortOrder
+    ownerAddress?: SortOrder
+    name?: SortOrder
+    language?: SortOrder
+    isDefault?: SortOrder
+    accentColor?: SortOrder
+    logoBase64?: SortOrder
+    footerText?: SortOrder
+>>>>>>> 5551a02 (Feat: Add Payment Invoice Generation)
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+<<<<<<< HEAD
+  export type PaymentRoutingRuleSumOrderByAggregateInput = {
+    priority?: SortOrder
+  }
+
+  export type PaymentRoutingRuleRelationFilter = {
+    is?: PaymentRoutingRuleWhereInput
+    isNot?: PaymentRoutingRuleWhereInput
+  }
+
+  export type PaymentRoutingConditionCountOrderByAggregateInput = {
+    id?: SortOrder
+    ruleId?: SortOrder
+    type?: SortOrder
+    operator?: SortOrder
+    value?: SortOrder
+    value2?: SortOrder
+  }
+
+  export type PaymentRoutingConditionMaxOrderByAggregateInput = {
+    id?: SortOrder
+    ruleId?: SortOrder
+    type?: SortOrder
+    operator?: SortOrder
+    value?: SortOrder
+    value2?: SortOrder
+  }
+
+  export type PaymentRoutingConditionMinOrderByAggregateInput = {
+    id?: SortOrder
+    ruleId?: SortOrder
+    type?: SortOrder
+    operator?: SortOrder
+    value?: SortOrder
+    value2?: SortOrder
+=======
+  export type InvoiceCounterOwnerAddressYearCompoundUniqueInput = {
+    ownerAddress: string
+    year: number
+  }
+
+  export type InvoiceCounterCountOrderByAggregateInput = {
+    ownerAddress?: SortOrder
+    year?: SortOrder
+    lastSeq?: SortOrder
+  }
+
+  export type InvoiceCounterAvgOrderByAggregateInput = {
+    year?: SortOrder
+    lastSeq?: SortOrder
+  }
+
+  export type InvoiceCounterMaxOrderByAggregateInput = {
+    ownerAddress?: SortOrder
+    year?: SortOrder
+    lastSeq?: SortOrder
+  }
+
+  export type InvoiceCounterMinOrderByAggregateInput = {
+    ownerAddress?: SortOrder
+    year?: SortOrder
+    lastSeq?: SortOrder
+  }
+
+  export type InvoiceCounterSumOrderByAggregateInput = {
+    year?: SortOrder
+    lastSeq?: SortOrder
+>>>>>>> 5551a02 (Feat: Add Payment Invoice Generation)
+  }
+
   export type PaymentCategoryRuleCreateNestedManyWithoutCategoryInput = {
     create?: XOR<PaymentCategoryRuleCreateWithoutCategoryInput, PaymentCategoryRuleUncheckedCreateWithoutCategoryInput> | PaymentCategoryRuleCreateWithoutCategoryInput[] | PaymentCategoryRuleUncheckedCreateWithoutCategoryInput[]
     connectOrCreate?: PaymentCategoryRuleCreateOrConnectWithoutCategoryInput | PaymentCategoryRuleCreateOrConnectWithoutCategoryInput[]
@@ -65181,11 +71655,25 @@ export namespace Prisma {
     connect?: PaymentStatusEventWhereUniqueInput | PaymentStatusEventWhereUniqueInput[]
   }
 
+  export type InvoiceCreateNestedManyWithoutDisbursementInput = {
+    create?: XOR<InvoiceCreateWithoutDisbursementInput, InvoiceUncheckedCreateWithoutDisbursementInput> | InvoiceCreateWithoutDisbursementInput[] | InvoiceUncheckedCreateWithoutDisbursementInput[]
+    connectOrCreate?: InvoiceCreateOrConnectWithoutDisbursementInput | InvoiceCreateOrConnectWithoutDisbursementInput[]
+    createMany?: InvoiceCreateManyDisbursementInputEnvelope
+    connect?: InvoiceWhereUniqueInput | InvoiceWhereUniqueInput[]
+  }
+
   export type PaymentStatusEventUncheckedCreateNestedManyWithoutDisbursementInput = {
     create?: XOR<PaymentStatusEventCreateWithoutDisbursementInput, PaymentStatusEventUncheckedCreateWithoutDisbursementInput> | PaymentStatusEventCreateWithoutDisbursementInput[] | PaymentStatusEventUncheckedCreateWithoutDisbursementInput[]
     connectOrCreate?: PaymentStatusEventCreateOrConnectWithoutDisbursementInput | PaymentStatusEventCreateOrConnectWithoutDisbursementInput[]
     createMany?: PaymentStatusEventCreateManyDisbursementInputEnvelope
     connect?: PaymentStatusEventWhereUniqueInput | PaymentStatusEventWhereUniqueInput[]
+  }
+
+  export type InvoiceUncheckedCreateNestedManyWithoutDisbursementInput = {
+    create?: XOR<InvoiceCreateWithoutDisbursementInput, InvoiceUncheckedCreateWithoutDisbursementInput> | InvoiceCreateWithoutDisbursementInput[] | InvoiceUncheckedCreateWithoutDisbursementInput[]
+    connectOrCreate?: InvoiceCreateOrConnectWithoutDisbursementInput | InvoiceCreateOrConnectWithoutDisbursementInput[]
+    createMany?: InvoiceCreateManyDisbursementInputEnvelope
+    connect?: InvoiceWhereUniqueInput | InvoiceWhereUniqueInput[]
   }
 
   export type EnumDisbursementStatusFieldUpdateOperationsInput = {
@@ -65216,6 +71704,20 @@ export namespace Prisma {
     deleteMany?: PaymentStatusEventScalarWhereInput | PaymentStatusEventScalarWhereInput[]
   }
 
+  export type InvoiceUpdateManyWithoutDisbursementNestedInput = {
+    create?: XOR<InvoiceCreateWithoutDisbursementInput, InvoiceUncheckedCreateWithoutDisbursementInput> | InvoiceCreateWithoutDisbursementInput[] | InvoiceUncheckedCreateWithoutDisbursementInput[]
+    connectOrCreate?: InvoiceCreateOrConnectWithoutDisbursementInput | InvoiceCreateOrConnectWithoutDisbursementInput[]
+    upsert?: InvoiceUpsertWithWhereUniqueWithoutDisbursementInput | InvoiceUpsertWithWhereUniqueWithoutDisbursementInput[]
+    createMany?: InvoiceCreateManyDisbursementInputEnvelope
+    set?: InvoiceWhereUniqueInput | InvoiceWhereUniqueInput[]
+    disconnect?: InvoiceWhereUniqueInput | InvoiceWhereUniqueInput[]
+    delete?: InvoiceWhereUniqueInput | InvoiceWhereUniqueInput[]
+    connect?: InvoiceWhereUniqueInput | InvoiceWhereUniqueInput[]
+    update?: InvoiceUpdateWithWhereUniqueWithoutDisbursementInput | InvoiceUpdateWithWhereUniqueWithoutDisbursementInput[]
+    updateMany?: InvoiceUpdateManyWithWhereWithoutDisbursementInput | InvoiceUpdateManyWithWhereWithoutDisbursementInput[]
+    deleteMany?: InvoiceScalarWhereInput | InvoiceScalarWhereInput[]
+  }
+
   export type PaymentStatusEventUncheckedUpdateManyWithoutDisbursementNestedInput = {
     create?: XOR<PaymentStatusEventCreateWithoutDisbursementInput, PaymentStatusEventUncheckedCreateWithoutDisbursementInput> | PaymentStatusEventCreateWithoutDisbursementInput[] | PaymentStatusEventUncheckedCreateWithoutDisbursementInput[]
     connectOrCreate?: PaymentStatusEventCreateOrConnectWithoutDisbursementInput | PaymentStatusEventCreateOrConnectWithoutDisbursementInput[]
@@ -65228,6 +71730,20 @@ export namespace Prisma {
     update?: PaymentStatusEventUpdateWithWhereUniqueWithoutDisbursementInput | PaymentStatusEventUpdateWithWhereUniqueWithoutDisbursementInput[]
     updateMany?: PaymentStatusEventUpdateManyWithWhereWithoutDisbursementInput | PaymentStatusEventUpdateManyWithWhereWithoutDisbursementInput[]
     deleteMany?: PaymentStatusEventScalarWhereInput | PaymentStatusEventScalarWhereInput[]
+  }
+
+  export type InvoiceUncheckedUpdateManyWithoutDisbursementNestedInput = {
+    create?: XOR<InvoiceCreateWithoutDisbursementInput, InvoiceUncheckedCreateWithoutDisbursementInput> | InvoiceCreateWithoutDisbursementInput[] | InvoiceUncheckedCreateWithoutDisbursementInput[]
+    connectOrCreate?: InvoiceCreateOrConnectWithoutDisbursementInput | InvoiceCreateOrConnectWithoutDisbursementInput[]
+    upsert?: InvoiceUpsertWithWhereUniqueWithoutDisbursementInput | InvoiceUpsertWithWhereUniqueWithoutDisbursementInput[]
+    createMany?: InvoiceCreateManyDisbursementInputEnvelope
+    set?: InvoiceWhereUniqueInput | InvoiceWhereUniqueInput[]
+    disconnect?: InvoiceWhereUniqueInput | InvoiceWhereUniqueInput[]
+    delete?: InvoiceWhereUniqueInput | InvoiceWhereUniqueInput[]
+    connect?: InvoiceWhereUniqueInput | InvoiceWhereUniqueInput[]
+    update?: InvoiceUpdateWithWhereUniqueWithoutDisbursementInput | InvoiceUpdateWithWhereUniqueWithoutDisbursementInput[]
+    updateMany?: InvoiceUpdateManyWithWhereWithoutDisbursementInput | InvoiceUpdateManyWithWhereWithoutDisbursementInput[]
+    deleteMany?: InvoiceScalarWhereInput | InvoiceScalarWhereInput[]
   }
 
   export type DisbursementCreateNestedOneWithoutStatusEventsInput = {
@@ -65314,6 +71830,141 @@ export namespace Prisma {
     upsert?: DisbursementDraftUpsertWithoutVersionsInput
     connect?: DisbursementDraftWhereUniqueInput
     update?: XOR<XOR<DisbursementDraftUpdateToOneWithWhereWithoutVersionsInput, DisbursementDraftUpdateWithoutVersionsInput>, DisbursementDraftUncheckedUpdateWithoutVersionsInput>
+  }
+
+<<<<<<< HEAD
+  export type PaymentRoutingConditionCreateNestedManyWithoutRuleInput = {
+    create?: XOR<PaymentRoutingConditionCreateWithoutRuleInput, PaymentRoutingConditionUncheckedCreateWithoutRuleInput> | PaymentRoutingConditionCreateWithoutRuleInput[] | PaymentRoutingConditionUncheckedCreateWithoutRuleInput[]
+    connectOrCreate?: PaymentRoutingConditionCreateOrConnectWithoutRuleInput | PaymentRoutingConditionCreateOrConnectWithoutRuleInput[]
+    createMany?: PaymentRoutingConditionCreateManyRuleInputEnvelope
+    connect?: PaymentRoutingConditionWhereUniqueInput | PaymentRoutingConditionWhereUniqueInput[]
+  }
+
+  export type PaymentRoutingConditionUncheckedCreateNestedManyWithoutRuleInput = {
+    create?: XOR<PaymentRoutingConditionCreateWithoutRuleInput, PaymentRoutingConditionUncheckedCreateWithoutRuleInput> | PaymentRoutingConditionCreateWithoutRuleInput[] | PaymentRoutingConditionUncheckedCreateWithoutRuleInput[]
+    connectOrCreate?: PaymentRoutingConditionCreateOrConnectWithoutRuleInput | PaymentRoutingConditionCreateOrConnectWithoutRuleInput[]
+    createMany?: PaymentRoutingConditionCreateManyRuleInputEnvelope
+    connect?: PaymentRoutingConditionWhereUniqueInput | PaymentRoutingConditionWhereUniqueInput[]
+  }
+
+  export type PaymentRoutingConditionUpdateManyWithoutRuleNestedInput = {
+    create?: XOR<PaymentRoutingConditionCreateWithoutRuleInput, PaymentRoutingConditionUncheckedCreateWithoutRuleInput> | PaymentRoutingConditionCreateWithoutRuleInput[] | PaymentRoutingConditionUncheckedCreateWithoutRuleInput[]
+    connectOrCreate?: PaymentRoutingConditionCreateOrConnectWithoutRuleInput | PaymentRoutingConditionCreateOrConnectWithoutRuleInput[]
+    upsert?: PaymentRoutingConditionUpsertWithWhereUniqueWithoutRuleInput | PaymentRoutingConditionUpsertWithWhereUniqueWithoutRuleInput[]
+    createMany?: PaymentRoutingConditionCreateManyRuleInputEnvelope
+    set?: PaymentRoutingConditionWhereUniqueInput | PaymentRoutingConditionWhereUniqueInput[]
+    disconnect?: PaymentRoutingConditionWhereUniqueInput | PaymentRoutingConditionWhereUniqueInput[]
+    delete?: PaymentRoutingConditionWhereUniqueInput | PaymentRoutingConditionWhereUniqueInput[]
+    connect?: PaymentRoutingConditionWhereUniqueInput | PaymentRoutingConditionWhereUniqueInput[]
+    update?: PaymentRoutingConditionUpdateWithWhereUniqueWithoutRuleInput | PaymentRoutingConditionUpdateWithWhereUniqueWithoutRuleInput[]
+    updateMany?: PaymentRoutingConditionUpdateManyWithWhereWithoutRuleInput | PaymentRoutingConditionUpdateManyWithWhereWithoutRuleInput[]
+    deleteMany?: PaymentRoutingConditionScalarWhereInput | PaymentRoutingConditionScalarWhereInput[]
+  }
+
+  export type PaymentRoutingConditionUncheckedUpdateManyWithoutRuleNestedInput = {
+    create?: XOR<PaymentRoutingConditionCreateWithoutRuleInput, PaymentRoutingConditionUncheckedCreateWithoutRuleInput> | PaymentRoutingConditionCreateWithoutRuleInput[] | PaymentRoutingConditionUncheckedCreateWithoutRuleInput[]
+    connectOrCreate?: PaymentRoutingConditionCreateOrConnectWithoutRuleInput | PaymentRoutingConditionCreateOrConnectWithoutRuleInput[]
+    upsert?: PaymentRoutingConditionUpsertWithWhereUniqueWithoutRuleInput | PaymentRoutingConditionUpsertWithWhereUniqueWithoutRuleInput[]
+    createMany?: PaymentRoutingConditionCreateManyRuleInputEnvelope
+    set?: PaymentRoutingConditionWhereUniqueInput | PaymentRoutingConditionWhereUniqueInput[]
+    disconnect?: PaymentRoutingConditionWhereUniqueInput | PaymentRoutingConditionWhereUniqueInput[]
+    delete?: PaymentRoutingConditionWhereUniqueInput | PaymentRoutingConditionWhereUniqueInput[]
+    connect?: PaymentRoutingConditionWhereUniqueInput | PaymentRoutingConditionWhereUniqueInput[]
+    update?: PaymentRoutingConditionUpdateWithWhereUniqueWithoutRuleInput | PaymentRoutingConditionUpdateWithWhereUniqueWithoutRuleInput[]
+    updateMany?: PaymentRoutingConditionUpdateManyWithWhereWithoutRuleInput | PaymentRoutingConditionUpdateManyWithWhereWithoutRuleInput[]
+    deleteMany?: PaymentRoutingConditionScalarWhereInput | PaymentRoutingConditionScalarWhereInput[]
+  }
+
+  export type PaymentRoutingRuleCreateNestedOneWithoutConditionsInput = {
+    create?: XOR<PaymentRoutingRuleCreateWithoutConditionsInput, PaymentRoutingRuleUncheckedCreateWithoutConditionsInput>
+    connectOrCreate?: PaymentRoutingRuleCreateOrConnectWithoutConditionsInput
+    connect?: PaymentRoutingRuleWhereUniqueInput
+  }
+
+  export type PaymentRoutingRuleUpdateOneRequiredWithoutConditionsNestedInput = {
+    create?: XOR<PaymentRoutingRuleCreateWithoutConditionsInput, PaymentRoutingRuleUncheckedCreateWithoutConditionsInput>
+    connectOrCreate?: PaymentRoutingRuleCreateOrConnectWithoutConditionsInput
+    upsert?: PaymentRoutingRuleUpsertWithoutConditionsInput
+    connect?: PaymentRoutingRuleWhereUniqueInput
+    update?: XOR<XOR<PaymentRoutingRuleUpdateToOneWithWhereWithoutConditionsInput, PaymentRoutingRuleUpdateWithoutConditionsInput>, PaymentRoutingRuleUncheckedUpdateWithoutConditionsInput>
+=======
+  export type DisbursementCreateNestedOneWithoutInvoicesInput = {
+    create?: XOR<DisbursementCreateWithoutInvoicesInput, DisbursementUncheckedCreateWithoutInvoicesInput>
+    connectOrCreate?: DisbursementCreateOrConnectWithoutInvoicesInput
+    connect?: DisbursementWhereUniqueInput
+  }
+
+  export type InvoiceTemplateCreateNestedOneWithoutInvoicesInput = {
+    create?: XOR<InvoiceTemplateCreateWithoutInvoicesInput, InvoiceTemplateUncheckedCreateWithoutInvoicesInput>
+    connectOrCreate?: InvoiceTemplateCreateOrConnectWithoutInvoicesInput
+    connect?: InvoiceTemplateWhereUniqueInput
+  }
+
+  export type EnumInvoiceStatusFieldUpdateOperationsInput = {
+    set?: $Enums.InvoiceStatus
+  }
+
+  export type DisbursementUpdateOneWithoutInvoicesNestedInput = {
+    create?: XOR<DisbursementCreateWithoutInvoicesInput, DisbursementUncheckedCreateWithoutInvoicesInput>
+    connectOrCreate?: DisbursementCreateOrConnectWithoutInvoicesInput
+    upsert?: DisbursementUpsertWithoutInvoicesInput
+    disconnect?: DisbursementWhereInput | boolean
+    delete?: DisbursementWhereInput | boolean
+    connect?: DisbursementWhereUniqueInput
+    update?: XOR<XOR<DisbursementUpdateToOneWithWhereWithoutInvoicesInput, DisbursementUpdateWithoutInvoicesInput>, DisbursementUncheckedUpdateWithoutInvoicesInput>
+  }
+
+  export type InvoiceTemplateUpdateOneWithoutInvoicesNestedInput = {
+    create?: XOR<InvoiceTemplateCreateWithoutInvoicesInput, InvoiceTemplateUncheckedCreateWithoutInvoicesInput>
+    connectOrCreate?: InvoiceTemplateCreateOrConnectWithoutInvoicesInput
+    upsert?: InvoiceTemplateUpsertWithoutInvoicesInput
+    disconnect?: InvoiceTemplateWhereInput | boolean
+    delete?: InvoiceTemplateWhereInput | boolean
+    connect?: InvoiceTemplateWhereUniqueInput
+    update?: XOR<XOR<InvoiceTemplateUpdateToOneWithWhereWithoutInvoicesInput, InvoiceTemplateUpdateWithoutInvoicesInput>, InvoiceTemplateUncheckedUpdateWithoutInvoicesInput>
+  }
+
+  export type InvoiceCreateNestedManyWithoutTemplateInput = {
+    create?: XOR<InvoiceCreateWithoutTemplateInput, InvoiceUncheckedCreateWithoutTemplateInput> | InvoiceCreateWithoutTemplateInput[] | InvoiceUncheckedCreateWithoutTemplateInput[]
+    connectOrCreate?: InvoiceCreateOrConnectWithoutTemplateInput | InvoiceCreateOrConnectWithoutTemplateInput[]
+    createMany?: InvoiceCreateManyTemplateInputEnvelope
+    connect?: InvoiceWhereUniqueInput | InvoiceWhereUniqueInput[]
+  }
+
+  export type InvoiceUncheckedCreateNestedManyWithoutTemplateInput = {
+    create?: XOR<InvoiceCreateWithoutTemplateInput, InvoiceUncheckedCreateWithoutTemplateInput> | InvoiceCreateWithoutTemplateInput[] | InvoiceUncheckedCreateWithoutTemplateInput[]
+    connectOrCreate?: InvoiceCreateOrConnectWithoutTemplateInput | InvoiceCreateOrConnectWithoutTemplateInput[]
+    createMany?: InvoiceCreateManyTemplateInputEnvelope
+    connect?: InvoiceWhereUniqueInput | InvoiceWhereUniqueInput[]
+  }
+
+  export type InvoiceUpdateManyWithoutTemplateNestedInput = {
+    create?: XOR<InvoiceCreateWithoutTemplateInput, InvoiceUncheckedCreateWithoutTemplateInput> | InvoiceCreateWithoutTemplateInput[] | InvoiceUncheckedCreateWithoutTemplateInput[]
+    connectOrCreate?: InvoiceCreateOrConnectWithoutTemplateInput | InvoiceCreateOrConnectWithoutTemplateInput[]
+    upsert?: InvoiceUpsertWithWhereUniqueWithoutTemplateInput | InvoiceUpsertWithWhereUniqueWithoutTemplateInput[]
+    createMany?: InvoiceCreateManyTemplateInputEnvelope
+    set?: InvoiceWhereUniqueInput | InvoiceWhereUniqueInput[]
+    disconnect?: InvoiceWhereUniqueInput | InvoiceWhereUniqueInput[]
+    delete?: InvoiceWhereUniqueInput | InvoiceWhereUniqueInput[]
+    connect?: InvoiceWhereUniqueInput | InvoiceWhereUniqueInput[]
+    update?: InvoiceUpdateWithWhereUniqueWithoutTemplateInput | InvoiceUpdateWithWhereUniqueWithoutTemplateInput[]
+    updateMany?: InvoiceUpdateManyWithWhereWithoutTemplateInput | InvoiceUpdateManyWithWhereWithoutTemplateInput[]
+    deleteMany?: InvoiceScalarWhereInput | InvoiceScalarWhereInput[]
+  }
+
+  export type InvoiceUncheckedUpdateManyWithoutTemplateNestedInput = {
+    create?: XOR<InvoiceCreateWithoutTemplateInput, InvoiceUncheckedCreateWithoutTemplateInput> | InvoiceCreateWithoutTemplateInput[] | InvoiceUncheckedCreateWithoutTemplateInput[]
+    connectOrCreate?: InvoiceCreateOrConnectWithoutTemplateInput | InvoiceCreateOrConnectWithoutTemplateInput[]
+    upsert?: InvoiceUpsertWithWhereUniqueWithoutTemplateInput | InvoiceUpsertWithWhereUniqueWithoutTemplateInput[]
+    createMany?: InvoiceCreateManyTemplateInputEnvelope
+    set?: InvoiceWhereUniqueInput | InvoiceWhereUniqueInput[]
+    disconnect?: InvoiceWhereUniqueInput | InvoiceWhereUniqueInput[]
+    delete?: InvoiceWhereUniqueInput | InvoiceWhereUniqueInput[]
+    connect?: InvoiceWhereUniqueInput | InvoiceWhereUniqueInput[]
+    update?: InvoiceUpdateWithWhereUniqueWithoutTemplateInput | InvoiceUpdateWithWhereUniqueWithoutTemplateInput[]
+    updateMany?: InvoiceUpdateManyWithWhereWithoutTemplateInput | InvoiceUpdateManyWithWhereWithoutTemplateInput[]
+    deleteMany?: InvoiceScalarWhereInput | InvoiceScalarWhereInput[]
+>>>>>>> 5551a02 (Feat: Add Payment Invoice Generation)
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -65779,6 +72430,23 @@ export namespace Prisma {
     _max?: NestedFloatNullableFilter<$PrismaModel>
   }
 
+  export type NestedEnumInvoiceStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.InvoiceStatus | EnumInvoiceStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.InvoiceStatus[] | ListEnumInvoiceStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.InvoiceStatus[] | ListEnumInvoiceStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumInvoiceStatusFilter<$PrismaModel> | $Enums.InvoiceStatus
+  }
+
+  export type NestedEnumInvoiceStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.InvoiceStatus | EnumInvoiceStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.InvoiceStatus[] | ListEnumInvoiceStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.InvoiceStatus[] | ListEnumInvoiceStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumInvoiceStatusWithAggregatesFilter<$PrismaModel> | $Enums.InvoiceStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumInvoiceStatusFilter<$PrismaModel>
+    _max?: NestedEnumInvoiceStatusFilter<$PrismaModel>
+  }
+
   export type PaymentCategoryRuleCreateWithoutCategoryInput = {
     id?: string
     field: string
@@ -65885,6 +72553,7 @@ export namespace Prisma {
     ledger: number
     batchId?: string | null
     statusEvents?: PaymentStatusEventCreateNestedManyWithoutDisbursementInput
+    invoices?: InvoiceCreateNestedManyWithoutDisbursementInput
   }
 
   export type DisbursementUncheckedCreateWithoutCategoryInput = {
@@ -65901,6 +72570,7 @@ export namespace Prisma {
     ledger: number
     batchId?: string | null
     statusEvents?: PaymentStatusEventUncheckedCreateNestedManyWithoutDisbursementInput
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutDisbursementInput
   }
 
   export type DisbursementCreateOrConnectWithoutCategoryInput = {
@@ -66358,6 +73028,60 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type InvoiceCreateWithoutDisbursementInput = {
+    id?: string
+    invoiceNumber: string
+    ownerAddress: string
+    status?: $Enums.InvoiceStatus
+    language?: string
+    sender: string
+    asset: string
+    recipients: JsonNullValueInput | InputJsonValue
+    subtotal: string
+    taxRate?: number
+    taxAmount?: string
+    totalAmount: string
+    note?: string | null
+    txHash?: string | null
+    issuedAt?: Date | string | null
+    dueAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    template?: InvoiceTemplateCreateNestedOneWithoutInvoicesInput
+  }
+
+  export type InvoiceUncheckedCreateWithoutDisbursementInput = {
+    id?: string
+    invoiceNumber: string
+    ownerAddress: string
+    templateId?: string | null
+    status?: $Enums.InvoiceStatus
+    language?: string
+    sender: string
+    asset: string
+    recipients: JsonNullValueInput | InputJsonValue
+    subtotal: string
+    taxRate?: number
+    taxAmount?: string
+    totalAmount: string
+    note?: string | null
+    txHash?: string | null
+    issuedAt?: Date | string | null
+    dueAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type InvoiceCreateOrConnectWithoutDisbursementInput = {
+    where: InvoiceWhereUniqueInput
+    create: XOR<InvoiceCreateWithoutDisbursementInput, InvoiceUncheckedCreateWithoutDisbursementInput>
+  }
+
+  export type InvoiceCreateManyDisbursementInputEnvelope = {
+    data: InvoiceCreateManyDisbursementInput | InvoiceCreateManyDisbursementInput[]
+    skipDuplicates?: boolean
+  }
+
   export type PaymentCategoryUpsertWithoutDisbursementsInput = {
     update: XOR<PaymentCategoryUpdateWithoutDisbursementsInput, PaymentCategoryUncheckedUpdateWithoutDisbursementsInput>
     create: XOR<PaymentCategoryCreateWithoutDisbursementsInput, PaymentCategoryUncheckedCreateWithoutDisbursementsInput>
@@ -66425,6 +73149,48 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"PaymentStatusEvent"> | Date | string
   }
 
+  export type InvoiceUpsertWithWhereUniqueWithoutDisbursementInput = {
+    where: InvoiceWhereUniqueInput
+    update: XOR<InvoiceUpdateWithoutDisbursementInput, InvoiceUncheckedUpdateWithoutDisbursementInput>
+    create: XOR<InvoiceCreateWithoutDisbursementInput, InvoiceUncheckedCreateWithoutDisbursementInput>
+  }
+
+  export type InvoiceUpdateWithWhereUniqueWithoutDisbursementInput = {
+    where: InvoiceWhereUniqueInput
+    data: XOR<InvoiceUpdateWithoutDisbursementInput, InvoiceUncheckedUpdateWithoutDisbursementInput>
+  }
+
+  export type InvoiceUpdateManyWithWhereWithoutDisbursementInput = {
+    where: InvoiceScalarWhereInput
+    data: XOR<InvoiceUpdateManyMutationInput, InvoiceUncheckedUpdateManyWithoutDisbursementInput>
+  }
+
+  export type InvoiceScalarWhereInput = {
+    AND?: InvoiceScalarWhereInput | InvoiceScalarWhereInput[]
+    OR?: InvoiceScalarWhereInput[]
+    NOT?: InvoiceScalarWhereInput | InvoiceScalarWhereInput[]
+    id?: StringFilter<"Invoice"> | string
+    invoiceNumber?: StringFilter<"Invoice"> | string
+    ownerAddress?: StringFilter<"Invoice"> | string
+    disbursementId?: StringNullableFilter<"Invoice"> | string | null
+    templateId?: StringNullableFilter<"Invoice"> | string | null
+    status?: EnumInvoiceStatusFilter<"Invoice"> | $Enums.InvoiceStatus
+    language?: StringFilter<"Invoice"> | string
+    sender?: StringFilter<"Invoice"> | string
+    asset?: StringFilter<"Invoice"> | string
+    recipients?: JsonFilter<"Invoice">
+    subtotal?: StringFilter<"Invoice"> | string
+    taxRate?: FloatFilter<"Invoice"> | number
+    taxAmount?: StringFilter<"Invoice"> | string
+    totalAmount?: StringFilter<"Invoice"> | string
+    note?: StringNullableFilter<"Invoice"> | string | null
+    txHash?: StringNullableFilter<"Invoice"> | string | null
+    issuedAt?: DateTimeNullableFilter<"Invoice"> | Date | string | null
+    dueAt?: DateTimeNullableFilter<"Invoice"> | Date | string | null
+    createdAt?: DateTimeFilter<"Invoice"> | Date | string
+    updatedAt?: DateTimeFilter<"Invoice"> | Date | string
+  }
+
   export type DisbursementCreateWithoutStatusEventsInput = {
     id?: string
     streamId: string
@@ -66439,6 +73205,7 @@ export namespace Prisma {
     ledger: number
     batchId?: string | null
     category?: PaymentCategoryCreateNestedOneWithoutDisbursementsInput
+    invoices?: InvoiceCreateNestedManyWithoutDisbursementInput
   }
 
   export type DisbursementUncheckedCreateWithoutStatusEventsInput = {
@@ -66455,6 +73222,7 @@ export namespace Prisma {
     ledger: number
     batchId?: string | null
     categoryId?: string | null
+    invoices?: InvoiceUncheckedCreateNestedManyWithoutDisbursementInput
   }
 
   export type DisbursementCreateOrConnectWithoutStatusEventsInput = {
@@ -66487,6 +73255,7 @@ export namespace Prisma {
     ledger?: IntFieldUpdateOperationsInput | number
     batchId?: NullableStringFieldUpdateOperationsInput | string | null
     category?: PaymentCategoryUpdateOneWithoutDisbursementsNestedInput
+    invoices?: InvoiceUpdateManyWithoutDisbursementNestedInput
   }
 
   export type DisbursementUncheckedUpdateWithoutStatusEventsInput = {
@@ -66503,6 +73272,7 @@ export namespace Prisma {
     ledger?: IntFieldUpdateOperationsInput | number
     batchId?: NullableStringFieldUpdateOperationsInput | string | null
     categoryId?: NullableStringFieldUpdateOperationsInput | string | null
+    invoices?: InvoiceUncheckedUpdateManyWithoutDisbursementNestedInput
   }
 
   export type DisbursementDraftVersionCreateWithoutDraftInput = {
@@ -66623,6 +73393,347 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+<<<<<<< HEAD
+  export type PaymentRoutingConditionCreateWithoutRuleInput = {
+    id?: string
+    type: string
+    operator: string
+    value: string
+    value2?: string | null
+  }
+
+  export type PaymentRoutingConditionUncheckedCreateWithoutRuleInput = {
+    id?: string
+    type: string
+    operator: string
+    value: string
+    value2?: string | null
+  }
+
+  export type PaymentRoutingConditionCreateOrConnectWithoutRuleInput = {
+    where: PaymentRoutingConditionWhereUniqueInput
+    create: XOR<PaymentRoutingConditionCreateWithoutRuleInput, PaymentRoutingConditionUncheckedCreateWithoutRuleInput>
+  }
+
+  export type PaymentRoutingConditionCreateManyRuleInputEnvelope = {
+    data: PaymentRoutingConditionCreateManyRuleInput | PaymentRoutingConditionCreateManyRuleInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type PaymentRoutingConditionUpsertWithWhereUniqueWithoutRuleInput = {
+    where: PaymentRoutingConditionWhereUniqueInput
+    update: XOR<PaymentRoutingConditionUpdateWithoutRuleInput, PaymentRoutingConditionUncheckedUpdateWithoutRuleInput>
+    create: XOR<PaymentRoutingConditionCreateWithoutRuleInput, PaymentRoutingConditionUncheckedCreateWithoutRuleInput>
+  }
+
+  export type PaymentRoutingConditionUpdateWithWhereUniqueWithoutRuleInput = {
+    where: PaymentRoutingConditionWhereUniqueInput
+    data: XOR<PaymentRoutingConditionUpdateWithoutRuleInput, PaymentRoutingConditionUncheckedUpdateWithoutRuleInput>
+  }
+
+  export type PaymentRoutingConditionUpdateManyWithWhereWithoutRuleInput = {
+    where: PaymentRoutingConditionScalarWhereInput
+    data: XOR<PaymentRoutingConditionUpdateManyMutationInput, PaymentRoutingConditionUncheckedUpdateManyWithoutRuleInput>
+  }
+
+  export type PaymentRoutingConditionScalarWhereInput = {
+    AND?: PaymentRoutingConditionScalarWhereInput | PaymentRoutingConditionScalarWhereInput[]
+    OR?: PaymentRoutingConditionScalarWhereInput[]
+    NOT?: PaymentRoutingConditionScalarWhereInput | PaymentRoutingConditionScalarWhereInput[]
+    id?: StringFilter<"PaymentRoutingCondition"> | string
+    ruleId?: StringFilter<"PaymentRoutingCondition"> | string
+    type?: StringFilter<"PaymentRoutingCondition"> | string
+    operator?: StringFilter<"PaymentRoutingCondition"> | string
+    value?: StringFilter<"PaymentRoutingCondition"> | string
+    value2?: StringNullableFilter<"PaymentRoutingCondition"> | string | null
+  }
+
+  export type PaymentRoutingRuleCreateWithoutConditionsInput = {
+    id?: string
+    ownerAddress: string
+    name: string
+    description?: string | null
+    route: string
+    priority?: number
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PaymentRoutingRuleUncheckedCreateWithoutConditionsInput = {
+    id?: string
+    ownerAddress: string
+    name: string
+    description?: string | null
+    route: string
+    priority?: number
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PaymentRoutingRuleCreateOrConnectWithoutConditionsInput = {
+    where: PaymentRoutingRuleWhereUniqueInput
+    create: XOR<PaymentRoutingRuleCreateWithoutConditionsInput, PaymentRoutingRuleUncheckedCreateWithoutConditionsInput>
+  }
+
+  export type PaymentRoutingRuleUpsertWithoutConditionsInput = {
+    update: XOR<PaymentRoutingRuleUpdateWithoutConditionsInput, PaymentRoutingRuleUncheckedUpdateWithoutConditionsInput>
+    create: XOR<PaymentRoutingRuleCreateWithoutConditionsInput, PaymentRoutingRuleUncheckedCreateWithoutConditionsInput>
+    where?: PaymentRoutingRuleWhereInput
+  }
+
+  export type PaymentRoutingRuleUpdateToOneWithWhereWithoutConditionsInput = {
+    where?: PaymentRoutingRuleWhereInput
+    data: XOR<PaymentRoutingRuleUpdateWithoutConditionsInput, PaymentRoutingRuleUncheckedUpdateWithoutConditionsInput>
+  }
+
+  export type PaymentRoutingRuleUpdateWithoutConditionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    ownerAddress?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    route?: StringFieldUpdateOperationsInput | string
+    priority?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PaymentRoutingRuleUncheckedUpdateWithoutConditionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    ownerAddress?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    route?: StringFieldUpdateOperationsInput | string
+    priority?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+=======
+  export type DisbursementCreateWithoutInvoicesInput = {
+    id?: string
+    streamId: string
+    txHash: string
+    sender: string
+    receiver: string
+    amount: bigint | number
+    tokenAddress: string
+    status?: $Enums.DisbursementStatus
+    createdAt?: Date | string
+    completedAt?: Date | string | null
+    ledger: number
+    batchId?: string | null
+    category?: PaymentCategoryCreateNestedOneWithoutDisbursementsInput
+    statusEvents?: PaymentStatusEventCreateNestedManyWithoutDisbursementInput
+  }
+
+  export type DisbursementUncheckedCreateWithoutInvoicesInput = {
+    id?: string
+    streamId: string
+    txHash: string
+    sender: string
+    receiver: string
+    amount: bigint | number
+    tokenAddress: string
+    status?: $Enums.DisbursementStatus
+    createdAt?: Date | string
+    completedAt?: Date | string | null
+    ledger: number
+    batchId?: string | null
+    categoryId?: string | null
+    statusEvents?: PaymentStatusEventUncheckedCreateNestedManyWithoutDisbursementInput
+  }
+
+  export type DisbursementCreateOrConnectWithoutInvoicesInput = {
+    where: DisbursementWhereUniqueInput
+    create: XOR<DisbursementCreateWithoutInvoicesInput, DisbursementUncheckedCreateWithoutInvoicesInput>
+  }
+
+  export type InvoiceTemplateCreateWithoutInvoicesInput = {
+    id?: string
+    ownerAddress: string
+    name: string
+    language?: string
+    isDefault?: boolean
+    accentColor?: string
+    logoBase64?: string | null
+    footerText?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type InvoiceTemplateUncheckedCreateWithoutInvoicesInput = {
+    id?: string
+    ownerAddress: string
+    name: string
+    language?: string
+    isDefault?: boolean
+    accentColor?: string
+    logoBase64?: string | null
+    footerText?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type InvoiceTemplateCreateOrConnectWithoutInvoicesInput = {
+    where: InvoiceTemplateWhereUniqueInput
+    create: XOR<InvoiceTemplateCreateWithoutInvoicesInput, InvoiceTemplateUncheckedCreateWithoutInvoicesInput>
+  }
+
+  export type DisbursementUpsertWithoutInvoicesInput = {
+    update: XOR<DisbursementUpdateWithoutInvoicesInput, DisbursementUncheckedUpdateWithoutInvoicesInput>
+    create: XOR<DisbursementCreateWithoutInvoicesInput, DisbursementUncheckedCreateWithoutInvoicesInput>
+    where?: DisbursementWhereInput
+  }
+
+  export type DisbursementUpdateToOneWithWhereWithoutInvoicesInput = {
+    where?: DisbursementWhereInput
+    data: XOR<DisbursementUpdateWithoutInvoicesInput, DisbursementUncheckedUpdateWithoutInvoicesInput>
+  }
+
+  export type DisbursementUpdateWithoutInvoicesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    streamId?: StringFieldUpdateOperationsInput | string
+    txHash?: StringFieldUpdateOperationsInput | string
+    sender?: StringFieldUpdateOperationsInput | string
+    receiver?: StringFieldUpdateOperationsInput | string
+    amount?: BigIntFieldUpdateOperationsInput | bigint | number
+    tokenAddress?: StringFieldUpdateOperationsInput | string
+    status?: EnumDisbursementStatusFieldUpdateOperationsInput | $Enums.DisbursementStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    ledger?: IntFieldUpdateOperationsInput | number
+    batchId?: NullableStringFieldUpdateOperationsInput | string | null
+    category?: PaymentCategoryUpdateOneWithoutDisbursementsNestedInput
+    statusEvents?: PaymentStatusEventUpdateManyWithoutDisbursementNestedInput
+  }
+
+  export type DisbursementUncheckedUpdateWithoutInvoicesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    streamId?: StringFieldUpdateOperationsInput | string
+    txHash?: StringFieldUpdateOperationsInput | string
+    sender?: StringFieldUpdateOperationsInput | string
+    receiver?: StringFieldUpdateOperationsInput | string
+    amount?: BigIntFieldUpdateOperationsInput | bigint | number
+    tokenAddress?: StringFieldUpdateOperationsInput | string
+    status?: EnumDisbursementStatusFieldUpdateOperationsInput | $Enums.DisbursementStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    ledger?: IntFieldUpdateOperationsInput | number
+    batchId?: NullableStringFieldUpdateOperationsInput | string | null
+    categoryId?: NullableStringFieldUpdateOperationsInput | string | null
+    statusEvents?: PaymentStatusEventUncheckedUpdateManyWithoutDisbursementNestedInput
+  }
+
+  export type InvoiceTemplateUpsertWithoutInvoicesInput = {
+    update: XOR<InvoiceTemplateUpdateWithoutInvoicesInput, InvoiceTemplateUncheckedUpdateWithoutInvoicesInput>
+    create: XOR<InvoiceTemplateCreateWithoutInvoicesInput, InvoiceTemplateUncheckedCreateWithoutInvoicesInput>
+    where?: InvoiceTemplateWhereInput
+  }
+
+  export type InvoiceTemplateUpdateToOneWithWhereWithoutInvoicesInput = {
+    where?: InvoiceTemplateWhereInput
+    data: XOR<InvoiceTemplateUpdateWithoutInvoicesInput, InvoiceTemplateUncheckedUpdateWithoutInvoicesInput>
+  }
+
+  export type InvoiceTemplateUpdateWithoutInvoicesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    ownerAddress?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    language?: StringFieldUpdateOperationsInput | string
+    isDefault?: BoolFieldUpdateOperationsInput | boolean
+    accentColor?: StringFieldUpdateOperationsInput | string
+    logoBase64?: NullableStringFieldUpdateOperationsInput | string | null
+    footerText?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type InvoiceTemplateUncheckedUpdateWithoutInvoicesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    ownerAddress?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    language?: StringFieldUpdateOperationsInput | string
+    isDefault?: BoolFieldUpdateOperationsInput | boolean
+    accentColor?: StringFieldUpdateOperationsInput | string
+    logoBase64?: NullableStringFieldUpdateOperationsInput | string | null
+    footerText?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type InvoiceCreateWithoutTemplateInput = {
+    id?: string
+    invoiceNumber: string
+    ownerAddress: string
+    status?: $Enums.InvoiceStatus
+    language?: string
+    sender: string
+    asset: string
+    recipients: JsonNullValueInput | InputJsonValue
+    subtotal: string
+    taxRate?: number
+    taxAmount?: string
+    totalAmount: string
+    note?: string | null
+    txHash?: string | null
+    issuedAt?: Date | string | null
+    dueAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    disbursement?: DisbursementCreateNestedOneWithoutInvoicesInput
+  }
+
+  export type InvoiceUncheckedCreateWithoutTemplateInput = {
+    id?: string
+    invoiceNumber: string
+    ownerAddress: string
+    disbursementId?: string | null
+    status?: $Enums.InvoiceStatus
+    language?: string
+    sender: string
+    asset: string
+    recipients: JsonNullValueInput | InputJsonValue
+    subtotal: string
+    taxRate?: number
+    taxAmount?: string
+    totalAmount: string
+    note?: string | null
+    txHash?: string | null
+    issuedAt?: Date | string | null
+    dueAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type InvoiceCreateOrConnectWithoutTemplateInput = {
+    where: InvoiceWhereUniqueInput
+    create: XOR<InvoiceCreateWithoutTemplateInput, InvoiceUncheckedCreateWithoutTemplateInput>
+  }
+
+  export type InvoiceCreateManyTemplateInputEnvelope = {
+    data: InvoiceCreateManyTemplateInput | InvoiceCreateManyTemplateInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type InvoiceUpsertWithWhereUniqueWithoutTemplateInput = {
+    where: InvoiceWhereUniqueInput
+    update: XOR<InvoiceUpdateWithoutTemplateInput, InvoiceUncheckedUpdateWithoutTemplateInput>
+    create: XOR<InvoiceCreateWithoutTemplateInput, InvoiceUncheckedCreateWithoutTemplateInput>
+  }
+
+  export type InvoiceUpdateWithWhereUniqueWithoutTemplateInput = {
+    where: InvoiceWhereUniqueInput
+    data: XOR<InvoiceUpdateWithoutTemplateInput, InvoiceUncheckedUpdateWithoutTemplateInput>
+  }
+
+  export type InvoiceUpdateManyWithWhereWithoutTemplateInput = {
+    where: InvoiceScalarWhereInput
+    data: XOR<InvoiceUpdateManyMutationInput, InvoiceUncheckedUpdateManyWithoutTemplateInput>
+>>>>>>> 5551a02 (Feat: Add Payment Invoice Generation)
   }
 
   export type PaymentCategoryRuleCreateManyCategoryInput = {
@@ -66798,6 +73909,7 @@ export namespace Prisma {
     ledger?: IntFieldUpdateOperationsInput | number
     batchId?: NullableStringFieldUpdateOperationsInput | string | null
     statusEvents?: PaymentStatusEventUpdateManyWithoutDisbursementNestedInput
+    invoices?: InvoiceUpdateManyWithoutDisbursementNestedInput
   }
 
   export type DisbursementUncheckedUpdateWithoutCategoryInput = {
@@ -66814,6 +73926,7 @@ export namespace Prisma {
     ledger?: IntFieldUpdateOperationsInput | number
     batchId?: NullableStringFieldUpdateOperationsInput | string | null
     statusEvents?: PaymentStatusEventUncheckedUpdateManyWithoutDisbursementNestedInput
+    invoices?: InvoiceUncheckedUpdateManyWithoutDisbursementNestedInput
   }
 
   export type DisbursementUncheckedUpdateManyWithoutCategoryInput = {
@@ -66867,6 +73980,28 @@ export namespace Prisma {
     createdAt?: Date | string
   }
 
+  export type InvoiceCreateManyDisbursementInput = {
+    id?: string
+    invoiceNumber: string
+    ownerAddress: string
+    templateId?: string | null
+    status?: $Enums.InvoiceStatus
+    language?: string
+    sender: string
+    asset: string
+    recipients: JsonNullValueInput | InputJsonValue
+    subtotal: string
+    taxRate?: number
+    taxAmount?: string
+    totalAmount: string
+    note?: string | null
+    txHash?: string | null
+    issuedAt?: Date | string | null
+    dueAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type PaymentStatusEventUpdateWithoutDisbursementInput = {
     id?: StringFieldUpdateOperationsInput | string
     status?: EnumPaymentTrackingStatusFieldUpdateOperationsInput | $Enums.PaymentTrackingStatus
@@ -66889,6 +74024,72 @@ export namespace Prisma {
     previousStatus?: NullableEnumPaymentTrackingStatusFieldUpdateOperationsInput | $Enums.PaymentTrackingStatus | null
     note?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type InvoiceUpdateWithoutDisbursementInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    invoiceNumber?: StringFieldUpdateOperationsInput | string
+    ownerAddress?: StringFieldUpdateOperationsInput | string
+    status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
+    language?: StringFieldUpdateOperationsInput | string
+    sender?: StringFieldUpdateOperationsInput | string
+    asset?: StringFieldUpdateOperationsInput | string
+    recipients?: JsonNullValueInput | InputJsonValue
+    subtotal?: StringFieldUpdateOperationsInput | string
+    taxRate?: FloatFieldUpdateOperationsInput | number
+    taxAmount?: StringFieldUpdateOperationsInput | string
+    totalAmount?: StringFieldUpdateOperationsInput | string
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    txHash?: NullableStringFieldUpdateOperationsInput | string | null
+    issuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dueAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    template?: InvoiceTemplateUpdateOneWithoutInvoicesNestedInput
+  }
+
+  export type InvoiceUncheckedUpdateWithoutDisbursementInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    invoiceNumber?: StringFieldUpdateOperationsInput | string
+    ownerAddress?: StringFieldUpdateOperationsInput | string
+    templateId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
+    language?: StringFieldUpdateOperationsInput | string
+    sender?: StringFieldUpdateOperationsInput | string
+    asset?: StringFieldUpdateOperationsInput | string
+    recipients?: JsonNullValueInput | InputJsonValue
+    subtotal?: StringFieldUpdateOperationsInput | string
+    taxRate?: FloatFieldUpdateOperationsInput | number
+    taxAmount?: StringFieldUpdateOperationsInput | string
+    totalAmount?: StringFieldUpdateOperationsInput | string
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    txHash?: NullableStringFieldUpdateOperationsInput | string | null
+    issuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dueAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type InvoiceUncheckedUpdateManyWithoutDisbursementInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    invoiceNumber?: StringFieldUpdateOperationsInput | string
+    ownerAddress?: StringFieldUpdateOperationsInput | string
+    templateId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
+    language?: StringFieldUpdateOperationsInput | string
+    sender?: StringFieldUpdateOperationsInput | string
+    asset?: StringFieldUpdateOperationsInput | string
+    recipients?: JsonNullValueInput | InputJsonValue
+    subtotal?: StringFieldUpdateOperationsInput | string
+    taxRate?: FloatFieldUpdateOperationsInput | number
+    taxAmount?: StringFieldUpdateOperationsInput | string
+    totalAmount?: StringFieldUpdateOperationsInput | string
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    txHash?: NullableStringFieldUpdateOperationsInput | string | null
+    issuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dueAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type DisbursementDraftVersionCreateManyDraftInput = {
@@ -66931,6 +74132,127 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+<<<<<<< HEAD
+  export type PaymentRoutingConditionCreateManyRuleInput = {
+    id?: string
+    type: string
+    operator: string
+    value: string
+    value2?: string | null
+  }
+
+  export type PaymentRoutingConditionUpdateWithoutRuleInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    operator?: StringFieldUpdateOperationsInput | string
+    value?: StringFieldUpdateOperationsInput | string
+    value2?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type PaymentRoutingConditionUncheckedUpdateWithoutRuleInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    operator?: StringFieldUpdateOperationsInput | string
+    value?: StringFieldUpdateOperationsInput | string
+    value2?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type PaymentRoutingConditionUncheckedUpdateManyWithoutRuleInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    operator?: StringFieldUpdateOperationsInput | string
+    value?: StringFieldUpdateOperationsInput | string
+    value2?: NullableStringFieldUpdateOperationsInput | string | null
+=======
+  export type InvoiceCreateManyTemplateInput = {
+    id?: string
+    invoiceNumber: string
+    ownerAddress: string
+    disbursementId?: string | null
+    status?: $Enums.InvoiceStatus
+    language?: string
+    sender: string
+    asset: string
+    recipients: JsonNullValueInput | InputJsonValue
+    subtotal: string
+    taxRate?: number
+    taxAmount?: string
+    totalAmount: string
+    note?: string | null
+    txHash?: string | null
+    issuedAt?: Date | string | null
+    dueAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type InvoiceUpdateWithoutTemplateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    invoiceNumber?: StringFieldUpdateOperationsInput | string
+    ownerAddress?: StringFieldUpdateOperationsInput | string
+    status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
+    language?: StringFieldUpdateOperationsInput | string
+    sender?: StringFieldUpdateOperationsInput | string
+    asset?: StringFieldUpdateOperationsInput | string
+    recipients?: JsonNullValueInput | InputJsonValue
+    subtotal?: StringFieldUpdateOperationsInput | string
+    taxRate?: FloatFieldUpdateOperationsInput | number
+    taxAmount?: StringFieldUpdateOperationsInput | string
+    totalAmount?: StringFieldUpdateOperationsInput | string
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    txHash?: NullableStringFieldUpdateOperationsInput | string | null
+    issuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dueAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    disbursement?: DisbursementUpdateOneWithoutInvoicesNestedInput
+  }
+
+  export type InvoiceUncheckedUpdateWithoutTemplateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    invoiceNumber?: StringFieldUpdateOperationsInput | string
+    ownerAddress?: StringFieldUpdateOperationsInput | string
+    disbursementId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
+    language?: StringFieldUpdateOperationsInput | string
+    sender?: StringFieldUpdateOperationsInput | string
+    asset?: StringFieldUpdateOperationsInput | string
+    recipients?: JsonNullValueInput | InputJsonValue
+    subtotal?: StringFieldUpdateOperationsInput | string
+    taxRate?: FloatFieldUpdateOperationsInput | number
+    taxAmount?: StringFieldUpdateOperationsInput | string
+    totalAmount?: StringFieldUpdateOperationsInput | string
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    txHash?: NullableStringFieldUpdateOperationsInput | string | null
+    issuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dueAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type InvoiceUncheckedUpdateManyWithoutTemplateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    invoiceNumber?: StringFieldUpdateOperationsInput | string
+    ownerAddress?: StringFieldUpdateOperationsInput | string
+    disbursementId?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumInvoiceStatusFieldUpdateOperationsInput | $Enums.InvoiceStatus
+    language?: StringFieldUpdateOperationsInput | string
+    sender?: StringFieldUpdateOperationsInput | string
+    asset?: StringFieldUpdateOperationsInput | string
+    recipients?: JsonNullValueInput | InputJsonValue
+    subtotal?: StringFieldUpdateOperationsInput | string
+    taxRate?: FloatFieldUpdateOperationsInput | number
+    taxAmount?: StringFieldUpdateOperationsInput | string
+    totalAmount?: StringFieldUpdateOperationsInput | string
+    note?: NullableStringFieldUpdateOperationsInput | string | null
+    txHash?: NullableStringFieldUpdateOperationsInput | string | null
+    issuedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    dueAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+>>>>>>> 5551a02 (Feat: Add Payment Invoice Generation)
+  }
+
 
 
   /**
@@ -66952,6 +74274,16 @@ export namespace Prisma {
      * @deprecated Use DisbursementDraftCountOutputTypeDefaultArgs instead
      */
     export type DisbursementDraftCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = DisbursementDraftCountOutputTypeDefaultArgs<ExtArgs>
+    /**
+<<<<<<< HEAD
+     * @deprecated Use PaymentRoutingRuleCountOutputTypeDefaultArgs instead
+     */
+    export type PaymentRoutingRuleCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = PaymentRoutingRuleCountOutputTypeDefaultArgs<ExtArgs>
+=======
+     * @deprecated Use InvoiceTemplateCountOutputTypeDefaultArgs instead
+     */
+    export type InvoiceTemplateCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = InvoiceTemplateCountOutputTypeDefaultArgs<ExtArgs>
+>>>>>>> 5551a02 (Feat: Add Payment Invoice Generation)
     /**
      * @deprecated Use PaymentCategoryDefaultArgs instead
      */
@@ -67148,6 +74480,28 @@ export namespace Prisma {
      * @deprecated Use AdminAuditLogDefaultArgs instead
      */
     export type AdminAuditLogArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = AdminAuditLogDefaultArgs<ExtArgs>
+    /**
+<<<<<<< HEAD
+     * @deprecated Use PaymentRoutingRuleDefaultArgs instead
+     */
+    export type PaymentRoutingRuleArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = PaymentRoutingRuleDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use PaymentRoutingConditionDefaultArgs instead
+     */
+    export type PaymentRoutingConditionArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = PaymentRoutingConditionDefaultArgs<ExtArgs>
+=======
+     * @deprecated Use InvoiceDefaultArgs instead
+     */
+    export type InvoiceArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = InvoiceDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use InvoiceTemplateDefaultArgs instead
+     */
+    export type InvoiceTemplateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = InvoiceTemplateDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use InvoiceCounterDefaultArgs instead
+     */
+    export type InvoiceCounterArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = InvoiceCounterDefaultArgs<ExtArgs>
+>>>>>>> 5551a02 (Feat: Add Payment Invoice Generation)
 
   /**
    * Batch Payload for updateMany & deleteMany & createMany

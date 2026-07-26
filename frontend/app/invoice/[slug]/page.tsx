@@ -17,10 +17,12 @@ interface InvoiceLinkInfo {
   tokenAddress: string;
   duration: number;
   description?: string;
+  customMessage?: string;
   status: InvoiceStatus;
   expiresAt?: string;
   createdAt: string;
   shareUrl: string;
+  viewCount: number;
 }
 
 const statusStyles: Record<InvoiceStatus, string> = {
@@ -154,6 +156,13 @@ export default function InvoiceLinkLandingPage() {
                     <p className="mt-3 break-all font-mono text-sm text-white/90">{truncateAddress(invoice.receiver)}</p>
                   </div>
                 </div>
+
+                {invoice.customMessage && (
+                  <div className="rounded-3xl border border-cyan-400/20 bg-cyan-400/[0.04] p-5">
+                    <p className="text-xs uppercase tracking-[0.3em] text-cyan-400/60">Message from Sender</p>
+                    <p className="mt-2 text-sm text-white/90 font-medium">{invoice.customMessage}</p>
+                  </div>
+                )}
 
                 {invoice.description && (
                   <div className="rounded-3xl border border-white/10 bg-white/[0.04] p-5">

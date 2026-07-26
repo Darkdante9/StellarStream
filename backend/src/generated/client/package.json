@@ -1,5 +1,9 @@
 {
-  "name": "prisma-client-b4442ce1a2e01020fbcd743b2f34ea8a1e756b3f0a44d3ed8f7ebf5eb3e5852d",
+<<<<<<< HEAD
+  "name": "prisma-client-f9c619c4c1fcf59053b236e27e1116eb99e066db89676259212c8dbf1ad46584",
+=======
+  "name": "prisma-client-1df2411f3175bb49831e5188e489f06a75283e82a7ebe6974034f13ba60f1520",
+>>>>>>> 5551a02 (Feat: Add Payment Invoice Generation)
   "main": "index.js",
   "types": "index.d.ts",
   "browser": "index-browser.js",

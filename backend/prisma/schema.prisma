@@ -512,20 +512,23 @@ enum NotificationPlatform {
   telegram
 }
 
-// Invoice links for Nebula-Pay payment link generator
+// Invoice links for Nebula-Pay payment link generator (#1377)
 model InvoiceLink {
   id            String   @id @default(cuid())
   slug          String   @unique // Short UUID for shareable URL
   sender        String
   receiver      String
-  amount        String   // Total amount to stream
+  amount        String   // Total amount to stream (amount lock)
   tokenAddress  String
   duration      Int      // Duration in seconds
-  description   String?  // Optional invoice description
+  description   String?  // Optional invoice description / custom message
+  customMessage String?  @map("custom_message") // Custom message for the payment link recipient
   pdfUrl        String?  // Optional PDF invoice URL
   xdrParams     String   // Encoded XDR parameters for contract call
   status        String   @default("DRAFT") // DRAFT, SIGNED, COMPLETED, EXPIRED
   expiresAt     DateTime? // Optional expiration time
+  viewCount     Int      @default(0) @map("view_count") // Link analytics: total views
+  lastViewedAt  DateTime? @map("last_viewed_at") // Link analytics: last view timestamp
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 
@@ -533,6 +536,7 @@ model InvoiceLink {
   @@index([sender])
   @@index([status])
   @@index([createdAt])
+  @@index([viewCount])
 }
 
 // Affiliate earnings tracker for 0.5% commission on stream creation
@@ -679,6 +683,7 @@ model Disbursement {
   categoryId     String?      // Optional payment category
   category       PaymentCategory? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
   statusEvents   PaymentStatusEvent[]
+  invoices       Invoice[]
 
   @@index([streamId])
   @@index([sender])
@@ -989,4 +994,111 @@ model AdminAuditLog {
   @@index([userId, timestamp(sort: Desc)])
   @@index([path, timestamp(sort: Desc)])
   @@map("admin_audit_log")
+}
+
+<<<<<<< HEAD
+// Payment routing rules — decide which route/gateway a payment is sent through
+// based on amount, asset, geography, or time-of-day conditions (#1361)
+model PaymentRoutingRule {
+  id           String   @id @default(cuid())
+  ownerAddress String                          // Stellar address of the creator
+  name         String
+  description  String?
+  route        String                          // destination route/gateway identifier
+  priority     Int      @default(0)            // higher priority evaluated first
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  conditions   PaymentRoutingCondition[]
+
+  @@unique([ownerAddress, name])
+  @@index([ownerAddress])
+  @@index([ownerAddress, isActive, priority])
+}
+
+// A single condition within a routing rule. All conditions on a rule
+// must match (AND semantics) for the rule's route to apply.
+model PaymentRoutingCondition {
+  id       String             @id @default(cuid())
+  ruleId   String
+  rule     PaymentRoutingRule @relation(fields: [ruleId], references: [id], onDelete: Cascade)
+  // type: 'amount' | 'asset' | 'geography' | 'time'
+  type     String
+  // operator: 'gte' | 'lte' | 'between' | 'equals' | 'in'
+  operator String
+  value    String
+  value2   String?                             // upper bound for 'between'
+
+  @@index([ruleId])
+=======
+// ── Payment Invoice Generation ────────────────────────────────────────────────
+
+enum InvoiceStatus {
+  DRAFT
+  ISSUED
+  PAID
+  VOID
+}
+
+// A generated, numbered invoice for a payment/disbursement. Distinct from
+// InvoiceLink (a shareable pre-payment draft link) — this represents the
+// finished, professional invoice document issued for a payment.
+model Invoice {
+  id             String        @id @default(cuid())
+  invoiceNumber  String        @unique // e.g. INV-2026-000042, sequential per ownerAddress+year
+  ownerAddress   String        // Stellar address of the org/creator (scoping)
+  disbursementId String?
+  disbursement   Disbursement? @relation(fields: [disbursementId], references: [id], onDelete: SetNull)
+  templateId     String?
+  template       InvoiceTemplate? @relation(fields: [templateId], references: [id], onDelete: SetNull)
+  status         InvoiceStatus @default(DRAFT)
+  language       String        @default("en") // en | ar | fr | es
+  sender         String
+  asset          String
+  recipients     Json          // [{ address, amount, label? }]
+  subtotal       String        // decimal string, sum of recipient amounts
+  taxRate        Float         @default(0) // percent, 0-100
+  taxAmount      String        @default("0")
+  totalAmount    String
+  note           String?
+  txHash         String?
+  issuedAt       DateTime?
+  dueAt          DateTime?
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+
+  @@index([ownerAddress])
+  @@index([status])
+  @@index([disbursementId])
+  @@index([ownerAddress, createdAt])
+}
+
+// A reusable, customizable invoice presentation template (branding + locale).
+model InvoiceTemplate {
+  id           String   @id @default(cuid())
+  ownerAddress String
+  name         String
+  language     String   @default("en")
+  isDefault    Boolean  @default(false)
+  accentColor  String   @default("#00f5ff")
+  logoBase64   String?
+  footerText   String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  invoices     Invoice[]
+
+  @@unique([ownerAddress, name])
+  @@index([ownerAddress])
+}
+
+// Atomic per-owner, per-year sequence backing Invoice.invoiceNumber generation.
+model InvoiceCounter {
+  ownerAddress String
+  year         Int
+  lastSeq      Int      @default(0)
+
+  @@id([ownerAddress, year])
+>>>>>>> 5551a02 (Feat: Add Payment Invoice Generation)
 }

@@ -9,6 +9,8 @@ import publicVerifyPaymentRouter from "./public-verify-payment.routes.js";
 import safeVaultRouter from "./safe-vault.routes.js";
 import historyRouter from "./history.routes.js";
 import invoiceReportRouter from "./invoice-report.routes.js";
+import invoiceRouter from "./invoice.routes.js";
+import invoiceTemplateRouter from "./invoice-template.routes.js";
 import verifyListRouter from "./verify-list.routes.js";
 import exportRouter from "./export.routes.js";
 import splitAnalyzeRouter from "./split-analyze.routes.js";
@@ -32,6 +34,7 @@ import paymentMetadataRouter from "./payment-metadata.routes.js";
 import eventReplayRouter from "./event-replay.routes.js";
 import paymentStatusRouter from "./payment-status.routes.js";
 import paymentAuthorizationRouter from "./payment-authorization.routes.js";
+import paymentRoutingRouter from "./payment-routing.routes.js";
 import { getNonce } from "../auth.js";
 
 
@@ -57,6 +60,8 @@ router.use(disbursementFileRouter);
 router.use(safeVaultRouter);
 router.use(historyRouter);
 router.use(invoiceReportRouter);
+router.use(invoiceRouter);
+router.use(invoiceTemplateRouter);
 router.use(verifyListRouter);
 router.use(exportRouter);
 router.use(splitAnalyzeRouter);
@@ -78,6 +83,7 @@ router.use(paymentMetadataRouter);
 router.use(eventReplayRouter);
 router.use(paymentStatusRouter);
 router.use(paymentAuthorizationRouter);
+router.use(paymentRoutingRouter);
 router.use(escrowRouter);
 
 export default router;
