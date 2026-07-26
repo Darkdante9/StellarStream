@@ -996,7 +996,6 @@ model AdminAuditLog {
   @@map("admin_audit_log")
 }
 
-<<<<<<< HEAD
 // Payment routing rules — decide which route/gateway a payment is sent through
 // based on amount, asset, geography, or time-of-day conditions (#1361)
 model PaymentRoutingRule {
@@ -1031,7 +1030,8 @@ model PaymentRoutingCondition {
   value2   String?                             // upper bound for 'between'
 
   @@index([ruleId])
-=======
+}
+
 // ── Payment Invoice Generation ────────────────────────────────────────────────
 
 enum InvoiceStatus {
@@ -1100,5 +1100,44 @@ model InvoiceCounter {
   lastSeq      Int      @default(0)
 
   @@id([ownerAddress, year])
->>>>>>> 5551a02 (Feat: Add Payment Invoice Generation)
+}
+
+// └─ Geolocation & Geographic Compliance ────────────────────────────────────────────
+
+// Geographic restrictions for compliance (block/allow by region)
+model GeoRestriction {
+  id          String   @id @default(cuid())
+  ownerAddress String   // Stellar address that owns this restriction
+  region      String   // ISO 3166-1 alpha-2 country code (US, EU, etc.) or region (NA, EU, AS)
+  action      String   // "block" or "allow"
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@unique([ownerAddress, region])
+  @@index([ownerAddress])
+  @@index([region])
+  @@index([isActive])
+}
+
+// Geographic analytics events (aggregated per-distinct IP, purged after 30 days)
+model GeoAnalyticsEvent {
+  id          String   @id @default(cuid())
+  ipHash      String   // SHA-256 hash of IP for privacy (PII not stored)
+  countryCode String   // ISO 3166-1 alpha-2
+  region      String?  // Region if country not available
+  city        String?
+  latitude    Float?
+  longitude   Float?
+  userAgent   String?
+  path        String   // API endpoint accessed
+  method      String   // GET, POST, etc.
+  userId      String?  // Linked Stellar address if authenticated
+  createdAt   DateTime @default(now())
+
+  @@index([ipHash])
+  @@index([countryCode])
+  @@index([createdAt])
+  @@index([userId])
+}
 }

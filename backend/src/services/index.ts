@@ -95,3 +95,14 @@ export {
   type AnomalyPoint,
   type WeeklyForecastReport,
 } from "./forecasting.service.js";
+
+// Geolocation service for compliance and analytics
+export {
+  GeolocationService,
+  geolocationService,
+  type GeoLocation,
+  type GeoRestrictionCheck,
+  type GeoAnalyticsSummary,
+  hashIP,
+  getTimezoneForCountry,
+} from "./geolocation.service.js";
