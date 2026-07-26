@@ -95,3 +95,36 @@ export {
   type AnomalyPoint,
   type WeeklyForecastReport,
 } from "./forecasting.service.js";
+
+// Fee Optimization service (#1363)
+export {
+  FeeOptimizationService,
+  type FeeWindow,
+  type BestTimeResult,
+  type BatchOptimizationInput,
+  type BatchOptimizationResult,
+  type RouteFeeEstimate,
+  type RouteSelectionResult,
+  type FeePrediction,
+  type FeePredictionResult,
+  type CostReportEntry,
+  type CostReport,
+  type OptimizationSummary,
+  type FeeOptimizationAction,
+  type AutoOptimizationResult,
+} from "./fee-optimization.service.js";
+
+// Payment Reversal service (#1374)
+export {
+  PaymentReversalService,
+  type ReversalReason,
+  type ReversalStatus,
+  type CreateReversalInput,
+  type ReversalResult,
+  type ReversalAuditEntry,
+  type ReversalLimits,
+  type ReversalStats,
+  MAX_REVERSAL_PERCENT,
+  MAX_DAILY_REVERSAL_STROOPS,
+  MAX_REVERSAL_AGE_DAYS,
+} from "./payment-reversal.service.js";
