@@ -96,6 +96,16 @@ export {
   type WeeklyForecastReport,
 } from "./forecasting.service.js";
 
+// Geolocation service for compliance and analytics
+export {
+  GeolocationService,
+  geolocationService,
+  type GeoLocation,
+  type GeoRestrictionCheck,
+  type GeoAnalyticsSummary,
+  hashIP,
+  getTimezoneForCountry,
+} from "./geolocation.service.js";
 // Fee Optimization service (#1363)
 export {
   FeeOptimizationService,

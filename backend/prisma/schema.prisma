@@ -139,6 +139,15 @@ model Stream {
   affiliateId  String?      // Affiliate who referred this stream (0.5% commission)
   categoryId   String?      // Optional payment category
   category     PaymentCategory? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  // Additional fields for contract state snapshots
+  startTime    DateTime?    @map("start_time")
+  endTime      DateTime?    @map("end_time")
+  cliffTime    Int?         @map("cliff_time")
+  isSoulbound  Boolean      @default(false) @map("is_soulbound")
+  isFrozen     Boolean      @default(false) @map("is_frozen")
+  pausedDuration Int?         @map("paused_duration")
+  vaultAddress String?      @map("vault_address")
+  vaultShares  String?      @map("vault_shares")
   createdAt    DateTime     @default(now())
 
   @@index([sender])
@@ -267,6 +276,39 @@ model StreamSnapshot {
   @@index([streamId])
   @@index([snapshotMonth])
   @@unique([streamId, snapshotMonth])
+}
+
+// ── Hourly snapshots of contract states for historical analysis ───────────────────
+model ContractStateSnapshot {
+  id              String   @id @default(cuid())
+  streamId        String
+  contractId      String? // Contract address for cross-contract snapshots
+  snapshotTime    DateTime // Exact timestamp of snapshot
+  snapshotHour    String // YYYY-MM-DD-HH for efficient hourly queries (indexed)
+  sender          String
+  receiver        String
+  tokenAddress    String
+  totalAmount     BigInt
+  withdrawnAmount BigInt
+  cliffTime       BigInt
+  startTime       DateTime
+  endTime         DateTime
+  state           StreamStatus
+  curveType       Int // 0 = Linear, 1 = Exponential
+  isSoulbound     Boolean @default(false)
+  isFrozen        Boolean @default(false)
+  pausedDuration  BigInt @default(0)
+  vaultAddress    String?
+  vaultShares     BigInt?
+  metadataHash    String? // Hash of full metadata for integrity
+  compressedState String? // GZIP-compressed delta from previous snapshot
+  previousSnapshotId String? @map("previous_snapshot_id") // Link to previous for chain
+
+  @@index([streamId, snapshotTime(sort: Desc)])
+  @@index([snapshotHour])
+  @@index([contractId, snapshotTime(sort: Desc)])
+  @@index([sender, snapshotTime(sort: Desc)])
+  @@unique([streamId, snapshotHour])
 }
 
 // Archived event logs (older than 3 months)
@@ -954,7 +996,6 @@ model AdminAuditLog {
   @@map("admin_audit_log")
 }
 
-<<<<<<< HEAD
 // Payment routing rules — decide which route/gateway a payment is sent through
 // based on amount, asset, geography, or time-of-day conditions (#1361)
 model PaymentRoutingRule {
@@ -989,7 +1030,8 @@ model PaymentRoutingCondition {
   value2   String?                             // upper bound for 'between'
 
   @@index([ruleId])
-=======
+}
+
 // ── Payment Invoice Generation ────────────────────────────────────────────────
 
 enum InvoiceStatus {
@@ -1058,5 +1100,44 @@ model InvoiceCounter {
   lastSeq      Int      @default(0)
 
   @@id([ownerAddress, year])
->>>>>>> 5551a02 (Feat: Add Payment Invoice Generation)
+}
+
+// └─ Geolocation & Geographic Compliance ────────────────────────────────────────────
+
+// Geographic restrictions for compliance (block/allow by region)
+model GeoRestriction {
+  id          String   @id @default(cuid())
+  ownerAddress String   // Stellar address that owns this restriction
+  region      String   // ISO 3166-1 alpha-2 country code (US, EU, etc.) or region (NA, EU, AS)
+  action      String   // "block" or "allow"
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@unique([ownerAddress, region])
+  @@index([ownerAddress])
+  @@index([region])
+  @@index([isActive])
+}
+
+// Geographic analytics events (aggregated per-distinct IP, purged after 30 days)
+model GeoAnalyticsEvent {
+  id          String   @id @default(cuid())
+  ipHash      String   // SHA-256 hash of IP for privacy (PII not stored)
+  countryCode String   // ISO 3166-1 alpha-2
+  region      String?  // Region if country not available
+  city        String?
+  latitude    Float?
+  longitude   Float?
+  userAgent   String?
+  path        String   // API endpoint accessed
+  method      String   // GET, POST, etc.
+  userId      String?  // Linked Stellar address if authenticated
+  createdAt   DateTime @default(now())
+
+  @@index([ipHash])
+  @@index([countryCode])
+  @@index([createdAt])
+  @@index([userId])
+}
 }
