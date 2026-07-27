@@ -25,6 +25,7 @@ import complianceRouter from "./compliance.routes.js";
 import complianceReportsRouter from "./compliance-reports.routes.js";
 import auditLogRoutes from "./audit-log.routes.js";
 import clawbackRoutes from "./clawback.routes.js";
+import dashboardRouter from "./dashboard.routes.js";
 import geoRouter from "./geo.routes.js";
 import feeOptimizationRouter from "./fee-optimization.routes.js";
 import reversalRoutes from "./reversal.routes.js";
@@ -62,6 +63,9 @@ router.use("/reversals", reversalRoutes);
 
 // ── Admin Audit Log Routes (#COMPLIANCE - requires admin access) ────────────────
 router.use("/audit", auditLogRoutes);
+
+// ── Dashboard Routes (real-time updates) ──────────────────────────────────────
+router.use("/dashboard", dashboardRouter);
 
 const auditLogService = new AuditLogService();
 const chainVerificationService = new AuditChainVerificationService();
