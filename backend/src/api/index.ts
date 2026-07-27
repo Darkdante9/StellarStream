@@ -3,7 +3,7 @@ import { AuditLogService } from "../services/audit-log.service.js";
 import { AuditChainVerificationService } from "../services/audit-chain-verification.service.js";
 import { logger } from "../logger.js";
 import { SorobanRpc } from "@stellar/stellar-sdk";
-import streamsRouter from "./streams.routes";
+import streamsRouter from "./streams.routes.js";
 import yieldRouter from "./yield.routes.js";
 import snapshotRouter from "./snapshot.routes";
 import governanceRouter from "./governance.routes.js";
@@ -25,6 +25,7 @@ import complianceRouter from "./compliance.routes.js";
 import complianceReportsRouter from "./compliance-reports.routes.js";
 import auditLogRoutes from "./audit-log.routes.js";
 import clawbackRoutes from "./clawback.routes.js";
+import geoRouter from "./geo.routes.js";
 import feeOptimizationRouter from "./fee-optimization.routes.js";
 import reversalRoutes from "./reversal.routes.js";
 
@@ -51,6 +52,7 @@ router.use("/recipient", recipientRouter);
 router.use("/compliance", complianceRouter);
 router.use("/compliance/reports", complianceReportsRouter);
 router.use("/v2/streams/:streamId/clawback", clawbackRoutes);
+router.use("/geo", geoRouter); // Geolocation routes
 
 // ── Fee Optimization Routes (#1363) ────────────────────────────────────────────
 router.use("/fee-optimization", feeOptimizationRouter);

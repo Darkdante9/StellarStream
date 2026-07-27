@@ -41,6 +41,7 @@ import { enqueueSplit, getSplitJobStatus } from "./lib/splitQueue.js";
 import { requestId as requestIdMiddleware } from "./middleware/requestId.js";
 import { errorHandler } from "./middleware/errorHandler.js";
 import { v1DeprecationWarning } from "./middleware/deprecationWarning.js";
+import { geoMiddleware, timezoneMiddleware } from "./middleware/geolocation.js";
 
 Sentry.init({
   dsn: process.env.SENTRY_DSN,
@@ -110,6 +111,10 @@ app.use(
 app.use(bigintSerializer);
 app.use(compression());
 app.use(express.json());
+
+// ── Geolocation & Timezone Middleware ────────────────────────────────────────
+app.use(geoMiddleware);
+app.use(timezoneMiddleware);
 
 // ── Admin Audit Logging Middleware (IMPORTANT: after body parser, before routes) ────
 app.use(auditLogMiddleware);
