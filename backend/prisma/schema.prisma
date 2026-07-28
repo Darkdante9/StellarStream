@@ -1140,4 +1140,28 @@ model GeoAnalyticsEvent {
   @@index([createdAt])
   @@index([userId])
 }
+
+// ── Export Audit Logging ────────────────────────────────────────────
+
+// Logs export operations for audit trail and rate limiting
+model ExportAuditLog {
+  id            String @id @default(cuid())
+  userId        String @map("user_id")
+  streamId      String @map("stream_id")
+  format        String // 'json' | 'csv' | 'xlsx' | 'pdf' | 'qif' | 'ofx'
+  recordCount   Int
+  fileSizeBytes BigInt
+  dateRange     String? // 'from,to' for filtered exports
+  ipAddress     String?
+  userAgent     String?
+  status        String @default("success") // 'success' | 'failed'
+  errorMessage  String?
+  createdAt     DateTime @default(now())
+
+  @@index([userId])
+  @@index([streamId])
+  @@index([format])
+  @@index([createdAt])
+  @@index([userId, createdAt(sort: Desc)])
+}
 }
