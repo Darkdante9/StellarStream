@@ -228,7 +228,7 @@ function formatExportData(
   includeMetadata?: boolean
 ): any {
   switch (format) {
-    case "json":
+    case "json": {
       return JSON.stringify(
         {
           ...(includeMetadata && {
@@ -250,8 +250,9 @@ function formatExportData(
         null,
         2
       );
+    }
 
-    case "csv":
+    case "csv": {
       const headers = [
         "streamId",
         "sender",
@@ -273,8 +274,9 @@ function formatExportData(
         s.createdAt.toISOString(),
       ]);
       return [headers, ...rows].map(row => row.map(cell => `"${cell}"`).join(",")).join("\n");
+    }
 
-    case "xlsx":
+    case "xlsx": {
       const workbook = XLSX.utils.book_new();
       const worksheet = XLSX.utils.json_to_sheet(
         streams.map(s => ({
@@ -290,6 +292,7 @@ function formatExportData(
       );
       XLSX.utils.book_append_sheet(workbook, worksheet, "Streams");
       return workbook;
+    }
 
     case "qif":
       return generateQIF(streams);
@@ -297,7 +300,7 @@ function formatExportData(
     case "ofx":
       return generateOFX(streams);
 
-    case "pdf":
+    case "pdf": {
       return {
         metadata: {
           exportDate: new Date().toISOString(),
@@ -305,6 +308,7 @@ function formatExportData(
         },
         content: streams,
       };
+    }
 
     default:
       throw new Error(`Unsupported format: ${format}`);
