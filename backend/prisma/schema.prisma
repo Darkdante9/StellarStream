@@ -1140,4 +1140,62 @@ model GeoAnalyticsEvent {
   @@index([createdAt])
   @@index([userId])
 }
+
+// ── Dashboard Customization ────────────────────────────────────────────
+
+// Stores user's custom dashboard layouts
+model DashboardLayout {
+  id          String @id @default(cuid())
+  userId      String @map("user_id")
+  name        String
+  description String?
+  isDefault   Boolean @default(false)
+  widgets     DashboardWidget[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@unique([userId, name])
+  @@index([userId])
+  @@index([isDefault])
+}
+
+// Stores individual widget configuration within a layout
+model DashboardWidget {
+  id          String @id @default(cuid())
+  layoutId    String @map("layout_id")
+  widgetType  String
+  position    Int
+  enabled     Boolean @default(true)
+  size        String @default("medium") // 'small' | 'medium' | 'large'
+  config      String? // JSON string with widget-specific config
+  layout      DashboardLayout @relation(fields: [layoutId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([layoutId])
+  @@index([widgetType])
+}
+
+// ── Export Audit Logging ────────────────────────────────────────────
+
+// Logs export operations for audit trail and rate limiting
+model ExportAuditLog {
+  id            String @id @default(cuid())
+  userId        String @map("user_id")
+  streamId      String @map("stream_id")
+  format        String // 'json' | 'csv' | 'xlsx' | 'pdf' | 'qif' | 'ofx'
+  recordCount   Int
+  fileSizeBytes BigInt
+  dateRange     String? // 'from,to' for filtered exports
+  ipAddress     String?
+  userAgent     String?
+  status        String @default("success") // 'success' | 'failed'
+  errorMessage  String?
+  createdAt     DateTime @default(now())
+
+  @@index([userId])
+  @@index([streamId])
+  @@index([format])
+  @@index([createdAt])
+  @@index([userId, createdAt(sort: Desc)])
 }

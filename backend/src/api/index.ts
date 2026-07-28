@@ -26,6 +26,7 @@ import complianceReportsRouter from "./compliance-reports.routes.js";
 import auditLogRoutes from "./audit-log.routes.js";
 import clawbackRoutes from "./clawback.routes.js";
 import dashboardRouter from "./dashboard.routes.js";
+import exportRouter from "./export.routes.js";
 import geoRouter from "./geo.routes.js";
 import feeOptimizationRouter from "./fee-optimization.routes.js";
 import reversalRoutes from "./reversal.routes.js";
@@ -66,6 +67,9 @@ router.use("/audit", auditLogRoutes);
 
 // ── Dashboard Routes (real-time updates) ──────────────────────────────────────
 router.use("/dashboard", dashboardRouter);
+
+// ── Export Routes (data export in multiple formats) ──────────────────────
+router.use("/export", exportRouter);
 
 const auditLogService = new AuditLogService();
 const chainVerificationService = new AuditChainVerificationService();
